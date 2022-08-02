@@ -1,3 +1,7 @@
+# Notes
+- https://create-react-app.dev/docs/adding-a-sass-stylesheet/
+- https://stackoverflow.com/questions/67352418/how-to-add-scss-styles-to-a-react-project
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

@@ -1,25 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import CountdownTimer from "./components/CountdownTimer";
+import { Rnd } from "react-rnd";
 
-function App() {
+export default function App() {
+  const time = new Date();
+  time.setSeconds(time.getSeconds() + 600); // 10 minutes timer
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Rnd
+        default={{
+          x: 0,
+          y: 0,
+          width: 320,
+          height: 200,
+        }}
+      >
+        <CountdownTimer expiryTimestamp={time} />
+      </Rnd>
     </div>
   );
 }
-
-export default App;

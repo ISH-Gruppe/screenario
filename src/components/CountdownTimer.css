@@ -1,0 +1,21 @@
+.cd-body {
+  border: 1px solid black;
+}
+
+.cd-display {
+  font-size: 100px;
+  font-size: 10;
+}
+
+/* @media screen and (min-width: 600px) {
+  .cd-display {
+    font-size: 100px;
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .cd-display {
+    font-size: 100px;
+  }
+}
+ */
