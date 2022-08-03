@@ -2,6 +2,17 @@
 - https://create-react-app.dev/docs/adding-a-sass-stylesheet/
 - https://stackoverflow.com/questions/67352418/how-to-add-scss-styles-to-a-react-project
 
+# Libraries used
+- https://github.com/bokuweb/react-rnd
+- https://www.npmjs.com/package/react-grid-layout
+
+- https://www.npmjs.com/package/react-timer-hook
+Looks cool too though:
+- https://www.npmjs.com/package/react-timer-wrapper 
+Possible too:
+- https://www.npmjs.com/package/react-compound-timer
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
