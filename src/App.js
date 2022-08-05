@@ -3,7 +3,10 @@ import CountdownTimer from "./components/CountdownTimer";
 
 import "/node_modules/react-grid-layout/css/styles.css";
 import "/node_modules/react-resizable/css/styles.css";
-import { Responsive, WidthProvider } from "react-grid-layout";
+import {
+  Responsive,
+  WidthProvider,
+} from "react-grid-layout";
 
 import "./components/digitalerstuhlkreis/runtime-es2015.a4dadbc03350107420a4";
 import "./components/digitalerstuhlkreis/runtime-es5.a4dadbc03350107420a4";
