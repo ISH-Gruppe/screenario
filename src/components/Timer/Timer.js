@@ -1,47 +1,47 @@
 import React from "react";
 import { useTimer } from "react-timer-hook";
-import "./Timer.css";
+import "./Timer.scss";
+import MusicSelector from "./MusicSelector";
+
+import Grid from "@mui/material/Grid";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 
 export default function Timer({ expiryTimestamp }) {
-  const {
-    seconds,
-    minutes,
-    hours,
-    days,
-    isRunning,
-    start,
-    pause,
-    resume,
-    restart,
-  } = useTimer({
-    expiryTimestamp,
-    onExpire: () => console.warn("onExpire called"),
-  });
+  const { seconds, minutes, hours, isRunning, start, pause, resume, restart } =
+    useTimer({
+      expiryTimestamp,
+      onExpire: () => console.warn("onExpire called"),
+    });
 
   return (
-    <div className="cd-body" style={{ textAlign: "center" }}>
-      <h1>react-timer-hook </h1>
-      <p>Timer Demo</p>
+    <Grid container spacing={2} style={{ textAlign: "center" }}>
+      <Grid item xs={12}>
+        <div className="cd-display">
+          <span>{hours}</span>:<span>{minutes}</span>:<span>{seconds}</span>
+        </div>
+        <Button onClick={start} variant="contained" size="small">
+          Start
+        </Button>
+        <Button onClick={pause} variant="outlined" size="small">
+          Stop
+        </Button>
+      </Grid>
 
-      <div className="cd-display">
-        <span>{days}</span>:<span>{hours}</span>:<span>{minutes}</span>:
-        <span>{seconds}</span>
-      </div>
+      <Grid item xs={12}>
+        <MusicSelector />
+      </Grid>
 
-      <p>{isRunning ? "Running" : "Not running"}</p>
-      <button onClick={start}>Start</button>
-      <button onClick={pause}>Pause</button>
-      <button onClick={resume}>Resume</button>
-      <button
-        onClick={() => {
-          // Restarts to 5 minutes timer
-          const time = new Date();
-          time.setSeconds(time.getSeconds() + 300);
-          restart(time);
-        }}
-      >
-        Restart
-      </button>
-    </div>
+      <Grid item xs={12}>
+        <IconButton aria-label="delete" size="small">
+          <AddIcon />
+        </IconButton>
+        <IconButton aria-label="delete" size="small">
+          <RemoveIcon />
+        </IconButton>
+      </Grid>
+    </Grid>
   );
 }
