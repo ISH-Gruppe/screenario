@@ -9,50 +9,54 @@ import Tab from "@mui/material/Tab";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 
 export default function Notepad() {
-  const [notepads, setNotepads] = React.useState(["", "", ""]);
-  const [value, setValue] = React.useState("0");
+  const [notes, setNotes] = React.useState(["", "", ""]);
+  const [activeTab, setActiveTab] = React.useState("0");
 
   function reset() {}
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  const updateActiveTab = (event, newValue) => {
+    setActiveTab(newValue);
   };
 
-  function updateNote(text) {
-    // Put the most recently-modified note at the top
-    setNotes((oldNotes) => {
-      const newArray = [];
-      for (let i = 0; i < oldNotes.length; i++) {
-        const oldNote = oldNotes[i];
-        if (oldNote.id === currentNoteId) {
-          newArray.unshift({ ...oldNote, body: text });
-        } else {
-          newArray.push(oldNote);
-        }
-      }
-      return newArray;
-    });
+  function updateNote(value, delta, source, editor, index) {
+    if (activeTab === index) {
+      console.log("index", index);
+      // console.log("value", value);
+      console.log("editor", editor.getText());
+      // console.log("source", source);
+      // console.log("delta", delta);
+
+      setNotes((oldNotes) => {
+        const newNotes = [...oldNotes];
+        newNotes[activeTab] = editor.getText();
+        console.log("newNotes ", newNotes);
+
+        return newNotes;
+      });
+    }
   }
 
-  const notepadTabs = notepads.map((notepadContent, index) => {
+  const notepadTabs = notes.map((notepadContent, index) => {
     return <Tab key={index} label={`Notiz ${index}`} value={`${index}`} />;
   });
 
-  const notepadTabPanels = notepads.map((notepadContent, index) => {
+  const notepadTabPanels = notes.map((notepadContent, index) => {
     return (
       <TabPanel key={index} value={`${index}`}>
         <ReactQuill
           theme="snow"
-          value={notepads[index]}
-          onChange={updateNote}
+          value={notes[index]}
+          onChange={(value, delta, source, editor) =>
+            updateNote(value, delta, source, editor, String(index))
+          }
         />
       </TabPanel>
     );
   });
 
   return (
-    <TabContext value={value}>
-      <TabList onChange={handleChange}>{notepadTabs}</TabList>
+    <TabContext value={activeTab}>
+      <TabList onChange={updateActiveTab}>{notepadTabs}</TabList>
 
       {notepadTabPanels}
     </TabContext>
