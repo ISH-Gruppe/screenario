@@ -19,23 +19,38 @@ export default function Timer({ expiryTimestamp }) {
 
   return (
     <Grid container spacing={2} style={{ textAlign: "center" }}>
-      <Grid item xs={12}>
-        <IconButton aria-label="delete" size="small">
-          <AddIcon />
-        </IconButton>
-        <IconButton aria-label="delete" size="small">
-          <AddIcon />
-        </IconButton>
-      </Grid>
-
       <Grid item xs={12} style={{ textAlign: "center" }}>
         <Stack direction="row" spacing={2}>
-          {/* <Grid item xs={9} className="cd-display"> */}
-          <div className="cd-display">
-            <span>{hours}</span>:<span>{minutes}</span>:<span>{seconds}</span>
-          </div>
-          {/* </Grid> */}
-          {/* <Grid item xs={3}> */}
+          <Stack direction="column" spacing={2}>
+            <IconButton aria-label="add" size="small">
+              <AddIcon />
+            </IconButton>
+            <span className="timer-digits">{hours}</span>
+            <IconButton aria-label="delete" size="small">
+              <RemoveIcon />
+            </IconButton>
+          </Stack>
+
+          <Stack direction="column" spacing={2}>
+            <IconButton aria-label="add" size="small">
+              <AddIcon />
+            </IconButton>
+            <span className="timer-digits">{minutes}</span>
+            <IconButton aria-label="delete" size="small">
+              <RemoveIcon />
+            </IconButton>
+          </Stack>
+
+          <Stack direction="column" spacing={2}>
+            <IconButton aria-label="add" size="small">
+              <AddIcon />
+            </IconButton>
+            <span className="timer-digits">{seconds}</span>
+            <IconButton aria-label="delete" size="small">
+              <RemoveIcon />
+            </IconButton>
+          </Stack>
+
           <Stack direction="column" spacing={2}>
             <Button onClick={start} variant="contained" size="small">
               Start
@@ -44,17 +59,7 @@ export default function Timer({ expiryTimestamp }) {
               Stop
             </Button>
           </Stack>
-          {/* </Grid> */}
         </Stack>
-      </Grid>
-
-      <Grid item xs={12}>
-        <IconButton aria-label="delete" size="small">
-          <RemoveIcon />
-        </IconButton>
-        <IconButton aria-label="delete" size="small">
-          <RemoveIcon />
-        </IconButton>
       </Grid>
 
       <Grid item xs={12}>
