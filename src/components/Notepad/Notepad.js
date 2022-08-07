@@ -35,5 +35,6 @@ export default function Notepad() {
         <TabPanel value="2">Item Three</TabPanel>
       </TabContext>
     </>
+        // <BaseWindow title="notepad" reset={reset}>
   );
 }
