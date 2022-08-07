@@ -9,7 +9,11 @@ import Tab from "@mui/material/Tab";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 
 export default function Notepad() {
-  const [notes, setNotes] = React.useState(["", "", ""]);
+  const [notes, setNotes] = React.useState([
+    { id: "0", text: "" },
+    { id: "1", text: "" },
+    { id: "2", text: "" },
+  ]);
   const [activeTab, setActiveTab] = React.useState("0");
 
   function reset() {}
@@ -19,22 +23,35 @@ export default function Notepad() {
   };
 
   function updateNote(value, delta, source, editor, index) {
-    if (activeTab === index) {
-      console.log("index", index);
-      // console.log("value", value);
-      console.log("editor", editor.getText());
-      // console.log("source", source);
-      // console.log("delta", delta);
+    console.log("index", index);
+    // console.log("value", value);
+    console.log("editor", editor.getText());
+    // console.log("source", source);
+    // console.log("delta", delta);
 
-      setNotes((oldNotes) => {
-        const newNotes = [...oldNotes];
-        newNotes[activeTab] = editor.getText();
-        console.log("newNotes ", newNotes);
+    // Should've worked, but didn't
+    // setNotes((oldNotes) => {
+    //   const newNotes = [...oldNotes];
+    //   newNotes[activeTab] = editor.getText();
+    //   console.log("newNotes ", newNotes);
 
-        return newNotes;
-      });
-    }
+    //   return newNotes;
+    // });
+
+    setNotes((oldNotes) =>
+      oldNotes.map((oldNote) => {
+        return oldNote.id === activeTab
+          ? { ...oldNote, text: editor.getText() }
+          : oldNote;
+      })
+    );
   }
+
+  function findCurrentNote() {
+    return notes.find(note => {
+        return note.id === activeTab
+    }) || notes[0]
+}
 
   const notepadTabs = notes.map((notepadContent, index) => {
     return <Tab key={index} label={`Notiz ${index}`} value={`${index}`} />;
@@ -45,7 +62,7 @@ export default function Notepad() {
       <TabPanel key={index} value={`${index}`}>
         <ReactQuill
           theme="snow"
-          value={notes[index]}
+          value={findCurrentNote()}
           onChange={(value, delta, source, editor) =>
             updateNote(value, delta, source, editor, String(index))
           }
