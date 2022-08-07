@@ -1,40 +1,60 @@
 import React from "react";
 
+import BaseWindow from "../BaseWindow/BaseWindow";
+
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
-import Grid from "@mui/material/Grid";
-// import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 
 export default function Notepad() {
-  const [notepads, setNotepads] = React.useState("");
+  const [notepads, setNotepads] = React.useState(["", "", ""]);
   const [value, setValue] = React.useState("0");
+
+  function reset() {}
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  return (
-    // <Grid container spacing={2}>
-    //   <Grid item xs={12}>
-    //     <ReactQuill theme="snow" value={notepads} onChange={setNotepads} />
-    //   </Grid>
-    // </Grid>
-    <>
-      <TabContext value={value}>
-        <TabList onChange={handleChange}>
-          <Tab label="Item One" value="0" />
-          <Tab label="Item Two" value="1" />
-          <Tab label="Item Three" value="2" />
-        </TabList>
+  function updateNote(text) {
+    // Put the most recently-modified note at the top
+    setNotes((oldNotes) => {
+      const newArray = [];
+      for (let i = 0; i < oldNotes.length; i++) {
+        const oldNote = oldNotes[i];
+        if (oldNote.id === currentNoteId) {
+          newArray.unshift({ ...oldNote, body: text });
+        } else {
+          newArray.push(oldNote);
+        }
+      }
+      return newArray;
+    });
+  }
 
-        <TabPanel value="0">Item One</TabPanel>
-        <TabPanel value="1">Item Two</TabPanel>
-        <TabPanel value="2">Item Three</TabPanel>
-      </TabContext>
-    </>
-        // <BaseWindow title="notepad" reset={reset}>
+  const notepadTabs = notepads.map((notepadContent, index) => {
+    return <Tab key={index} label={`Notiz ${index}`} value={`${index}`} />;
+  });
+
+  const notepadTabPanels = notepads.map((notepadContent, index) => {
+    return (
+      <TabPanel key={index} value={`${index}`}>
+        <ReactQuill
+          theme="snow"
+          value={notepads[index]}
+          onChange={updateNote}
+        />
+      </TabPanel>
+    );
+  });
+
+  return (
+    <TabContext value={value}>
+      <TabList onChange={handleChange}>{notepadTabs}</TabList>
+
+      {notepadTabPanels}
+    </TabContext>
   );
 }
