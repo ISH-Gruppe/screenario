@@ -1,14 +1,14 @@
-import CountdownTimer from "./components/CountdownTimer";
-import QrcodeGenerator from "./components/QrcodeGenerator/QrcodeGenerator";
-import ExampleNotepad from "./components/ExampleNotepad/ExampleNotepad";
+import CountdownTimer from "../CountdownTimer";
+import QrcodeGenerator from "../QrcodeGenerator/QrcodeGenerator";
+import ExampleNotepad from "../ExampleNotepad/ExampleNotepad";
 
-import "./components/digitalerstuhlkreis/runtime-es2015.a4dadbc03350107420a4";
-import "./components/digitalerstuhlkreis/runtime-es5.a4dadbc03350107420a4";
-import "./components/digitalerstuhlkreis/polyfills-es2015.d9c8f3d13d7372708bac";
-import "./components/digitalerstuhlkreis/polyfills-es5.dab0688ff17f3e0c4dfd";
-import "./components/digitalerstuhlkreis/main-es2015.d43e95d8420d8bb39d2e";
-import "./components/digitalerstuhlkreis/main-es5.d43e95d8420d8bb39d2e";
-import "./components/digitalerstuhlkreis/styles.00f6a897faa5361a9828.css";
+import "../digitalerstuhlkreis/runtime-es2015.a4dadbc03350107420a4";
+import "../digitalerstuhlkreis/runtime-es5.a4dadbc03350107420a4";
+import "../digitalerstuhlkreis/polyfills-es2015.d9c8f3d13d7372708bac";
+import "../digitalerstuhlkreis/polyfills-es5.dab0688ff17f3e0c4dfd";
+import "../digitalerstuhlkreis/main-es2015.d43e95d8420d8bb39d2e";
+import "../digitalerstuhlkreis/main-es5.d43e95d8420d8bb39d2e";
+import "../digitalerstuhlkreis/styles.00f6a897faa5361a9828.css";
 
 // 3rd party dependencies
 import "/node_modules/react-grid-layout/css/styles.css";
