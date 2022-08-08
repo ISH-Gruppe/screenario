@@ -55,7 +55,7 @@ export default function Timer({ expiryTimestamp }) {
             </IconButton>
           </Stack>
 
-          <Stack direction="column" spacing={2}>
+          <Stack direction="column" spacing={2} sx={{ display: "flex", justifyContent: "center" }}>
             <Button onClick={ringTimer} variant="contained" size="small">
               Start
             </Button>
