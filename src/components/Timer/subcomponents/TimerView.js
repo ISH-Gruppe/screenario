@@ -14,7 +14,11 @@ export default function TimerView(props) {
   return (
     <Stack direction="row" spacing={2}>
       <Stack direction="column" spacing={2}>
-        <IconButton aria-label="Timer um eine Stunde erweitern" size="small">
+        <IconButton
+          onClick={() => props.onTimerUpdate(0, 0, 1)}
+          aria-label="Timer um eine Stunde erweitern"
+          size="small"
+        >
           <AddIcon />
         </IconButton>
 
@@ -23,13 +27,22 @@ export default function TimerView(props) {
           <span className="timer-digits">{props.hours}</span>
         </div>
 
-        <IconButton aria-label="Timer um eine Stunde reduzieren" size="small">
+        <IconButton
+          onClick={() => props.onTimerUpdate(0, 0, -1)}
+          disabled={props.hours === 0}
+          aria-label="Timer um eine Stunde reduzieren"
+          size="small"
+        >
           <RemoveIcon />
         </IconButton>
       </Stack>
 
       <Stack direction="column" spacing={2}>
-        <IconButton aria-label="Timer um eine Minute reduzieren" size="small">
+        <IconButton
+          onClick={() => props.onTimerUpdate(0, 1)}
+          aria-label="Timer um eine Minute reduzieren"
+          size="small"
+        >
           <AddIcon />
         </IconButton>
 
@@ -38,13 +51,22 @@ export default function TimerView(props) {
           <span className="timer-digits">{props.minutes}</span>
         </div>
 
-        <IconButton aria-label="Timer um eine Minute reduzieren" size="small">
+        <IconButton
+          onClick={() => props.onTimerUpdate(0, -1)}
+          aria-label="Timer um eine Minute reduzieren"
+          disabled={props.hours === 0 && props.minutes === 0}
+          size="small"
+        >
           <RemoveIcon />
         </IconButton>
       </Stack>
 
       <Stack direction="column" spacing={2}>
-        <IconButton aria-label="Timer um eine Sekunde erweitern" size="small">
+        <IconButton
+          onClick={() => props.onTimerUpdate(1)}
+          aria-label="Timer um eine Sekunde erweitern"
+          size="small"
+        >
           <AddIcon />
         </IconButton>
 
@@ -53,7 +75,12 @@ export default function TimerView(props) {
           <span className="timer-digits">{props.seconds}</span>
         </div>
 
-        <IconButton aria-label="Timer um eine Sekunde reduzieren" size="small">
+        <IconButton
+          onClick={() => props.onTimerUpdate(-1)}
+          aria-label="Timer um eine Sekunde reduzieren"
+          disabled={props.hours === 0 && props.minutes === 0 && props.seconds === 0}
+          size="small"
+        >
           <RemoveIcon />
         </IconButton>
       </Stack>

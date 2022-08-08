@@ -2,20 +2,20 @@ import React, { useState, useEffect } from "react";
 
 const useAudio = (url) => {
   const [audio] = useState(new Audio(url));
-  const [playing, setPlaying] = useState(false);
+  const [isMusicPlaying, setIsMusicPlaying] = useState(false);
 
-  const toggle = () => setPlaying(!playing);
-
-  useEffect(() => {
-    playing ? audio.play() : audio.pause();
-  }, [playing]);
+  const toggle = () => setIsMusicPlaying(!isMusicPlaying);
 
   useEffect(() => {
-    audio.addEventListener("ended", () => setPlaying(false));
+    isMusicPlaying ? audio.play() : audio.pause();
+  }, [isMusicPlaying]);
+
+  useEffect(() => {
+    audio.addEventListener("ended", () => setIsMusicPlaying(false));
     return () => {
-      audio.removeEventListener("ended", () => setPlaying(false));
+      audio.removeEventListener("ended", () => setIsMusicPlaying(false));
     };
   }, []);
 
-  return [playing, toggle];
+  return [isMusicPlaying, toggle];
 };
