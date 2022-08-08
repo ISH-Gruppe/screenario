@@ -1,7 +1,8 @@
 import React from "react";
 import { useTimer } from "react-timer-hook";
 import "./Timer.scss";
-import MusicSelector from "./MusicSelector";
+import MusicSelector from "./subcomponents/MusicSelector";
+import VolumeSlider from "./subcomponents/VolumeSlider";
 
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
@@ -64,6 +65,10 @@ export default function Timer({ expiryTimestamp }) {
 
       <Grid item xs={12}>
         <MusicSelector />
+      </Grid>
+
+      <Grid item sx={{ mt: -1 }} xs={12}>
+        <VolumeSlider />
       </Grid>
     </Grid>
   );
