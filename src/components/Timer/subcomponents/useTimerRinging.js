@@ -9,8 +9,6 @@ export default function useTimerRinging() {
     const [audio] = useState(new Audio(ringingSound));
     const [isPlaying, setIsPlaying] = useState(false);
 
-    const toggle = () => setIsPlaying(!isPlaying);
-
     const ringTimer = () => setIsPlaying(true);
 
     useEffect(() => {
@@ -24,5 +22,6 @@ export default function useTimerRinging() {
         };
     }, []);
 
-    return [isPlaying, toggle, ringTimer];
+    // No reason to expose isPlaying for now
+    return [ringTimer];
 }
