@@ -14,31 +14,46 @@ export default function TimerView(props) {
   return (
     <Stack direction="row" spacing={2}>
       <Stack direction="column" spacing={2}>
-        <IconButton aria-label="add" size="small">
+        <IconButton aria-label="Timer um eine Stunde erweitern" size="small">
           <AddIcon />
         </IconButton>
-        <span className="timer-digits">{props.hours}</span>
-        <IconButton aria-label="delete" size="small">
+
+        <div>
+          {props.hours < 10 && <span className="timer-digits">0</span>}
+          <span className="timer-digits">{props.hours}</span>
+        </div>
+
+        <IconButton aria-label="Timer um eine Stunde reduzieren" size="small">
           <RemoveIcon />
         </IconButton>
       </Stack>
 
       <Stack direction="column" spacing={2}>
-        <IconButton aria-label="add" size="small">
+        <IconButton aria-label="Timer um eine Minute reduzieren" size="small">
           <AddIcon />
         </IconButton>
-        <span className="timer-digits">{props.minutes}</span>
-        <IconButton aria-label="delete" size="small">
+
+        <div>
+          {props.minutes < 10 && <span className="timer-digits">0</span>}
+          <span className="timer-digits">{props.minutes}</span>
+        </div>
+
+        <IconButton aria-label="Timer um eine Minute reduzieren" size="small">
           <RemoveIcon />
         </IconButton>
       </Stack>
 
       <Stack direction="column" spacing={2}>
-        <IconButton aria-label="add" size="small">
+        <IconButton aria-label="Timer um eine Sekunde erweitern" size="small">
           <AddIcon />
         </IconButton>
-        <span className="timer-digits">{props.seconds}</span>
-        <IconButton aria-label="delete" size="small">
+
+        <div>
+          {props.seconds < 10 && <span className="timer-digits">0</span>}
+          <span className="timer-digits">{props.seconds}</span>
+        </div>
+
+        <IconButton aria-label="Timer um eine Sekunde reduzieren" size="small">
           <RemoveIcon />
         </IconButton>
       </Stack>
