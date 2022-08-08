@@ -7,24 +7,7 @@ import IconButton from "@mui/material/IconButton";
 
 import Popover from "@mui/material/Popover";
 
-export default function VolumeSlider() {
-  const [musicVolume, setMusicVolume] = React.useState(90);
-  const [musicVolumeBeforeMute, setMusicVolumeBeforeMute] =
-    React.useState(musicVolume);
-
-  const handleVolumeChange = (event, newValue) => {
-    setMusicVolume(newValue);
-    setMusicVolumeBeforeMute(newValue);
-  };
-
-  function muteVolume() {
-    setMusicVolume(0);
-  }
-
-  function unmuteVolume() {
-    setMusicVolume(musicVolumeBeforeMute);
-  }
-
+export default function VolumeSlider(props) {
   /* Popover related > */
   const [anchorEl, setAnchorEl] = React.useState(null);
   const handlePopoverOpen = (event) => {
@@ -44,9 +27,9 @@ export default function VolumeSlider() {
 
   return (
     <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
-      {musicVolume > 0 ? (
+      {props.musicVolume > 0 ? (
         <IconButton
-          onClick={muteVolume}
+          onClick={props.muteVolume}
           aria-label="Ton stummschalten"
           size="small"
           /* Popover related > */
@@ -61,7 +44,7 @@ export default function VolumeSlider() {
         </IconButton>
       ) : (
         <IconButton
-          onClick={unmuteVolume}
+          onClick={props.unmuteVolume}
           aria-label="Ton anschalten"
           size="small"
         >
@@ -72,9 +55,9 @@ export default function VolumeSlider() {
       <Slider
         variant="outlined"
         valueLabelDisplay="auto"
-        defaultValue={musicVolume}
-        value={musicVolume}
-        onChange={handleVolumeChange}
+        defaultValue={props.musicVolume}
+        value={props.musicVolume}
+        onChange={props.handleVolumeChange}
         // step={10}
         // marks
         min={0}

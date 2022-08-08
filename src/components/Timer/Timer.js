@@ -30,13 +30,32 @@ export default function Timer({ expiryTimestamp }) {
     restart(newTimestamp);
   }
 
-  // How to set audio volume:
-  // audio.volume = 0.2;
+  const [musicVolume, setMusicVolume] = React.useState(90);
+  const [musicVolumeBeforeMute, setMusicVolumeBeforeMute] =
+    React.useState(musicVolume);
+
+  const handleVolumeChange = (event, newValue) => {
+    setMusicVolume(newValue);
+    setMusicVolumeBeforeMute(newValue);
+  };
+
+  function muteVolume() {
+    setMusicVolume(0);
+  }
+
+  function unmuteVolume() {
+    setMusicVolume(musicVolumeBeforeMute);
+  }
 
   return (
     <Grid container spacing={2} style={{ textAlign: "center" }}>
       <Grid item xs={12} style={{ textAlign: "center" }}>
-        <TimerView hours={hours} minutes={minutes} seconds={seconds} onTimerUpdate={updateAndRestartTimer} />
+        <TimerView
+          hours={hours}
+          minutes={minutes}
+          seconds={seconds}
+          onTimerUpdate={updateAndRestartTimer}
+        />
       </Grid>
 
       <Grid item xs={12}>
@@ -44,7 +63,12 @@ export default function Timer({ expiryTimestamp }) {
       </Grid>
 
       <Grid item sx={{ mt: -1 }} xs={12}>
-        <VolumeSlider />
+        <VolumeSlider
+          handleVolumeChange={handleVolumeChange}
+          muteVolume={muteVolume}
+          unmuteVolume={unmuteVolume}
+          musicVolume={musicVolume}
+        />
       </Grid>
     </Grid>
   );
