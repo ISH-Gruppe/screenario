@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import ringingSound from "./WyxD-flipdish-ringer.mp3";
+import ringingSound from "../music/WyxD-flipdish-ringer.mp3";
 
 /* Huge thank you to https://stackoverflow.com/a/47686478/11515036 */
 /* Sound taken from https://codesandbox.io/s/reactplaysound-p47gk?file=/src/index.js:61-105 
