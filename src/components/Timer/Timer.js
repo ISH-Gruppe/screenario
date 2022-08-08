@@ -1,8 +1,10 @@
 import React from "react";
 import { useTimer } from "react-timer-hook";
+
 import "./Timer.scss";
 import MusicSelector from "./subcomponents/MusicSelector";
 import VolumeSlider from "./subcomponents/VolumeSlider";
+import useTimerRinging from "./subcomponents/useAudio";
 
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
@@ -17,6 +19,7 @@ export default function Timer({ expiryTimestamp }) {
       expiryTimestamp,
       onExpire: () => console.warn("onExpire called"),
     });
+  const [isPlaying, toggle, ringTimer] = useTimerRinging();
 
   return (
     <Grid container spacing={2} style={{ textAlign: "center" }}>
@@ -53,7 +56,7 @@ export default function Timer({ expiryTimestamp }) {
           </Stack>
 
           <Stack direction="column" spacing={2}>
-            <Button onClick={start} variant="contained" size="small">
+            <Button onClick={ringTimer} variant="contained" size="small">
               Start
             </Button>
             <Button onClick={pause} variant="outlined" size="small">
