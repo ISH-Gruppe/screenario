@@ -2,6 +2,7 @@ import React from "react";
 import { useTimer } from "react-timer-hook";
 
 import "./Timer.scss";
+import useTimerRinging from "./subcomponents/useTimerRinging";
 import TimerView from "./subcomponents/TimerView";
 import MusicSelector from "./subcomponents/MusicSelector";
 import VolumeSlider from "./subcomponents/VolumeSlider";
@@ -15,8 +16,11 @@ export default function Timer({ expiryTimestamp }) {
   const { seconds, minutes, hours, isRunning, start, pause, resume, restart } =
     useTimer({
       expiryTimestamp,
-      onExpire: () => console.warn("onExpire called"),
+      autoStart: false,
+      onExpire: handleTimerCompletion,
     });
+
+  const [ringTimer] = useTimerRinging();
 
   function updateAndRestartTimer(
     secondsValue = 0,
@@ -27,7 +31,26 @@ export default function Timer({ expiryTimestamp }) {
     newTimestamp.setHours(newTimestamp.getHours() + hours + hoursValue);
     newTimestamp.setMinutes(newTimestamp.getMinutes() + minutes + minutesValue);
     newTimestamp.setSeconds(newTimestamp.getSeconds() + seconds + secondsValue);
-    restart(newTimestamp);
+
+    setInitialTimerValue(newTimestamp);
+
+    if(isRunning) {
+      restart(newTimestamp);
+    }
+  }
+
+  function startTimer() {
+    resume();
+  }
+
+  function stopTimer() {
+    pause();
+  }
+
+  function handleTimerCompletion() {
+    ringTimer();
+    console.log("initialTimerValue ", initialTimerValue)
+    setInitialTimerValue(initialTimerValue);
   }
 
   const [musicVolume, setMusicVolume] = React.useState(90);
@@ -54,12 +77,14 @@ export default function Timer({ expiryTimestamp }) {
           hours={hours}
           minutes={minutes}
           seconds={seconds}
+          startTimer={startTimer}
+          stopTimer={stopTimer}
           onTimerUpdate={updateAndRestartTimer}
         />
       </Grid>
 
       <Grid item xs={12}>
-        <MusicSelector />
+        <MusicSelector isTimerRunning={isRunning} />
       </Grid>
 
       <Grid item sx={{ mt: -1 }} xs={12}>

@@ -5,14 +5,32 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-export default function MusicSelector() {
+import useAudio from "./useAudio";
+import audioClip from "../music/piano/03 - NoBan Stream - Green Leaf.m4a";
+import ringingSound from "../music/WyxD-flipdish-ringer.mp3";
+import heretic from "../music/Heretic [Instrumental].mp3"
+
+export default function MusicSelector(props) {
   const [activePlaylist, setActivePlaylist] = React.useState(
     PlaylistsEnum.NO_MUSIC
   );
 
+  const [isMusicPlaying, toggle] = useAudio(heretic);
+
+  React.useEffect(() => {
+    if (props.isTimerRunning || isMusicPlaying) {
+      playSelectedMusic();
+    }
+  }, [props.isTimerRunning]);
+
   const handlePlaylistChange = (event) => {
     setActivePlaylist(event.target.value);
   };
+
+  function playSelectedMusic() {
+    console.log("playSelectedMusic!");
+    toggle();
+  }
 
   return (
     <Box sx={{ minWidth: 120, maxWidth: 800 }}>
