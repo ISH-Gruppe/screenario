@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -6,10 +6,12 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
 export default function MusicSelector() {
-  const [playlist, setPlaylist] = React.useState("");
+  const [activePlaylist, setActivePlaylist] = React.useState(
+    PlaylistsEnum.NO_MUSIC
+  );
 
-  const handleChange = (event) => {
-    setPlaylist(event.target.value);
+  const handlePlaylistChange = (event) => {
+    setActivePlaylist(event.target.value);
   };
 
   return (
@@ -19,16 +21,25 @@ export default function MusicSelector() {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={playlist}
+          value={activePlaylist}
           label="Musik"
-          onChange={handleChange}
+          onChange={handlePlaylistChange}
         >
-          <MenuItem value={0}>Keine Musik</MenuItem>
-          <MenuItem value={10}>Piano</MenuItem>
-          <MenuItem value={20}>Synthwave</MenuItem>
-          <MenuItem value={30}>Entspannung</MenuItem>
+          <MenuItem value={PlaylistsEnum.NO_MUSIC}>Keine Musik</MenuItem>
+          <MenuItem value={PlaylistsEnum.PIANO}>Piano</MenuItem>
+          <MenuItem value={PlaylistsEnum.RELAXATION}>Entspannung</MenuItem>
+          <MenuItem value={PlaylistsEnum.SYNTHWAVE}>Synthwave</MenuItem>
         </Select>
       </FormControl>
     </Box>
   );
 }
+
+// Explicitly naming the object "Enum" to differentiate between "the other" Playlists file
+// "the other" Playlists file -> /music/Playlists.js contains actual tracks
+export const PlaylistsEnum = {
+  NO_MUSIC: "Keine Musik",
+  PIANO: "Piano",
+  SYNTHWAVE: "Synthwave",
+  RELAXATION: "Entspannung",
+};
