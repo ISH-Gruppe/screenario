@@ -2,7 +2,11 @@
   width: 300;
   height: 300;
   background-color: "white";
-  border: 1px solid black;
+  border: 1px solid rgba(0, 0, 0, 0.478);
   box-shadow: 15;
   padding: 2;
+}
+
+.window-title {
+  color: #000;
 }

@@ -1,6 +1,12 @@
 import React from "react";
+
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import RemoveIcon from "@mui/icons-material/Remove";
 
 import "./BaseWindow.css";
 
@@ -14,27 +20,42 @@ export default function BaseWindow({ id, title, children, onReset, onHide }) {
   }
 
   return (
-    <Box
-      className={"window window-" + title + " "}
-      sx={{
-        backgroundColor: "white",
-        border: 1,
-        boxShadow: 15,
-        p: 2,
-      }}
+    <Card
+      className={"window window-" + title + " " + getVisibility()}
+      sx={{ minWidth: 275 }}
     >
-      <div className="window-top-bar">
-        <button className="resetButton" onClick={handleReset}>
+      <Box
+        sx={{
+          "& button": { m: 1 },
+          "display": "flex",
+          "justifyContent": "space-between",
+          "alignItems": "center",
+        }}
+      >
+        <Button
+          className="resetButton"
+          onClick={handleReset}
+          variant="outlined"
+          size="small"
+        >
           Reset
-        </button>
-        <button className="hideButton" onClick={handleHide}>
-          hide
-        </button>
+        </Button>
 
-        <span className="window-title"> {title} </span>
-      </div>
+        <h3 className="window-title">{title}</h3>
 
-      <Container className="window-content">{children}</Container>
-    </Box>
+        <IconButton
+          className="hideButton"
+          onClick={handleHide}
+          aria-label="delete"
+          size="small"
+        >
+          <RemoveIcon />
+        </IconButton>
+      </Box>
+
+      <CardContent>
+        <Container className="window-content">{children}</Container>
+      </CardContent>
+    </Card>
   );
 }
