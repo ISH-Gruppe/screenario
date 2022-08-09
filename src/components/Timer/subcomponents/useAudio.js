@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 export default function useAudio(url) {
-  const [audio] = useState(new Audio(url));
+  const [audio, setAudio] = useState(new Audio(url));
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
 
   const toggle = () => setIsMusicPlaying(!isMusicPlaying);
@@ -12,10 +12,11 @@ export default function useAudio(url) {
 
   useEffect(() => {
     audio.addEventListener("ended", () => setIsMusicPlaying(false));
+    
     return () => {
       audio.removeEventListener("ended", () => setIsMusicPlaying(false));
     };
   }, []);
 
-  return [isMusicPlaying, toggle, audio];
+  return [isMusicPlaying, toggle, audio, setAudio];
 }

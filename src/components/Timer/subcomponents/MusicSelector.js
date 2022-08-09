@@ -1,9 +1,12 @@
 import React from "react";
+
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+
+import * as Playlists from "../music/Playlists";
 
 import useAudio from "./useAudio";
 import testAudio from "../music/gaming/04 - NoBan Stream - Dummy Training.mp3";
@@ -13,7 +16,7 @@ export default function MusicSelector(props) {
     PlaylistsEnum.NO_MUSIC
   );
 
-  const [isMusicPlaying, toggle, audio] = useAudio(testAudio);
+  const [isMusicPlaying, toggle, audio, setAudio] = useAudio(testAudio);
 
   React.useEffect(() => {
     if (props.isTimerRunning || isMusicPlaying) {
@@ -30,7 +33,57 @@ export default function MusicSelector(props) {
   };
 
   function playSelectedMusic() {
+    // Check selected playlist genre
+    // Read/ get appropriate song list from file
+    // Create new shuffled playlist from song list
+    createShuffledPlaylist();
+
+    // Play first song
     toggle();
+
+    // TODO: How do we track completion of a song?
+    // a.) Pass a function to be called in useAudio
+    // b.) Pull useAudios listener up
+  }
+
+  function createShuffledPlaylist() {
+    let selectedPlaylist;
+
+    switch (activePlaylist) {
+      case PlaylistsEnum.RELAXATION:
+        selectedPlaylist = Playlists.PLAYLIST_PIANO;
+        break;
+
+      case PlaylistsEnum.PIANO:
+        selectedPlaylist = Playlists.PLAYLIST_PIANO;
+        break;
+
+      case PlaylistsEnum.SYNTHWAVE:
+        selectedPlaylist = Playlists.PLAYLIST_SYNTHWAVE;
+        break;
+
+      case PlaylistsEnum.GAMING:
+        selectedPlaylist = Playlists.PLAYLIST_GAMING;
+        break;
+
+      default:
+        break;
+    }
+
+    if (!selectedPlaylist) {
+      return;
+    }
+
+    const shuffledPlaylist = [...selectedPlaylist.tracks];
+    shuffleArray(shuffledPlaylist);
+  }
+
+  // Courtesy of https://stackoverflow.com/a/12646864/11515036
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
   }
 
   return (
