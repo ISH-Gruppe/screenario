@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import CountdownTimer from "../CountdownTimer";
 import QrcodeGenerator from "../QrcodeGenerator/QrcodeGenerator";
 import ExampleNotepad from "../ExampleNotepad/ExampleNotepad";
+import Toolbar from "../Toolbar/Toolbar";
 
 import "../digitalerstuhlkreis/runtime-es2015.a4dadbc03350107420a4";
 import "../digitalerstuhlkreis/runtime-es5.a4dadbc03350107420a4";
@@ -62,30 +63,33 @@ export default function WindowManager(props) {
   const ResponsiveGridLayout = WidthProvider(Responsive);
 
   return (
-    <ResponsiveGridLayout
-      className="layout"
-      layouts={{ lg: layout }}
-      rowHeight={150}
-      breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
-      cols={{ lg: 8, md: 4, sm: 4, xs: 4, xxs: 2 }}
-    >
-      <div key="timer">
-        <CountdownTimer expiryTimestamp={time} />
-      </div>
-      <div key="qrcode-generator">
-        <QrcodeGenerator />
-      </div>
-      <div key="stuhlkreis">
-        <digitaler-stuhlkreis />
-      </div>
-      <div key="example-notepad">
-        <ExampleNotepad
-          id="example-notepad"
-          visible={windows["example-notepad"].visible}
-          content={windows["example-notepad"].content}
-          onHide={handleHide}
-        />
-      </div>
-    </ResponsiveGridLayout>
+    <>
+      <Toolbar />
+      <ResponsiveGridLayout
+        className="layout"
+        layouts={{ lg: layout }}
+        rowHeight={150}
+        breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
+        cols={{ lg: 8, md: 4, sm: 4, xs: 4, xxs: 2 }}
+      >
+        <div key="timer">
+          <CountdownTimer expiryTimestamp={time} />
+        </div>
+        <div key="qrcode-generator">
+          <QrcodeGenerator />
+        </div>
+        <div key="stuhlkreis">
+          <digitaler-stuhlkreis />
+        </div>
+        <div key="example-notepad">
+          <ExampleNotepad
+            id="example-notepad"
+            visible={windows["example-notepad"].visible}
+            content={windows["example-notepad"].content}
+            onHide={handleHide}
+          />
+        </div>
+      </ResponsiveGridLayout>
+    </>
   );
 }
