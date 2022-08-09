@@ -1,19 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 
 import BaseWindow from "../BaseWindow/BaseWindow";
 
-export default function ExampleNotepad({
-  content,
-  id,
-  visible,
-  onHide,
-  onChange,
-}) {
+export default function ExampleNotepad({ id, visible, onHide, onChange }) {
+  const [notepadContent, setNotepadContent] = useState("");
+
   function handleChange(event) {
-    onChange(id, { text: event.target.value });
+    setNotepadContent(event.target.value);
   }
   function handleReset() {
-    // reset notepad
+    setNotepadContent("");
   }
 
   function handleHide() {
@@ -28,7 +24,7 @@ export default function ExampleNotepad({
       onReset={handleReset}
       onHide={onHide}
     >
-      <input type="textarea" value={content.text} onChange={handleChange} />
+      <input type="textarea" value={notepadContent} onChange={handleChange} />
     </BaseWindow>
   );
 }
