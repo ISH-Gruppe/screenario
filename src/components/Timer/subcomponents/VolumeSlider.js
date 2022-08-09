@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 import Slider from "@mui/material/Slider";
@@ -58,10 +59,10 @@ export default function VolumeSlider(props) {
         defaultValue={props.musicVolume}
         value={props.musicVolume}
         onChange={props.handleVolumeChange}
-        // step={10}
-        // marks
         min={0}
-        max={100}
+        max={1.0}
+        step={0.1}
+        valueLabelFormat={value => <div>{value * 100}%</div>}
       />
 
       {/* <Popover

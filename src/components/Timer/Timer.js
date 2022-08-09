@@ -49,7 +49,7 @@ export default function Timer({ expiryTimestamp }) {
     setInitialTimerValue(initialTimerValue);
   }
 
-  const [musicVolume, setMusicVolume] = React.useState(90);
+  const [musicVolume, setMusicVolume] = React.useState(0.9);
   const [musicVolumeBeforeMute, setMusicVolumeBeforeMute] =
     React.useState(musicVolume);
 
@@ -80,7 +80,7 @@ export default function Timer({ expiryTimestamp }) {
       </Grid>
 
       <Grid item xs={12}>
-        <MusicSelector isTimerRunning={isRunning} />
+        <MusicSelector isTimerRunning={isRunning} musicVolume={musicVolume} />
       </Grid>
 
       <Grid item sx={{ mt: -1 }} xs={12}>

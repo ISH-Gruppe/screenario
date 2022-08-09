@@ -17,5 +17,5 @@ export default function useAudio(url) {
     };
   }, []);
 
-  return [isMusicPlaying, toggle];
+  return [isMusicPlaying, toggle, audio];
 }
