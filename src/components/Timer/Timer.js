@@ -33,10 +33,7 @@ export default function Timer({ expiryTimestamp }) {
     newTimestamp.setSeconds(newTimestamp.getSeconds() + seconds + secondsValue);
 
     setInitialTimerValue(newTimestamp);
-
-    if(isRunning) {
-      restart(newTimestamp);
-    }
+    restart(newTimestamp, isRunning ? true : false);
   }
 
   function startTimer() {
@@ -49,7 +46,6 @@ export default function Timer({ expiryTimestamp }) {
 
   function handleTimerCompletion() {
     ringTimer();
-    console.log("initialTimerValue ", initialTimerValue)
     setInitialTimerValue(initialTimerValue);
   }
 
