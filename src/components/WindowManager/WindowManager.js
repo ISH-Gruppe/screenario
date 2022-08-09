@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 
 import Timer from "../Timer/Timer";
-import QrcodeGenerator from "../QrcodeGenerator/QrcodeGenerator";
 import Toolbar from "../Toolbar/Toolbar";
 import Notepad from "../Notepad/Notepad";
+import QrcodeGenerator from "../QrcodeGenerator/QrcodeGenerator";
 
 import "./WindowManager.css";
 
