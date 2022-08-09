@@ -4,4 +4,15 @@
 }
 
 .toolbar {
+  background-color: white;
+  border: 0.1px solid rgba(0, 0, 0, 0.222);
+  box-shadow: 4px 4px 15px 0 rgba(0, 0, 0, 0.105);
+  border-radius: 20px !important;
+  margin: 10px 0 0 0;
+  scale: 95%;
+  padding: 0px 10px;
+}
+
+button[class="MuiButtonBase-root MuiToggleButton-root MuiToggleButton-fullWidth MuiToggleButton-sizeSmall MuiToggleButton-primary MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal css-6x4ptp-MuiButtonBase-root-MuiToggleButton-root"] {
+  border: none;
 }
