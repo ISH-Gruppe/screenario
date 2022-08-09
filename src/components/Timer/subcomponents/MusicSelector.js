@@ -12,9 +12,11 @@ import useAudio from "./useAudio";
 import testAudio from "../music/gaming/04 - NoBan Stream - Dummy Training.mp3";
 
 export default function MusicSelector(props) {
-  const [activePlaylist, setActivePlaylist] = React.useState(
+  const [selectedPlaylistGenre, setSelectedPlaylistGenre] = React.useState(
     PlaylistsEnum.NO_MUSIC
   );
+
+  const [activeShuffledPlaylist, setActiveShuffledPlaylist] = React.useState();
 
   const [isMusicPlaying, toggle, audio, setAudio] = useAudio(testAudio);
 
@@ -29,15 +31,26 @@ export default function MusicSelector(props) {
   }, [props.musicVolume]);
 
   const handlePlaylistChange = (event) => {
-    setActivePlaylist(event.target.value);
+    setSelectedPlaylistGenre(event.target.value);
+
+    // if(activeShuffledPlaylist === undefined) {
+    const playlist = createShuffledPlaylist(event.target.value);
+    setActiveShuffledPlaylist(playlist);
+    const trackUrl = "../music" + activeShuffledPlaylist[0].link;
+    setAudio(trackUrl)
+    // console.log("track: ", trackToPlay);
+
+    // }
+
+    // Changing the playlist means shuffling it and changing the audio
+    // -> createShuffledPlaylist()
   };
 
   function playSelectedMusic() {
-    // Check selected playlist genre
-    // Read/ get appropriate song list from file
-    // Create new shuffled playlist from song list
-    createShuffledPlaylist();
+    // createShuffledPlaylist(selectedPlaylistGenre);
 
+
+    // setAudio(trackToPlay)
     // Play first song
     toggle();
 
@@ -46,10 +59,17 @@ export default function MusicSelector(props) {
     // b.) Pull useAudios listener up
   }
 
-  function createShuffledPlaylist() {
+  /*
+   * Check selected playlist genre
+   * Read/ get appropriate song list from file
+   * Create and return new shuffled playlist from song list
+   *
+   * It might return an empty array though if music is not wished for!
+   */
+  function createShuffledPlaylist(selectedGenre) {
     let selectedPlaylist;
 
-    switch (activePlaylist) {
+    switch (selectedGenre) {
       case PlaylistsEnum.RELAXATION:
         selectedPlaylist = Playlists.PLAYLIST_PIANO;
         break;
@@ -71,11 +91,14 @@ export default function MusicSelector(props) {
     }
 
     if (!selectedPlaylist) {
-      return;
+      return [];
     }
 
     const shuffledPlaylist = [...selectedPlaylist.tracks];
     shuffleArray(shuffledPlaylist);
+
+    console.log("shuffle playlist");
+    return shuffledPlaylist;
   }
 
   // Courtesy of https://stackoverflow.com/a/12646864/11515036
@@ -93,7 +116,7 @@ export default function MusicSelector(props) {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={activePlaylist}
+          value={selectedPlaylistGenre}
           label="Musik"
           onChange={handlePlaylistChange}
         >
