@@ -6,16 +6,13 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
 import useAudio from "./useAudio";
-import audioClip from "../music/piano/03 - NoBan Stream - Green Leaf.m4a";
-import ringingSound from "../music/WyxD-flipdish-ringer.mp3";
-import heretic from "../music/Heretic [Instrumental].mp3"
 
 export default function MusicSelector(props) {
   const [activePlaylist, setActivePlaylist] = React.useState(
     PlaylistsEnum.NO_MUSIC
   );
 
-  const [isMusicPlaying, toggle] = useAudio(heretic);
+  const [isMusicPlaying, toggle] = useAudio();
 
   React.useEffect(() => {
     if (props.isTimerRunning || isMusicPlaying) {
@@ -28,7 +25,6 @@ export default function MusicSelector(props) {
   };
 
   function playSelectedMusic() {
-    console.log("playSelectedMusic!");
     toggle();
   }
 
@@ -43,10 +39,11 @@ export default function MusicSelector(props) {
           label="Musik"
           onChange={handlePlaylistChange}
         >
-          <MenuItem value={PlaylistsEnum.NO_MUSIC}>Keine Musik</MenuItem>
-          <MenuItem value={PlaylistsEnum.PIANO}>Piano</MenuItem>
-          <MenuItem value={PlaylistsEnum.RELAXATION}>Entspannung</MenuItem>
-          <MenuItem value={PlaylistsEnum.SYNTHWAVE}>Synthwave</MenuItem>
+          <MenuItem value={PlaylistsEnum.NO_MUSIC}>{PlaylistsEnum.NO_MUSIC}</MenuItem>
+          <MenuItem value={PlaylistsEnum.RELAXATION}>{PlaylistsEnum.RELAXATION}</MenuItem>
+          <MenuItem value={PlaylistsEnum.PIANO}>{PlaylistsEnum.PIANO}</MenuItem>
+          <MenuItem value={PlaylistsEnum.SYNTHWAVE}>{PlaylistsEnum.SYNTHWAVE}</MenuItem>
+          <MenuItem value={PlaylistsEnum.GAMING}>{PlaylistsEnum.GAMING}</MenuItem>
         </Select>
       </FormControl>
     </Box>
@@ -57,7 +54,8 @@ export default function MusicSelector(props) {
 // "the other" Playlists file -> /music/Playlists.js contains actual tracks
 export const PlaylistsEnum = {
   NO_MUSIC: "Keine Musik",
+  RELAXATION: "Entspannung",
   PIANO: "Piano",
   SYNTHWAVE: "Synthwave",
-  RELAXATION: "Entspannung",
+  GAMING: "Spielmusik",
 };
