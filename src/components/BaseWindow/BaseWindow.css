@@ -1,0 +1,8 @@
+.window {
+  width: 300;
+  height: 300;
+  background-color: "white";
+  border: 1px solid black;
+  box-shadow: 15;
+  padding: 2;
+}

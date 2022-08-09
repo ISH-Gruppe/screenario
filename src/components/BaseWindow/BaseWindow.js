@@ -2,36 +2,46 @@ import React from "react";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 
-export default function BaseWindow(props) {
-  const id = props.id;
-  const title = props.title;
-  const reset = props.reset;
-  const children = props.children;
-  const visible = props.visible;
+import "./BaseWindow.css";
 
-  function triggerMinimize() {}
+export default function BaseWindow({
+  id,
+  title,
+  visible,
+  children,
+  onReset,
+  onHide,
+}) {
+  function handleHide() {
+    onHide(id);
+  }
+
+  function handleReset() {
+    onReset(id);
+  }
+
+  function getVisibility() {
+    return visible ? "" : "is-hidden";
+  }
 
   return (
     <Box
-      className={"window window-" + title}
+      className={"window window-" + title + " " + getVisibility()}
       sx={{
-        width: 300,
-        height: 300,
         backgroundColor: "white",
         border: 1,
         boxShadow: 15,
         p: 2,
-        "&:hover": {
-          backgroundColor: "primary.main",
-          opacity: [0.9, 0.8, 0.7],
-        },
       }}
     >
       <div className="window-top-bar">
-        <button className="resetButton" onClick={reset}>
-          {" "}
-          Reset{" "}
+        <button className="resetButton" onClick={handleReset}>
+          Reset
         </button>
+        <button className="hideButton" onClick={handleHide}>
+          hide
+        </button>
+
         <span className="window-title"> {title} </span>
       </div>
 

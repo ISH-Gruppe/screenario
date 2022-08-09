@@ -1,15 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 
 import BaseWindow from "../BaseWindow/BaseWindow";
 
-function reset() {
-  // empty notepad
-}
+export default function ExampleNotepad({ id, visible, onHide, onChange }) {
+  const [notepadContent, setNotepadContent] = useState("");
 
-export default function WelcomeDialog() {
+  function handleChange(event) {
+    setNotepadContent(event.target.value);
+  }
+  function handleReset() {
+    setNotepadContent("");
+  }
+
+  function handleHide() {
+    onHide(id);
+  }
+
   return (
-    <BaseWindow title="notepad" reset={reset}>
-      <input type="textarea" />
+    <BaseWindow
+      id="example-notepad"
+      title="Notepad"
+      visible={visible}
+      onReset={handleReset}
+      onHide={onHide}
+    >
+      <input type="textarea" value={notepadContent} onChange={handleChange} />
     </BaseWindow>
   );
 }
