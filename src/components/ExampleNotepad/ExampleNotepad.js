@@ -20,7 +20,6 @@ export default function ExampleNotepad({ id, visible, onHide, onChange }) {
     <BaseWindow
       id="example-notepad"
       title="Notepad"
-      visible={visible}
       onReset={handleReset}
       onHide={onHide}
     >

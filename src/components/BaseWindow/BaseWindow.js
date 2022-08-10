@@ -4,14 +4,7 @@ import Container from "@mui/material/Container";
 
 import "./BaseWindow.css";
 
-export default function BaseWindow({
-  id,
-  title,
-  visible,
-  children,
-  onReset,
-  onHide,
-}) {
+export default function BaseWindow({ id, title, children, onReset, onHide }) {
   function handleHide() {
     onHide(id);
   }
@@ -20,13 +13,9 @@ export default function BaseWindow({
     onReset(id);
   }
 
-  function getVisibility() {
-    return visible ? "" : "is-hidden";
-  }
-
   return (
     <Box
-      className={"window window-" + title + " " + getVisibility()}
+      className={"window window-" + title + " "}
       sx={{
         backgroundColor: "white",
         border: 1,
