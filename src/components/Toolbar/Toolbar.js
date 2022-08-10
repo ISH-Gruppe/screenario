@@ -1,13 +1,10 @@
 import * as React from "react";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import BottomNavigation from "@mui/material/BottomNavigation";
-import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import SchoolIcon from "@mui/icons-material/School";
 import HourglassTopIcon from "@mui/icons-material/HourglassTop";
 import ShuffleIcon from "@mui/icons-material/Shuffle"; // generator
 import PostAddIcon from "@mui/icons-material/PostAdd"; // notepad
-import DescriptionIcon from "@mui/icons-material/Description"; // notepad
 import BorderColorIcon from "@mui/icons-material/BorderColor"; //whiteboard
 import LyricsIcon from "@mui/icons-material/Lyrics"; // soundboard
 import QrCodeIcon from "@mui/icons-material/QrCode";
@@ -27,8 +24,6 @@ export default function ToggleButtonsMultiple({
   };
 
   function handleChange(event, value) {
-    console.log(value);
-
     windows[value].open ? onWindowHide(value) : onWindowShow(value);
   }
 
