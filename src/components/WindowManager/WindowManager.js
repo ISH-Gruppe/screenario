@@ -98,7 +98,7 @@ export default class WindowManager extends React.PureComponent {
         "notepad": {
           key: "notepad",
           open: true,
-          content: <div> notepad </div>,
+          content: <Notepad />,
         },
       },
     };

@@ -8,6 +8,7 @@ import MusicSelector from "./subcomponents/MusicSelector";
 import VolumeSlider from "./subcomponents/VolumeSlider";
 
 import Grid from "@mui/material/Grid";
+import BaseWindow from "../BaseWindow/BaseWindow";
 
 export default function Timer({ expiryTimestamp }) {
   const [initialTimerValue, setInitialTimerValue] =
@@ -67,30 +68,32 @@ export default function Timer({ expiryTimestamp }) {
   }
 
   return (
-    <Grid container spacing={2} style={{ textAlign: "center" }}>
-      <Grid item xs={12} style={{ textAlign: "center" }}>
-        <TimerView
-          hours={hours}
-          minutes={minutes}
-          seconds={seconds}
-          startTimer={startTimer}
-          stopTimer={stopTimer}
-          onTimerUpdate={updateAndRestartTimer}
-        />
-      </Grid>
+    <BaseWindow>
+      <Grid container spacing={2} style={{ textAlign: "center" }}>
+        <Grid item xs={12} style={{ textAlign: "center" }}>
+          <TimerView
+            hours={hours}
+            minutes={minutes}
+            seconds={seconds}
+            startTimer={startTimer}
+            stopTimer={stopTimer}
+            onTimerUpdate={updateAndRestartTimer}
+          />
+        </Grid>
 
-      <Grid item xs={12}>
-        <MusicSelector isTimerRunning={isRunning} musicVolume={musicVolume} />
-      </Grid>
+        <Grid item xs={12}>
+          <MusicSelector isTimerRunning={isRunning} musicVolume={musicVolume} />
+        </Grid>
 
-      <Grid item sx={{ mt: -1 }} xs={12}>
-        <VolumeSlider
-          handleVolumeChange={handleVolumeChange}
-          muteVolume={muteVolume}
-          unmuteVolume={unmuteVolume}
-          musicVolume={musicVolume}
-        />
+        <Grid item sx={{ mt: -1 }} xs={12}>
+          <VolumeSlider
+            handleVolumeChange={handleVolumeChange}
+            muteVolume={muteVolume}
+            unmuteVolume={unmuteVolume}
+            musicVolume={musicVolume}
+          />
+        </Grid>
       </Grid>
-    </Grid>
+    </BaseWindow>
   );
 }
