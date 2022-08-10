@@ -1,5 +1,5 @@
 import React from "react";
-import QRCode from "qrcode-react";
+// import QRCode from "qrcode-react";
 import TextField from "@mui/material/TextField";
 import Grid from '@mui/material/Grid';
 
@@ -25,7 +25,7 @@ export default function QrcodeGenerator() {
       </Grid>
       
       <Grid item xs={12}>
-        <QRCode value={qrcodeValue} />
+        {/* <QRCode value={qrcodeValue} /> */}
       </Grid>
     </Grid>
   );

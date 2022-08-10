@@ -1,61 +1,99 @@
 import React from "react";
 import { useTimer } from "react-timer-hook";
 
+import "./Timer.scss";
+import useTimerRinging from "./subcomponents/useTimerRinging";
+import TimerView from "./subcomponents/TimerView";
+import MusicSelector from "./subcomponents/MusicSelector";
+import VolumeSlider from "./subcomponents/VolumeSlider";
+
+import Grid from "@mui/material/Grid";
 import BaseWindow from "../BaseWindow/BaseWindow";
 
-import "./Timer.css";
+export default function Timer({ expiryTimestamp }) {
+  const [initialTimerValue, setInitialTimerValue] =
+    React.useState(expiryTimestamp);
 
-export default function Timer({ id, title, visible, onReset, onHide }) {
-  const initialTimerValue = new Date();
-  initialTimerValue.setSeconds(initialTimerValue.getSeconds() + 600);
+  const { seconds, minutes, hours, isRunning, start, pause, resume, restart } =
+    useTimer({
+      expiryTimestamp,
+      autoStart: false,
+      onExpire: handleTimerCompletion,
+    });
 
-  const {
-    seconds,
-    minutes,
-    hours,
-    days,
-    isRunning,
-    start,
-    pause,
-    resume,
-    restart,
-  } = useTimer({
-    initialTimerValue,
-    onExpire: () => console.warn("onExpire called"),
-  });
+  const [ringTimer] = useTimerRinging();
+
+  function updateAndRestartTimer(
+    secondsValue = 0,
+    minutesValue = 0,
+    hoursValue = 0
+  ) {
+    const newTimestamp = new Date();
+    newTimestamp.setHours(newTimestamp.getHours() + hours + hoursValue);
+    newTimestamp.setMinutes(newTimestamp.getMinutes() + minutes + minutesValue);
+    newTimestamp.setSeconds(newTimestamp.getSeconds() + seconds + secondsValue);
+
+    setInitialTimerValue(newTimestamp);
+    restart(newTimestamp, isRunning ? true : false);
+  }
+
+  function startTimer() {
+    resume();
+  }
+
+  function stopTimer() {
+    pause();
+  }
+
+  function handleTimerCompletion() {
+    ringTimer();
+    setInitialTimerValue(initialTimerValue);
+  }
+
+  const [musicVolume, setMusicVolume] = React.useState(0.9);
+  const [musicVolumeBeforeMute, setMusicVolumeBeforeMute] =
+    React.useState(musicVolume);
+
+  const handleVolumeChange = (event, newValue) => {
+    setMusicVolume(newValue);
+    setMusicVolumeBeforeMute(newValue);
+  };
+
+  function muteVolume() {
+    setMusicVolume(0);
+  }
+
+  function unmuteVolume() {
+    setMusicVolume(musicVolumeBeforeMute);
+  }
 
   return (
-    <BaseWindow
-      id="timer"
-      title="Timer"
-      visible={true}
-      onReset={onReset}
-      onHide={onHide}
-    >
-      <div className="cd-body" style={{ textAlign: "center" }}>
-        <h1>react-timer-hook </h1>
-        <p>Timer Demo</p>
+    <BaseWindow>
+      <Grid container spacing={2} style={{ textAlign: "center" }}>
+        <Grid item xs={12} style={{ textAlign: "center" }}>
+          <TimerView
+            hours={hours}
+            minutes={minutes}
+            seconds={seconds}
+            startTimer={startTimer}
+            stopTimer={stopTimer}
+            onTimerUpdate={updateAndRestartTimer}
+          />
+        </Grid>
 
-        <div className="cd-display">
-          <span>{days}</span>:<span>{hours}</span>:<span>{minutes}</span>:
-          <span>{seconds}</span>
-        </div>
+        <Grid item xs={12}>
+          <MusicSelector isTimerRunning={isRunning} musicVolume={musicVolume} />
+        </Grid>
 
-        <p>{isRunning ? "Running" : "Not running"}</p>
-        <button onClick={start}>Start</button>
-        <button onClick={pause}>Pause</button>
-        <button onClick={resume}>Resume</button>
-        <button
-          onClick={() => {
-            // Restarts to 5 minutes timer
-            const time = new Date();
-            time.setSeconds(time.getSeconds() + 300);
-            restart(time);
-          }}
-        >
-          Restart
-        </button>
-      </div>
+        <Grid item sx={{ mt: -1 }} xs={12}>
+          <VolumeSlider
+            handleVolumeChange={handleVolumeChange}
+            muteVolume={muteVolume}
+            unmuteVolume={unmuteVolume}
+            musicVolume={musicVolume}
+          />
+        </Grid>
+      </Grid>
     </BaseWindow>
   );
 }

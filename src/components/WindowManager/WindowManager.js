@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 
 import Timer from "../Timer/Timer";
-import Notepad from "../Notepad/Notepad";
 import Toolbar from "../Toolbar/Toolbar";
+import Notepad from "../Notepad/Notepad";
+import QrcodeGenerator from "../QrcodeGenerator/QrcodeGenerator";
 
 import "./WindowManager.css";
 
@@ -26,14 +27,6 @@ export default class WindowManager extends React.PureComponent {
   static defaultLayout = {
     md: [
       { i: "work-phase", x: 0, y: 0, w: 3, h: 2, minW: 2 },
-      {
-        i: "example-notepad",
-        x: 0,
-        y: 0,
-        w: 2,
-        h: 2,
-        minW: 2,
-      },
       { i: "timer", x: 0, y: 0, w: 2, h: 2 },
       {
         i: "random-generator",
@@ -105,7 +98,7 @@ export default class WindowManager extends React.PureComponent {
         "notepad": {
           key: "notepad",
           open: true,
-          content: <div> notepad </div>,
+          content: <Notepad />,
         },
       },
     };
