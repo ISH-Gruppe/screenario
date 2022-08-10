@@ -67,22 +67,16 @@ export default class WindowManager extends React.PureComponent {
     this.state = {
       layouts: JSON.parse(JSON.stringify(originalLayouts)),
       windows: {
-        "example-notepad": {
-          key: "example-notepad",
-          open: true,
-          content: (
-            <ExampleNotepad
-              id="example-notepad"
-              onHide={this.handleWindowHide}
-            />
-          ),
-        },
         "stuhlkreis": {
           key: "stuhlkreis",
           open: true,
           content: <digitaler-stuhlkreis />,
         },
-        "timer": { key: "timer", open: true, content: <Timer onHide={this.handleWindowHide} /> },
+        "timer": {
+          key: "timer",
+          open: true,
+          content: <Timer onHide={this.handleWindowHide} />,
+        },
         "whiteboard": {
           key: "whiteboard",
           open: true,

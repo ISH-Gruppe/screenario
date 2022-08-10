@@ -65,8 +65,8 @@ export default function ToggleButtonsMultiple({
       </ToggleButton>
       <ToggleButton
         color="primary"
-        value="example-notepad"
-        selected={windows["example-notepad"].open}
+        value="notepad"
+        selected={windows["notepad"].open}
         onClick={handleChange}
       >
         <PostAddIcon />
