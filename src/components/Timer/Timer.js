@@ -1,18 +1,14 @@
 import React from "react";
 import { useTimer } from "react-timer-hook";
 
-import BaseWindow from "./BaseWindow/BaseWindow";
+import BaseWindow from "../BaseWindow/BaseWindow";
 
-import "./CountdownTimer.css";
+import "./Timer.css";
 
-export default function CountdownTimer({
-  expiryTimestamp,
-  id,
-  title,
-  visible,
-  onReset,
-  onHide,
-}) {
+export default function Timer({ id, title, visible, onReset, onHide }) {
+  const initialTimerValue = new Date();
+  initialTimerValue.setSeconds(initialTimerValue.getSeconds() + 600);
+
   const {
     seconds,
     minutes,
@@ -24,14 +20,14 @@ export default function CountdownTimer({
     resume,
     restart,
   } = useTimer({
-    expiryTimestamp,
+    initialTimerValue,
     onExpire: () => console.warn("onExpire called"),
   });
 
   return (
     <BaseWindow
       id="timer"
-      title="Countdown Timer"
+      title="Timer"
       visible={true}
       onReset={onReset}
       onHide={onHide}

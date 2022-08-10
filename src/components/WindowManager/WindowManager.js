@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 
-import CountdownTimer from "../CountdownTimer";
-import QrcodeGenerator from "../QrcodeGenerator/QrcodeGenerator";
+import Timer from "../Timer/Timer";
 import ExampleNotepad from "../ExampleNotepad/ExampleNotepad";
 import Toolbar from "../Toolbar/Toolbar";
+
+import "./WindowManager.css";
 
 import "../digitalerstuhlkreis/runtime-es2015.a4dadbc03350107420a4";
 import "../digitalerstuhlkreis/runtime-es5.a4dadbc03350107420a4";
@@ -18,78 +19,193 @@ import "/node_modules/react-grid-layout/css/styles.css";
 import "/node_modules/react-resizable/css/styles.css";
 import { Responsive, WidthProvider } from "react-grid-layout";
 
-export default function WindowManager(props) {
-  const defaultState = {
-    "work-phase": { visible: false },
-    "example-notepad": { visible: true },
-    "timer": { visible: false },
-    "random-generator": { visible: false },
-    "notepad": { visible: false },
-    "whiteboard": { visible: false },
-    "soundboard": { visible: false },
-    "qrcode-generator": { visible: false },
-    "stuhlkreis": { visible: false },
+const ResponsiveReactGridLayout = WidthProvider(Responsive);
+const originalLayouts = readFromLocalStorage("layouts") || {};
+
+export default class WindowManager extends React.PureComponent {
+  static defaultLayout = {
+    md: [
+      { i: "work-phase", x: 0, y: 0, w: 3, h: 2, minW: 2 },
+      {
+        i: "example-notepad",
+        x: 0,
+        y: 0,
+        w: 2,
+        h: 2,
+        minW: 2,
+      },
+      { i: "timer", x: 0, y: 0, w: 2, h: 2 },
+      {
+        i: "random-generator",
+        x: 0,
+        y: 0,
+        w: 2,
+        h: 2,
+        minW: 2,
+      },
+      { i: "notepad", x: 0, y: 0, w: 2, h: 2, minW: 2 },
+      { i: "whiteboard", x: 0, y: 0, w: 2, h: 2, minW: 2 },
+      { i: "soundboard", x: 0, y: 0, w: 2, h: 2, minW: 2 },
+      {
+        i: "qrcode-generator",
+        x: 3,
+        y: 2,
+        w: 4,
+        h: 2,
+        minW: 3,
+      },
+      { i: "stuhlkreis", x: 0, y: 0, w: 4, h: 20, minW: 4, minH: 10 },
+    ],
   };
 
-  const [windows, setWindows] = useState(defaultState);
+  constructor(props) {
+    super(props);
 
-  function handleHide(windowId) {
-    setWindows({
-      ...windows,
-      [windowId]: { visible: false },
-    });
-    console.log(windowId + " hidden");
+    this.handleWindowHide = this.handleWindowHide.bind(this);
+    this.handleWindowShow = this.handleWindowShow.bind(this);
+
+    this.state = {
+      layouts: JSON.parse(JSON.stringify(originalLayouts)),
+      windows: {
+        "example-notepad": {
+          key: "example-notepad",
+          open: true,
+          content: (
+            <ExampleNotepad
+              id="example-notepad"
+              onHide={this.handleWindowHide}
+            />
+          ),
+        },
+        "stuhlkreis": {
+          key: "stuhlkreis",
+          open: true,
+          content: <digitaler-stuhlkreis />,
+        },
+        "timer": { key: "timer", open: true, content: <Timer onHide={this.handleWindowHide} /> },
+        "whiteboard": {
+          key: "whiteboard",
+          open: true,
+          content: <div> whiteboard </div>,
+        },
+        "random-generator": {
+          key: "random-generator",
+          open: true,
+          content: <div> random generator </div>,
+        },
+        "soundboard": {
+          key: "soundboard",
+          open: true,
+          content: <div> soundboard </div>,
+        },
+        "qrcode-generator": {
+          key: "qrcode-generator",
+          open: true,
+          content: <div> qrcode </div>,
+        },
+        "work-phase": {
+          key: "work-phase",
+          open: true,
+          content: <div> work phase </div>,
+        },
+        "notepad": {
+          key: "notepad",
+          open: true,
+          content: <div> notepad </div>,
+        },
+      },
+    };
   }
 
-  const time = new Date();
-  time.setSeconds(time.getSeconds() + 600); // 10 minutes timer
+  static get defaultProps() {
+    return {
+      className: "layout",
+      cols: { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 },
+      rowHeight: 150,
+    };
+  }
 
-  // TODO: This needs further configuration!
-  // Not sure if we benefit from user Gridlayout ResponsiveGridLayout.
-  // The one thing we do need is a responsive width provider like "WidthProvider(Responsive)"
+  resetLayout() {
+    this.setState({ layouts: this.defaultLayout });
+  }
 
-  const layout = [
-    { i: "work-phase", x: 0, y: 0, w: 3, h: 2, minW: 2 },
-    { i: "example-notepad", x: 0, y: 0, w: 2, h: 2, minW: 4 },
-    { i: "timer", x: 0, y: 0, w: 2, h: 2, minW: 2, maxW: 4 },
-    { i: "random-generator", x: 0, y: 0, w: 2, h: 2, minW: 4 },
-    { i: "notepad", x: 0, y: 0, w: 2, h: 2, minW: 2 },
-    { i: "whiteboard", x: 0, y: 0, w: 2, h: 2, minW: 2 },
-    { i: "soundboard", x: 0, y: 0, w: 2, h: 2, minW: 2 },
-    { i: "qrcode-generator", x: 0, y: 0, w: 1.5, h: 2, minW: 1 },
-    { i: "stuhlkreis", x: 0, y: 0, w: 2, h: 2, minW: 2 },
-  ];
+  onLayoutChange(layout, layouts) {
+    saveToLocalStorage("layouts", layouts);
+    this.setState({ layouts });
+  }
 
-  const ResponsiveGridLayout = WidthProvider(Responsive);
+  handleWindowHide(windowId) {
+    this.setState({
+      windows: {
+        ...this.state.windows,
+        [windowId]: { ...this.state.windows[windowId], open: false },
+      },
+    });
+  }
+  handleWindowShow(windowId) {
+    this.setState({
+      windows: {
+        ...this.state.windows,
+        [windowId]: { ...this.state.windows[windowId], open: true },
+      },
+    });
+  }
 
-  return (
-    <>
-      <Toolbar />
-      <ResponsiveGridLayout
-        className="layout"
-        layouts={{ lg: layout }}
-        rowHeight={150}
-        breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
-        cols={{ lg: 8, md: 4, sm: 4, xs: 4, xxs: 2 }}
-      >
-        <div key="timer">
-          <CountdownTimer expiryTimestamp={time} />
-        </div>
-        <div key="qrcode-generator">
-          <QrcodeGenerator />
-        </div>
-        <div key="stuhlkreis">
-          <digitaler-stuhlkreis />
-        </div>
-        <div key="example-notepad">
-          <ExampleNotepad
-            id="example-notepad"
-            visible={windows["example-notepad"].visible}
-            content={windows["example-notepad"].content}
-            onHide={handleHide}
-          />
-        </div>
-      </ResponsiveGridLayout>
-    </>
-  );
+  render() {
+    const getOpenWindows = () => {
+      let openWindowsArray = Object.values(this.state.windows)
+        .filter((window) => window.open === true)
+        .map((window) =>
+          window.closed ? "" : <div key={window.key}> {window.content} </div>
+        );
+
+      return openWindowsArray;
+    };
+
+    return (
+      <div>
+        <Toolbar
+          onWindowShow={this.handleWindowShow}
+          onWindowHide={this.handleWindowHide}
+          windows={this.state.windows}
+        />
+
+        <button onClick={() => this.resetLayout()}>Fenster ordnen</button>
+        <ResponsiveReactGridLayout
+          className="layout"
+          cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
+          rowHeight={150}
+          layouts={this.state.layouts}
+          onLayoutChange={(layout, layouts) =>
+            this.onLayoutChange(layout, layouts)
+          }
+        >
+          {getOpenWindows()}
+        </ResponsiveReactGridLayout>
+      </div>
+    );
+  }
+}
+
+function readFromLocalStorage(key) {
+  let ls = {};
+  if (global.localStorage) {
+    try {
+      ls = JSON.parse(global.localStorage.getItem("rgl-8")) || {};
+    } catch (e) {
+      /*Ignore*/
+    }
+  }
+  return ls[key];
+}
+
+function saveToLocalStorage(key, value) {
+  if (global.localStorage) {
+    global.localStorage.setItem(
+      "rgl-8",
+      JSON.stringify({
+        [key]: value,
+      })
+    );
+  }
 }
