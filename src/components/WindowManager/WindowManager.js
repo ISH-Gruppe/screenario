@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
-import CountdownTimer from "../CountdownTimer";
-// import QrcodeGenerator from "../QrcodeGenerator/QrcodeGenerator";
+import Timer from "../Timer/Timer";
 import ExampleNotepad from "../ExampleNotepad/ExampleNotepad";
 import Toolbar from "../Toolbar/Toolbar";
 
@@ -83,7 +82,7 @@ export default class WindowManager extends React.PureComponent {
           open: true,
           content: <digitaler-stuhlkreis />,
         },
-        "timer": { key: "timer", open: true, content: <div> timer </div> },
+        "timer": { key: "timer", open: true, content: <Timer onHide={this.handleWindowHide} /> },
         "whiteboard": {
           key: "whiteboard",
           open: true,

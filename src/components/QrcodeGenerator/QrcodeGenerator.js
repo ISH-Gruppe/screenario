@@ -3,7 +3,7 @@ import QRCode from "qrcode-react";
 import TextField from "@mui/material/TextField";
 import Grid from '@mui/material/Grid';
 
-export default function CountdownTimer() {
+export default function QrcodeGenerator() {
   const [qrcodeValue, setQrcodeValue] = React.useState("https://ish-gruppe.de");
 
   function handleTextChange(event) {
