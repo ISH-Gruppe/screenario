@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import Timer from "../Timer/Timer";
-import ExampleNotepad from "../ExampleNotepad/ExampleNotepad";
+import Notepad from "../Notepad/Notepad";
 import Toolbar from "../Toolbar/Toolbar";
 
 import "./WindowManager.css";
