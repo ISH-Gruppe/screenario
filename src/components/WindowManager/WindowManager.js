@@ -21,7 +21,7 @@ import "/node_modules/react-resizable/css/styles.css";
 import { Responsive, WidthProvider } from "react-grid-layout";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
-const originalLayouts = getFromLS("layouts") || {};
+const originalLayouts = readFromLocalStorage("layouts") || {};
 
 export default class WindowManager extends React.PureComponent {
   static defaultLayout = {
@@ -131,7 +131,7 @@ export default class WindowManager extends React.PureComponent {
   }
 
   onLayoutChange(layout, layouts) {
-    saveToLS("layouts", layouts);
+    saveToLocalStorage("layouts", layouts);
     this.setState({ layouts });
   }
 
@@ -188,7 +188,7 @@ export default class WindowManager extends React.PureComponent {
   }
 }
 
-function getFromLS(key) {
+function readFromLocalStorage(key) {
   let ls = {};
   if (global.localStorage) {
     try {
@@ -200,7 +200,7 @@ function getFromLS(key) {
   return ls[key];
 }
 
-function saveToLS(key, value) {
+function saveToLocalStorage(key, value) {
   if (global.localStorage) {
     global.localStorage.setItem(
       "rgl-8",
