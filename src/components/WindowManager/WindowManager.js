@@ -27,14 +27,6 @@ export default class WindowManager extends React.PureComponent {
   static defaultLayout = {
     md: [
       { i: "work-phase", x: 0, y: 0, w: 3, h: 2, minW: 2 },
-      {
-        i: "example-notepad",
-        x: 0,
-        y: 0,
-        w: 2,
-        h: 2,
-        minW: 2,
-      },
       { i: "timer", x: 0, y: 0, w: 2, h: 2 },
       {
         i: "random-generator",
@@ -68,22 +60,16 @@ export default class WindowManager extends React.PureComponent {
     this.state = {
       layouts: JSON.parse(JSON.stringify(originalLayouts)),
       windows: {
-        "example-notepad": {
-          key: "example-notepad",
-          open: true,
-          content: (
-            <ExampleNotepad
-              id="example-notepad"
-              onHide={this.handleWindowHide}
-            />
-          ),
-        },
         "stuhlkreis": {
           key: "stuhlkreis",
           open: true,
           content: <digitaler-stuhlkreis />,
         },
-        "timer": { key: "timer", open: true, content: <Timer onHide={this.handleWindowHide} /> },
+        "timer": {
+          key: "timer",
+          open: true,
+          content: <Timer onHide={this.handleWindowHide} />,
+        },
         "whiteboard": {
           key: "whiteboard",
           open: true,
