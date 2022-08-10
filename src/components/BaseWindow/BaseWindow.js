@@ -20,10 +20,7 @@ export default function BaseWindow({ id, title, children, onReset, onHide }) {
   }
 
   return (
-    <Card
-      className={"window window-" + title + " " + getVisibility()}
-      sx={{ minWidth: 275 }}
-    >
+    <Card className={"window window-" + title + " "} sx={{ minWidth: 275 }}>
       <Box
         sx={{
           "& button": { m: 1 },
