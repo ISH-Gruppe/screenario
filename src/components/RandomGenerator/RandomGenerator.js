@@ -3,12 +3,10 @@ import React from "react";
 import Tab from "@mui/material/Tab";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 
-import "./RandomGenerator.scss"
 import BaseWindow from "../BaseWindow/BaseWindow";
 import GroupMaker from "./GroupMaker/GroupMaker";
 import Spinwheel from "./Spinwheel/Spinwheel";
 import NamePicker from "./NamePicker/NamePicker";
-import CustomWheel from "./CustomSpinwheel/CustomSpinwheel";
 
 export default function RandomGenerator() {
   const [activeTab, setActiveTab] = React.useState("0");
@@ -52,7 +50,6 @@ export default function RandomGenerator() {
               key={tabsEnum.SPINWHEEL.key}
               value={tabsEnum.SPINWHEEL.tabIndex}
             >
-              {/* <CustomWheel /> */}
               <Spinwheel />
             </TabPanel>
             <TabPanel
