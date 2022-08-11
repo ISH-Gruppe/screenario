@@ -1,6 +1,8 @@
 .window {
-  width: 300;
-  height: 300;
+  width: 400px;
+  height: 300px;
+  min-width: 500px;
+  min-height: 300px;
   background-color: "white";
   border: 1px solid rgba(0, 0, 0, 0.478);
   box-shadow: 15;

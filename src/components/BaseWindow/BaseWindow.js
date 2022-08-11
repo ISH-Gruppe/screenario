@@ -22,6 +22,7 @@ export default function BaseWindow({ id, title, children, onReset, onHide }) {
   return (
     <Card className={"window window-" + title + " "} sx={{ minWidth: 275 }}>
       <Box
+        className="drag-handle"
         sx={{
           "& button": { m: 1 },
           "display": "flex",
