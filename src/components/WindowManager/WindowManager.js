@@ -12,6 +12,7 @@ import "./WindowManager.css";
 import "/node_modules/react-grid-layout/css/styles.css";
 import "/node_modules/react-resizable/css/styles.css";
 import { Responsive, WidthProvider } from "react-grid-layout";
+import RandomGenerator from "../RandomGenerator/RandomGenerator";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const originalLayouts = readFromLocalStorage("layouts") || {};
@@ -71,7 +72,7 @@ export default class WindowManager extends React.PureComponent {
         "random-generator": {
           key: "random-generator",
           open: true,
-          content: <div> random generator </div>,
+          content: <RandomGenerator onHide={this.handleWindowHide} />,
         },
         "soundboard": {
           key: "soundboard",
