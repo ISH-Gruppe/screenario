@@ -4,16 +4,9 @@ import Timer from "../Timer/Timer";
 import Toolbar from "../Toolbar/Toolbar";
 import Notepad from "../Notepad/Notepad";
 import QrcodeGenerator from "../QrcodeGenerator/QrcodeGenerator";
+import DigitalerStuhlkreisWrapper from "../DigitalerStuhlkreisWrapper/DigitalerStuhlkreisWrapper";
 
 import "./WindowManager.css";
-
-import "../digitalerstuhlkreis/runtime-es2015.a4dadbc03350107420a4";
-import "../digitalerstuhlkreis/runtime-es5.a4dadbc03350107420a4";
-import "../digitalerstuhlkreis/polyfills-es2015.d9c8f3d13d7372708bac";
-import "../digitalerstuhlkreis/polyfills-es5.dab0688ff17f3e0c4dfd";
-import "../digitalerstuhlkreis/main-es2015.d43e95d8420d8bb39d2e";
-import "../digitalerstuhlkreis/main-es5.d43e95d8420d8bb39d2e";
-import "../digitalerstuhlkreis/styles.00f6a897faa5361a9828.css";
 
 // 3rd party dependencies
 import "/node_modules/react-grid-layout/css/styles.css";
@@ -63,7 +56,7 @@ export default class WindowManager extends React.PureComponent {
         "stuhlkreis": {
           key: "stuhlkreis",
           open: true,
-          content: <digitaler-stuhlkreis />,
+          content: <DigitalerStuhlkreisWrapper />,
         },
         "timer": {
           key: "timer",
