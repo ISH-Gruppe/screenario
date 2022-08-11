@@ -3,6 +3,7 @@ import React from "react";
 import Tab from "@mui/material/Tab";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 
+import "./RandomGenerator.scss"
 import BaseWindow from "../BaseWindow/BaseWindow";
 import GroupMaker from "./GroupMaker/GroupMaker";
 import Spinwheel from "./Spinwheel/Spinwheel";
