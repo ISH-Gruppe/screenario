@@ -3,7 +3,6 @@ import React from "react";
 import Tab from "@mui/material/Tab";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 
-import "./RandomGenerator.scss";
 import BaseWindow from "../BaseWindow/BaseWindow";
 import GroupMaker from "./GroupMaker/GroupMaker";
 import Spinwheel from "./Spinwheel/Spinwheel";
@@ -20,7 +19,7 @@ export default function RandomGenerator() {
 
   return (
     <div id="RandomGeneratorWrapper">
-      <BaseWindow title="Zufallsgenerator">
+      <BaseWindow title="Gruppengenerator">
         <div id="RandomGeneratorContent">
           <TabContext value={activeTab}>
             <TabList onChange={updateActiveTab}>
