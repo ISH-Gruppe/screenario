@@ -9,14 +9,38 @@ export default function Spinwheel() {
   const listNumbers = {
     name: "NUMBERS",
     data: [
-      { option: "1", style: { backgroundColor: "red", textColor: "white" } },
-      { option: "2", style: { backgroundColor: "green", textColor: "white" } },
-      { option: "3", style: { backgroundColor: "blue", textColor: "white" } },
-      { option: "4", style: { backgroundColor: "pink", textColor: "white" } },
-      { option: "5", style: { backgroundColor: "orange", textColor: "white" } },
-      { option: "6", style: { backgroundColor: "gray", textColor: "white" } },
-      { option: "7", style: { backgroundColor: "black", textColor: "white" } },
-      { option: "8", style: { backgroundColor: "orange", textColor: "white" } },
+      {
+        option: "1",
+        style: { backgroundColor: "#ff705f", textColor: "#00364a" },
+      },
+      {
+        option: "2",
+        style: { backgroundColor: "#ffe08a", textColor: "#00364a" },
+      },
+      {
+        option: "3",
+        style: { backgroundColor: "#48c78e", textColor: "#00364a" },
+      },
+      {
+        option: "4",
+        style: { backgroundColor: "#66ccc7", textColor: "#00364a" },
+      },
+      {
+        option: "5",
+        style: { backgroundColor: "#ff705f", textColor: "#00364a" },
+      },
+      {
+        option: "6",
+        style: { backgroundColor: "#ffe08a", textColor: "#00364a" },
+      },
+      {
+        option: "7",
+        style: { backgroundColor: "#48c78e", textColor: "#00364a" },
+      },
+      {
+        option: "8",
+        style: { backgroundColor: "#66ccc7", textColor: "#00364a" },
+      },
     ],
   };
 
@@ -25,35 +49,35 @@ export default function Spinwheel() {
     data: [
       {
         option: "Kniebeugen",
-        style: { backgroundColor: "green", textColor: "white" },
+        style: { backgroundColor: "#ff705f", textColor: "#00364a" },
       },
       {
         option: "Hampelmann",
-        style: { backgroundColor: "red", textColor: "white" },
+        style: { backgroundColor: "#ffe08a", textColor: "#00364a" },
       },
       {
         option: "Hand zu Fuß",
-        style: { backgroundColor: "blue", textColor: "white" },
+        style: { backgroundColor: "#48c78e", textColor: "#00364a" },
       },
       {
         option: "Strecken",
-        style: { backgroundColor: "pink", textColor: "white" },
+        style: { backgroundColor: "#66ccc7", textColor: "#00364a" },
       },
       {
         option: "Hüpfen",
-        style: { backgroundColor: "orange", textColor: "white" },
+        style: { backgroundColor: "#ff705f", textColor: "#00364a" },
       },
       {
         option: "Rennen",
-        style: { backgroundColor: "gray", textColor: "white" },
+        style: { backgroundColor: "#ffe08a", textColor: "#00364a" },
       },
       {
         option: "Klatschen",
-        style: { backgroundColor: "black", textColor: "white" },
+        style: { backgroundColor: "#48c78e", textColor: "#00364a" },
       },
       {
         option: "Liegestützen",
-        style: { backgroundColor: "orange", textColor: "white" },
+        style: { backgroundColor: "#66ccc7", textColor: "#00364a" },
       },
     ],
   };
@@ -61,14 +85,14 @@ export default function Spinwheel() {
   const listCustomWords = {
     name: "CUSTOM_WORDS",
     data: [
-      { option: "", style: { backgroundColor: "red", textColor: "white" } },
-      { option: "", style: { backgroundColor: "green", textColor: "white" } },
-      { option: "", style: { backgroundColor: "blue", textColor: "white" } },
-      { option: "", style: { backgroundColor: "pink", textColor: "white" } },
-      { option: "", style: { backgroundColor: "orange", textColor: "white" } },
-      { option: "", style: { backgroundColor: "gray", textColor: "white" } },
-      { option: "", style: { backgroundColor: "black", textColor: "white" } },
-      { option: "", style: { backgroundColor: "orange", textColor: "white" } },
+      { option: "", style: { backgroundColor: "#ff705f", textColor: "#00364a" } },
+      { option: "", style: { backgroundColor: "#ffe08a", textColor: "#00364a" } },
+      { option: "", style: { backgroundColor: "#48c78e", textColor: "#00364a" } },
+      { option: "", style: { backgroundColor: "#66ccc7", textColor: "#00364a" } },
+      { option: "", style: { backgroundColor: "#ff705f", textColor: "#00364a" } },
+      { option: "", style: { backgroundColor: "#ffe08a", textColor: "#00364a" } },
+      { option: "", style: { backgroundColor: "#48c78e", textColor: "#00364a" } },
+      { option: "", style: { backgroundColor: "#66ccc7", textColor: "#00364a" } },
     ],
   };
 
@@ -178,7 +202,7 @@ export default function Spinwheel() {
       </Stack>
 
       <Stack direction="row">
-        <div>
+        <Stack spacing={2} sx={{ marginTop: "1rem" }}>
           <TextareaAutosize
             value={activeSpinlistAsString}
             onChange={handleSpinlistInTextareaChange}
@@ -187,7 +211,11 @@ export default function Spinwheel() {
             placeholder="Es gelten die 8 letzten Begriffe"
           />
           <small>Hinweis: Es gelten die 8 letzten Begriffe</small>
-        </div>
+
+          <Button variant="contained" onClick={handleSpinClick}>
+            Drehen
+          </Button>
+        </Stack>
 
         <div className="wheel">
           <Wheel
@@ -202,7 +230,6 @@ export default function Spinwheel() {
           />
         </div>
       </Stack>
-      <button onClick={handleSpinClick}>Drehen</button>
     </div>
   );
 }
