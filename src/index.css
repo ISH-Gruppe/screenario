@@ -2,11 +2,18 @@
   display: none !important;
 }
 
-body, html {
-  font-family: "Rubik",sans-serif !important;
+body,
+html {
+  font-family: "Rubik", sans-serif !important;
 }
 
 @font-face {
   font-family: "Rubik";
   src: url("./theme/Rubik-VariableFont_wght.ttf");
+}
+
+.drag-handle {
+  cursor: move;
+  cursor: -webkit-grab;
+  cursor: -moz-grab;
 }
