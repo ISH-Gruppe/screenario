@@ -153,6 +153,7 @@ export default class WindowManager extends React.PureComponent {
         <button onClick={() => this.resetLayout()}>Fenster ordnen</button>
         <ResponsiveReactGridLayout
           className="layout"
+          draggableHandle=".drag-handle"
           cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
           rowHeight={150}
           layouts={this.state.layouts}
