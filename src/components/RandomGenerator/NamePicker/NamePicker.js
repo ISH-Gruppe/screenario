@@ -1,7 +1,31 @@
 import React from "react";
+import RandomPicker from "./RandomPicker/RandomPicker";
 
 export default function NamePicker() {
-  const [activeTab, setActiveTab] = React.useState("0");
+  const initialNamesList = [
+    "Marcelo",
+    "Lizzette",
+    "Pauline",
+    "Fumiko",
+    "Tomasa",
+    "Bertha",
+    "Antoinette",
+    "Tianna",
+    "Ammie",
+    "Victorina",
+    "Marlon",
+    "Jules",
+    "Arletha",
+    "Ellyn",
+    "Karol",
+    "Corrin",
+    "Josephine",
+  ];
+  const [nameList, setNameList] = React.useState(initialNamesList);
 
-  return <>NamePicker works!</>;
+  return (
+    <>
+      <RandomPicker items={nameList} />
+    </>
+  );
 }
