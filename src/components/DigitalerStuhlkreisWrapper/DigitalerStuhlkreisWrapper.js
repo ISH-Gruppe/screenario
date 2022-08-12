@@ -1,5 +1,7 @@
 import React from "react";
 
+import Card from "@mui/material/Card";
+
 import "./digitalerstuhlkreis/runtime-es2015.a4dadbc03350107420a4";
 import "./digitalerstuhlkreis/runtime-es5.a4dadbc03350107420a4";
 import "./digitalerstuhlkreis/polyfills-es2015.d9c8f3d13d7372708bac";
@@ -8,6 +10,9 @@ import "./digitalerstuhlkreis/main-es2015.9bc9bd04922037637a39";
 import "./digitalerstuhlkreis/main-es5.9bc9bd04922037637a39";
 import "./digitalerstuhlkreis/styles.31e4ffa463cb25524212.css";
 import "./DigitalerStuhlkreisWrapper.scss";
+
+import IconButton from "@mui/material/IconButton";
+import RemoveIcon from "@mui/icons-material/Remove";
 
 /*
  * This component is an Angular project that is provided as a WebComponent
@@ -18,10 +23,26 @@ import "./DigitalerStuhlkreisWrapper.scss";
  *
  * You can find the original project at https://digitaler-stuhlkreis.de
  */
-export default function DigitalerStuhlkreisWrapper() {
+export default function DigitalerStuhlkreisWrapper({
+  id,
+  visible,
+  onHide,
+  onChange,
+}) {
   return (
-    <div id="DigitalerStuhlkreisWrapper">
-      <digitaler-stuhlkreis />
-    </div>
+    <Card className="StuhlkreisCard">
+      <div id="DigitalerStuhlkreisWrapper" className="drag-handle">
+        <IconButton
+          className="hideButton"
+          onClick={() => onHide(id)}
+          aria-label="delete"
+          size="small"
+        >
+          <RemoveIcon />
+        </IconButton>
+
+        <digitaler-stuhlkreis />
+      </div>
+    </Card>
   );
 }

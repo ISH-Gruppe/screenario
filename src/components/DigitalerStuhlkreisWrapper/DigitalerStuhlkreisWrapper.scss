@@ -1,6 +1,18 @@
 #DigitalerStuhlkreisWrapper {
     height: 100%;
+    width: 100%;
     min-width: 372px;
+    box-shadow: 15;
+    border-radius: 4px;
+    padding-bottom: 0;
+
+    text-align: right;
+}
+
+.StuhlkreisCard {
+    height: 100%;
+    width: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.478);
 }
 
 #outer-grey-div {
