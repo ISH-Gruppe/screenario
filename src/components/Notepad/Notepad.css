@@ -1,0 +1,17 @@
+.ql-container {
+  box-sizing: border-box;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  height: 100%;
+  margin: 0px;
+  position: relative;
+}
+
+.quill {
+  scale: 110%;
+  margin-top: 10px;
+}
+.ql-container.ql-snow,
+.ql-toolbar.ql-snow {
+  border: none;
+}
