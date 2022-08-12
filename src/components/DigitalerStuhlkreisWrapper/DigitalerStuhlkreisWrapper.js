@@ -31,15 +31,17 @@ export default function DigitalerStuhlkreisWrapper({
 }) {
   return (
     <Card className="StuhlkreisCard">
-      <div id="DigitalerStuhlkreisWrapper" className="drag-handle">
-        <IconButton
-          className="hideButton"
-          onClick={() => onHide(id)}
-          aria-label="delete"
-          size="small"
-        >
-          <RemoveIcon />
-        </IconButton>
+      <div id="DigitalerStuhlkreisWrapper" className="">
+        <div className="dragable-bar drag-handle">
+          <IconButton
+            className="hideButton"
+            onClick={() => onHide(id)}
+            aria-label="delete"
+            size="small"
+          >
+            <RemoveIcon />
+          </IconButton>
+        </div>
 
         <digitaler-stuhlkreis />
       </div>
