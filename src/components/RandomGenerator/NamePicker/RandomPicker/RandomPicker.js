@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import "./RandomPicker.scss";
-import Button from "@mui/material/Button";
+import "./RandomPicker.scss"
 
 /* Courtesy of https://codepen.io/paulborm/pen/pYVYve - thanks a lot! */
 export default class RandomPicker extends React.PureComponent {
@@ -30,7 +29,6 @@ export default class RandomPicker extends React.PureComponent {
     setTimeout(() => {
       if (this.state.isRunning) {
         this.stop();
-        this.props.onChoiceChange(this.state.currentChoice);
       }
     }, this.duration);
   }
@@ -52,8 +50,7 @@ export default class RandomPicker extends React.PureComponent {
   }
 
   setChoice() {
-    const newChoice = this.pickChoice();
-    this.setState({ currentChoice: newChoice });
+    this.setState({ currentChoice: this.pickChoice() });
   }
 
   render() {
@@ -102,14 +99,21 @@ export class RandomPickerControls extends React.PureComponent {
 
     return (
       <div className="RandomPicker__controls">
-        {/* This button used to change colors depending on isRunning - let's not do that right now */}
-        <Button
+        <button
+          class={`RandomPicker__button ${
+            isRunning && "RandomPicker__button--stop"
+          }`}
           onClick={isRunning ? stop : start}
-          variant="contained"
-          size="large"
         >
           {isRunning ? "Stop" : "Auslosen"}
-        </Button>
+        </button>
+        <button
+          disabled={isRunning || !hasChoice}
+          class="RandomPicker__button RandomPicker__button--reset"
+          onClick={reset}
+        >
+          Zurücksetzen
+        </button>
       </div>
     );
   }
