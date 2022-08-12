@@ -1,0 +1,10 @@
+#p5-container {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
+
+.p5Canvas {
+  height: 100% !important;
+  width: 100% !important;
+}

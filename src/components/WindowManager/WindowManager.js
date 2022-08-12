@@ -4,6 +4,9 @@ import Timer from "../Timer/Timer";
 import Toolbar from "../Toolbar/Toolbar";
 import Notepad from "../Notepad/Notepad";
 import QrcodeGenerator from "../QrcodeGenerator/QrcodeGenerator";
+import Whiteboard from "../Whiteboard/Whiteboard";
+// import Sketch from "../Whiteboard/Whiteboard";
+
 import DigitalerStuhlkreisWrapper from "../DigitalerStuhlkreisWrapper/DigitalerStuhlkreisWrapper";
 
 import "./WindowManager.css";
@@ -67,7 +70,7 @@ export default class WindowManager extends React.PureComponent {
         "whiteboard": {
           key: "whiteboard",
           open: true,
-          content: <div> whiteboard </div>,
+          content: <Whiteboard onHide={this.handleWindowHide} />,
         },
         "random-generator": {
           key: "random-generator",
