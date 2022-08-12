@@ -91,7 +91,7 @@ export default class WindowManager extends React.PureComponent {
         "notepad": {
           key: "notepad",
           open: true,
-          content: <Notepad />,
+          content: <Notepad onHide={this.handleWindowHide} />,
         },
       },
     };
