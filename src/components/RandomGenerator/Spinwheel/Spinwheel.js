@@ -73,8 +73,16 @@ export default function Spinwheel() {
   };
 
   const [activeSpinlist, setActiveSpinlist] = React.useState(listMovements);
+  const [activeSpinlistAsString, setActiveSpinlistAsString] = React.useState(
+    getStringFromPassedSpinlist(activeSpinlist)
+  );
   const [prizeNumber, setPrizeNumber] = React.useState(0);
   const [isSpinning, setIsSpinning] = React.useState(false);
+
+  function handleSpinlistChange(selectedList) {
+    setActiveSpinlist(selectedList);
+    setActiveSpinlistAsString(getStringFromPassedSpinlist(selectedList));
+  }
 
   function handleSpinClick() {
     setPrizeNumber(getRandomNumberFromActiveSpinlist());
@@ -85,11 +93,21 @@ export default function Spinwheel() {
     return Math.floor(Math.random() * activeSpinlist.data.length);
   }
 
+  function getStringFromPassedSpinlist(passedList) {
+    let listAsAString = "";
+
+    passedList.data.forEach((listEntry) => {
+      listAsAString += listEntry.option + "\n";
+    });
+
+    return listAsAString;
+  }
+
   return (
     <div className="spinwheel-wrapper">
       <Stack spacing={2} direction="row" sx={{ marginBottom: "1.5rem" }}>
         <Button
-          onClick={() => setActiveSpinlist(listMovements)}
+          onClick={() => handleSpinlistChange(listMovements)}
           className={
             activeSpinlist.name === listMovements.name ? "activeButton" : ""
           }
@@ -99,7 +117,7 @@ export default function Spinwheel() {
           Bewegungen
         </Button>
         <Button
-          onClick={() => setActiveSpinlist(listNumbers)}
+          onClick={() => handleSpinlistChange(listNumbers)}
           className={
             activeSpinlist.name === listNumbers.name ? "activeButton" : ""
           }
@@ -109,7 +127,7 @@ export default function Spinwheel() {
           Zahlen 1-8
         </Button>
         <Button
-          onClick={() => setActiveSpinlist(listCustomWords)}
+          onClick={() => handleSpinlistChange(listCustomWords)}
           className={
             activeSpinlist.name === listCustomWords.name ? "activeButton" : ""
           }
@@ -121,12 +139,15 @@ export default function Spinwheel() {
       </Stack>
 
       <Stack direction="row">
-        <TextareaAutosize
-          aria-label="minimum height"
-          minRows={8}
-          placeholder="Minimum 3 rows"
-          // style={{ width: 200 }}
-        />
+        <div>
+          <TextareaAutosize
+            value={activeSpinlistAsString}
+            aria-label="Begriffe für das Glücksrad"
+            minRows={8}
+            placeholder="Es gelten die 8 letzten Begriffe"
+          />
+          <small>Hinweis: Es gelten die 8 letzten Begriffe</small>
+        </div>
 
         <div className="wheel">
           <Wheel
