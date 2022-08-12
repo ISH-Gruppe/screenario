@@ -84,6 +84,27 @@ export default function Spinwheel() {
     setActiveSpinlistAsString(getStringFromPassedSpinlist(selectedList));
   }
 
+  function handleSpinlistInTextareaChange(textArea) {
+    const spinlistData = getListFromPassedString(textArea.target.value);
+
+    setActiveSpinlist((previousActiveSpinlist) => {
+      const newSpinlist = {
+        name: previousActiveSpinlist.name,
+        data: [],
+      };
+
+      for (let index = 0; index < previousActiveSpinlist.data.length; index++) {
+        newSpinlist.data.push({
+          option: spinlistData[index],
+          style: previousActiveSpinlist.data[index].style,
+        });
+      }
+
+      return newSpinlist;
+    });
+    setActiveSpinlistAsString(textArea.target.value);
+  }
+
   function handleSpinClick() {
     setPrizeNumber(getRandomNumberFromActiveSpinlist());
     setIsSpinning(true);
@@ -101,6 +122,24 @@ export default function Spinwheel() {
     });
 
     return listAsAString;
+  }
+
+  function getListFromPassedString(passedString) {
+    const stringAsList = passedString
+      .split("\n")
+      .filter((n) => n)
+      .slice(-8);
+
+    const requiredNumberOfItems = 8;
+    const missingNumberOfItems = requiredNumberOfItems - stringAsList.length;
+
+    if (missingNumberOfItems !== 0 && missingNumberOfItems > 0) {
+      for (let index = 0; index < missingNumberOfItems; index++) {
+        stringAsList.push("");
+      }
+    }
+
+    return stringAsList;
   }
 
   return (
@@ -142,6 +181,7 @@ export default function Spinwheel() {
         <div>
           <TextareaAutosize
             value={activeSpinlistAsString}
+            onChange={handleSpinlistInTextareaChange}
             aria-label="Begriffe für das Glücksrad"
             minRows={8}
             placeholder="Es gelten die 8 letzten Begriffe"
