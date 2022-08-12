@@ -57,7 +57,7 @@ export default class WindowManager extends React.PureComponent {
         "stuhlkreis": {
           key: "stuhlkreis",
           open: true,
-          content: <DigitalerStuhlkreisWrapper />,
+          content: <DigitalerStuhlkreisWrapper onHide={this.handleWindowHide} />,
         },
         "timer": {
           key: "timer",
