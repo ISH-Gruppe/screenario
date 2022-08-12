@@ -98,18 +98,18 @@ export default function Spinwheel() {
 
   const [activeSpinlist, setActiveSpinlist] = React.useState(listMovements);
   const [activeSpinlistAsString, setActiveSpinlistAsString] = React.useState(
-    getStringFromPassedSpinlist(activeSpinlist)
+    createStringFromList(activeSpinlist)
   );
   const [prizeNumber, setPrizeNumber] = React.useState(0);
   const [isSpinning, setIsSpinning] = React.useState(false);
 
   function handleSpinlistChange(selectedList) {
     setActiveSpinlist(selectedList);
-    setActiveSpinlistAsString(getStringFromPassedSpinlist(selectedList));
+    setActiveSpinlistAsString(createStringFromList(selectedList));
   }
 
   function handleSpinlistInTextareaChange(textArea) {
-    const spinlistData = getListFromPassedString(textArea.target.value);
+    const spinlistData = createListFromString(textArea.target.value);
 
     setActiveSpinlist((previousActiveSpinlist) => {
       const newSpinlist = {
@@ -138,7 +138,7 @@ export default function Spinwheel() {
     return Math.floor(Math.random() * activeSpinlist.data.length);
   }
 
-  function getStringFromPassedSpinlist(passedList) {
+  function createStringFromList(passedList) {
     let listAsAString = "";
 
     passedList.data.forEach((listEntry) => {
@@ -148,7 +148,7 @@ export default function Spinwheel() {
     return listAsAString;
   }
 
-  function getListFromPassedString(passedString) {
+  function createListFromString(passedString) {
     const stringAsList = passedString
       .split("\n")
       .filter((n) => n)
