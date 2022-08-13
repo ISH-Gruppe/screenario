@@ -17,9 +17,17 @@ export default function GroupMaker() {
   const [groups, setGroups] = React.useState([]);
 
   function handleGroupChange(newGroups) {
-    console.log("handleGroupChange parent, ", newGroups);
     setGroups(newGroups);
-    setActiveStep("1")
+    setActiveStep("1");
+  }
+
+  function onStepBackRequest() {
+    setGroups(groups);
+    setActiveStep("0");
+  }
+
+  function onRecreateGroupsRequest() {
+    // TODO: Maybe later haha
   }
 
   return (
@@ -28,7 +36,7 @@ export default function GroupMaker() {
         <Step onClick={() => setActiveStep("0")}>
           <StepLabel>Namensliste</StepLabel>
         </Step>
-        <Step onClick={() => setActiveStep("1")}>
+        <Step>
           <StepLabel>Gruppenverteilung</StepLabel>
         </Step>
       </Stepper>
@@ -39,7 +47,13 @@ export default function GroupMaker() {
         {activeStep === "0" && (
           <EntryView groups={groups} onGroupChange={handleGroupChange} />
         )}
-        {activeStep === "1" && <ResultView groups={groups} />}
+        {activeStep === "1" && (
+          <ResultView
+            groups={groups}
+            onStepBackRequest={onStepBackRequest}
+            onRecreateGroupsRequest={onRecreateGroupsRequest}
+          />
+        )}
       </div>
     </>
   );
