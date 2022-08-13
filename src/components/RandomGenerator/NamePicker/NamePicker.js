@@ -1,6 +1,9 @@
 import React from "react";
+import "./NamePicker.scss";
 import TextareaWordlist from "../TextareaWordlist";
 import RandomPicker from "./RandomPicker/RandomPicker";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 export default function NamePicker() {
   const initialNamesList = [
@@ -23,6 +26,7 @@ export default function NamePicker() {
     "Josephine",
   ];
   const [nameList, setNameList] = React.useState(initialNamesList);
+  const [checked, setChecked] = React.useState([true]);
 
   function handleWordlistChange(updatedList) {
     console.log(updatedList);
@@ -32,9 +36,20 @@ export default function NamePicker() {
   return (
     <>
       <RandomPicker items={nameList} />
-      {/* TODO: Add a maxNumberOfItemsPerList (optional)
-          Default: none/ as long as the list
-      */}
+
+      <div className="checkbox-container">
+        <FormControlLabel
+          label="Gewählte Namen merken"
+          control={
+            <Checkbox
+              size="small"
+              checked={checked}
+              onChange={(event) => setChecked(event.target.checked)}
+            />
+          }
+        />
+      </div>
+
       <TextareaWordlist
         valueAsList={initialNamesList}
         handleWordlistChange={handleWordlistChange}
