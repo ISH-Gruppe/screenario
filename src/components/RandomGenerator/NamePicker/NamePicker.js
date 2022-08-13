@@ -24,14 +24,24 @@ export default function NamePicker() {
   ];
   const [nameList, setNameList] = React.useState(initialNamesList);
 
-  function handleWordlistChange(listAsAString) {
-    console.log(listAsAString);
+  function handleWordlistChange(updatedList) {
+    console.log(updatedList);
+    setNameList(updatedList);
   }
 
   return (
     <>
       <RandomPicker items={nameList} />
-      <TextareaWordlist handleWordlistChange={handleWordlistChange} minRows="8" placeholder="" ariaLabel="" />
+      {/* TODO: Add a maxNumberOfItemsPerList (optional)
+          Default: none/ as long as the list
+      */}
+      <TextareaWordlist
+        valueAsList={initialNamesList}
+        handleWordlistChange={handleWordlistChange}
+        minRows="8"
+        placeholder="Hier einen Namen pro Zeile einfügen "
+        ariaLabel="Namensfeld für zufällige Auslosung von Namen"
+      />
     </>
   );
 }

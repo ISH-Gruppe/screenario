@@ -5,6 +5,7 @@ import TextareaAutosize from "@mui/material/TextareaAutosize";
 import { Stack } from "@mui/system";
 import Button from "@mui/material/Button";
 
+// TODO: Spinwheel doesn't yet use the generalized TextareaWordlist component
 export default function Spinwheel() {
   const listNumbers = {
     name: "NUMBERS",

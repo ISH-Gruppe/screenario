@@ -4,6 +4,10 @@ import TextareaAutosize from "@mui/material/TextareaAutosize";
 export default function TextareaWordlist(props) {
   const [textString, setTextString] = React.useState(createStringFromList([]));
 
+  React.useEffect(() => {
+    setTextString(createStringFromList(props.valueAsList));
+  }, props.valueAsList);
+
   function handleSpinlistInTextareaChange(textArea) {
     setTextString(textArea.target.value);
     props.handleWordlistChange(createListFromString(textArea.target.value));
@@ -20,12 +24,15 @@ export default function TextareaWordlist(props) {
   }
 
   function createListFromString(passedString) {
+    const requiredNumberOfItems = props.maxNumberOfItemsPerList
+      ? props.maxNumberOfItemsPerList
+      : 0;
+
     const stringAsList = passedString
       .split("\n")
       .filter((n) => n)
-      .slice(-8);
+      .slice(-requiredNumberOfItems);
 
-    const requiredNumberOfItems = 8;
     const missingNumberOfItems = requiredNumberOfItems - stringAsList.length;
 
     if (missingNumberOfItems !== 0 && missingNumberOfItems > 0) {
@@ -35,6 +42,16 @@ export default function TextareaWordlist(props) {
     }
 
     return stringAsList;
+  }
+
+  function createStringFromList(passedList) {
+    let listAsAString = "";
+
+    passedList.forEach((listEntry) => {
+      listAsAString += listEntry + "\n";
+    });
+
+    return listAsAString;
   }
 
   return (
