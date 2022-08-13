@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./RandomPicker.scss"
+import "./RandomPicker.scss";
 
 /* Courtesy of https://codepen.io/paulborm/pen/pYVYve - thanks a lot! */
 export default class RandomPicker extends React.PureComponent {
@@ -29,6 +29,7 @@ export default class RandomPicker extends React.PureComponent {
     setTimeout(() => {
       if (this.state.isRunning) {
         this.stop();
+        this.props.onChoiceChange(this.state.currentChoice);
       }
     }, this.duration);
   }
@@ -50,7 +51,8 @@ export default class RandomPicker extends React.PureComponent {
   }
 
   setChoice() {
-    this.setState({ currentChoice: this.pickChoice() });
+    const newChoice = this.pickChoice();
+    this.setState({ currentChoice: newChoice });
   }
 
   render() {
@@ -107,13 +109,13 @@ export class RandomPickerControls extends React.PureComponent {
         >
           {isRunning ? "Stop" : "Auslosen"}
         </button>
-        <button
+        {/* <button
           disabled={isRunning || !hasChoice}
           class="RandomPicker__button RandomPicker__button--reset"
           onClick={reset}
         >
-          Zurücksetzen
-        </button>
+          zurücksetzen
+        </button> */}
       </div>
     );
   }

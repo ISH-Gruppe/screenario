@@ -26,16 +26,59 @@ export default function NamePicker() {
     "Josephine",
   ];
   const [nameList, setNameList] = React.useState(initialNamesList);
-  const [checked, setChecked] = React.useState([true]);
+  const [availableNamesToDraw, setNameAvailableNamesToDraw] =
+    React.useState(nameList);
+
+  const [rememberChosen, setRememberChosen] = React.useState(true);
+
+  function handleRememberChosenChange(event) {
+    if (!event.target.checked) {
+      resetAvailableNamesToDraw(nameList);
+    }
+
+    setRememberChosen(event.target.checked);
+  }
 
   function handleWordlistChange(updatedList) {
-    console.log(updatedList);
+    // console.log(updatedList);
     setNameList(updatedList);
+    resetAvailableNamesToDraw(updatedList);
+  }
+
+  function handleChoiceChange(selectedName) {
+    // console.log("selectedName ", selectedName);
+
+    if (rememberChosen) {
+      // Remove choice from array
+      // Reset the array if it's empty after removal
+
+      setNameAvailableNamesToDraw((prevAvailableNamesToDraw) => {
+        // const leftNamesToDraw = [...prevAvailableNamesToDraw];
+        const leftNamesToDraw = prevAvailableNamesToDraw.filter(
+          (name) => selectedName !== name
+        );
+
+        // console.log("leftNamesToDraw ", leftNamesToDraw);
+
+        if (leftNamesToDraw.length > 0) {
+          return leftNamesToDraw;
+        } else {
+          return nameList;
+        }
+      });
+    }
+  }
+
+  function resetAvailableNamesToDraw(newNameList) {
+    setNameAvailableNamesToDraw(newNameList);
   }
 
   return (
     <>
-      <RandomPicker items={nameList} />
+      <RandomPicker
+        items={availableNamesToDraw}
+        onChoiceChange={handleChoiceChange}
+      />
 
       <div className="checkbox-container">
         <FormControlLabel
@@ -43,8 +86,8 @@ export default function NamePicker() {
           control={
             <Checkbox
               size="small"
-              checked={checked}
-              onChange={(event) => setChecked(event.target.checked)}
+              checked={rememberChosen}
+              onChange={handleRememberChosenChange}
             />
           }
         />
