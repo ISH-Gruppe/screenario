@@ -61,7 +61,12 @@ export default function TextareaWordlist(props) {
       aria-label={props.ariaLabel}
       minRows={props.minRows}
       placeholder={props.placeholder}
-      style={{ width: "100%", height: "100%" }}
+      style={{
+        width: "100%",
+        height: "100%",
+        minWidth: "100%",
+        maxWidth: "100%",
+      }}
     />
   );
 }
