@@ -35,6 +35,7 @@ export default function BaseWindow({ id, title, children, onReset, onHide }) {
           onClick={handleReset}
           variant="outlined"
           size="small"
+          id={id + "-reset"}
         >
           Reset
         </Button>
