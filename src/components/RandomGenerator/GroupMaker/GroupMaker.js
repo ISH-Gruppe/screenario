@@ -14,6 +14,12 @@ const steps = ["Select master blaster campaign settings", "Create an ad group"];
 
 export default function GroupMaker() {
   const [activeStep, setActiveStep] = React.useState("0");
+  const [groups, setGroups] = React.useState([]);
+
+  function handleGroupChange(newGroups) {
+    console.log("handleGroupChange parent, ", newGroups);
+    setGroups(newGroups);
+  }
 
   return (
     <>
@@ -28,9 +34,11 @@ export default function GroupMaker() {
 
       {/* <HorizontalLinearStepper /> */}
 
-      <div style={{paddingTop: "1.5rem"}}>
-      {activeStep === "0" && <EntryView />}
-      {activeStep === "1" && <ResultView />}
+      <div style={{ paddingTop: "1.5rem" }}>
+        {activeStep === "0" && (
+          <EntryView groups={groups} onGroupChange={handleGroupChange} />
+        )}
+        {activeStep === "1" && <ResultView groups={groups} />}
       </div>
     </>
   );
