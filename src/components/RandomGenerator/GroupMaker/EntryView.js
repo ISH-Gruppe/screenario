@@ -32,12 +32,89 @@ export default function NameView(props) {
 
   const [nameList, setNameList] = React.useState(initialNamesList);
   const [groups, setGroups] = React.useState([]);
-  const [numberOfGroups, setNumberOfGroups] = React.useState();
+  const [numberOfGroups, setNumberOfGroups] = React.useState(0);
   const [numberOfPeoplePerGroup, setNumberOfPeoplePerGroup] = React.useState();
 
-  function handleWordlistChange(updatedList) {
+  function handleNamelistChange(updatedList) {
     // console.log(updatedList);
     setNameList(updatedList);
+  }
+
+  function incrementNumberGroups() {
+    setNumberOfGroups((prevGroupSize) => {
+      return prevGroupSize + 1;
+    });
+  }
+
+  function decrementNumberOfGroups() {
+    setNumberOfGroups((prevGroupSize) => {
+      return prevGroupSize - 1;
+    });
+  }
+
+  function createNewGroups() {
+    const namesShuffled = shuffle(nameList);
+
+    // Create groups based on the requested _quantity of groups_
+    return chunkify(namesShuffled, numberOfGroups, true);
+  }
+
+  function submitCreatedGroups() {
+    const newGroups = createNewGroups();
+    props.onGroupChange(newGroups);
+  }
+
+  /* Thanks to https://stackoverflow.com/a/8189268/11515036 */
+  function chunkify(a, n, balanced) {
+    if (n < 2) return [a];
+
+    var len = a.length,
+      out = [],
+      i = 0,
+      size;
+
+    if (len % n === 0) {
+      size = Math.floor(len / n);
+      while (i < len) {
+        out.push(a.slice(i, (i += size)));
+      }
+    } else if (balanced) {
+      while (i < len) {
+        size = Math.ceil((len - i) / n--);
+        out.push(a.slice(i, (i += size)));
+      }
+    } else {
+      n--;
+      size = Math.floor(len / n);
+      if (len % size === 0) size--;
+      while (i < size * n) {
+        out.push(a.slice(i, (i += size)));
+      }
+      out.push(a.slice(size * n));
+    }
+
+    return out;
+  }
+
+  /* Thanks to https://stackoverflow.com/a/2450976/11515036 */
+  function shuffle(array) {
+    let currentIndex = array.length,
+      randomIndex;
+
+    // While there remain elements to shuffle.
+    while (currentIndex != 0) {
+      // Pick a remaining element.
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+
+      // And swap it with the current element.
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex],
+        array[currentIndex],
+      ];
+    }
+
+    return array;
   }
 
   return (
@@ -53,8 +130,8 @@ export default function NameView(props) {
         >
           <span className="action-caption">Folgende Personen</span>
           <TextareaWordlist
-            valueAsList={[]}
-            handleWordlistChange={handleWordlistChange}
+            valueAsList={nameList}
+            handleWordlistChange={handleNamelistChange}
             minRows="8"
             placeholder="Hier einen Namen pro Zeile einfügen "
             ariaLabel="Namensfeld für zufällige Auslosung von Namen"
@@ -68,7 +145,7 @@ export default function NameView(props) {
         <Stack className="vertical-stack" direction="column" spacing={2}>
           <span className="action-caption">verteilen auf</span>
           <IconButton
-            onClick={() => props.onTimerUpdate(0, 0, 1)}
+            onClick={incrementNumberGroups}
             aria-label="Timer um eine Stunde erweitern"
             size="small"
           >
@@ -76,13 +153,12 @@ export default function NameView(props) {
           </IconButton>
 
           <div>
-            {/* {props.hours < 10 && <span className="action-caption">0</span>} */}
-            <span className="action-caption">3 Gruppen</span>
+            <span className="action-caption">{numberOfGroups} Gruppen</span>
           </div>
 
           <IconButton
-            onClick={() => props.onTimerUpdate(0, 0, -1)}
-            disabled={props.hours === 0}
+            onClick={decrementNumberOfGroups}
+            disabled={numberOfGroups === 0}
             aria-label="Timer um eine Stunde reduzieren"
             size="small"
           >
@@ -96,32 +172,16 @@ export default function NameView(props) {
 
         <Stack className="vertical-stack" spacing={2}>
           <span className="action-caption">mit je</span>
-          <IconButton
-            onClick={() => props.onTimerUpdate(0, 1)}
-            aria-label="Timer um eine Minute reduzieren"
-            size="small"
-          >
-            <AddIcon />
-          </IconButton>
 
           <div>
-            {/* {props.hours < 10 && <span className="action-caption">0</span>} */}
             <span className="action-caption">2 Teilnehmenden</span>
           </div>
-
-          <IconButton
-            onClick={() => props.onTimerUpdate(0, -1)}
-            aria-label="Timer um eine Minute reduzieren"
-            disabled={props.hours === 0 && props.minutes === 0}
-            size="small"
-          >
-            <RemoveIcon />
-          </IconButton>
         </Stack>
       </Stack>
-
       <div className="create-groups-button">
-        <Button variant="contained">Gruppen bilden</Button>
+        <Button onClick={submitCreatedGroups} variant="contained">
+          Gruppen bilden
+        </Button>
       </div>
     </>
   );
