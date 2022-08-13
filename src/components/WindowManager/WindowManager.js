@@ -5,7 +5,6 @@ import Toolbar from "../Toolbar/Toolbar";
 import Notepad from "../Notepad/Notepad";
 import QrcodeGenerator from "../QrcodeGenerator/QrcodeGenerator";
 import Whiteboard from "../Whiteboard/Whiteboard";
-// import Sketch from "../Whiteboard/Whiteboard";
 
 import DigitalerStuhlkreisWrapper from "../DigitalerStuhlkreisWrapper/DigitalerStuhlkreisWrapper";
 
@@ -60,7 +59,9 @@ export default class WindowManager extends React.PureComponent {
         "stuhlkreis": {
           key: "stuhlkreis",
           open: true,
-          content: <DigitalerStuhlkreisWrapper onHide={this.handleWindowHide} />,
+          content: (
+            <DigitalerStuhlkreisWrapper onHide={this.handleWindowHide} />
+          ),
         },
         "timer": {
           key: "timer",
