@@ -20,7 +20,7 @@ export default function RandomGenerator() {
 
   return (
     <div id="RandomGeneratorWrapper">
-      <BaseWindow title="Gruppengenerator">
+      <BaseWindow title="Zufallsgenerator">
         <div id="RandomGeneratorContent">
           <TabContext value={activeTab}>
             <TabList onChange={updateActiveTab}>
