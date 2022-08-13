@@ -32,6 +32,8 @@ export default function NameView(props) {
 
   const [nameList, setNameList] = React.useState(initialNamesList);
   const [numberOfGroups, setNumberOfGroups] = React.useState(2);
+  const [showHintNotEnoughGroups, setShowHintNotEnoughGroups] =
+    React.useState(false);
   const [numberOfPeoplePerGroup, setNumberOfPeoplePerGroup] = React.useState();
 
   React.useEffect(() => {
@@ -41,6 +43,7 @@ export default function NameView(props) {
   React.useEffect(() => {
     if (nameList.length >= 1) {
       setNumberOfGroups(1);
+      setShowHintNotEnoughGroups(false);
     }
     if (nameList.length === 0) {
       setNumberOfGroups(0);
@@ -73,8 +76,12 @@ export default function NameView(props) {
   }
 
   function submitCreatedGroups() {
-    const newGroups = createNewGroups();
-    props.onGroupChange(newGroups);
+    if (numberOfGroups > 0) {
+      const newGroups = createNewGroups();
+      props.onGroupChange(newGroups);
+    } else {
+      setShowHintNotEnoughGroups(true);
+    }
   }
 
   function calculateNumberOfPeoplePerGroup() {
@@ -226,6 +233,12 @@ export default function NameView(props) {
         >
           Gruppen bilden
         </Button>
+      </div>
+
+      <div className="create-groups-button error-hint">
+        {showHintNotEnoughGroups && (
+          <small>Nicht genügend Gruppen oder Personen</small>
+        )}
       </div>
     </>
   );
