@@ -32,8 +32,12 @@ export default function NameView(props) {
 
   const [nameList, setNameList] = React.useState(initialNamesList);
   const [groups, setGroups] = React.useState([]);
-  const [numberOfGroups, setNumberOfGroups] = React.useState(0);
+  const [numberOfGroups, setNumberOfGroups] = React.useState(2);
   const [numberOfPeoplePerGroup, setNumberOfPeoplePerGroup] = React.useState();
+
+  React.useEffect(() => {
+    calculateNumberOfPeoplePerGroup();
+  }, [numberOfGroups]);
 
   function handleNamelistChange(updatedList) {
     // console.log(updatedList);
@@ -62,6 +66,27 @@ export default function NameView(props) {
   function submitCreatedGroups() {
     const newGroups = createNewGroups();
     props.onGroupChange(newGroups);
+  }
+
+  function calculateNumberOfPeoplePerGroup() {
+    const numberOfNames = nameList.length;
+    let estimatedGroupSize;
+
+    if (numberOfNames === numberOfGroups || numberOfNames < numberOfGroups) {
+      estimatedGroupSize = 1 + "";
+    } else {
+      const division = numberOfNames / numberOfGroups;
+
+      if (Number.isInteger(division)) {
+        estimatedGroupSize = division + "";
+      } else {
+        const downRoundedDivision = division | 0;
+        estimatedGroupSize =
+          downRoundedDivision + "-" + (downRoundedDivision + 1);
+      }
+    }
+
+    setNumberOfPeoplePerGroup(estimatedGroupSize);
   }
 
   /* Thanks to https://stackoverflow.com/a/8189268/11515036 */
@@ -119,7 +144,6 @@ export default function NameView(props) {
 
   return (
     <>
-      {" "}
       <Stack direction="row" spacing={2}>
         <div
           style={{
@@ -146,6 +170,7 @@ export default function NameView(props) {
           <span className="action-caption">verteilen auf</span>
           <IconButton
             onClick={incrementNumberGroups}
+            disabled={numberOfGroups === nameList.length}
             aria-label="Timer um eine Stunde erweitern"
             size="small"
           >
@@ -158,7 +183,7 @@ export default function NameView(props) {
 
           <IconButton
             onClick={decrementNumberOfGroups}
-            disabled={numberOfGroups === 0}
+            disabled={numberOfGroups === 1}
             aria-label="Timer um eine Stunde reduzieren"
             size="small"
           >
@@ -174,12 +199,18 @@ export default function NameView(props) {
           <span className="action-caption">mit je</span>
 
           <div>
-            <span className="action-caption">2 Teilnehmenden</span>
+            <span className="action-caption">
+              {numberOfPeoplePerGroup} Teilnehmenden
+            </span>
           </div>
         </Stack>
       </Stack>
       <div className="create-groups-button">
-        <Button onClick={submitCreatedGroups} variant="contained">
+        <Button
+          onClick={submitCreatedGroups}
+          disabled={numberOfGroups === 0}
+          variant="contained"
+        >
           Gruppen bilden
         </Button>
       </div>

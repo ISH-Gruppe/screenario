@@ -19,6 +19,7 @@ export default function GroupMaker() {
   function handleGroupChange(newGroups) {
     console.log("handleGroupChange parent, ", newGroups);
     setGroups(newGroups);
+    setActiveStep("1")
   }
 
   return (
