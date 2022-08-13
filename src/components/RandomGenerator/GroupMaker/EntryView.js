@@ -31,7 +31,6 @@ export default function NameView(props) {
   ];
 
   const [nameList, setNameList] = React.useState(initialNamesList);
-  const [groups, setGroups] = React.useState([]);
   const [numberOfGroups, setNumberOfGroups] = React.useState(2);
   const [numberOfPeoplePerGroup, setNumberOfPeoplePerGroup] = React.useState();
 
@@ -39,8 +38,18 @@ export default function NameView(props) {
     calculateNumberOfPeoplePerGroup();
   }, [numberOfGroups]);
 
+  React.useEffect(() => {
+    if (nameList.length >= 1) {
+      setNumberOfGroups(1);
+    }
+    if (nameList.length === 0) {
+      setNumberOfGroups(0);
+    }
+
+    calculateNumberOfPeoplePerGroup();
+  }, [nameList]);
+
   function handleNamelistChange(updatedList) {
-    // console.log(updatedList);
     setNameList(updatedList);
   }
 
@@ -84,6 +93,10 @@ export default function NameView(props) {
         estimatedGroupSize =
           downRoundedDivision + "-" + (downRoundedDivision + 1);
       }
+    }
+
+    if (numberOfNames === 0 || numberOfGroups === 0) {
+      estimatedGroupSize = 0 + "";
     }
 
     setNumberOfPeoplePerGroup(estimatedGroupSize);
@@ -183,7 +196,7 @@ export default function NameView(props) {
 
           <IconButton
             onClick={decrementNumberOfGroups}
-            disabled={numberOfGroups === 1}
+            disabled={numberOfGroups <= 1}
             aria-label="Timer um eine Stunde reduzieren"
             size="small"
           >
