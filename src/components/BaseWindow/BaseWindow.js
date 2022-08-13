@@ -20,7 +20,7 @@ export default function BaseWindow({ id, title, children, onReset, onHide }) {
   }
 
   return (
-    <Card className={"window window-" + title + " "} sx={{ minWidth: 275 }}>
+    <Card className={"window window-" + id + " "} sx={{ minWidth: 275 }}>
       <Box
         className="drag-handle"
         sx={{
@@ -51,8 +51,8 @@ export default function BaseWindow({ id, title, children, onReset, onHide }) {
         </IconButton>
       </Box>
 
-      <CardContent>
-        <Container disableGutters={true} className="window-content">
+      <CardContent className="window-content">
+        <Container disableGutters={true} className="content-container">
           {children}
         </Container>
       </CardContent>
