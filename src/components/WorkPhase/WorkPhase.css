@@ -1,0 +1,43 @@
+.container {
+  /* padding: 15px; */
+  overflow: scroll;
+}
+
+ul.images {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-gap: 15px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 100%;
+}
+
+ul.images > li {
+  position: relative;
+  display: flex;
+  min-height: 100px;
+  max-height: 200px;
+  flex-direction: column;
+}
+
+ul.images > li img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+ul.images >  p {
+  display: block;
+  width: 100%;
+}
+
+.fullscreen-image {
+  scale: 1;
+}
+
+ul. @media (max-width: 567px) {
+  ul.images {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+}

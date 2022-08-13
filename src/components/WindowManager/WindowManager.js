@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Timer from "../Timer/Timer";
 import Toolbar from "../Toolbar/Toolbar";
 import Notepad from "../Notepad/Notepad";
+import WorkPhase from "../WorkPhase/WorkPhase";
 import QrcodeGenerator from "../QrcodeGenerator/QrcodeGenerator";
 import DigitalerStuhlkreisWrapper from "../DigitalerStuhlkreisWrapper/DigitalerStuhlkreisWrapper";
 
@@ -57,7 +58,9 @@ export default class WindowManager extends React.PureComponent {
         "stuhlkreis": {
           key: "stuhlkreis",
           open: true,
-          content: <DigitalerStuhlkreisWrapper onHide={this.handleWindowHide} />,
+          content: (
+            <DigitalerStuhlkreisWrapper onHide={this.handleWindowHide} />
+          ),
         },
         "timer": {
           key: "timer",
@@ -87,7 +90,7 @@ export default class WindowManager extends React.PureComponent {
         "work-phase": {
           key: "work-phase",
           open: true,
-          content: <div> work phase </div>,
+          content: <WorkPhase onHide={this.handleWindowHide} />,
         },
         "notepad": {
           key: "notepad",
