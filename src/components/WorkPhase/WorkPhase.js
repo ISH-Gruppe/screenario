@@ -78,6 +78,14 @@ export default function WorkPhase({ id, visible, onHide, onChange }) {
     );
   });
 
+  function hideOrShowGalleries() {
+    if (open) {
+      return { opacity: "0", pointerEvents: "none" };
+    } else {
+      return { opacity: "1" };
+    }
+  }
+
   return (
     <BaseWindow
       id="work-phase"
@@ -88,13 +96,13 @@ export default function WorkPhase({ id, visible, onHide, onChange }) {
       <div
         id="image-popup"
         onClick={() => {
-          setPopupImage(<div> </div>);
+          setPopupImage(<> </>);
           setOpen(false);
         }}
       >
         {popupImage}
       </div>
-      <div className="galleries" style={{ opacity: open ? "0" : "1" }}>
+      <div className="galleries" style={hideOrShowGalleries()}>
         {galleries}
       </div>
     </BaseWindow>
