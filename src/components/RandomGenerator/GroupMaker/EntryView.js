@@ -148,7 +148,7 @@ export default function EntryView(props) {
   return (
     <>
       <Stack direction="row" spacing={2}>
-        <Stack className="vertical-stack" spacing={2}>
+        <Stack className="vertical-stack textarea" spacing={2}>
           <div className="name-list">
             <TextareaWordlist
               valueAsList={nameList}
@@ -167,14 +167,16 @@ export default function EntryView(props) {
 
         <Stack className="vertical-stack" spacing={2}>
           {/* <p className="action-caption">verteilen auf</p> */}
-          <IconButton
-            onClick={incrementNumberGroups}
-            disabled={numberOfGroups === nameList.length}
-            aria-label="Timer um eine Stunde erweitern"
-            size="small"
-          >
-            <AddIcon />
-          </IconButton>
+          <div className="button-container">
+            <IconButton
+              onClick={incrementNumberGroups}
+              disabled={numberOfGroups === nameList.length}
+              aria-label="Timer um eine Stunde erweitern"
+              size="small"
+            >
+              <AddIcon />
+            </IconButton>
+          </div>
 
           <div>
             <p className="action-caption">
@@ -184,14 +186,16 @@ export default function EntryView(props) {
             </p>
           </div>
 
-          <IconButton
-            onClick={decrementNumberOfGroups}
-            disabled={numberOfGroups <= 1}
-            aria-label="Timer um eine Stunde reduzieren"
-            size="small"
-          >
-            <RemoveIcon />
-          </IconButton>
+          <div className="button-container">
+            <IconButton
+              onClick={decrementNumberOfGroups}
+              disabled={numberOfGroups <= 1}
+              aria-label="Timer um eine Stunde reduzieren"
+              size="small"
+            >
+              <RemoveIcon />
+            </IconButton>
+          </div>
         </Stack>
 
         <div className="arrow-right-icon">
@@ -199,12 +203,10 @@ export default function EntryView(props) {
         </div>
 
         <Stack className="vertical-stack" spacing={2}>
-          <span className="action-caption">mit je</span>
-
           <span className="action-caption">
             <span className="group-numbers">{numberOfPeoplePerGroup}</span>
             <br />
-            Teilnehmenden
+            Teilnehmende pro Gruppe
           </span>
         </Stack>
       </Stack>

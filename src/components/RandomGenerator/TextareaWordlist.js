@@ -56,6 +56,8 @@ export default function TextareaWordlist(props) {
         height: "100%",
         minWidth: "100%",
         maxWidth: "100%",
+        resize: "none",
+        fontSize: "1rem",
       }}
     />
   );
