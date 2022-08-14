@@ -1,0 +1,16 @@
+.sound-button {
+  width: 200px;
+}
+
+#content-container-soundboard {
+  overflow: scroll;
+  max-height: 100%;
+}
+#soundboardButtonWrapper {
+  display: grid;
+  justify-content: center;
+  justify-items: center;
+  grid-template-columns: repeat(auto-fill, 200px);
+  column-gap: 10px;
+  row-gap: 10px;
+}

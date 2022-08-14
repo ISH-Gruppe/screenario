@@ -5,6 +5,7 @@ import Toolbar from "../Toolbar/Toolbar";
 import Notepad from "../Notepad/Notepad";
 import WorkPhase from "../WorkPhase/WorkPhase";
 import QrcodeGenerator from "../QrcodeGenerator/QrcodeGenerator";
+import Soundboard from "../Soundboard/Soundboard";
 import DigitalerStuhlkreisWrapper from "../DigitalerStuhlkreisWrapper/DigitalerStuhlkreisWrapper";
 
 import "./WindowManager.css";
@@ -80,7 +81,7 @@ export default class WindowManager extends React.PureComponent {
         "soundboard": {
           key: "soundboard",
           open: true,
-          content: <div> soundboard </div>,
+          content: <Soundboard onHide={this.handleWindowHide} />,
         },
         "qrcode-generator": {
           key: "qrcode-generator",
