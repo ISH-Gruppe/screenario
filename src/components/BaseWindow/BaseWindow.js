@@ -52,7 +52,11 @@ export default function BaseWindow({ id, title, children, onReset, onHide }) {
       </Box>
 
       <CardContent className="window-content">
-        <Container disableGutters={true} className="content-container">
+        <Container
+          disableGutters={true}
+          className="content-container"
+          id={`content-container-${id}`}
+        >
           {children}
         </Container>
       </CardContent>
