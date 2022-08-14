@@ -10,30 +10,24 @@ import * as Playlists from "../music/Playlists";
 
 import useAudio from "./useAudio";
 import testAudio from "../music/gaming/04 - NoBan Stream - Dummy Training.mp3";
+import testAudio2 from "../music/gaming/04 - NoBan Stream - Dummy Training.mp3";
 
 export default function MusicSelector(props) {
   const [audio, setAudio] = React.useState(new Audio(testAudio));
   const [isMusicPlaying, setIsMusicPlaying] = React.useState(false);
 
   const [selectedPlaylistGenre, setSelectedPlaylistGenre] = React.useState(
-    PlaylistsEnum.NO_MUSIC
+    PlaylistsEnum.PIANO
   );
   const [activeShuffledPlaylist, setActiveShuffledPlaylist] = React.useState(
     []
   );
-
-  // React to the ending of a song
-  React.useEffect(() => {
-    audio.addEventListener("ended", () => setIsMusicPlaying(false));
-
-    return () => {
-      audio.removeEventListener("ended", () => setIsMusicPlaying(false));
-    };
-  }, []);
+  const [currentIndexInPlaylist, setCurrentIndexInPlaylist] = React.useState(0);
 
   // React to isTimerRunning changes
   React.useEffect(() => {
     if (props.isTimerRunning || isMusicPlaying) {
+      console.log("useEffect toggleMusicPlaying");
       toggleMusicPlaying();
     }
   }, [props.isTimerRunning]);
@@ -43,35 +37,31 @@ export default function MusicSelector(props) {
     audio.volume = props.musicVolume;
   }, [props.musicVolume]);
 
+  /*
+   * Reacting to playlist changes happens in two stages:
+   * 1. Update selectedPlaylist state
+   * 2. Update audio state
+   */
   function handlePlaylistChange(event) {
     console.log("handlePlaylistChange ", event.target.value);
     setSelectedPlaylistGenre(event.target.value);
 
-    // if(activeShuffledPlaylist === undefined) {
-    const playlist = createShuffledPlaylist(event.target.value);
-    setActiveShuffledPlaylist(playlist);
-    const trackUrl = "../music" + activeShuffledPlaylist[0].link;
-    setAudio(trackUrl);
-    // console.log("track: ", trackToPlay);
+    if (event.target.value !== PlaylistsEnum.NO_MUSIC) {
+      // 1. Reshuffle playlist & update state
+      const playlist = createShuffledPlaylist(event.target.value);
+      setActiveShuffledPlaylist(playlist);
+      setCurrentIndexInPlaylist(0);
 
-    // }
+      // 2. Update audio state -> will be undefined if NO_MUSIC is selected
+      const newTrackUrl = "../music" + activeShuffledPlaylist[0].link;
+      setAudio(newTrackUrl);
 
-    // Changing the playlist means shuffling it and changing the audio
-    // -> createShuffledPlaylist()
-
+      // console.log("track: ", trackToPlay);
+    } else {
+      audio.pause();
+      setAudio(undefined);
+    }
   }
-
-  // function toggleMusicPlaying() {
-  //   // createShuffledPlaylist(selectedPlaylistGenre);
-
-  //   // setAudio(trackToPlay)
-  //   // Play first song
-  //   toggle();
-
-  //   // TODO: How do we track completion of a song?
-  //   // a.) Pass a function to be called in useAudio
-  //   // b.) Pull useAudios listener up
-  // }
 
   /*
    *
@@ -86,6 +76,35 @@ export default function MusicSelector(props) {
 
     inversionOfIsMusicPlaying ? audio.play() : audio.pause();
     setIsMusicPlaying(inversionOfIsMusicPlaying);
+    console.log("inversionOfIsMusicPlaying ", inversionOfIsMusicPlaying);
+
+    if (inversionOfIsMusicPlaying) {
+      audio.onended = () => {
+        const nextIndexInPlaylist =
+          currentIndexInPlaylist + 1 < activeShuffledPlaylist.length
+            ? currentIndexInPlaylist + 1
+            : 0;
+        const nextTitleInPlaylist = activeShuffledPlaylist[nextIndexInPlaylist];
+
+        console.log("currentIndexInPlaylist ", currentIndexInPlaylist);
+        console.log("nextIndexInPlaylist ", nextIndexInPlaylist);
+
+        setCurrentIndexInPlaylist(nextIndexInPlaylist);
+        setAudio(nextTitleInPlaylist);
+      };
+
+      audio.onpause = () => {
+        console.log("audio.onpause");
+        const nextIndexInPlaylist =
+          currentIndexInPlaylist + 1 < activeShuffledPlaylist.length
+            ? currentIndexInPlaylist + 1
+            : 0;
+        const nextTitleInPlaylist = activeShuffledPlaylist[nextIndexInPlaylist];
+
+        console.log("currentIndexInPlaylist ", currentIndexInPlaylist);
+        console.log("nextIndexInPlaylist ", nextIndexInPlaylist);
+      };
+    }
   }
 
   /*
