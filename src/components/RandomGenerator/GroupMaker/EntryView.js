@@ -9,7 +9,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import TextareaWordlist from "../TextareaWordlist";
 
-export default function NameView(props) {
+export default function EntryView(props) {
   const initialNamesList = [
     "Marcelo",
     "Lizzette",

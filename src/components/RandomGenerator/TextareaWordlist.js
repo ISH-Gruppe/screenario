@@ -13,16 +13,6 @@ export default function TextareaWordlist(props) {
     props.handleWordlistChange(createListFromString(textArea.target.value));
   }
 
-  function createStringFromList(passedList) {
-    let listAsAString = "";
-
-    passedList.forEach((listEntry) => {
-      listAsAString += listEntry + "\n";
-    });
-
-    return listAsAString;
-  }
-
   function createListFromString(passedString) {
     const requiredNumberOfItems = props.maxNumberOfItemsPerList
       ? props.maxNumberOfItemsPerList
