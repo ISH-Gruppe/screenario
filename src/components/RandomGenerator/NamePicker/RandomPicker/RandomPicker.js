@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./RandomPicker.scss";
+import Button from "@mui/material/Button";
 
 /* Courtesy of https://codepen.io/paulborm/pen/pYVYve - thanks a lot! */
 export default class RandomPicker extends React.PureComponent {
@@ -101,21 +102,14 @@ export class RandomPickerControls extends React.PureComponent {
 
     return (
       <div className="RandomPicker__controls">
-        <button
-          class={`RandomPicker__button ${
-            isRunning && "RandomPicker__button--stop"
-          }`}
+        {/* This button used to change colors depending on isRunning - let's not do that right now */}
+        <Button
           onClick={isRunning ? stop : start}
+          variant="contained"
+          size="large"
         >
           {isRunning ? "Stop" : "Auslosen"}
-        </button>
-        {/* <button
-          disabled={isRunning || !hasChoice}
-          class="RandomPicker__button RandomPicker__button--reset"
-          onClick={reset}
-        >
-          zurücksetzen
-        </button> */}
+        </Button>
       </div>
     );
   }
