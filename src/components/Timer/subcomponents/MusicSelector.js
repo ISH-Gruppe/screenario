@@ -12,25 +12,39 @@ import useAudio from "./useAudio";
 import testAudio from "../music/gaming/04 - NoBan Stream - Dummy Training.mp3";
 
 export default function MusicSelector(props) {
+  const [audio, setAudio] = React.useState(new Audio(testAudio));
+  const [isMusicPlaying, setIsMusicPlaying] = React.useState(false);
+
   const [selectedPlaylistGenre, setSelectedPlaylistGenre] = React.useState(
     PlaylistsEnum.NO_MUSIC
   );
+  const [activeShuffledPlaylist, setActiveShuffledPlaylist] = React.useState(
+    []
+  );
 
-  const [activeShuffledPlaylist, setActiveShuffledPlaylist] = React.useState();
+  // React to the ending of a song
+  React.useEffect(() => {
+    audio.addEventListener("ended", () => setIsMusicPlaying(false));
 
-  const [isMusicPlaying, toggle, audio, setAudio] = useAudio(testAudio);
+    return () => {
+      audio.removeEventListener("ended", () => setIsMusicPlaying(false));
+    };
+  }, []);
 
+  // React to isTimerRunning changes
   React.useEffect(() => {
     if (props.isTimerRunning || isMusicPlaying) {
-      playSelectedMusic();
+      toggleMusicPlaying();
     }
   }, [props.isTimerRunning]);
 
+  // React to volume changes
   React.useEffect(() => {
     audio.volume = props.musicVolume;
   }, [props.musicVolume]);
 
-  const handlePlaylistChange = (event) => {
+  function handlePlaylistChange(event) {
+    console.log("handlePlaylistChange ", event.target.value);
     setSelectedPlaylistGenre(event.target.value);
 
     // if(activeShuffledPlaylist === undefined) {
@@ -44,24 +58,40 @@ export default function MusicSelector(props) {
 
     // Changing the playlist means shuffling it and changing the audio
     // -> createShuffledPlaylist()
-  };
 
-  function playSelectedMusic() {
-    // createShuffledPlaylist(selectedPlaylistGenre);
+  }
 
-    // setAudio(trackToPlay)
-    // Play first song
-    toggle();
+  // function toggleMusicPlaying() {
+  //   // createShuffledPlaylist(selectedPlaylistGenre);
 
-    // TODO: How do we track completion of a song?
-    // a.) Pass a function to be called in useAudio
-    // b.) Pull useAudios listener up
+  //   // setAudio(trackToPlay)
+  //   // Play first song
+  //   toggle();
+
+  //   // TODO: How do we track completion of a song?
+  //   // a.) Pass a function to be called in useAudio
+  //   // b.) Pull useAudios listener up
+  // }
+
+  /*
+   *
+   * This used to be a two piece:
+   * 1. A toggle() function toggled the isMusicPlaying state
+   * 2. A hook listened to these changes and called the appropriate audio function
+   *
+   * Those two are now merged in a single method (that hopefully doesn't add to the confusion)
+   */
+  function toggleMusicPlaying() {
+    const inversionOfIsMusicPlaying = !isMusicPlaying;
+
+    inversionOfIsMusicPlaying ? audio.play() : audio.pause();
+    setIsMusicPlaying(inversionOfIsMusicPlaying);
   }
 
   /*
-   * Check selected playlist genre
-   * Read/ get appropriate song list from file
-   * Create and return new shuffled playlist from song list
+   * Match selected playlist genre
+   * Read/ get appropriate list of available songs for this genre
+   * Create and return a new, shuffled playlist
    *
    * It might return an empty array though if music is not wished for!
    */
