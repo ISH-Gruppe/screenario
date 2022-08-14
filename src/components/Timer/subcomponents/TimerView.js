@@ -10,105 +10,107 @@ import RemoveIcon from "@mui/icons-material/Remove";
 
 export default function TimerView(props) {
   return (
-    <Stack direction="row" spacing={2}>
-      <Stack direction="column" spacing={2}>
-        <div className="button-container">
-          <IconButton
-            onClick={() => props.onTimerUpdate(0, 0, 1)}
-            aria-label="Timer um eine Stunde erweitern"
-            size="small"
-          >
-            <AddIcon />
-          </IconButton>
-        </div>
+    <div className="timer-view">
+      <Stack direction="row" spacing={2}>
+        <Stack direction="column" spacing={2}>
+          <div className="button-container-digits">
+            <IconButton
+              onClick={() => props.onTimerUpdate(0, 0, 1)}
+              aria-label="Timer um eine Stunde erweitern"
+              size="small"
+            >
+              <AddIcon />
+            </IconButton>
+          </div>
 
-        <div>
-          {props.hours < 10 && <span className="timer-digits">0</span>}
-          <span className="timer-digits">{props.hours}</span>
-        </div>
+          <div>
+            {props.hours < 10 && <span className="timer-digits">0</span>}
+            <span className="timer-digits">{props.hours}</span>
+          </div>
 
-        <div className="button-container">
-          <IconButton
-            onClick={() => props.onTimerUpdate(0, 0, -1)}
-            disabled={props.hours === 0}
-            aria-label="Timer um eine Stunde reduzieren"
-            size="small"
-          >
-            <RemoveIcon />
-          </IconButton>
-        </div>
+          <div className="button-container-digits">
+            <IconButton
+              onClick={() => props.onTimerUpdate(0, 0, -1)}
+              disabled={props.hours === 0}
+              aria-label="Timer um eine Stunde reduzieren"
+              size="small"
+            >
+              <RemoveIcon />
+            </IconButton>
+          </div>
+        </Stack>
+
+        <Stack direction="column" spacing={2}>
+          <div className="button-container-digits">
+            <IconButton
+              onClick={() => props.onTimerUpdate(0, 1)}
+              aria-label="Timer um eine Minute reduzieren"
+              size="small"
+            >
+              <AddIcon />
+            </IconButton>
+          </div>
+
+          <div>
+            {props.minutes < 10 && <span className="timer-digits">0</span>}
+            <span className="timer-digits">{props.minutes}</span>
+          </div>
+
+          <div className="button-container-digits">
+            <IconButton
+              onClick={() => props.onTimerUpdate(0, -1)}
+              aria-label="Timer um eine Minute reduzieren"
+              disabled={props.hours === 0 && props.minutes === 0}
+              size="small"
+            >
+              <RemoveIcon />
+            </IconButton>
+          </div>
+        </Stack>
+
+        <Stack direction="column" spacing={2}>
+          <div className="button-container-digits">
+            <IconButton
+              onClick={() => props.onTimerUpdate(1)}
+              aria-label="Timer um eine Sekunde erweitern"
+              size="small"
+            >
+              <AddIcon />
+            </IconButton>
+          </div>
+
+          <div>
+            {props.seconds < 10 && <span className="timer-digits">0</span>}
+            <span className="timer-digits">{props.seconds}</span>
+          </div>
+
+          <div className="button-container-digits">
+            <IconButton
+              onClick={() => props.onTimerUpdate(-1)}
+              aria-label="Timer um eine Sekunde reduzieren"
+              disabled={
+                props.hours === 0 && props.minutes === 0 && props.seconds === 0
+              }
+              size="small"
+            >
+              <RemoveIcon />
+            </IconButton>
+          </div>
+        </Stack>
+
+        <Stack
+          className="buttons-container-start-stop"
+          direction="column"
+          spacing={2}
+        >
+          <Button onClick={props.startTimer} variant="contained" size="small">
+            Start
+          </Button>
+          <Button onClick={props.stopTimer} variant="outlined" size="small">
+            Stop
+          </Button>
+        </Stack>
       </Stack>
-
-      <Stack direction="column" spacing={2}>
-        <div className="button-container">
-          <IconButton
-            onClick={() => props.onTimerUpdate(0, 1)}
-            aria-label="Timer um eine Minute reduzieren"
-            size="small"
-          >
-            <AddIcon />
-          </IconButton>
-        </div>
-
-        <div>
-          {props.minutes < 10 && <span className="timer-digits">0</span>}
-          <span className="timer-digits">{props.minutes}</span>
-        </div>
-
-        <div className="button-container">
-          <IconButton
-            onClick={() => props.onTimerUpdate(0, -1)}
-            aria-label="Timer um eine Minute reduzieren"
-            disabled={props.hours === 0 && props.minutes === 0}
-            size="small"
-          >
-            <RemoveIcon />
-          </IconButton>
-        </div>
-      </Stack>
-
-      <Stack direction="column" spacing={2}>
-        <div className="button-container">
-          <IconButton
-            onClick={() => props.onTimerUpdate(1)}
-            aria-label="Timer um eine Sekunde erweitern"
-            size="small"
-          >
-            <AddIcon />
-          </IconButton>
-        </div>
-
-        <div>
-          {props.seconds < 10 && <span className="timer-digits">0</span>}
-          <span className="timer-digits">{props.seconds}</span>
-        </div>
-
-        <div className="button-container">
-          <IconButton
-            onClick={() => props.onTimerUpdate(-1)}
-            aria-label="Timer um eine Sekunde reduzieren"
-            disabled={
-              props.hours === 0 && props.minutes === 0 && props.seconds === 0
-            }
-            size="small"
-          >
-            <RemoveIcon />
-          </IconButton>
-        </div>
-      </Stack>
-
-      <Stack
-        direction="column"
-        spacing={2}
-        sx={{ display: "flex", justifyContent: "center" }}
-      >
-        <Button onClick={props.startTimer} variant="contained" size="small">
-          Start
-        </Button>
-        <Button onClick={props.stopTimer} variant="outlined" size="small">
-          Stop
-        </Button>
-      </Stack>
-    </Stack>
+    </div>
   );
 }
