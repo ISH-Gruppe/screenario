@@ -68,6 +68,7 @@ export default class RandomPicker extends React.PureComponent {
           start={this.start}
           stop={this.stop}
           reset={this.reset}
+          items={this.props.items}
         />
       </div>
     );
@@ -98,13 +99,14 @@ export class RandomPickerChoice extends React.PureComponent {
 
 export class RandomPickerControls extends React.PureComponent {
   render() {
-    const { isRunning, hasChoice, start, stop, reset } = this.props;
+    const { isRunning, hasChoice, start, stop, reset, items } = this.props;
 
     return (
       <div className="RandomPicker__controls">
         {/* This button used to change colors depending on isRunning - let's not do that right now */}
         <Button
           onClick={isRunning ? stop : start}
+          disabled={items.length === 0}
           variant="contained"
           size="large"
         >
