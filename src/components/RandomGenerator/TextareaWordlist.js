@@ -46,7 +46,7 @@ export default function TextareaWordlist(props) {
 
   return (
     <TextareaAutosize
-      value={textString}
+      defaultValue={textString}
       onChange={handleSpinlistInTextareaChange}
       aria-label={props.ariaLabel}
       minRows={props.minRows}
@@ -56,6 +56,8 @@ export default function TextareaWordlist(props) {
         height: "100%",
         minWidth: "100%",
         maxWidth: "100%",
+        resize: "none",
+        fontSize: "1rem",
       }}
     />
   );

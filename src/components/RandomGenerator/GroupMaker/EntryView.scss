@@ -1,19 +1,50 @@
 .vertical-stack {
     margin: auto 1rem !important;
+    max-width: 30%;
+    width: 30%;
+    height: 100%;
+}
+
+.vertical-stack.textarea {
+    max-width: 50%;
+    width: 50%;
+}
+
+.name-list {
+    padding-top: 1rem;
+    min-height: 100%;
 }
 
 .arrow-right-icon {
     margin: auto 0.5rem !important;
+    margin-left: 1.5rem !important;
+    color: #d9d9d9;
+}
+
+.button-container {
+    width: 100%;
+    text-align: center;
 }
 
 .action-caption {
     text-align: center !important;
+    font-size: 0.9rem !important;
+    font-weight: bold;
+}
+
+.group-numbers {
+    text-align: center !important;
+    font-size: 3.5rem !important;
+}
+
+.caption-namelist {
+    margin-bottom: 1rem;
 }
 
 .create-groups-button {
     display: flex !important;
     justify-content: center !important;
-    margin-top: 1.5rem !important;
+    margin-top: 2.5rem !important;
 }
 
 .error-hint {

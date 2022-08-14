@@ -23,23 +23,25 @@ export default function RandomGenerator() {
       <BaseWindow title="Zufallsgenerator">
         <div id="RandomGeneratorContent">
           <TabContext value={activeTab}>
-            <TabList onChange={updateActiveTab}>
-              <Tab
-                key={tabsEnum.GROUP_MAKER.key}
-                label={tabsEnum.GROUP_MAKER.label}
-                value={tabsEnum.GROUP_MAKER.tabIndex}
-              />
-              <Tab
-                key={tabsEnum.SPINWHEEL.key}
-                label={tabsEnum.SPINWHEEL.label}
-                value={tabsEnum.SPINWHEEL.tabIndex}
-              />
-              <Tab
-                key={tabsEnum.NAME_PICKER.key}
-                label={tabsEnum.NAME_PICKER.label}
-                value={tabsEnum.NAME_PICKER.tabIndex}
-              />
-            </TabList>
+            <div className="tabs">
+              <TabList onChange={updateActiveTab}>
+                <Tab
+                  key={tabsEnum.GROUP_MAKER.key}
+                  label={tabsEnum.GROUP_MAKER.label}
+                  value={tabsEnum.GROUP_MAKER.tabIndex}
+                />
+                <Tab
+                  key={tabsEnum.SPINWHEEL.key}
+                  label={tabsEnum.SPINWHEEL.label}
+                  value={tabsEnum.SPINWHEEL.tabIndex}
+                />
+                <Tab
+                  key={tabsEnum.NAME_PICKER.key}
+                  label={tabsEnum.NAME_PICKER.label}
+                  value={tabsEnum.NAME_PICKER.tabIndex}
+                />
+              </TabList>
+            </div>
 
             <TabPanel
               key={tabsEnum.GROUP_MAKER.key}

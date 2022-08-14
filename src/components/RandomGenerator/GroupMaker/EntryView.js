@@ -10,26 +10,9 @@ import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import TextareaWordlist from "../TextareaWordlist";
 
 export default function EntryView(props) {
-  const initialNamesList = [
-    "Marcelo",
-    "Lizzette",
-    "Pauline",
-    "Fumiko",
-    "Tomasa",
-    "Bertha",
-    "Antoinette",
-    "Tianna",
-    "Ammie",
-    "Victorina",
-    "Marlon",
-    "Jules",
-    "Arletha",
-    "Ellyn",
-    "Karol",
-    "Corrin",
-    "Josephine",
-  ];
+  const initialNamesList = [];
 
+  // TODO: Write a Stackoverflow Reply about the nasty render loop we had
   const [nameList, setNameList] = React.useState(initialNamesList);
   const [numberOfGroups, setNumberOfGroups] = React.useState(2);
   const [showHintNotEnoughGroups, setShowHintNotEnoughGroups] =
@@ -165,64 +148,66 @@ export default function EntryView(props) {
   return (
     <>
       <Stack direction="row" spacing={2}>
-        <div
-          style={{
-            maxWidth: "50%",
-            width: "30%",
-            height: "100%",
-          }}
-        >
-          <span className="action-caption">Folgende Personen</span>
-          <TextareaWordlist
-            valueAsList={nameList}
-            handleWordlistChange={handleNamelistChange}
-            minRows="8"
-            placeholder="Hier einen Namen pro Zeile einfügen "
-            ariaLabel="Namensfeld für zufällige Auslosung von Namen"
-          />
-        </div>
-
-        <div className="arrow-right-icon">
-          <ArrowRightIcon />
-        </div>
-
-        <Stack className="vertical-stack" direction="column" spacing={2}>
-          <span className="action-caption">verteilen auf</span>
-          <IconButton
-            onClick={incrementNumberGroups}
-            disabled={numberOfGroups === nameList.length}
-            aria-label="Timer um eine Stunde erweitern"
-            size="small"
-          >
-            <AddIcon />
-          </IconButton>
-
-          <div>
-            <span className="action-caption">{numberOfGroups} Gruppen</span>
+        <Stack className="vertical-stack textarea" spacing={2}>
+          <div className="name-list">
+            <TextareaWordlist
+              valueAsList={nameList}
+              handleWordlistChange={handleNamelistChange}
+              minRows="16"
+              placeholder="Hier einen Namen pro Zeile einfügen "
+              ariaLabel="Namensfeld für zufällige Auslosung von Namen"
+            />
           </div>
-
-          <IconButton
-            onClick={decrementNumberOfGroups}
-            disabled={numberOfGroups <= 1}
-            aria-label="Timer um eine Stunde reduzieren"
-            size="small"
-          >
-            <RemoveIcon />
-          </IconButton>
         </Stack>
+        {/* </div> */}
 
         <div className="arrow-right-icon">
-          <ArrowRightIcon />
+          <ArrowRightIcon fontSize="large" />
         </div>
 
         <Stack className="vertical-stack" spacing={2}>
-          <span className="action-caption">mit je</span>
+          {/* <p className="action-caption">verteilen auf</p> */}
+          <div className="button-container">
+            <IconButton
+              onClick={incrementNumberGroups}
+              disabled={numberOfGroups === nameList.length}
+              aria-label="Timer um eine Stunde erweitern"
+              size="small"
+            >
+              <AddIcon />
+            </IconButton>
+          </div>
 
           <div>
-            <span className="action-caption">
-              {numberOfPeoplePerGroup} Teilnehmenden
-            </span>
+            <p className="action-caption">
+              <span className="group-numbers">{numberOfGroups}</span>
+              <br />
+              Gruppen
+            </p>
           </div>
+
+          <div className="button-container">
+            <IconButton
+              onClick={decrementNumberOfGroups}
+              disabled={numberOfGroups <= 1}
+              aria-label="Timer um eine Stunde reduzieren"
+              size="small"
+            >
+              <RemoveIcon />
+            </IconButton>
+          </div>
+        </Stack>
+
+        <div className="arrow-right-icon">
+          <ArrowRightIcon fontSize="large" />
+        </div>
+
+        <Stack className="vertical-stack" spacing={2}>
+          <span className="action-caption">
+            <span className="group-numbers">{numberOfPeoplePerGroup}</span>
+            <br />
+            Teilnehmende pro Gruppe
+          </span>
         </Stack>
       </Stack>
       <div className="create-groups-button">

@@ -169,7 +169,7 @@ export default function Spinwheel() {
 
   return (
     <div className="spinwheel-wrapper">
-      <Stack spacing={2} direction="row" sx={{ marginBottom: "1.5rem" }}>
+      <Stack className="button-stack" spacing={2} direction="row" sx={{ marginBottom: "1.5rem", }}>
         <Button
           onClick={() => handleSpinlistChange(listMovements)}
           className={
