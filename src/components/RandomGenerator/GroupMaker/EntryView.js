@@ -10,25 +10,7 @@ import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import TextareaWordlist from "../TextareaWordlist";
 
 export default function EntryView(props) {
-  const initialNamesList = [
-    "Marcelo",
-    "Lizzette",
-    "Pauline",
-    "Fumiko",
-    "Tomasa",
-    "Bertha",
-    "Antoinette",
-    "Tianna",
-    "Ammie",
-    "Victorina",
-    "Marlon",
-    "Jules",
-    "Arletha",
-    "Ellyn",
-    "Karol",
-    "Corrin",
-    "Josephine",
-  ];
+  const initialNamesList = [];
 
   // TODO: Write a Stackoverflow Reply about the nasty render loop we had
   const [nameList, setNameList] = React.useState(initialNamesList);

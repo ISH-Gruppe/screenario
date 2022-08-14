@@ -6,25 +6,7 @@ import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
 export default function NamePicker() {
-  const initialNamesList = [
-    "Marcelo",
-    "Lizzette",
-    "Pauline",
-    "Fumiko",
-    "Tomasa",
-    "Bertha",
-    "Antoinette",
-    "Tianna",
-    "Ammie",
-    "Victorina",
-    "Marlon",
-    "Jules",
-    "Arletha",
-    "Ellyn",
-    "Karol",
-    "Corrin",
-    "Josephine",
-  ];
+  const initialNamesList = [];
   const [nameList, setNameList] = React.useState(initialNamesList);
   const [availableNamesToDraw, setNameAvailableNamesToDraw] =
     React.useState(nameList);
