@@ -58,7 +58,9 @@ export default class WindowManager extends React.PureComponent {
         "stuhlkreis": {
           key: "stuhlkreis",
           open: true,
-          content: <DigitalerStuhlkreisWrapper onHide={this.handleWindowHide} />,
+          content: (
+            <DigitalerStuhlkreisWrapper onHide={this.handleWindowHide} />
+          ),
         },
         "timer": {
           key: "timer",
@@ -83,7 +85,7 @@ export default class WindowManager extends React.PureComponent {
         "qrcode-generator": {
           key: "qrcode-generator",
           open: true,
-          content: <div> qrcode </div>,
+          content: <QrcodeGenerator onHide={this.handleWindowHide} />,
         },
         "work-phase": {
           key: "work-phase",
