@@ -1,10 +1,14 @@
-import { ImageGroup, Image } from "../react-fullscreen-image";
+import React, { useState } from "react";
 import BaseWindow from "../BaseWindow/BaseWindow";
 import "./WorkPhase.css";
 
+// UI
+import ImageList from "@mui/material/ImageList";
+import ImageListItem from "@mui/material/ImageListItem";
+
 export default function WorkPhase({ id, visible, onHide, onChange }) {
-  const workPhaseImages = {
-    "workphase": {
+  const workPhases = [
+    {
       description: "Arbeitsphasen",
       images: [
         "/assets/images/einzelarbeit.jpg",
@@ -12,7 +16,7 @@ export default function WorkPhase({ id, visible, onHide, onChange }) {
         "/assets/images/gruppenarbeit.jpg",
       ],
     },
-    "break-general": {
+    {
       description: "Pausenphasen",
       images: [
         "/assets/images/kaffeepause.jpg",
@@ -20,7 +24,7 @@ export default function WorkPhase({ id, visible, onHide, onChange }) {
         "/assets/images/feierabend.jpg",
       ],
     },
-    "break-school": {
+    {
       description: "Pausenphasen (Schule)",
       images: [
         "/assets/images/kurze-pause.jpg",
@@ -28,7 +32,7 @@ export default function WorkPhase({ id, visible, onHide, onChange }) {
         "/assets/images/stundenende.jpg",
       ],
     },
-    "think-pair-share": {
+    {
       description: "Think, Pair, Share",
       images: [
         "/assets/images/pair.jpg",
@@ -36,8 +40,8 @@ export default function WorkPhase({ id, visible, onHide, onChange }) {
         "/assets/images/think.jpg",
       ],
     },
-    "custom-images": { description: "Eigene Bilder", images: [] },
-  };
+    { description: "Eigene Bilder", images: [] },
+  ];
 
   function handleReset() {}
 
@@ -45,9 +49,34 @@ export default function WorkPhase({ id, visible, onHide, onChange }) {
     onHide(id);
   }
 
-  function createGallery() {
-    console.log(workPhaseImages);
+  const [open, setOpen] = useState(false);
+  const [popupImage, setPopupImage] = useState(<></>);
+
+  function openImage(image) {
+    setPopupImage(<img class="popup-image" src={image} />);
+    setOpen(true);
   }
+
+  const galleries = workPhases.map((phase) => {
+    return (
+      <>
+        <h3> {phase.description} </h3>
+        <ImageList sx={{}} cols={3} rowHeight={164}>
+          {phase.images.map((image) => {
+            return (
+              <ImageListItem
+                className="gallery-image"
+                onClick={() => openImage(image)}
+                key={image}
+              >
+                <img src={image} />
+              </ImageListItem>
+            );
+          })}
+        </ImageList>
+      </>
+    );
+  });
 
   return (
     <BaseWindow
@@ -56,48 +85,18 @@ export default function WorkPhase({ id, visible, onHide, onChange }) {
       onReset={handleReset}
       onHide={handleHide}
     >
-      <h3> Arbeitsphasen </h3>
-      <ImageGroup>
-        <ul className="images">
-          {workPhaseImages.workphase.images.map((i) => (
-            <li key={i} className="image-li">
-              <Image src={i} />
-            </li>
-          ))}
-        </ul>
-      </ImageGroup>
-      <h3> Pausenphasen </h3>
-      <ImageGroup>
-        <ul className="images">
-          {workPhaseImages["break-general"].images.map((i) => (
-            <li key={i}>
-              <Image src={i} />
-            </li>
-          ))}
-        </ul>
-      </ImageGroup>
-
-      <h3> Pausenphasen (Schule) </h3>
-      <ImageGroup>
-        <ul className="images">
-          {workPhaseImages["break-school"].images.map((i) => (
-            <li key={i}>
-              <Image src={i} />
-            </li>
-          ))}
-        </ul>
-      </ImageGroup>
-
-      <h3> Think, Pair, Share </h3>
-      <ImageGroup>
-        <ul className="images">
-          {workPhaseImages["think-pair-share"].images.map((i) => (
-            <li key={i}>
-              <Image src={i} />
-            </li>
-          ))}
-        </ul>
-      </ImageGroup>
+      <div
+        id="image-popup"
+        onClick={() => {
+          setPopupImage(<div> </div>);
+          setOpen(false);
+        }}
+      >
+        {popupImage}
+      </div>
+      <div className="galleries" style={{ opacity: open ? "0" : "1" }}>
+        {galleries}
+      </div>
     </BaseWindow>
   );
 }
