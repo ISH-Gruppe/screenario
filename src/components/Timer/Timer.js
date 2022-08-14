@@ -97,18 +97,18 @@ export default function Timer({ id, visible, onHide, onChange }) {
           />
         </Grid>
 
-        <Grid item xs={12}>
+        <div className="child-container">
           <MusicSelector isTimerRunning={isRunning} musicVolume={musicVolume} />
-        </Grid>
+        </div>
 
-        <Grid item sx={{ mt: -1 }} xs={12}>
-          <VolumeSlider
-            handleVolumeChange={handleVolumeChange}
-            muteVolume={muteVolume}
-            unmuteVolume={unmuteVolume}
-            musicVolume={musicVolume}
-          />
-        </Grid>
+          <div className="child-container volume-control">
+            <VolumeSlider
+              handleVolumeChange={handleVolumeChange}
+              muteVolume={muteVolume}
+              unmuteVolume={unmuteVolume}
+              musicVolume={musicVolume}
+            />
+          </div>
       </Grid>
     </BaseWindow>
   );

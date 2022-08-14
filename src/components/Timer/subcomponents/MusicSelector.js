@@ -37,7 +37,7 @@ export default function MusicSelector(props) {
     const playlist = createShuffledPlaylist(event.target.value);
     setActiveShuffledPlaylist(playlist);
     const trackUrl = "../music" + activeShuffledPlaylist[0].link;
-    setAudio(trackUrl)
+    setAudio(trackUrl);
     // console.log("track: ", trackToPlay);
 
     // }
@@ -48,7 +48,6 @@ export default function MusicSelector(props) {
 
   function playSelectedMusic() {
     // createShuffledPlaylist(selectedPlaylistGenre);
-
 
     // setAudio(trackToPlay)
     // Play first song
@@ -110,7 +109,7 @@ export default function MusicSelector(props) {
   }
 
   return (
-    <Box sx={{ minWidth: 120, maxWidth: 800 }}>
+    <Box>
       <FormControl fullWidth size="small">
         <InputLabel id="demo-simple-select-label">Musik</InputLabel>
         <Select

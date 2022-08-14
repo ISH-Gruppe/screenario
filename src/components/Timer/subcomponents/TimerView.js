@@ -11,8 +11,8 @@ import RemoveIcon from "@mui/icons-material/Remove";
 export default function TimerView(props) {
   return (
     <div className="timer-view">
-      <Stack direction="row" spacing={2}>
-        <Stack direction="column" spacing={2}>
+      <Stack direction="row" spacing={2} sx={{ flexGrow: "1" }}>
+        <Stack className="stack" direction="column" spacing={2}>
           <div className="button-container-digits">
             <IconButton
               onClick={() => props.onTimerUpdate(0, 0, 1)}
@@ -40,7 +40,7 @@ export default function TimerView(props) {
           </div>
         </Stack>
 
-        <Stack direction="column" spacing={2}>
+        <Stack className="stack" direction="column" spacing={2}>
           <div className="button-container-digits">
             <IconButton
               onClick={() => props.onTimerUpdate(0, 1)}
@@ -68,7 +68,7 @@ export default function TimerView(props) {
           </div>
         </Stack>
 
-        <Stack direction="column" spacing={2}>
+        <Stack className="stack" direction="column" spacing={2}>
           <div className="button-container-digits">
             <IconButton
               onClick={() => props.onTimerUpdate(1)}
@@ -99,7 +99,7 @@ export default function TimerView(props) {
         </Stack>
 
         <Stack
-          className="buttons-container-start-stop"
+          className="stack buttons-container-start-stop"
           direction="column"
           spacing={2}
         >
