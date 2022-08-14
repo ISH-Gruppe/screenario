@@ -1,0 +1,89 @@
+html {
+    --color-background: #ffffff;
+    --color-text: #000000;
+    --color-text-light: lightgray;
+    --color-button-start: #0557ff;
+    --color-button-stop: #ff0000;
+    --color-button-text: #ffffff;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background: var(--color-background);
+}
+
+.RandomPicker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 1.5rem;
+    padding-top: 2.5rem;
+}
+
+.RandomPicker__choice {
+    display: flex;
+    align-content: center;
+
+    margin: 0;
+    margin-bottom: 1em;
+
+    color: var(--color-text);
+    font-size: 60px;
+    font-weight: bold;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.RandomPicker__button {
+    display: block;
+    padding: 0.8em 1.6em;
+    min-width: 160px;
+
+    color: var(--color-button-text);
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+
+    border: 0;
+    border-radius: 4em;
+    background-color: var(--color-button-start);
+
+    user-select: none;
+    cursor: pointer;
+
+    transition: background-color 250ms ease-in-out, color 150ms ease-in-out;
+
+    &--stop {
+        background-color: var(--color-button-stop);
+    }
+
+    &--reset {
+        color: var(--color-text);
+        font-size: 14px;
+        text-transform: lowercase;
+        background-color: inherit;
+
+        &[disabled] {
+            color: var(--color-text-light);
+            text-decoration: line-through;
+            cursor: not-allowed;
+        }
+    }
+}
+
+.RandomPicker__controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    > *:not(:last-child) {
+        margin-bottom: 16px;
+    }
+}

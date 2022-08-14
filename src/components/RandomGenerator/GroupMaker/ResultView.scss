@@ -1,0 +1,33 @@
+.groupbox-containter {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.groupbox-window {
+    min-width: 35%;
+    margin: 1rem;
+    padding: 0.5rem;
+
+    background-color: "white";
+    border: 1px solid rgba(0, 0, 0, 0.478);
+    box-shadow: 15;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start !important;
+}
+
+.groupbox-window p {
+    margin: 0.1rem 0;
+}
+
+.navigation-buttons-containter {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    margin-top: 1rem;
+}

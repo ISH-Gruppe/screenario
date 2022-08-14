@@ -1,0 +1,17 @@
+.qrcode-generator-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.qrcode {
+    margin-top: 2.5rem;
+    display: flex;
+    justify-content: center;
+}
+
+.qrcode canvas {
+    width: 70% !important;
+    height: 70% !important;
+}

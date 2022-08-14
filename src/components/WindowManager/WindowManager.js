@@ -85,7 +85,7 @@ export default class WindowManager extends React.PureComponent {
         "qrcode-generator": {
           key: "qrcode-generator",
           open: true,
-          content: <div> qrcode </div>,
+          content: <QrcodeGenerator onHide={this.handleWindowHide} />,
         },
         "work-phase": {
           key: "work-phase",
