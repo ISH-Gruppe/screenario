@@ -106,7 +106,7 @@ export default function SoundBoard({ id, visible, onHide, onChange }) {
       title="Soundboard"
       onReset={handleReset}
       onHide={handleHide}
-      resetText="⏹Stop"
+      resetName="Stop"
     >
       <div id="soundboardButtonWrapper">{soundButtons}</div>
     </BaseWindow>
