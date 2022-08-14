@@ -10,7 +10,14 @@ import RemoveIcon from "@mui/icons-material/Remove";
 
 import "./BaseWindow.css";
 
-export default function BaseWindow({ id, title, children, onReset, onHide }) {
+export default function BaseWindow({
+  id,
+  title,
+  children,
+  onReset,
+  onHide,
+  resetName,
+}) {
   function handleHide() {
     onHide(id);
   }
@@ -36,7 +43,7 @@ export default function BaseWindow({ id, title, children, onReset, onHide }) {
           variant="outlined"
           size="small"
         >
-          Reset
+          {resetName ? resetName : "Reset"}
         </Button>
 
         <h3 className="window-title">{title}</h3>
