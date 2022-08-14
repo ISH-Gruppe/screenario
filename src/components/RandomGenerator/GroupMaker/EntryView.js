@@ -148,29 +148,25 @@ export default function EntryView(props) {
   return (
     <>
       <Stack direction="row" spacing={2}>
-        <div
-          style={{
-            maxWidth: "50%",
-            width: "30%",
-            height: "100%",
-          }}
-        >
-          <span className="action-caption">Folgende Personen</span>
-          <TextareaWordlist
-            valueAsList={nameList}
-            handleWordlistChange={handleNamelistChange}
-            minRows="8"
-            placeholder="Hier einen Namen pro Zeile einfügen "
-            ariaLabel="Namensfeld für zufällige Auslosung von Namen"
-          />
-        </div>
+        <Stack className="vertical-stack" spacing={2}>
+          <div className="name-list">
+            <TextareaWordlist
+              valueAsList={nameList}
+              handleWordlistChange={handleNamelistChange}
+              minRows="16"
+              placeholder="Hier einen Namen pro Zeile einfügen "
+              ariaLabel="Namensfeld für zufällige Auslosung von Namen"
+            />
+          </div>
+        </Stack>
+        {/* </div> */}
 
         <div className="arrow-right-icon">
-          <ArrowRightIcon />
+          <ArrowRightIcon fontSize="large" />
         </div>
 
-        <Stack className="vertical-stack" direction="column" spacing={2}>
-          <span className="action-caption">verteilen auf</span>
+        <Stack className="vertical-stack" spacing={2}>
+          {/* <p className="action-caption">verteilen auf</p> */}
           <IconButton
             onClick={incrementNumberGroups}
             disabled={numberOfGroups === nameList.length}
@@ -181,7 +177,11 @@ export default function EntryView(props) {
           </IconButton>
 
           <div>
-            <span className="action-caption">{numberOfGroups} Gruppen</span>
+            <p className="action-caption">
+              <span className="group-numbers">{numberOfGroups}</span>
+              <br />
+              Gruppen
+            </p>
           </div>
 
           <IconButton
@@ -195,17 +195,17 @@ export default function EntryView(props) {
         </Stack>
 
         <div className="arrow-right-icon">
-          <ArrowRightIcon />
+          <ArrowRightIcon fontSize="large" />
         </div>
 
         <Stack className="vertical-stack" spacing={2}>
           <span className="action-caption">mit je</span>
 
-          <div>
-            <span className="action-caption">
-              {numberOfPeoplePerGroup} Teilnehmenden
-            </span>
-          </div>
+          <span className="action-caption">
+            <span className="group-numbers">{numberOfPeoplePerGroup}</span>
+            <br />
+            Teilnehmenden
+          </span>
         </Stack>
       </Stack>
       <div className="create-groups-button">

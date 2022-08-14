@@ -1,5 +1,6 @@
 import React from "react";
 
+import "./GroupMaker.scss";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
@@ -43,7 +44,7 @@ export default function GroupMaker() {
 
       {/* <HorizontalLinearStepper /> */}
 
-      <div style={{ paddingTop: "1.5rem" }}>
+      <div className="stepper-content">
         {activeStep === "0" && (
           <EntryView groups={groups} onGroupChange={handleGroupChange} />
         )}
