@@ -6,7 +6,7 @@ export default function TextareaWordlist(props) {
 
   React.useEffect(() => {
     setTextString(createStringFromList(props.valueAsList));
-  }, [props.valueAsList]);
+  }, [JSON.stringify(props.valueAsList)]);
 
   function handleSpinlistInTextareaChange(textArea) {
     setTextString(textArea.target.value);
