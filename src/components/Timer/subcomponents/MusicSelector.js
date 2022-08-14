@@ -80,10 +80,13 @@ export default function MusicSelector(props) {
 
     if (inversionOfIsMusicPlaying) {
       audio.onended = () => {
-        const nextIndexInPlaylist =
-          currentIndexInPlaylist + 1 < activeShuffledPlaylist.length
-            ? currentIndexInPlaylist + 1
-            : 0;
+        let nextIndexInPlaylist = currentIndexInPlaylist + 1;
+
+        // Simple if instead of ternary operator -> Improved readability
+        if (nextIndexInPlaylist >= activeShuffledPlaylist.length) {
+          nextIndexInPlaylist = 0;
+        }
+
         const nextTitleInPlaylist = activeShuffledPlaylist[nextIndexInPlaylist];
 
         console.log("currentIndexInPlaylist ", currentIndexInPlaylist);
