@@ -60,7 +60,7 @@ export default function WorkPhase({ id, visible, onHide, onChange }) {
       <ImageGroup>
         <ul className="images">
           {workPhaseImages.workphase.images.map((i) => (
-            <li key={i} className="image-li">
+            <li key={i}>
               <Image src={i} />
             </li>
           ))}
