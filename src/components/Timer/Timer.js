@@ -10,13 +10,18 @@ import VolumeSlider from "./subcomponents/VolumeSlider";
 import Grid from "@mui/material/Grid";
 import BaseWindow from "../BaseWindow/BaseWindow";
 
-export default function Timer({ expiryTimestamp }) {
-  const [initialTimerValue, setInitialTimerValue] =
-    React.useState(expiryTimestamp);
-
+export default function Timer({ id, visible, onHide, onChange }) {
+  /*
+   * Explicitly providing an undefined state since passing a valid TimeStamp from WindowManager
+   * doesn't seem to trigger anything in the useTimer hook.
+   * Let's assume that having 00:00:00 is a desired initial state
+   *
+   * Another option might be to just create a new Date stamp so that our IDE will know that the expected type is a Date
+   **/
+  const [initialTimerValue, setInitialTimerValue] = React.useState(undefined);
   const { seconds, minutes, hours, isRunning, start, pause, resume, restart } =
     useTimer({
-      expiryTimestamp,
+      initialTimerValue,
       autoStart: false,
       onExpire: handleTimerCompletion,
     });
@@ -67,8 +72,19 @@ export default function Timer({ expiryTimestamp }) {
     setMusicVolume(musicVolumeBeforeMute);
   }
 
+  function handleReset() {}
+
+  function handleHide() {
+    onHide(id);
+  }
+
   return (
-    <BaseWindow>
+    <BaseWindow
+      id="timer"
+      title="Timer"
+      onReset={handleReset}
+      onHide={handleHide}
+    >
       <Grid container spacing={2} style={{ textAlign: "center" }}>
         <Grid item xs={12} style={{ textAlign: "center" }}>
           <TimerView
