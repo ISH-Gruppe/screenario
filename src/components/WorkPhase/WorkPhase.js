@@ -40,6 +40,14 @@ export default function WorkPhase({ id, visible, onHide, onChange }) {
         "/assets/images/think.jpg",
       ],
     },
+    {
+      description: "Videokonferenzen",
+      images: [
+        "/assets/images/herzlich-willkommen.jpg",
+        "/assets/images/kamera-anschalten.jpg",
+        "/assets/images/fragen-im-chat.jpg",
+      ],
+    },
     { description: "Eigene Bilder", images: [] },
   ];
 
