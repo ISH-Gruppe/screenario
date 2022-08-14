@@ -46,7 +46,7 @@ export default function TextareaWordlist(props) {
 
   return (
     <TextareaAutosize
-      value={textString}
+      defaultValue={textString}
       onChange={handleSpinlistInTextareaChange}
       aria-label={props.ariaLabel}
       minRows={props.minRows}

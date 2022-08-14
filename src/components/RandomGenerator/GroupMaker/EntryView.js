@@ -30,6 +30,7 @@ export default function EntryView(props) {
     "Josephine",
   ];
 
+  // TODO: Write a Stackoverflow Reply about the nasty render loop we had
   const [nameList, setNameList] = React.useState(initialNamesList);
   const [numberOfGroups, setNumberOfGroups] = React.useState(2);
   const [showHintNotEnoughGroups, setShowHintNotEnoughGroups] =
