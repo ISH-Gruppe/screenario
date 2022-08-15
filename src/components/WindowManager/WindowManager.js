@@ -17,44 +17,360 @@ import { Responsive, WidthProvider } from "react-grid-layout";
 import RandomGenerator from "../RandomGenerator/RandomGenerator";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
-const originalLayouts = readFromLocalStorage("layouts") || {};
 
 export default class WindowManager extends React.PureComponent {
-  static defaultLayout = {
-    md: [
-      { i: "work-phase", x: 0, y: 0, w: 3, h: 2, minW: 2 },
-      { i: "timer", x: 0, y: 0, w: 2, h: 2 },
-      {
-        i: "random-generator",
-        x: 0,
-        y: 0,
-        w: 2,
-        h: 2,
-        minW: 2,
-      },
-      { i: "notepad", x: 0, y: 0, w: 2, h: 2, minW: 2 },
-      { i: "whiteboard", x: 0, y: 0, w: 2, h: 2, minW: 2 },
-      { i: "soundboard", x: 0, y: 0, w: 2, h: 2, minW: 2 },
-      {
-        i: "qrcode-generator",
-        x: 3,
-        y: 2,
-        w: 4,
-        h: 2,
-        minW: 3,
-      },
-      { i: "stuhlkreis", x: 0, y: 0, w: 4, h: 20, minW: 4, minH: 10 },
-    ],
-  };
-
   constructor(props) {
     super(props);
 
     this.handleWindowHide = this.handleWindowHide.bind(this);
     this.handleWindowShow = this.handleWindowShow.bind(this);
 
+    this.defaultLayout = {
+      xs: [
+        {
+          w: 4,
+          h: 4,
+          x: 0,
+          y: 7,
+          i: "stuhlkreis",
+          minW: 4,
+          minH: 4,
+          moved: false,
+          static: false,
+        },
+        {
+          w: 2,
+          h: 2,
+          x: 0,
+          y: 0,
+          minW: 2,
+          minH: 2,
+          i: "timer",
+          moved: false,
+          static: false,
+        },
+        {
+          w: 4,
+          h: 3,
+          x: 0,
+          y: 15,
+          i: "whiteboard",
+          minW: 2,
+          moved: false,
+          static: false,
+        },
+        {
+          w: 4,
+          h: 5,
+          x: 0,
+          y: 2,
+          i: "random-generator",
+          minW: 2,
+          moved: false,
+          static: false,
+        },
+        {
+          w: 4,
+          h: 3,
+          x: 0,
+          y: 21,
+          i: "soundboard",
+          minW: 2,
+          moved: false,
+          static: false,
+        },
+        {
+          w: 3,
+          h: 4,
+          x: 0,
+          y: 24,
+          i: "qrcode-generator",
+          minW: 3,
+          moved: false,
+          static: false,
+        },
+        {
+          w: 4,
+          h: 4,
+          x: 0,
+          y: 11,
+          i: "work-phase",
+          minW: 2,
+          moved: false,
+          static: false,
+        },
+        {
+          w: 4,
+          h: 3,
+          x: 0,
+          y: 18,
+          i: "notepad",
+          minW: 2,
+          moved: false,
+          static: false,
+        },
+      ],
+      sm: [
+        {
+          w: 2,
+          h: 9,
+          x: 0,
+          y: 12,
+          i: "stuhlkreis",
+          minW: 4,
+          minH: 4,
+          moved: false,
+          static: false,
+        },
+        { w: 2, h: 5, x: 0, y: 7, i: "timer", moved: false, static: false },
+        {
+          w: 2,
+          h: 8,
+          x: 0,
+          y: 34,
+          i: "whiteboard",
+          minW: 2,
+          moved: false,
+          static: false,
+        },
+        {
+          w: 2,
+          h: 8,
+          x: 0,
+          y: 21,
+          i: "random-generator",
+          minW: 2,
+          moved: false,
+          static: false,
+        },
+        {
+          w: 2,
+          h: 5,
+          x: 0,
+          y: 42,
+          i: "soundboard",
+          minW: 2,
+          moved: false,
+          static: false,
+        },
+        {
+          w: 2,
+          h: 11,
+          x: 0,
+          y: 47,
+          i: "qrcode-generator",
+          minW: 3,
+          moved: false,
+          static: false,
+        },
+        {
+          w: 2,
+          h: 7,
+          x: 0,
+          y: 0,
+          i: "work-phase",
+          minW: 2,
+          moved: false,
+          static: false,
+        },
+        {
+          w: 2,
+          h: 5,
+          x: 0,
+          y: 29,
+          i: "notepad",
+          minW: 2,
+          moved: false,
+          static: false,
+        },
+      ],
+      md: [
+        {
+          w: 14,
+          h: 8,
+          x: 10,
+          y: 8,
+          i: "stuhlkreis",
+          minW: 14,
+          minH: 8,
+          moved: false,
+          static: false,
+        },
+        {
+          w: 12,
+          h: 8,
+          x: 12,
+          y: 0,
+          i: "timer",
+          minW: 6,
+          minH: 4,
+          moved: false,
+          static: false,
+        },
+        {
+          w: 18,
+          h: 6,
+          x: 0,
+          y: 24,
+          i: "whiteboard",
+          minW: 12,
+          minH: 6,
+          moved: false,
+          static: false,
+        },
+        {
+          w: 10,
+          h: 8,
+          x: 0,
+          y: 8,
+          i: "random-generator",
+          minW: 10,
+          minH: 8,
+          moved: false,
+          static: false,
+        },
+        {
+          w: 6,
+          h: 6,
+          x: 0,
+          y: 16,
+          i: "soundboard",
+          minW: 6,
+          minH: 4,
+          moved: false,
+          static: false,
+        },
+        {
+          w: 7,
+          h: 6,
+          x: 6,
+          y: 16,
+          i: "qrcode-generator",
+          minW: 6,
+          minH: 5,
+          moved: false,
+          static: false,
+        },
+        {
+          w: 12,
+          h: 8,
+          x: 0,
+          y: 0,
+          i: "work-phase",
+          minW: 12,
+          minH: 6,
+          moved: false,
+          static: false,
+        },
+        {
+          w: 10,
+          h: 8,
+          x: 14,
+          y: 16,
+          i: "notepad",
+          minW: 8,
+          minH: 4,
+          moved: false,
+          static: false,
+        },
+      ],
+      lg: [
+        {
+          w: 16,
+          h: 9,
+          x: 32,
+          y: 0,
+          i: "stuhlkreis",
+          minW: 14,
+          minH: 8,
+          moved: false,
+          static: false,
+        },
+        {
+          w: 14,
+          h: 8,
+          x: 18,
+          y: 0,
+          i: "timer",
+          minW: 6,
+          minH: 4,
+          moved: false,
+          static: false,
+        },
+        {
+          w: 16,
+          h: 16,
+          x: 0,
+          y: 16,
+          i: "whiteboard",
+          minW: 12,
+          minH: 6,
+          moved: false,
+          static: false,
+        },
+        {
+          w: 16,
+          h: 8,
+          x: 0,
+          y: 8,
+          i: "random-generator",
+          minW: 10,
+          minH: 8,
+          moved: false,
+          static: false,
+        },
+        {
+          w: 8,
+          h: 6,
+          x: 26,
+          y: 8,
+          i: "soundboard",
+          minW: 8,
+          minH: 4,
+          moved: false,
+          static: false,
+        },
+        {
+          w: 8,
+          h: 6,
+          x: 20,
+          y: 8,
+          i: "qrcode-generator",
+          minW: 8,
+          minH: 5,
+          moved: false,
+          static: false,
+        },
+        {
+          w: 18,
+          h: 8,
+          x: 0,
+          y: 0,
+          i: "work-phase",
+          minW: 12,
+          minH: 6,
+          moved: false,
+          static: false,
+        },
+        {
+          w: 16,
+          h: 6,
+          x: 32,
+          y: 9,
+          i: "notepad",
+          minW: 8,
+          minH: 4,
+          moved: false,
+          static: false,
+        },
+      ],
+    };
+
+    this.originalLayouts =
+      readFromLocalStorage("layouts") || this.defaultLayout;
+
     this.state = {
-      layouts: JSON.parse(JSON.stringify(originalLayouts)),
+      layouts: JSON.parse(JSON.stringify(this.originalLayouts)),
       windows: {
         "stuhlkreis": {
           key: "stuhlkreis",
@@ -102,13 +418,13 @@ export default class WindowManager extends React.PureComponent {
     };
   }
 
-  static get defaultProps() {
-    return {
-      className: "layout",
-      cols: { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 },
-      rowHeight: 150,
-    };
-  }
+  // static get defaultProps() {
+  //   return {
+  //     className: "layout",
+  //     cols: { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 },
+  //     rowHeight: 150,
+  //   };
+  // }
 
   resetLayout() {
     this.setState({ layouts: this.defaultLayout });
@@ -129,6 +445,7 @@ export default class WindowManager extends React.PureComponent {
   }
   handleWindowShow(windowId) {
     this.setState({
+      layouts: this.originalLayouts,
       windows: {
         ...this.state.windows,
         [windowId]: { ...this.state.windows[windowId], open: true },
@@ -159,8 +476,9 @@ export default class WindowManager extends React.PureComponent {
         <ResponsiveReactGridLayout
           className="layout"
           draggableHandle=".drag-handle"
-          cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
-          rowHeight={150}
+          breakpoints={{ lg: 1600, md: 1200, sm: 768 }}
+          cols={{ lg: 48, md: 24, sm: 2 }}
+          rowHeight={75}
           layouts={this.state.layouts}
           onLayoutChange={(layout, layouts) =>
             this.onLayoutChange(layout, layouts)
