@@ -20,6 +20,52 @@ export const PLAYLIST_TEST = {
   ],
 };
 
+export const PLAYLIST_AMBIENT = {
+  title: "Ambient",
+  tracks: [
+    {
+      title: "",
+      link: "/ambient/07-flagstaff-flamenco-112412.mp3",
+      genre: "Ambient",
+    },
+    {
+      title: "",
+      link: "/ambient/audionautix-tropical-contact.mp3",
+      genre: "Ambient",
+    },
+    {
+      title: "",
+      link: "/ambient/barradeen-wish-of-being-with-you.mp3",
+      genre: "Ambient",
+    },
+    {
+      title: "",
+      link: "/ambient/love-meditation-115568.mp3",
+      genre: "Ambient",
+    },
+    {
+      title: "",
+      link: "/ambient/loving-simple-ver-111548.mp3",
+      genre: "Ambient",
+    },
+    {
+      title: "",
+      link: "/ambient/madirfan-unreleased-uplifting-guitar-demo-13-05-2021-115208.mp3",
+      genre: "Ambient",
+    },
+    {
+      title: "",
+      link: "/ambient/magical-deep-meditation-116793.mp3",
+      genre: "Ambient",
+    },
+    {
+      title: "",
+      link: "/ambient/zubaida-77.mp3",
+      genre: "Ambient",
+    },
+  ],
+};
+
 export const PLAYLIST_PIANO = {
   title: "Piano",
   tracks: [

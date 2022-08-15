@@ -125,6 +125,10 @@ export default function MusicSelector(props) {
         selectedPlaylist = Playlists.PLAYLIST_PIANO;
         break;
 
+      case PlaylistsEnum.AMBIENT:
+        selectedPlaylist = Playlists.PLAYLIST_AMBIENT;
+        break;
+
       case PlaylistsEnum.PIANO:
         selectedPlaylist = Playlists.PLAYLIST_PIANO;
         break;
@@ -177,8 +181,8 @@ export default function MusicSelector(props) {
           <MenuItem value={PlaylistsEnum.NO_MUSIC}>
             {PlaylistsEnum.NO_MUSIC}
           </MenuItem>
-          <MenuItem value={PlaylistsEnum.RELAXATION}>
-            {PlaylistsEnum.RELAXATION}
+          <MenuItem value={PlaylistsEnum.AMBIENT}>
+            {PlaylistsEnum.AMBIENT}
           </MenuItem>
           <MenuItem value={PlaylistsEnum.PIANO}>{PlaylistsEnum.PIANO}</MenuItem>
           <MenuItem value={PlaylistsEnum.SYNTHWAVE}>
@@ -202,5 +206,6 @@ export const PlaylistsEnum = {
   PIANO: "Piano",
   SYNTHWAVE: "Synthwave",
   GAMING: "Spielmusik",
+  AMBIENT: "Ambient",
   TEST: "Test",
 };
