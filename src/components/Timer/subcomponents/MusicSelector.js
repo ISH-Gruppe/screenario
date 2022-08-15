@@ -14,10 +14,10 @@ export default function MusicSelector(props) {
   const [isMusicPlaying, setIsMusicPlaying] = React.useState(false);
 
   const [selectedPlaylistGenre, setSelectedPlaylistGenre] = React.useState(
-    PlaylistsEnum.PIANO
+    PlaylistsEnum.TEST
   );
   const [activeShuffledPlaylist, setActiveShuffledPlaylist] = React.useState(
-    createShuffledPlaylist(PlaylistsEnum.PIANO)
+    createShuffledPlaylist(PlaylistsEnum.TEST)
   );
   const [currentIndexInPlaylist, setCurrentIndexInPlaylist] = React.useState(0);
 
@@ -77,6 +77,9 @@ export default function MusicSelector(props) {
   }
 
   function startMusic() {
+    console.log("activeShuffledPlaylist ", activeShuffledPlaylist);
+    console.log("audio ", directoryPrefix + audio.src);
+    // audio.load();
     audio.play();
     setIsMusicPlaying(true);
 
@@ -133,6 +136,9 @@ export default function MusicSelector(props) {
       case PlaylistsEnum.GAMING:
         selectedPlaylist = Playlists.PLAYLIST_GAMING;
         break;
+      case PlaylistsEnum.TEST:
+        selectedPlaylist = Playlists.PLAYLIST_TEST;
+        break;
 
       default:
         break;
@@ -181,6 +187,7 @@ export default function MusicSelector(props) {
           <MenuItem value={PlaylistsEnum.GAMING}>
             {PlaylistsEnum.GAMING}
           </MenuItem>
+          <MenuItem value={PlaylistsEnum.TEST}>{PlaylistsEnum.TEST}</MenuItem>
         </Select>
       </FormControl>
     </Box>
@@ -195,4 +202,5 @@ export const PlaylistsEnum = {
   PIANO: "Piano",
   SYNTHWAVE: "Synthwave",
   GAMING: "Spielmusik",
+  TEST: "Test",
 };

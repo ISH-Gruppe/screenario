@@ -1,4 +1,25 @@
 // All tracks from https://www.soundhelix.com/audio-examples
+export const PLAYLIST_TEST = {
+  title: "Test",
+  tracks: [
+    {
+      title: "✅ Das war toll!",
+      link: "/sounds/great.mp3",
+      genre: "Test",
+    },
+    {
+      title: "❎ Leider falsch!",
+      link: "/sounds/tooBad.mp3",
+      genre: "Test",
+    },
+    {
+      title: "🏁 Gleich gehts los!",
+      link: "/sounds/countdown.mp3",
+      genre: "Test",
+    },
+  ],
+};
+
 export const PLAYLIST_PIANO = {
   title: "Piano",
   tracks: [
