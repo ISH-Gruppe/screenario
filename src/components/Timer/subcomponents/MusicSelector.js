@@ -55,7 +55,6 @@ export default function MusicSelector(props) {
 
       // 2. Update audio state -> will be undefined if NO_MUSIC is selected
       const newTrackUrl = directoryPrefix + newPlaylist[0].link;
-      // setAudio(new Audio(newTrackUrl));
       audio.src = newTrackUrl;
       audio.load();
 
@@ -98,11 +97,10 @@ export default function MusicSelector(props) {
       // console.log("activeShuffledPlaylist ", activeShuffledPlaylist);
 
       setCurrentIndexInPlaylist(nextIndexInPlaylist);
-      // setAudio(new Audio(directoryPrefix + nextTitleInPlaylist.link));
       audio.src = directoryPrefix + nextTitleInPlaylist.link;
       audio.load();
 
-      if (isMusicPlaying) {
+      if (props.isTimerRunning) {
         startMusic();
       } else {
         setIsMusicPlaying(false);
