@@ -8,14 +8,15 @@
 }
 
 .quill {
-  scale: 110%;
+  scale: 100%;
   margin-top: 10px;
 }
+
 .ql-container.ql-snow,
 .ql-toolbar.ql-snow {
   border: none;
 }
 
 #content-container-notepad {
-  margin: 0 50px;
+  margin: 0 0;
 }
