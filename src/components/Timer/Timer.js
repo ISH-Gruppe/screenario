@@ -10,7 +10,14 @@ import VolumeSlider from "./subcomponents/VolumeSlider";
 import Grid from "@mui/material/Grid";
 import BaseWindow from "../BaseWindow/BaseWindow";
 
-export default function Timer({ id, title, onHide, onChange }) {
+export default function Timer({
+  id,
+  visible,
+  onHide,
+  onChange,
+  onSave,
+  onLoad,
+}) {
   /*
    * Explicitly providing an undefined state since passing a valid TimeStamp from WindowManager
    * doesn't seem to trigger anything in the useTimer hook.
@@ -18,7 +25,7 @@ export default function Timer({ id, title, onHide, onChange }) {
    *
    * Another option might be to just create a new Date stamp so that our IDE will know that the expected type is a Date
    **/
-  const [initialTimerValue, setInitialTimerValue] = React.useState(undefined);
+  const [initialTimerValue, setInitialTimerValue] = React.useState(loadState());
   const { seconds, minutes, hours, isRunning, start, pause, resume, restart } =
     useTimer({
       initialTimerValue,
@@ -27,6 +34,13 @@ export default function Timer({ id, title, onHide, onChange }) {
     });
 
   const [ringTimer] = useTimerRinging();
+
+  function loadState() {
+    const savedTimestamp = onLoad("TIMER") ? onLoad("TIMER") : undefined;
+    // console.log("loadedGroup ", loadedGroup);
+
+    return savedTimestamp;
+  }
 
   function updateAndRestartTimer(
     secondsValue = 0,
@@ -39,6 +53,7 @@ export default function Timer({ id, title, onHide, onChange }) {
     newTimestamp.setSeconds(newTimestamp.getSeconds() + seconds + secondsValue);
 
     setInitialTimerValue(newTimestamp);
+    onSave("TIMER", newTimestamp);
     restart(newTimestamp, isRunning ? true : false);
   }
 
