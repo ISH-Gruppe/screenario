@@ -15,3 +15,7 @@
 .ql-toolbar.ql-snow {
   border: none;
 }
+
+#content-container-notepad {
+  margin: 0 50px;
+}
