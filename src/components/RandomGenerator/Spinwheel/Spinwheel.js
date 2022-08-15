@@ -86,14 +86,38 @@ export default function Spinwheel() {
   const listCustomWords = {
     name: "CUSTOM_WORDS",
     data: [
-      { option: "", style: { backgroundColor: "#ff705f", textColor: "#00364a" } },
-      { option: "", style: { backgroundColor: "#ffe08a", textColor: "#00364a" } },
-      { option: "", style: { backgroundColor: "#48c78e", textColor: "#00364a" } },
-      { option: "", style: { backgroundColor: "#66ccc7", textColor: "#00364a" } },
-      { option: "", style: { backgroundColor: "#ff705f", textColor: "#00364a" } },
-      { option: "", style: { backgroundColor: "#ffe08a", textColor: "#00364a" } },
-      { option: "", style: { backgroundColor: "#48c78e", textColor: "#00364a" } },
-      { option: "", style: { backgroundColor: "#66ccc7", textColor: "#00364a" } },
+      {
+        option: "",
+        style: { backgroundColor: "#ff705f", textColor: "#00364a" },
+      },
+      {
+        option: "",
+        style: { backgroundColor: "#ffe08a", textColor: "#00364a" },
+      },
+      {
+        option: "",
+        style: { backgroundColor: "#48c78e", textColor: "#00364a" },
+      },
+      {
+        option: "",
+        style: { backgroundColor: "#66ccc7", textColor: "#00364a" },
+      },
+      {
+        option: "",
+        style: { backgroundColor: "#ff705f", textColor: "#00364a" },
+      },
+      {
+        option: "",
+        style: { backgroundColor: "#ffe08a", textColor: "#00364a" },
+      },
+      {
+        option: "",
+        style: { backgroundColor: "#48c78e", textColor: "#00364a" },
+      },
+      {
+        option: "",
+        style: { backgroundColor: "#66ccc7", textColor: "#00364a" },
+      },
     ],
   };
 
@@ -169,7 +193,12 @@ export default function Spinwheel() {
 
   return (
     <div className="spinwheel-wrapper">
-      <Stack className="button-stack" spacing={2} direction="row" sx={{ marginBottom: "1.5rem", }}>
+      <Stack
+        className="button-stack"
+        spacing={2}
+        direction="row"
+        sx={{ marginBottom: "1.5rem" }}
+      >
         <Button
           onClick={() => handleSpinlistChange(listMovements)}
           className={
@@ -204,13 +233,15 @@ export default function Spinwheel() {
 
       <Stack direction="row">
         <Stack spacing={2} sx={{ marginTop: "1rem" }}>
-          <TextareaAutosize
-            value={activeSpinlistAsString}
-            onChange={handleSpinlistInTextareaChange}
-            aria-label="Begriffe für das Glücksrad"
-            minRows={8}
-            placeholder="Es gelten die 8 letzten Begriffe"
-          />
+          <div className="textarea-wrapper">
+            <TextareaAutosize
+              value={activeSpinlistAsString}
+              onChange={handleSpinlistInTextareaChange}
+              aria-label="Begriffe für das Glücksrad"
+              minRows={8}
+              placeholder="Es gelten die 8 letzten Begriffe"
+            />
+          </div>
           <small>Hinweis: Es gelten die 8 letzten Begriffe</small>
 
           <Button variant="contained" onClick={handleSpinClick}>
