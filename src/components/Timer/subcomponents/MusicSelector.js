@@ -13,6 +13,7 @@ import testAudio from "../music/gaming/04 - NoBan Stream - Dummy Training.mp3";
 import testAudio2 from "../music/gaming/04 - NoBan Stream - Dummy Training.mp3";
 
 export default function MusicSelector(props) {
+  const directoryPrefix = "/assets";
   const [audio, setAudio] = React.useState(new Audio(testAudio));
   const [isMusicPlaying, setIsMusicPlaying] = React.useState(false);
 
@@ -33,7 +34,7 @@ export default function MusicSelector(props) {
       if (selectedPlaylistGenre !== PlaylistsEnum.NO_MUSIC) {
         if (!activeShuffledPlaylist) {
           const newPlaylist = createShuffledPlaylist(selectedPlaylistGenre);
-          setAudio(new Audio(newPlaylist[0].link));
+          setAudio(new Audio(directoryPrefix + newPlaylist[0].link));
           setCurrentIndexInPlaylist(0);
         }
       }
@@ -63,7 +64,7 @@ export default function MusicSelector(props) {
       setCurrentIndexInPlaylist(0);
 
       // 2. Update audio state -> will be undefined if NO_MUSIC is selected
-      const newTrackUrl = "../music" + newPlaylist[0].link;
+      const newTrackUrl = directoryPrefix + newPlaylist[0].link;
       setAudio(new Audio(newTrackUrl));
     }
   }
@@ -98,7 +99,7 @@ export default function MusicSelector(props) {
         // console.log("activeShuffledPlaylist ", activeShuffledPlaylist);
 
         setCurrentIndexInPlaylist(nextIndexInPlaylist);
-        setAudio(new Audio(nextTitleInPlaylist.link));
+        setAudio(new Audio(directoryPrefix + nextTitleInPlaylist.link));
       };
     }
   }
