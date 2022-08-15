@@ -62,13 +62,13 @@ export default function RandomGenerator({ id, title, onHide }) {
               key={tabsEnum.SPINWHEEL.key}
               value={tabsEnum.SPINWHEEL.tabIndex}
             >
-              <Spinwheel />
+              <Spinwheel onLoad={props.onLoad} onSave={props.onSave} />
             </TabPanel>
             <TabPanel
               key={tabsEnum.NAME_PICKER.key}
               value={tabsEnum.NAME_PICKER.tabIndex}
             >
-              <NamePicker />
+              <NamePicker onLoad={props.onLoad} onSave={props.onSave} />
             </TabPanel>
           </TabContext>
         </div>
