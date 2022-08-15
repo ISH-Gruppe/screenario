@@ -77,7 +77,6 @@ export default function MusicSelector(props) {
     // console.log("audio ", directoryPrefix + audio.src);
 
     if (props.isTimerRunning) {
-      loadNextSong();
       audio.play();
       setIsMusicPlaying(true);
 
@@ -90,17 +89,16 @@ export default function MusicSelector(props) {
         }
         setCurrentIndexInPlaylist(nextIndexInPlaylist);
 
+        // Load next song
+        const nextTitleInPlaylist = activeShuffledPlaylist[nextIndexInPlaylist];
+        audio.src = directoryPrefix + nextTitleInPlaylist.link;
+        audio.load();
+
         // console.log("currentIndexInPlaylist ", currentIndexInPlaylist);
         // console.log("nextIndexInPlaylist ", nextIndexInPlaylist);
         // console.log("activeShuffledPlaylist ", activeShuffledPlaylist);
       };
     }
-  }
-
-  function loadNextSong() {
-    const nextTitleInPlaylist = activeShuffledPlaylist[currentIndexInPlaylist];
-    audio.src = directoryPrefix + nextTitleInPlaylist.link;
-    audio.load();
   }
 
   /*
