@@ -72,15 +72,7 @@ export default function ToggleButtonsMultiple({
         <PostAddIcon />
         <span class="toolbar-text">Textfeld </span>
       </ToggleButton>
-      <ToggleButton
-        color="primary"
-        value="whiteboard"
-        selected={windows["whiteboard"].open}
-        onClick={handleChange}
-      >
-        <BorderColorIcon />
-        <span class="toolbar-text">Whiteboard </span>
-      </ToggleButton>
+
       <ToggleButton
         color="primary"
         value="soundboard"
@@ -111,3 +103,13 @@ export default function ToggleButtonsMultiple({
     </ToggleButtonGroup>
   );
 }
+
+// <ToggleButton
+//   color="primary"
+//   value="whiteboard"
+//   selected={windows["whiteboard"].open}
+//   onClick={handleChange}
+// >
+//   <BorderColorIcon />
+//   <span class="toolbar-text">Whiteboard </span>
+// </ToggleButton>
