@@ -68,9 +68,12 @@ export default function MusicSelector(props) {
       // setAudio(new Audio(newTrackUrl));
       audio.src = newTrackUrl;
       audio.load();
-      audio.play();
+
+      if (props.isTimerRunning) {
+        audio.play();
+      }
     } else {
-      if(audio) {
+      if (audio) {
         audio.pause();
       }
     }
