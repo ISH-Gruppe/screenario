@@ -6,14 +6,11 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-import * as Playlists from "../music/Playlists";
-
-import testAudio from "../music/gaming/04 - NoBan Stream - Dummy Training.mp3";
-import testAudio2 from "../music/gaming/04 - NoBan Stream - Dummy Training.mp3";
+import * as Playlists from "./Playlists";
 
 export default function MusicSelector(props) {
   const directoryPrefix = "/assets/music";
-  const [audio, setAudio] = React.useState(new Audio(testAudio));
+  const [audio, setAudio] = React.useState(new Audio(""));
   const [isMusicPlaying, setIsMusicPlaying] = React.useState(false);
 
   const [selectedPlaylistGenre, setSelectedPlaylistGenre] = React.useState(
