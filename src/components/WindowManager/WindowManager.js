@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+import Welcome from "../Modals/Welcome/Welcome";
 import Timer from "../Timer/Timer";
 import Toolbar from "../Toolbar/Toolbar";
 import Notepad from "../Notepad/Notepad";
@@ -149,6 +150,8 @@ export default class WindowManager extends React.PureComponent {
 
     return (
       <div>
+        <Welcome />
+
         <Toolbar
           onWindowShow={this.handleWindowShow}
           onWindowHide={this.handleWindowHide}
