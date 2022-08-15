@@ -1,0 +1,34 @@
+.welcome-modal h1,
+.welcome-modal h2,
+.welcome-modal h3,
+.welcome-modal h4 {
+  text-align: center;
+  padding: 8px;
+}
+
+.welcome-modal-content h2 {
+  text-align: center;
+  margin: 30px auto -5px auto;
+  font-weight: 500;
+  padding: 0;
+}
+
+p {
+  padding: 10px 40px;
+}
+
+.modal-imprint-privacy {
+  display: block;
+  margin: auto;
+  text-align: center;
+}
+
+a {
+  color: black;
+}
+
+#welcome-modal-logo {
+  display: block;
+  width: 200px;
+  margin: 0 auto 10px auto;
+}

@@ -24,3 +24,5 @@ yarn-debug.log*
 yarn-error.log*
 
 src/components/DigitalerStuhlkreisWrapper/digitalerstuhlkreis/index.html
+
+package-lock.json
