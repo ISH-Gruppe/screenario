@@ -14,10 +14,10 @@ export default function MusicSelector(props) {
   const [isMusicPlaying, setIsMusicPlaying] = React.useState(false);
 
   const [selectedPlaylistGenre, setSelectedPlaylistGenre] = React.useState(
-    PlaylistsEnum.TEST
+    PlaylistsEnum.PIANO
   );
   const [activeShuffledPlaylist, setActiveShuffledPlaylist] = React.useState(
-    createShuffledPlaylist(PlaylistsEnum.TEST)
+    createShuffledPlaylist(PlaylistsEnum.PIANO)
   );
   const [currentIndexInPlaylist, setCurrentIndexInPlaylist] = React.useState(0);
 
@@ -182,7 +182,7 @@ export default function MusicSelector(props) {
           <MenuItem value={PlaylistsEnum.GAMING}>
             {PlaylistsEnum.GAMING}
           </MenuItem>
-          <MenuItem value={PlaylistsEnum.TEST}>{PlaylistsEnum.TEST}</MenuItem>
+          {/* <MenuItem value={PlaylistsEnum.TEST}>{PlaylistsEnum.TEST}</MenuItem> */}
         </Select>
       </FormControl>
     </Box>
