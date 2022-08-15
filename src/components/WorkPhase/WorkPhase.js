@@ -6,7 +6,7 @@ import "./WorkPhase.css";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 
-export default function WorkPhase({ id, visible, onHide, onChange }) {
+export default function WorkPhase({ id, title, onHide, onChange }) {
   const workPhases = [
     {
       description: "Arbeitsphasen",
@@ -95,12 +95,7 @@ export default function WorkPhase({ id, visible, onHide, onChange }) {
   }
 
   return (
-    <BaseWindow
-      id="work-phase"
-      title="Arbeits- und Pausenphasen"
-      onReset={handleReset}
-      onHide={handleHide}
-    >
+    <BaseWindow id={id} title={title} onReset={handleReset} onHide={handleHide}>
       <div
         id="image-popup"
         onClick={() => {

@@ -377,13 +377,19 @@ export default class WindowManager extends React.PureComponent {
           key: "stuhlkreis",
           open: true,
           content: (
-            <DigitalerStuhlkreisWrapper onHide={this.handleWindowHide} />
+            <DigitalerStuhlkreisWrapper
+              id="stuhlkreis"
+              title="Digitaler Stuhlkreis"
+              onHide={this.handleWindowHide}
+            />
           ),
         },
         "timer": {
           key: "timer",
           open: true,
-          content: <Timer onHide={this.handleWindowHide} />,
+          content: (
+            <Timer id="timer" title="Timer" onHide={this.handleWindowHide} />
+          ),
         },
         // "whiteboard": {
         //   key: "whiteboard",
@@ -393,27 +399,57 @@ export default class WindowManager extends React.PureComponent {
         "random-generator": {
           key: "random-generator",
           open: true,
-          content: <RandomGenerator onHide={this.handleWindowHide} />,
+          content: (
+            <RandomGenerator
+              id="random-generator"
+              title="Zufallsgenerator"
+              onHide={this.handleWindowHide}
+            />
+          ),
         },
         "soundboard": {
           key: "soundboard",
           open: true,
-          content: <Soundboard onHide={this.handleWindowHide} />,
+          content: (
+            <Soundboard
+              id="soundboard"
+              title="Soundboard"
+              onHide={this.handleWindowHide}
+            />
+          ),
         },
         "qrcode-generator": {
           key: "qrcode-generator",
           open: true,
-          content: <QrcodeGenerator onHide={this.handleWindowHide} />,
+          content: (
+            <QrcodeGenerator
+              id="qrcode-generator"
+              title="QR-Code-Generator"
+              onHide={this.handleWindowHide}
+            />
+          ),
         },
         "work-phase": {
           key: "work-phase",
           open: true,
-          content: <WorkPhase onHide={this.handleWindowHide} />,
+          content: (
+            <WorkPhase
+              id="work-phase"
+              title="Arbeits- und Pausenphasen"
+              onHide={this.handleWindowHide}
+            />
+          ),
         },
         "notepad": {
           key: "notepad",
           open: true,
-          content: <Notepad onHide={this.handleWindowHide} />,
+          content: (
+            <Notepad
+              id="notepad"
+              title="Notepad"
+              onHide={this.handleWindowHide}
+            />
+          ),
         },
       },
     };
@@ -437,6 +473,7 @@ export default class WindowManager extends React.PureComponent {
   }
 
   handleWindowHide(windowId) {
+    console.log("windowManager handleWindowHide", windowId);
     this.setState({
       windows: {
         ...this.state.windows,

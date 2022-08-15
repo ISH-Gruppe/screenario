@@ -5,7 +5,7 @@ import BaseWindow from "../BaseWindow/BaseWindow";
 
 import "./QrcodeGenerator.scss";
 
-export default function QrcodeGenerator(props) {
+export default function QrcodeGenerator({ id, title, onHide }) {
   const [qrcodeValue, setQrcodeValue] = React.useState("https://ish-gruppe.de");
 
   function handleTextChange(event) {
@@ -15,16 +15,11 @@ export default function QrcodeGenerator(props) {
   function handleReset() {}
 
   function handleHide() {
-    props.onHide(props.id);
+    onHide(id);
   }
 
   return (
-    <BaseWindow
-      id="qrcode-generator"
-      title="QR-Code Generator"
-      onReset={handleReset}
-      onHide={handleHide}
-    >
+    <BaseWindow id={id} title={title} onReset={handleReset} onHide={handleHide}>
       <div className="qrcode-generator-container">
         <TextField
           id="filled-basic"
