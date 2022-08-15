@@ -78,34 +78,36 @@ export default function MusicSelector(props) {
   function startMusic() {
     console.log("activeShuffledPlaylist ", activeShuffledPlaylist);
     console.log("audio ", directoryPrefix + audio.src);
-    // audio.load();
-    audio.play();
-    setIsMusicPlaying(true);
 
-    audio.onended = () => {
-      let nextIndexInPlaylist = currentIndexInPlaylist + 1;
+    if (props.isTimerRunning) {
+      audio.play();
+      setIsMusicPlaying(true);
 
-      // Simple if instead of ternary operator -> Improved readability
-      if (nextIndexInPlaylist >= activeShuffledPlaylist.length) {
-        nextIndexInPlaylist = 0;
-      }
+      audio.onended = () => {
+        let nextIndexInPlaylist = currentIndexInPlaylist + 1;
 
-      const nextTitleInPlaylist = activeShuffledPlaylist[nextIndexInPlaylist];
+        // Simple if instead of ternary operator -> Improved readability
+        if (nextIndexInPlaylist >= activeShuffledPlaylist.length) {
+          nextIndexInPlaylist = 0;
+        }
 
-      // console.log("currentIndexInPlaylist ", currentIndexInPlaylist);
-      // console.log("nextIndexInPlaylist ", nextIndexInPlaylist);
-      // console.log("activeShuffledPlaylist ", activeShuffledPlaylist);
+        const nextTitleInPlaylist = activeShuffledPlaylist[nextIndexInPlaylist];
 
-      setCurrentIndexInPlaylist(nextIndexInPlaylist);
-      audio.src = directoryPrefix + nextTitleInPlaylist.link;
-      audio.load();
+        console.log("currentIndexInPlaylist ", currentIndexInPlaylist);
+        console.log("nextIndexInPlaylist ", nextIndexInPlaylist);
+        console.log("activeShuffledPlaylist ", activeShuffledPlaylist);
 
-      if (props.isTimerRunning) {
-        startMusic();
-      } else {
-        setIsMusicPlaying(false);
-      }
-    };
+        setCurrentIndexInPlaylist(nextIndexInPlaylist);
+        audio.src = directoryPrefix + nextTitleInPlaylist.link;
+        audio.load();
+
+        if (props.isTimerRunning) {
+          startMusic();
+        } else {
+          setIsMusicPlaying(false);
+        }
+      };
+    }
   }
 
   /*
