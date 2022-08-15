@@ -368,7 +368,7 @@ export default class WindowManager extends React.PureComponent {
     };
 
     this.originalLayouts =
-      readFromLocalStorage("layouts") || this.defaultLayout;
+      readLayoutFromLocalStorage("layouts") || this.defaultLayout;
 
     this.state = {
       layouts: JSON.parse(JSON.stringify(this.originalLayouts)),
@@ -388,7 +388,11 @@ export default class WindowManager extends React.PureComponent {
           key: "timer",
           open: true,
           content: (
-            <Timer id="timer" title="Timer" onHide={this.handleWindowHide} />
+            <Timer
+              onHide={this.handleWindowHide}
+              onSave={this.saveToLocalStorage}
+              onLoad={this.readFromLocalStorage}
+            />
           ),
         },
         // "whiteboard": {
@@ -399,6 +403,13 @@ export default class WindowManager extends React.PureComponent {
         "random-generator": {
           key: "random-generator",
           open: true,
+          content: (
+            <RandomGenerator
+              onHide={this.handleWindowHide}
+              onSave={this.saveToLocalStorage}
+              onLoad={this.readFromLocalStorage}
+            />
+          ),
           content: (
             <RandomGenerator
               id="random-generator"
@@ -450,6 +461,13 @@ export default class WindowManager extends React.PureComponent {
               onHide={this.handleWindowHide}
             />
           ),
+          content: (
+            <Notepad
+              onHide={this.handleWindowHide}
+              onSave={this.saveToLocalStorage}
+              onLoad={this.readFromLocalStorage}
+            />
+          ),
         },
       },
     };
@@ -468,7 +486,7 @@ export default class WindowManager extends React.PureComponent {
   }
 
   onLayoutChange(layout, layouts) {
-    saveToLocalStorage("layouts", layouts);
+    saveLayoutToLocalStorage("layouts", layouts);
     this.setState({ layouts });
   }
 
@@ -491,6 +509,30 @@ export default class WindowManager extends React.PureComponent {
     });
   }
 
+  readFromLocalStorage(key) {
+    let ls = {};
+    if (global.localStorage) {
+      try {
+        ls = JSON.parse(global.localStorage.getItem(key));
+        console.log("readFromLocalStorage", ls);
+      } catch (e) {
+        /*Ignore*/
+      }
+    }
+    return ls;
+  }
+
+  saveToLocalStorage(key, value) {
+    if (global.localStorage) {
+      global.localStorage.setItem(
+        key,
+        JSON.stringify({
+          value,
+        })
+      );
+    }
+  }
+
   render() {
     const getOpenWindows = () => {
       let openWindowsArray = Object.values(this.state.windows)
@@ -504,7 +546,10 @@ export default class WindowManager extends React.PureComponent {
 
     return (
       <div>
-        <Welcome />
+        <Welcome
+          onLoad={this.readFromLocalStorage}
+          onSave={this.saveToLocalStorage}
+        />
 
         <Toolbar
           onWindowShow={this.handleWindowShow}
@@ -530,7 +575,7 @@ export default class WindowManager extends React.PureComponent {
   }
 }
 
-function readFromLocalStorage(key) {
+function readLayoutFromLocalStorage(key) {
   let ls = {};
   if (global.localStorage) {
     try {
@@ -542,7 +587,7 @@ function readFromLocalStorage(key) {
   return ls[key];
 }
 
-function saveToLocalStorage(key, value) {
+function saveLayoutToLocalStorage(key, value) {
   if (global.localStorage) {
     global.localStorage.setItem(
       "rgl-8",

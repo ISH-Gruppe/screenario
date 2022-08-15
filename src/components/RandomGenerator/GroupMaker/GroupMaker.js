@@ -13,7 +13,7 @@ import ResultView from "./ResultView";
 
 const steps = ["Select master blaster campaign settings", "Create an ad group"];
 
-export default function GroupMaker() {
+export default function GroupMaker({ onLoad, onSave }) {
   const [activeStep, setActiveStep] = React.useState("0");
   const [groups, setGroups] = React.useState([]);
 

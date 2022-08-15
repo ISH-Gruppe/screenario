@@ -46,13 +46,14 @@ const BootstrapDialogTitle = (props) => {
   );
 };
 
-export default function Welcome() {
+export default function Welcome({ onSave, onLoad }) {
   const [open, setOpen] = React.useState(true);
 
   React.useEffect(() => {
-    const showWelcomeModal = true;
+    const savedSettings = onLoad("welcome") || { showWelcomeModal: true };
+    console.log(savedSettings.showWelcomeModal);
     // load from localstorage(key: showWelcomeModal, value: true)
-    if (showWelcomeModal) {
+    if (savedSettings.showWelcomeModal == true) {
       setOpen(true);
     } else {
       setOpen(false);
@@ -60,6 +61,7 @@ export default function Welcome() {
   }, []);
 
   function setDontShowAgain() {
+    onSave("welcome", { showWelcomeModal: false });
     // save to localStorage (key:showWelcomeModal, value: false)
   }
 

@@ -56,7 +56,7 @@ export default function RandomGenerator({ id, title, onHide }) {
               key={tabsEnum.GROUP_MAKER.key}
               value={tabsEnum.GROUP_MAKER.tabIndex}
             >
-              <GroupMaker />
+              <GroupMaker onLoad={props.onLoad} onSave={props.onSave} />
             </TabPanel>
             <TabPanel
               key={tabsEnum.SPINWHEEL.key}
