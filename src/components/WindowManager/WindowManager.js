@@ -514,7 +514,7 @@ export default class WindowManager extends React.PureComponent {
     if (global.localStorage) {
       try {
         ls = JSON.parse(global.localStorage.getItem(key));
-        console.log("readFromLocalStorage", ls);
+        // console.log("readFromLocalStorage", ls);
       } catch (e) {
         /*Ignore*/
       }
@@ -572,23 +572,23 @@ export default class WindowManager extends React.PureComponent {
 
 function readLayoutFromLocalStorage(key) {
   let ls = {};
-  if (global.localStorage) {
-    try {
-      ls = JSON.parse(global.localStorage.getItem("rgl-8")) || {};
-    } catch (e) {
-      /*Ignore*/
-    }
+  // if (global.localStorage) {
+  try {
+    ls = JSON.parse(global.localStorage.getItem("rgl-8")) || {};
+  } catch (e) {
+    /*Ignore*/
   }
+  // }
   return ls[key];
 }
 
 function saveLayoutToLocalStorage(key, value) {
-  if (global.localStorage) {
-    global.localStorage.setItem(
-      "rgl-8",
-      JSON.stringify({
-        [key]: value,
-      })
-    );
-  }
+  // if (global.localStorage) {
+  global.localStorage.setItem(
+    "rgl-8",
+    JSON.stringify({
+      [key]: value,
+    })
+  );
+  // }
 }

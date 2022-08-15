@@ -51,7 +51,7 @@ export default function Welcome({ onSave, onLoad }) {
 
   React.useEffect(() => {
     const savedSettings = onLoad("welcome") || { showWelcomeModal: true };
-    console.log(savedSettings.showWelcomeModal);
+    // console.log(savedSettings.showWelcomeModal);
     // load from localstorage(key: showWelcomeModal, value: true)
     if (savedSettings.showWelcomeModal == true) {
       setOpen(true);
