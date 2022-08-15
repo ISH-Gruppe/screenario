@@ -22,15 +22,12 @@ export default function MusicSelector(props) {
   const [currentIndexInPlaylist, setCurrentIndexInPlaylist] = React.useState(0);
 
   React.useEffect(() => {
-    // console.log("props.isTimerRunning ", props.isTimerRunning);
-    // console.log("isMusicPlaying ", isMusicPlaying);
-
     if (props.isTimerRunning) {
       startMusic();
     } else {
       stopMusic();
     }
-  }, [props.isTimerRunning]);
+  }, [props.isTimerRunning, currentIndexInPlaylist]);
 
   // React to volume changes
   React.useEffect(() => {
@@ -76,10 +73,11 @@ export default function MusicSelector(props) {
   }
 
   function startMusic() {
-    console.log("activeShuffledPlaylist ", activeShuffledPlaylist);
-    console.log("audio ", directoryPrefix + audio.src);
+    // console.log("activeShuffledPlaylist ", activeShuffledPlaylist);
+    // console.log("audio ", directoryPrefix + audio.src);
 
     if (props.isTimerRunning) {
+      loadNextSong();
       audio.play();
       setIsMusicPlaying(true);
 
@@ -90,24 +88,19 @@ export default function MusicSelector(props) {
         if (nextIndexInPlaylist >= activeShuffledPlaylist.length) {
           nextIndexInPlaylist = 0;
         }
-
-        const nextTitleInPlaylist = activeShuffledPlaylist[nextIndexInPlaylist];
-
-        console.log("currentIndexInPlaylist ", currentIndexInPlaylist);
-        console.log("nextIndexInPlaylist ", nextIndexInPlaylist);
-        console.log("activeShuffledPlaylist ", activeShuffledPlaylist);
-
         setCurrentIndexInPlaylist(nextIndexInPlaylist);
-        audio.src = directoryPrefix + nextTitleInPlaylist.link;
-        audio.load();
 
-        if (props.isTimerRunning) {
-          startMusic();
-        } else {
-          setIsMusicPlaying(false);
-        }
+        // console.log("currentIndexInPlaylist ", currentIndexInPlaylist);
+        // console.log("nextIndexInPlaylist ", nextIndexInPlaylist);
+        // console.log("activeShuffledPlaylist ", activeShuffledPlaylist);
       };
     }
+  }
+
+  function loadNextSong() {
+    const nextTitleInPlaylist = activeShuffledPlaylist[currentIndexInPlaylist];
+    audio.src = directoryPrefix + nextTitleInPlaylist.link;
+    audio.load();
   }
 
   /*
