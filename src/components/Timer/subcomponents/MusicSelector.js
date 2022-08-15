@@ -21,34 +21,9 @@ export default function MusicSelector(props) {
   );
   const [currentIndexInPlaylist, setCurrentIndexInPlaylist] = React.useState(0);
 
-  // React to isTimerRunning changes
-  // React.useEffect(() => {
-  //   if (props.isTimerRunning || isMusicPlaying) {
-  //     // console.log("useEffect toggleMusicPlaying");
-
-  //     // Not sure if this is necessary!
-  //     if (selectedPlaylistGenre !== PlaylistsEnum.NO_MUSIC) {
-  //       const newPlaylist = createShuffledPlaylist(selectedPlaylistGenre);
-  //       if (!activeShuffledPlaylist) {
-  //         setActiveShuffledPlaylist(newPlaylist);
-  //         audio.src = directoryPrefix + newPlaylist[0].link;
-  //         setCurrentIndexInPlaylist(0);
-  //       } else {
-  //         audio.src = activeShuffledPlaylist[currentIndexInPlaylist].link;
-  //       }
-
-  //       // setAudio(new Audio(directoryPrefix + newPlaylist[0].link));
-  //       audio.load();
-  //       // audio.play();
-
-  //       toggleMusicPlaying();
-  //     }
-  //   }
-  // }, [props.isTimerRunning]);
-
   React.useEffect(() => {
-    console.log("props.isTimerRunning ", props.isTimerRunning);
-    console.log("isMusicPlaying ", isMusicPlaying);
+    // console.log("props.isTimerRunning ", props.isTimerRunning);
+    // console.log("isMusicPlaying ", isMusicPlaying);
 
     if (props.isTimerRunning) {
       startMusic();
@@ -91,44 +66,6 @@ export default function MusicSelector(props) {
       audio.src = "";
       audio.load();
       audio.pause();
-    }
-  }
-
-  /*
-   *
-   * This used to be a two piece:
-   * 1. A toggle() function toggled the isMusicPlaying state
-   * 2. A hook listened to these changes and called the appropriate audio function
-   *
-   * Those two are now merged in a single method (that hopefully doesn't add to the confusion)
-   */
-  function toggleMusicPlaying() {
-    const inversionOfIsMusicPlaying = !isMusicPlaying;
-
-    console.log(audio);
-    inversionOfIsMusicPlaying ? audio?.play() : audio?.pause();
-    setIsMusicPlaying(inversionOfIsMusicPlaying);
-
-    if (inversionOfIsMusicPlaying && audio) {
-      audio.onended = () => {
-        let nextIndexInPlaylist = currentIndexInPlaylist + 1;
-
-        // Simple if instead of ternary operator -> Improved readability
-        if (nextIndexInPlaylist >= activeShuffledPlaylist.length) {
-          nextIndexInPlaylist = 0;
-        }
-
-        const nextTitleInPlaylist = activeShuffledPlaylist[nextIndexInPlaylist];
-
-        // console.log("currentIndexInPlaylist ", currentIndexInPlaylist);
-        // console.log("nextIndexInPlaylist ", nextIndexInPlaylist);
-        // console.log("activeShuffledPlaylist ", activeShuffledPlaylist);
-
-        setCurrentIndexInPlaylist(nextIndexInPlaylist);
-        // setAudio(new Audio(directoryPrefix + nextTitleInPlaylist.link));
-        audio.src = directoryPrefix + nextTitleInPlaylist.link;
-        audio.load();
-      };
     }
   }
 
