@@ -7,11 +7,14 @@ const Datenschutz = () => {
       <h2>In Kürze</h2>
       <ul>
         <li>
-          <a href="https://screenar.io">Screenario</a>
-          speichert oder verarbeitet keinerlei persönliche Daten, weder im
-          Browserspeicher (Local Storage bzw Cookies), noch auf unseren Servern.
+          <a href="https://screenar.io">Screenario </a> hinterlegt gewünschte
+          Präferenzen und eingegeben Begriffe im "Local Storage".
         </li>
-        <li>Es werden keine Analytics- oder Trackingwerkzeuge verwendet</li>
+        <li>
+          Es werden keinerlei persönliche Daten auf unseren Servern gespeichert
+          oder verarbeitet.
+        </li>
+        <li>Es werden keine Analytics- oder Trackingwerkzeuge verwendet.</li>
         <li>
           Es werden keine IP-Adressen gespeichert oder verarbeitet und es gibt
           keine Zugriffslogs.
@@ -81,8 +84,20 @@ const Datenschutz = () => {
         und am Schloss-Symbol in der Browserzeile.{" "}
       </p>
       <h2> Datenspeicherung im lokalen Browserspeicher </h2>
-      Aktuell speichert screenar.io keinerlei Daten im lokalen Browserspeicher
-      oder in Cookies, welche über mehrere Sitzungen verfügbar bleiben.
+      <p>
+        Damit Ihre gewünschten Präferenzen und eingegeben Begriffe beim
+        Verlassen oder Aktualisieren der Seite nicht verloren gehen, werden sie
+        unverschlüsselt in Ihrem lokalen Browserspeicher, dem "Local Storage",
+        hinterlegt. Es werden keine Daten an den Anbieter oder an Dritte
+        übertragen. Die Daten verbleiben auf Ihrem System bis sie von Ihnen
+        gelöscht werden. Sie können die Daten löschen indem Sie mittels der
+        Browsereinstellungen den Browserchache leeren.
+      </p>
+      <p>
+        Sie können das Speichern von lokalen Daten in Ihren Browsereinstellungen
+        allgemein verbieten. In diesem Fall weisen wir auf mögliche
+        Funktionseinschränkungen dieser Seite hin.
+      </p>
     </div>
   );
 };
