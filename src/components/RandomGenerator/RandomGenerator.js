@@ -9,7 +9,7 @@ import GroupMaker from "./GroupMaker/GroupMaker";
 import Spinwheel from "./Spinwheel/Spinwheel";
 import NamePicker from "./NamePicker/NamePicker";
 
-export default function RandomGenerator({ id, title, onHide }) {
+export default function RandomGenerator({ id, title, onHide, onSave, onLoad }) {
   const [activeTab, setActiveTab] = React.useState("0");
 
   function handleReset() {}
@@ -56,19 +56,19 @@ export default function RandomGenerator({ id, title, onHide }) {
               key={tabsEnum.GROUP_MAKER.key}
               value={tabsEnum.GROUP_MAKER.tabIndex}
             >
-              <GroupMaker onLoad={props.onLoad} onSave={props.onSave} />
+              <GroupMaker onLoad={onLoad} onSave={onSave} />
             </TabPanel>
             <TabPanel
               key={tabsEnum.SPINWHEEL.key}
               value={tabsEnum.SPINWHEEL.tabIndex}
             >
-              <Spinwheel onLoad={props.onLoad} onSave={props.onSave} />
+              <Spinwheel onLoad={onLoad} onSave={onSave} />
             </TabPanel>
             <TabPanel
               key={tabsEnum.NAME_PICKER.key}
               value={tabsEnum.NAME_PICKER.tabIndex}
             >
-              <NamePicker onLoad={props.onLoad} onSave={props.onSave} />
+              <NamePicker onLoad={onLoad} onSave={onSave} />
             </TabPanel>
           </TabContext>
         </div>

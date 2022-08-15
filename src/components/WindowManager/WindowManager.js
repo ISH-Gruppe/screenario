@@ -389,6 +389,8 @@ export default class WindowManager extends React.PureComponent {
           open: true,
           content: (
             <Timer
+              id="timer"
+              title="Timer"
               onHide={this.handleWindowHide}
               onSave={this.saveToLocalStorage}
               onLoad={this.readFromLocalStorage}
@@ -415,6 +417,8 @@ export default class WindowManager extends React.PureComponent {
               id="random-generator"
               title="Zufallsgenerator"
               onHide={this.handleWindowHide}
+              onSave={this.saveToLocalStorage}
+              onLoad={this.readFromLocalStorage}
             />
           ),
         },
@@ -458,11 +462,6 @@ export default class WindowManager extends React.PureComponent {
             <Notepad
               id="notepad"
               title="Notepad"
-              onHide={this.handleWindowHide}
-            />
-          ),
-          content: (
-            <Notepad
               onHide={this.handleWindowHide}
               onSave={this.saveToLocalStorage}
               onLoad={this.readFromLocalStorage}

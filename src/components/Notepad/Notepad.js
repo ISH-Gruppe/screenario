@@ -17,6 +17,7 @@ import "./Notepad.css";
 
 export default function Notepad({
   id,
+  title,
   visible,
   onHide,
   onChange,
@@ -122,7 +123,6 @@ export default function Notepad({
 
   return (
     <BaseWindow id={id} title={title} onReset={handleReset} onHide={handleHide}>
-      >
       <Box sx={{ width: "100%" }}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs

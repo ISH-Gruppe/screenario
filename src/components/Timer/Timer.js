@@ -12,6 +12,7 @@ import BaseWindow from "../BaseWindow/BaseWindow";
 
 export default function Timer({
   id,
+  title,
   visible,
   onHide,
   onChange,
