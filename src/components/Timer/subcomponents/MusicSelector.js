@@ -27,7 +27,16 @@ export default function MusicSelector(props) {
   // React to isTimerRunning changes
   React.useEffect(() => {
     if (props.isTimerRunning || isMusicPlaying) {
-      console.log("useEffect toggleMusicPlaying");
+      // console.log("useEffect toggleMusicPlaying");
+
+      // Not sure if this is necessary!
+      if (selectedPlaylistGenre !== PlaylistsEnum.NO_MUSIC) {
+        if (!activeShuffledPlaylist) {
+          const newPlaylist = createShuffledPlaylist(selectedPlaylistGenre);
+          setAudio(new Audio(newPlaylist[0].link));
+          setCurrentIndexInPlaylist(0);
+        }
+      }
       toggleMusicPlaying();
     }
   }, [props.isTimerRunning]);
