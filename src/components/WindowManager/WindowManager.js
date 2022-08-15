@@ -485,7 +485,8 @@ export default class WindowManager extends React.PureComponent {
   }
 
   onLayoutChange(layout, layouts) {
-    saveLayoutToLocalStorage("layouts", layouts);
+    // TODO: Fix! Temporarily removed
+    // saveLayoutToLocalStorage("layouts", layouts);
     this.setState({ layouts });
   }
 
