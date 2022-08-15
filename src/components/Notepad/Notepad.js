@@ -8,6 +8,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 
 // Components
 import BaseWindow from "../BaseWindow/BaseWindow";
@@ -49,6 +50,13 @@ export default function Notepad({ id, title, onHide, onChange }) {
     setNotes([...notesCopy]);
   }
 
+  function deleteNote() {
+    setCurrentTab(currentTab - 1);
+    const notesCopy = [...notes];
+    notesCopy.splice(currentTab, 1);
+    setNotes([...notesCopy]);
+  }
+
   function handleQuillChange(editorContent) {
     updateNote(currentTab, editorContent);
   }
@@ -61,6 +69,7 @@ export default function Notepad({ id, title, onHide, onChange }) {
 
     return (
       <Tab
+        key={index}
         label={noteText ? noteText.slice(0, 10) : "Notiz " + (note.id + 1)}
       />
     );
@@ -69,6 +78,7 @@ export default function Notepad({ id, title, onHide, onChange }) {
   const tabPanels = notes.map((note, index) => {
     return (
       <div
+        key={index}
         className="tabpanel"
         role="tabpanel"
         hidden={currentTab !== index}
@@ -90,13 +100,18 @@ export default function Notepad({ id, title, onHide, onChange }) {
             placeholder="Hier eine Notiz erstellen..."
           />
         )}
+        <Button
+          onClick={deleteNote}
+          style={{ position: "fixed", bottom: "10px" }}
+        >
+          Notiz löschen
+        </Button>
       </div>
     );
   });
 
   return (
     <BaseWindow id={id} title={title} onReset={handleReset} onHide={handleHide}>
-      >
       <Box sx={{ width: "100%" }}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs
