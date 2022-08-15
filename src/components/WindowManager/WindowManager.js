@@ -524,12 +524,7 @@ export default class WindowManager extends React.PureComponent {
 
   saveToLocalStorage(key, value) {
     if (global.localStorage) {
-      global.localStorage.setItem(
-        key,
-        JSON.stringify({
-          value,
-        })
-      );
+      global.localStorage.setItem(key, JSON.stringify(value));
     }
   }
 
