@@ -20,7 +20,7 @@ export default function MusicSelector(props) {
     PlaylistsEnum.PIANO
   );
   const [activeShuffledPlaylist, setActiveShuffledPlaylist] = React.useState(
-    []
+    createShuffledPlaylist(PlaylistsEnum.PIANO)
   );
   const [currentIndexInPlaylist, setCurrentIndexInPlaylist] = React.useState(0);
 
@@ -43,23 +43,19 @@ export default function MusicSelector(props) {
    * 2. Update audio state
    */
   function handlePlaylistChange(event) {
-    console.log("handlePlaylistChange ", event.target.value);
+    // console.log("handlePlaylistChange ", event.target.value);
+
     setSelectedPlaylistGenre(event.target.value);
 
     if (event.target.value !== PlaylistsEnum.NO_MUSIC) {
       // 1. Reshuffle playlist & update state
-      const playlist = createShuffledPlaylist(event.target.value);
-      setActiveShuffledPlaylist(playlist);
+      const newPlaylist = createShuffledPlaylist(event.target.value);
+      setActiveShuffledPlaylist(newPlaylist);
       setCurrentIndexInPlaylist(0);
 
       // 2. Update audio state -> will be undefined if NO_MUSIC is selected
-      const newTrackUrl = "../music" + activeShuffledPlaylist[0].link;
-      setAudio(newTrackUrl);
-
-      // console.log("track: ", trackToPlay);
-    } else {
-      audio.pause();
-      setAudio(undefined);
+      const newTrackUrl = "../music" + newPlaylist[0].link;
+      setAudio(new Audio(newTrackUrl));
     }
   }
 
@@ -74,11 +70,10 @@ export default function MusicSelector(props) {
   function toggleMusicPlaying() {
     const inversionOfIsMusicPlaying = !isMusicPlaying;
 
-    inversionOfIsMusicPlaying ? audio.play() : audio.pause();
+    inversionOfIsMusicPlaying ? audio?.play() : audio?.pause();
     setIsMusicPlaying(inversionOfIsMusicPlaying);
-    console.log("inversionOfIsMusicPlaying ", inversionOfIsMusicPlaying);
 
-    if (inversionOfIsMusicPlaying) {
+    if (inversionOfIsMusicPlaying && audio) {
       audio.onended = () => {
         let nextIndexInPlaylist = currentIndexInPlaylist + 1;
 
@@ -89,23 +84,12 @@ export default function MusicSelector(props) {
 
         const nextTitleInPlaylist = activeShuffledPlaylist[nextIndexInPlaylist];
 
-        console.log("currentIndexInPlaylist ", currentIndexInPlaylist);
-        console.log("nextIndexInPlaylist ", nextIndexInPlaylist);
+        // console.log("currentIndexInPlaylist ", currentIndexInPlaylist);
+        // console.log("nextIndexInPlaylist ", nextIndexInPlaylist);
+        // console.log("activeShuffledPlaylist ", activeShuffledPlaylist);
 
         setCurrentIndexInPlaylist(nextIndexInPlaylist);
-        setAudio(nextTitleInPlaylist);
-      };
-
-      audio.onpause = () => {
-        console.log("audio.onpause");
-        const nextIndexInPlaylist =
-          currentIndexInPlaylist + 1 < activeShuffledPlaylist.length
-            ? currentIndexInPlaylist + 1
-            : 0;
-        const nextTitleInPlaylist = activeShuffledPlaylist[nextIndexInPlaylist];
-
-        console.log("currentIndexInPlaylist ", currentIndexInPlaylist);
-        console.log("nextIndexInPlaylist ", nextIndexInPlaylist);
+        setAudio(new Audio(nextTitleInPlaylist.link));
       };
     }
   }
@@ -148,7 +132,7 @@ export default function MusicSelector(props) {
     const shuffledPlaylist = [...selectedPlaylist.tracks];
     shuffleArray(shuffledPlaylist);
 
-    console.log("shuffle playlist");
+    // console.log("shuffle playlist");
     return shuffledPlaylist;
   }
 
