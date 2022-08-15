@@ -22,23 +22,38 @@ export default function MusicSelector(props) {
   const [currentIndexInPlaylist, setCurrentIndexInPlaylist] = React.useState(0);
 
   // React to isTimerRunning changes
+  // React.useEffect(() => {
+  //   if (props.isTimerRunning || isMusicPlaying) {
+  //     // console.log("useEffect toggleMusicPlaying");
+
+  //     // Not sure if this is necessary!
+  //     if (selectedPlaylistGenre !== PlaylistsEnum.NO_MUSIC) {
+  //       const newPlaylist = createShuffledPlaylist(selectedPlaylistGenre);
+  //       if (!activeShuffledPlaylist) {
+  //         setActiveShuffledPlaylist(newPlaylist);
+  //         audio.src = directoryPrefix + newPlaylist[0].link;
+  //         setCurrentIndexInPlaylist(0);
+  //       } else {
+  //         audio.src = activeShuffledPlaylist[currentIndexInPlaylist].link;
+  //       }
+
+  //       // setAudio(new Audio(directoryPrefix + newPlaylist[0].link));
+  //       audio.load();
+  //       // audio.play();
+
+  //       toggleMusicPlaying();
+  //     }
+  //   }
+  // }, [props.isTimerRunning]);
+
   React.useEffect(() => {
-    if (props.isTimerRunning || isMusicPlaying) {
-      // console.log("useEffect toggleMusicPlaying");
+    console.log("props.isTimerRunning ", props.isTimerRunning);
+    console.log("isMusicPlaying ", isMusicPlaying);
 
-      // Not sure if this is necessary!
-      if (selectedPlaylistGenre !== PlaylistsEnum.NO_MUSIC) {
-        if (!activeShuffledPlaylist) {
-          const newPlaylist = createShuffledPlaylist(selectedPlaylistGenre);
-          // setAudio(new Audio(directoryPrefix + newPlaylist[0].link));
-          audio.src = directoryPrefix + newPlaylist[0].link;
-          audio.load();
-          audio.play();
-
-          setCurrentIndexInPlaylist(0);
-        }
-      }
-      toggleMusicPlaying();
+    if (props.isTimerRunning) {
+      startMusic();
+    } else {
+      stopMusic();
     }
   }, [props.isTimerRunning]);
 
@@ -70,12 +85,12 @@ export default function MusicSelector(props) {
       audio.load();
 
       if (props.isTimerRunning) {
-        audio.play();
+        startMusic();
       }
     } else {
-      if (audio) {
-        audio.pause();
-      }
+      audio.src = "";
+      audio.load();
+      audio.pause();
     }
   }
 
@@ -115,6 +130,44 @@ export default function MusicSelector(props) {
         audio.load();
       };
     }
+  }
+
+  function stopMusic() {
+    if (audio) {
+      audio.pause();
+      setIsMusicPlaying(false);
+    }
+  }
+
+  function startMusic() {
+    audio.play();
+    setIsMusicPlaying(true);
+
+    audio.onended = () => {
+      let nextIndexInPlaylist = currentIndexInPlaylist + 1;
+
+      // Simple if instead of ternary operator -> Improved readability
+      if (nextIndexInPlaylist >= activeShuffledPlaylist.length) {
+        nextIndexInPlaylist = 0;
+      }
+
+      const nextTitleInPlaylist = activeShuffledPlaylist[nextIndexInPlaylist];
+
+      // console.log("currentIndexInPlaylist ", currentIndexInPlaylist);
+      // console.log("nextIndexInPlaylist ", nextIndexInPlaylist);
+      // console.log("activeShuffledPlaylist ", activeShuffledPlaylist);
+
+      setCurrentIndexInPlaylist(nextIndexInPlaylist);
+      // setAudio(new Audio(directoryPrefix + nextTitleInPlaylist.link));
+      audio.src = directoryPrefix + nextTitleInPlaylist.link;
+      audio.load();
+
+      if (isMusicPlaying) {
+        startMusic();
+      } else {
+        setIsMusicPlaying(false);
+      }
+    };
   }
 
   /*
