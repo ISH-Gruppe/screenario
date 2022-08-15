@@ -1,19 +1,14 @@
 import React from "react";
 
 import "./GroupMaker.scss";
-import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
-import StepContent from "@mui/material/StepContent";
 import StepLabel from "@mui/material/StepLabel";
 
-import HorizontalLinearStepper from "./Stepper";
 import EntryView from "./EntryView";
 import ResultView from "./ResultView";
 
-const steps = ["Select master blaster campaign settings", "Create an ad group"];
-
-export default function GroupMaker() {
+export default function GroupMaker(props) {
   const [activeStep, setActiveStep] = React.useState("0");
   const [groups, setGroups] = React.useState([]);
 
@@ -46,7 +41,12 @@ export default function GroupMaker() {
 
       <div className="stepper-content">
         {activeStep === "0" && (
-          <EntryView groups={groups} onGroupChange={handleGroupChange} />
+          <EntryView
+            groups={groups}
+            onGroupChange={handleGroupChange}
+            onLoad={props.onLoad}
+            onSave={props.onSave}
+          />
         )}
         {activeStep === "1" && (
           <ResultView

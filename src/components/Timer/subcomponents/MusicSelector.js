@@ -10,7 +10,11 @@ import * as Playlists from "./Playlists";
 
 export default function MusicSelector(props) {
   const directoryPrefix = "/assets/music";
-  const [audio, setAudio] = React.useState(new Audio(""));
+  const [audio, setAudio] = React.useState(
+    new Audio(
+      directoryPrefix + "/piano/01 - NoBan Stream - Kitsune No Nageki.mp3"
+    )
+  );
   const [isMusicPlaying, setIsMusicPlaying] = React.useState(false);
 
   const [selectedPlaylistGenre, setSelectedPlaylistGenre] = React.useState(

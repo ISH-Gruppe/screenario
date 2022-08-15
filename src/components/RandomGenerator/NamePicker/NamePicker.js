@@ -5,13 +5,21 @@ import RandomPicker from "./RandomPicker/RandomPicker";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
-export default function NamePicker() {
-  const initialNamesList = [];
-  const [nameList, setNameList] = React.useState(initialNamesList);
+export default function NamePicker(props) {
+  const [nameList, setNameList] = React.useState(loadState());
   const [availableNamesToDraw, setNameAvailableNamesToDraw] =
     React.useState(nameList);
 
   const [rememberChosen, setRememberChosen] = React.useState(true);
+
+  function loadState() {
+    const loadedGroup = props.onLoad("NAME_PICKER")
+      ? props.onLoad("NAME_PICKER")
+      : [];
+    // console.log("loadedGroup ", loadedGroup);
+
+    return loadedGroup;
+  }
 
   function handleRememberChosenChange(event) {
     if (!event.target.checked) {
@@ -25,6 +33,7 @@ export default function NamePicker() {
     // console.log(updatedList);
     setNameList(updatedList);
     resetAvailableNamesToDraw(updatedList);
+    props.onSave("NAME_PICKER", updatedList);
   }
 
   function handleChoiceChange(selectedName) {
@@ -76,7 +85,7 @@ export default function NamePicker() {
       </div>
 
       <TextareaWordlist
-        valueAsList={initialNamesList}
+        valueAsList={availableNamesToDraw}
         handleWordlistChange={handleWordlistChange}
         minRows="8"
         placeholder="Hier einen Namen pro Zeile einfügen "

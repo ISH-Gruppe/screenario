@@ -15,12 +15,36 @@ import BaseWindow from "../BaseWindow/BaseWindow";
 // CSS
 import "./Notepad.css";
 
-export default function Notepad({ id, title, onHide, onChange }) {
-  const [notes, setNotes] = React.useState([
-    { id: 0, text: "" },
-    { id: "add", text: "+" },
-  ]);
-  const [currentTab, setCurrentTab] = React.useState(0);
+export default function Notepad({
+  id,
+  title,
+  visible,
+  onHide,
+  onChange,
+  onSave,
+  onLoad,
+}) {
+  const [notes, setNotes] = React.useState(loadStateNotes());
+  const [currentTab, setCurrentTab] = React.useState(loadStateCurrentTab);
+
+  function loadStateNotes() {
+    const savedNotes = onLoad("NOTEPAD_NOTES")
+      ? onLoad("NOTEPAD_NOTES")
+      : [
+          { id: 0, text: "" },
+          { id: "add", text: "+" },
+        ];
+    // console.log("loadedGroup ", loadedGroup);
+
+    return savedNotes;
+  }
+
+  function loadStateCurrentTab() {
+    const savedNotes = onLoad("NOTEPAD_TAB") ? onLoad("NOTEPAD_TAB") : 0;
+    // console.log("loadedGroup ", loadedGroup);
+
+    return savedNotes;
+  }
 
   function handleReset() {}
 
@@ -30,6 +54,7 @@ export default function Notepad({ id, title, onHide, onChange }) {
 
   const changeTabOrCreateNewNote = (event, selectedTab) => {
     setCurrentTab(selectedTab);
+    onSave("NOTEPAD_TAB", selectedTab);
 
     if (notes[selectedTab].id == "add") {
       addNewNote(selectedTab);
@@ -41,12 +66,14 @@ export default function Notepad({ id, title, onHide, onChange }) {
     newNotes[selectedTab] = { id: selectedTab, text: "" };
     console.log(newNotes[selectedTab]);
     setNotes([...newNotes, { id: "add", text: "+" }]);
+    onSave("NOTEPAD_NOTES", [...newNotes, { id: "add", text: "+" }]);
   }
 
   function updateNote(noteId, editorContent) {
     const notesCopy = [...notes];
     notesCopy[noteId] = { id: noteId, text: editorContent };
     setNotes([...notesCopy]);
+    onSave("NOTEPAD_NOTES", [...notesCopy]);
   }
 
   function handleQuillChange(editorContent) {
@@ -96,7 +123,6 @@ export default function Notepad({ id, title, onHide, onChange }) {
 
   return (
     <BaseWindow id={id} title={title} onReset={handleReset} onHide={handleHide}>
-      >
       <Box sx={{ width: "100%" }}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs

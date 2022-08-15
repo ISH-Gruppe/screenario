@@ -10,14 +10,21 @@ import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import TextareaWordlist from "../TextareaWordlist";
 
 export default function EntryView(props) {
-  const initialNamesList = [];
-
   // TODO: Write a Stackoverflow Reply about the nasty render loop we had
-  const [nameList, setNameList] = React.useState(initialNamesList);
+  const [nameList, setNameList] = React.useState(loadState());
   const [numberOfGroups, setNumberOfGroups] = React.useState(2);
   const [showHintNotEnoughGroups, setShowHintNotEnoughGroups] =
     React.useState(false);
   const [numberOfPeoplePerGroup, setNumberOfPeoplePerGroup] = React.useState();
+
+  function loadState() {
+    const loadedGroup = props.onLoad("GROUPS_NAMELIST")
+      ? props.onLoad("GROUPS_NAMELIST")
+      : [];
+    // console.log("loadedGroup ", loadedGroup);
+
+    return loadedGroup;
+  }
 
   React.useEffect(() => {
     calculateNumberOfPeoplePerGroup();
@@ -37,6 +44,7 @@ export default function EntryView(props) {
 
   function handleNamelistChange(updatedList) {
     setNameList(updatedList);
+    props.onSave("GROUPS_NAMELIST", updatedList);
   }
 
   function incrementNumberGroups() {
