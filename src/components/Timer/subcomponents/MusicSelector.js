@@ -6,63 +6,105 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-import * as Playlists from "../music/Playlists";
-
-import useAudio from "./useAudio";
-import testAudio from "../music/gaming/04 - NoBan Stream - Dummy Training.mp3";
+import * as Playlists from "./Playlists";
 
 export default function MusicSelector(props) {
+  const directoryPrefix = "/assets/music";
+  const [audio, setAudio] = React.useState(new Audio(""));
+  const [isMusicPlaying, setIsMusicPlaying] = React.useState(false);
+
   const [selectedPlaylistGenre, setSelectedPlaylistGenre] = React.useState(
-    PlaylistsEnum.NO_MUSIC
+    PlaylistsEnum.PIANO
   );
-
-  const [activeShuffledPlaylist, setActiveShuffledPlaylist] = React.useState();
-
-  const [isMusicPlaying, toggle, audio, setAudio] = useAudio(testAudio);
+  const [activeShuffledPlaylist, setActiveShuffledPlaylist] = React.useState(
+    createShuffledPlaylist(PlaylistsEnum.PIANO)
+  );
+  const [currentIndexInPlaylist, setCurrentIndexInPlaylist] = React.useState(0);
 
   React.useEffect(() => {
-    if (props.isTimerRunning || isMusicPlaying) {
-      playSelectedMusic();
+    if (props.isTimerRunning) {
+      startMusic();
+    } else {
+      stopMusic();
     }
-  }, [props.isTimerRunning]);
+  }, [props.isTimerRunning, currentIndexInPlaylist]);
 
+  // React to volume changes
   React.useEffect(() => {
     audio.volume = props.musicVolume;
   }, [props.musicVolume]);
 
-  const handlePlaylistChange = (event) => {
+  /*
+   * Reacting to playlist changes happens in two stages:
+   * 1. Update selectedPlaylist state
+   * 2. Update audio state
+   */
+  function handlePlaylistChange(event) {
+    // console.log("handlePlaylistChange ", event.target.value);
+
     setSelectedPlaylistGenre(event.target.value);
 
-    // if(activeShuffledPlaylist === undefined) {
-    const playlist = createShuffledPlaylist(event.target.value);
-    setActiveShuffledPlaylist(playlist);
-    const trackUrl = "../music" + activeShuffledPlaylist[0].link;
-    setAudio(trackUrl)
-    // console.log("track: ", trackToPlay);
+    if (event.target.value !== PlaylistsEnum.NO_MUSIC) {
+      // 1. Reshuffle playlist & update state
+      const newPlaylist = createShuffledPlaylist(event.target.value);
+      setActiveShuffledPlaylist(newPlaylist);
+      setCurrentIndexInPlaylist(0);
 
-    // }
+      // 2. Update audio state -> will be undefined if NO_MUSIC is selected
+      const newTrackUrl = directoryPrefix + newPlaylist[0].link;
+      audio.src = newTrackUrl;
+      audio.load();
 
-    // Changing the playlist means shuffling it and changing the audio
-    // -> createShuffledPlaylist()
-  };
+      if (props.isTimerRunning) {
+        startMusic();
+      }
+    } else {
+      audio.src = "";
+      audio.load();
+      audio.pause();
+    }
+  }
 
-  function playSelectedMusic() {
-    // createShuffledPlaylist(selectedPlaylistGenre);
+  function stopMusic() {
+    if (audio) {
+      audio.pause();
+      setIsMusicPlaying(false);
+    }
+  }
 
+  function startMusic() {
+    // console.log("activeShuffledPlaylist ", activeShuffledPlaylist);
+    // console.log("audio ", directoryPrefix + audio.src);
 
-    // setAudio(trackToPlay)
-    // Play first song
-    toggle();
+    if (props.isTimerRunning) {
+      audio.play();
+      setIsMusicPlaying(true);
 
-    // TODO: How do we track completion of a song?
-    // a.) Pass a function to be called in useAudio
-    // b.) Pull useAudios listener up
+      audio.onended = () => {
+        let nextIndexInPlaylist = currentIndexInPlaylist + 1;
+
+        // Simple if instead of ternary operator -> Improved readability
+        if (nextIndexInPlaylist >= activeShuffledPlaylist.length) {
+          nextIndexInPlaylist = 0;
+        }
+        setCurrentIndexInPlaylist(nextIndexInPlaylist);
+
+        // Load next song
+        const nextTitleInPlaylist = activeShuffledPlaylist[nextIndexInPlaylist];
+        audio.src = directoryPrefix + nextTitleInPlaylist.link;
+        audio.load();
+
+        // console.log("currentIndexInPlaylist ", currentIndexInPlaylist);
+        // console.log("nextIndexInPlaylist ", nextIndexInPlaylist);
+        // console.log("activeShuffledPlaylist ", activeShuffledPlaylist);
+      };
+    }
   }
 
   /*
-   * Check selected playlist genre
-   * Read/ get appropriate song list from file
-   * Create and return new shuffled playlist from song list
+   * Match selected playlist genre
+   * Read/ get appropriate list of available songs for this genre
+   * Create and return a new, shuffled playlist
    *
    * It might return an empty array though if music is not wished for!
    */
@@ -72,6 +114,10 @@ export default function MusicSelector(props) {
     switch (selectedGenre) {
       case PlaylistsEnum.RELAXATION:
         selectedPlaylist = Playlists.PLAYLIST_PIANO;
+        break;
+
+      case PlaylistsEnum.AMBIENT:
+        selectedPlaylist = Playlists.PLAYLIST_AMBIENT;
         break;
 
       case PlaylistsEnum.PIANO:
@@ -85,6 +131,9 @@ export default function MusicSelector(props) {
       case PlaylistsEnum.GAMING:
         selectedPlaylist = Playlists.PLAYLIST_GAMING;
         break;
+      case PlaylistsEnum.TEST:
+        selectedPlaylist = Playlists.PLAYLIST_TEST;
+        break;
 
       default:
         break;
@@ -97,7 +146,7 @@ export default function MusicSelector(props) {
     const shuffledPlaylist = [...selectedPlaylist.tracks];
     shuffleArray(shuffledPlaylist);
 
-    console.log("shuffle playlist");
+    // console.log("shuffle playlist");
     return shuffledPlaylist;
   }
 
@@ -110,7 +159,7 @@ export default function MusicSelector(props) {
   }
 
   return (
-    <Box sx={{ minWidth: 120, maxWidth: 800 }}>
+    <Box>
       <FormControl fullWidth size="small">
         <InputLabel id="demo-simple-select-label">Musik</InputLabel>
         <Select
@@ -123,8 +172,8 @@ export default function MusicSelector(props) {
           <MenuItem value={PlaylistsEnum.NO_MUSIC}>
             {PlaylistsEnum.NO_MUSIC}
           </MenuItem>
-          <MenuItem value={PlaylistsEnum.RELAXATION}>
-            {PlaylistsEnum.RELAXATION}
+          <MenuItem value={PlaylistsEnum.AMBIENT}>
+            {PlaylistsEnum.AMBIENT}
           </MenuItem>
           <MenuItem value={PlaylistsEnum.PIANO}>{PlaylistsEnum.PIANO}</MenuItem>
           <MenuItem value={PlaylistsEnum.SYNTHWAVE}>
@@ -133,6 +182,7 @@ export default function MusicSelector(props) {
           <MenuItem value={PlaylistsEnum.GAMING}>
             {PlaylistsEnum.GAMING}
           </MenuItem>
+          {/* <MenuItem value={PlaylistsEnum.TEST}>{PlaylistsEnum.TEST}</MenuItem> */}
         </Select>
       </FormControl>
     </Box>
@@ -147,4 +197,6 @@ export const PlaylistsEnum = {
   PIANO: "Piano",
   SYNTHWAVE: "Synthwave",
   GAMING: "Spielmusik",
+  AMBIENT: "Ambient",
+  TEST: "Test",
 };
