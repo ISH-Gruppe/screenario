@@ -8,12 +8,11 @@ import Select from "@mui/material/Select";
 
 import * as Playlists from "../music/Playlists";
 
-import useAudio from "./useAudio";
 import testAudio from "../music/gaming/04 - NoBan Stream - Dummy Training.mp3";
 import testAudio2 from "../music/gaming/04 - NoBan Stream - Dummy Training.mp3";
 
 export default function MusicSelector(props) {
-  const directoryPrefix = "/assets";
+  const directoryPrefix = "/assets/music";
   const [audio, setAudio] = React.useState(new Audio(testAudio));
   const [isMusicPlaying, setIsMusicPlaying] = React.useState(false);
 
@@ -34,7 +33,11 @@ export default function MusicSelector(props) {
       if (selectedPlaylistGenre !== PlaylistsEnum.NO_MUSIC) {
         if (!activeShuffledPlaylist) {
           const newPlaylist = createShuffledPlaylist(selectedPlaylistGenre);
-          setAudio(new Audio(directoryPrefix + newPlaylist[0].link));
+          // setAudio(new Audio(directoryPrefix + newPlaylist[0].link));
+          audio.src = directoryPrefix + newPlaylist[0].link;
+          audio.load();
+          audio.play();
+
           setCurrentIndexInPlaylist(0);
         }
       }
@@ -65,7 +68,14 @@ export default function MusicSelector(props) {
 
       // 2. Update audio state -> will be undefined if NO_MUSIC is selected
       const newTrackUrl = directoryPrefix + newPlaylist[0].link;
-      setAudio(new Audio(newTrackUrl));
+      // setAudio(new Audio(newTrackUrl));
+      audio.src = newTrackUrl;
+      audio.load();
+      audio.play();
+    } else {
+      if(audio) {
+        audio.pause();
+      }
     }
   }
 
@@ -80,6 +90,7 @@ export default function MusicSelector(props) {
   function toggleMusicPlaying() {
     const inversionOfIsMusicPlaying = !isMusicPlaying;
 
+    console.log(audio);
     inversionOfIsMusicPlaying ? audio?.play() : audio?.pause();
     setIsMusicPlaying(inversionOfIsMusicPlaying);
 
@@ -99,7 +110,9 @@ export default function MusicSelector(props) {
         // console.log("activeShuffledPlaylist ", activeShuffledPlaylist);
 
         setCurrentIndexInPlaylist(nextIndexInPlaylist);
-        setAudio(new Audio(directoryPrefix + nextTitleInPlaylist.link));
+        // setAudio(new Audio(directoryPrefix + nextTitleInPlaylist.link));
+        audio.src = directoryPrefix + nextTitleInPlaylist.link;
+        audio.load();
       };
     }
   }
