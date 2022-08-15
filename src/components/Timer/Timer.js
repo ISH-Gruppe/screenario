@@ -10,7 +10,7 @@ import VolumeSlider from "./subcomponents/VolumeSlider";
 import Grid from "@mui/material/Grid";
 import BaseWindow from "../BaseWindow/BaseWindow";
 
-export default function Timer({ id, visible, onHide, onChange }) {
+export default function Timer({ id, title, onHide, onChange }) {
   /*
    * Explicitly providing an undefined state since passing a valid TimeStamp from WindowManager
    * doesn't seem to trigger anything in the useTimer hook.
@@ -79,12 +79,7 @@ export default function Timer({ id, visible, onHide, onChange }) {
   }
 
   return (
-    <BaseWindow
-      id="timer"
-      title="Timer"
-      onReset={handleReset}
-      onHide={handleHide}
-    >
+    <BaseWindow id={id} title={title} onReset={handleReset} onHide={handleHide}>
       <Grid container spacing={2} style={{ textAlign: "center" }}>
         <Grid item xs={12} style={{ textAlign: "center" }}>
           <TimerView
@@ -101,14 +96,14 @@ export default function Timer({ id, visible, onHide, onChange }) {
           <MusicSelector isTimerRunning={isRunning} musicVolume={musicVolume} />
         </div>
 
-          <div className="child-container volume-control">
-            <VolumeSlider
-              handleVolumeChange={handleVolumeChange}
-              muteVolume={muteVolume}
-              unmuteVolume={unmuteVolume}
-              musicVolume={musicVolume}
-            />
-          </div>
+        <div className="child-container volume-control">
+          <VolumeSlider
+            handleVolumeChange={handleVolumeChange}
+            muteVolume={muteVolume}
+            unmuteVolume={unmuteVolume}
+            musicVolume={musicVolume}
+          />
+        </div>
       </Grid>
     </BaseWindow>
   );

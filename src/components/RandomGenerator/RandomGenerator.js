@@ -9,10 +9,14 @@ import GroupMaker from "./GroupMaker/GroupMaker";
 import Spinwheel from "./Spinwheel/Spinwheel";
 import NamePicker from "./NamePicker/NamePicker";
 
-export default function RandomGenerator() {
+export default function RandomGenerator({ id, title, onHide }) {
   const [activeTab, setActiveTab] = React.useState("0");
 
-  function reset() {}
+  function handleReset() {}
+
+  function handleHide() {
+    onHide(id);
+  }
 
   const updateActiveTab = (event, newValue) => {
     setActiveTab(newValue);
@@ -20,7 +24,12 @@ export default function RandomGenerator() {
 
   return (
     <div id="RandomGeneratorWrapper">
-      <BaseWindow title="Zufallsgenerator">
+      <BaseWindow
+        id={id}
+        title={title}
+        onReset={handleReset}
+        onHide={handleHide}
+      >
         <div id="RandomGeneratorContent">
           <TabContext value={activeTab}>
             <div className="tabs">

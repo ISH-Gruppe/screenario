@@ -19,6 +19,7 @@ export default function BaseWindow({
   resetName,
 }) {
   function handleHide() {
+    console.log("handleHide", id);
     onHide(id);
   }
 
@@ -37,15 +38,16 @@ export default function BaseWindow({
           "alignItems": "center",
         }}
       >
-        <Button
-          className="resetButton"
-          onClick={handleReset}
-          variant="outlined"
-          size="small"
-        >
-          {resetName ? resetName : "Reset"}
-        </Button>
-
+        {
+          // <Button
+          //   className="resetButton"
+          //   onClick={handleReset}
+          //   variant="outlined"
+          //   size="small"
+          // >
+          //   {resetName ? resetName : "Reset"}
+          // </Button>
+        }
         <h3 className="window-title">{title}</h3>
 
         <IconButton

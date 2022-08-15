@@ -25,7 +25,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
  */
 export default function DigitalerStuhlkreisWrapper({
   id,
-  visible,
+  title,
   onHide,
   onChange,
 }) {
@@ -42,7 +42,6 @@ export default function DigitalerStuhlkreisWrapper({
             <RemoveIcon />
           </IconButton>
         </div>
-
         <digitaler-stuhlkreis />
       </div>
     </Card>

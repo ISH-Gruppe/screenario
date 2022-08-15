@@ -11,4 +11,5 @@
 
 .window-title {
   color: #000;
+  margin: auto; /* remove when re-adding reset button */
 }

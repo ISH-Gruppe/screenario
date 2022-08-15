@@ -11,7 +11,7 @@ import Container from "@mui/material/Container";
 // Styles
 import "./Soundboard.css";
 
-export default function SoundBoard({ id, visible, onHide, onChange }) {
+export default function SoundBoard({ id, title, onHide, onChange }) {
   function handleReset() {
     stopSound();
   }
@@ -102,8 +102,8 @@ export default function SoundBoard({ id, visible, onHide, onChange }) {
 
   return (
     <BaseWindow
-      id="soundboard"
-      title="Soundboard"
+      id={id}
+      title={title}
       onReset={handleReset}
       onHide={handleHide}
       resetName="Stop"

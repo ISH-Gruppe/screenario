@@ -15,7 +15,7 @@ import BaseWindow from "../BaseWindow/BaseWindow";
 // CSS
 import "./Notepad.css";
 
-export default function Notepad({ id, visible, onHide, onChange }) {
+export default function Notepad({ id, title, onHide, onChange }) {
   const [notes, setNotes] = React.useState([
     { id: 0, text: "" },
     { id: "add", text: "+" },
@@ -95,12 +95,8 @@ export default function Notepad({ id, visible, onHide, onChange }) {
   });
 
   return (
-    <BaseWindow
-      id="notepad"
-      title="Notepad"
-      onReset={handleReset}
-      onHide={handleHide}
-    >
+    <BaseWindow id={id} title={title} onReset={handleReset} onHide={handleHide}>
+      >
       <Box sx={{ width: "100%" }}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs
