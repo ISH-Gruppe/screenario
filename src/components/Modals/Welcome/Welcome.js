@@ -100,7 +100,8 @@ export default function Welcome() {
           </p>
           <span class="modal-imprint-privacy">
             <a href="/impressum">Impressum</a> &{" "}
-            <a href="/datenschutz">Datenschutz</a>
+            <a href="/datenschutz">Datenschutz</a>,{" "}
+            <a href="/lizenzen"> Lizenzen </a>
           </span>
         </DialogContent>
         <DialogActions>

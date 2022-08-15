@@ -2,7 +2,7 @@ import Button from "@mui/material/Button";
 const Datenschutz = () => {
   return (
     <div className="legal-text">
-      <Button href="/"> </Button>
+      <Button href="/"> Zurück </Button>
       <h1>Datenschutz</h1>
       <h2>In Kürze</h2>
       <ul>

@@ -8,6 +8,7 @@ import "./theme/font.css";
 import WindowManager from "./components/WindowManager/WindowManager";
 import Imprint from "./components/Modals/Imprint/Imprint";
 import Privacy from "./components/Modals/Privacy/Privacy";
+import Licensing from "./components/Modals/Licensing/Licensing";
 
 // CSS
 import "./App.css";
@@ -20,6 +21,7 @@ export default function App() {
           <Route path="/" element={<WindowManager />} />
           <Route path="/impressum" element={<Imprint />} />
           <Route path="/datenschutz" element={<Privacy />} />
+          <Route path="/lizenzen" element={<Licensing />} />
         </Routes>
       </Router>
       <span class="imprint-privacy">
