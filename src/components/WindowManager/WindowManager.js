@@ -375,7 +375,7 @@ export default class WindowManager extends React.PureComponent {
       windows: {
         "stuhlkreis": {
           key: "stuhlkreis",
-          open: true,
+          open: false,
           content: (
             <DigitalerStuhlkreisWrapper
               id="stuhlkreis"
@@ -386,7 +386,7 @@ export default class WindowManager extends React.PureComponent {
         },
         "timer": {
           key: "timer",
-          open: true,
+          open: false,
           content: (
             <Timer
               id="timer"
@@ -399,12 +399,12 @@ export default class WindowManager extends React.PureComponent {
         },
         // "whiteboard": {
         //   key: "whiteboard",
-        //   open: true,
+        //   open: false,
         //   content: <div> whiteboard </div>,
         // },
         "random-generator": {
           key: "random-generator",
-          open: true,
+          open: false,
           content: (
             <RandomGenerator
               onHide={this.handleWindowHide}
@@ -424,7 +424,7 @@ export default class WindowManager extends React.PureComponent {
         },
         "soundboard": {
           key: "soundboard",
-          open: true,
+          open: false,
           content: (
             <Soundboard
               id="soundboard"
@@ -435,7 +435,7 @@ export default class WindowManager extends React.PureComponent {
         },
         "qrcode-generator": {
           key: "qrcode-generator",
-          open: true,
+          open: false,
           content: (
             <QrcodeGenerator
               id="qrcode-generator"
@@ -446,7 +446,7 @@ export default class WindowManager extends React.PureComponent {
         },
         "work-phase": {
           key: "work-phase",
-          open: true,
+          open: false,
           content: (
             <WorkPhase
               id="work-phase"
@@ -457,7 +457,7 @@ export default class WindowManager extends React.PureComponent {
         },
         "notepad": {
           key: "notepad",
-          open: true,
+          open: false,
           content: (
             <Notepad
               id="notepad"
@@ -491,7 +491,8 @@ export default class WindowManager extends React.PureComponent {
   }
 
   handleWindowHide(windowId) {
-    console.log("windowManager handleWindowHide", windowId);
+    // console.log("windowManager handleWindowHide", windowId);
+
     this.setState({
       windows: {
         ...this.state.windows,
