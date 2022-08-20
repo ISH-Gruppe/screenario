@@ -101,14 +101,16 @@ export default function SoundBoard({ id, title, onHide, onChange }) {
   }
 
   return (
-    <BaseWindow
-      id={id}
-      title={title}
-      onReset={handleReset}
-      onHide={handleHide}
-      resetName="Stop"
-    >
-      <div id="soundboardButtonWrapper">{soundButtons}</div>
-    </BaseWindow>
+    <div className="base-window-soundboard">
+      <BaseWindow
+        id={id}
+        title={title}
+        onReset={handleReset}
+        onHide={handleHide}
+        resetName="Stop"
+      >
+        <div id="soundboardButtonWrapper">{soundButtons}</div>
+      </BaseWindow>
+    </div>
   );
 }
