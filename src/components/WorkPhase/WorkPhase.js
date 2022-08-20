@@ -69,7 +69,7 @@ export default function WorkPhase({ id, title, onHide, onChange }) {
     return (
       <>
         <h3> {phase.description} </h3>
-        <ImageList sx={{}} cols={3} rowHeight={164}>
+        <ImageList sx={{}} cols={3}>
           {phase.images.map((image) => {
             return (
               <ImageListItem

@@ -15,16 +15,6 @@
   cursor: zoom-out;
 }
 
-/* .popup-bg {
-  position: absolute;
-  z-index: 9;
-  background: green;
-  top: 50px;
-  left: 10px;
-  width: 99%;
-  height: 93%;
-} */
-
 .popup-image {
   max-width: 100%;
   cursor: zoom-out;
@@ -32,4 +22,5 @@
 
 .gallery-image {
   cursor: zoom-in;
+  height: 100%;
 }
