@@ -5,6 +5,7 @@
 body,
 html {
   font-family: "Rubik", sans-serif !important;
+  overflow-x: clip;
 }
 
 @font-face {

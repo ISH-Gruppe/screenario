@@ -7,6 +7,7 @@
   border: 1px solid rgba(0, 0, 0, 0.478);
   box-shadow: 15;
   padding: 2;
+  overflow-y: scroll !important;
 }
 
 .window-title {
