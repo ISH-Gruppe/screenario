@@ -1,15 +1,9 @@
 import React, { useState } from "react";
+
+import "./Soundboard.scss";
 import BaseWindow from "../BaseWindow/BaseWindow";
 
-// UI
 import Button from "@mui/material/Button";
-import DeleteIcon from "@mui/icons-material/Delete";
-import Stack from "@mui/material/Stack";
-import Grid from "@mui/material/Grid";
-import Container from "@mui/material/Container";
-
-// Styles
-import "./Soundboard.css";
 
 export default function SoundBoard({ id, title, onHide, onChange }) {
   function handleReset() {
@@ -101,14 +95,16 @@ export default function SoundBoard({ id, title, onHide, onChange }) {
   }
 
   return (
-    <BaseWindow
-      id={id}
-      title={title}
-      onReset={handleReset}
-      onHide={handleHide}
-      resetName="Stop"
-    >
-      <div id="soundboardButtonWrapper">{soundButtons}</div>
-    </BaseWindow>
+    <div className="base-window-soundboard">
+      <BaseWindow
+        id={id}
+        title={title}
+        onReset={handleReset}
+        onHide={handleHide}
+        resetName="Stop"
+      >
+        <div id="soundboardButtonWrapper">{soundButtons}</div>
+      </BaseWindow>
+    </div>
   );
 }
