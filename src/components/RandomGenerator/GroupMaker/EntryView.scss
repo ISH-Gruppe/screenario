@@ -1,5 +1,5 @@
 .vertical-stack {
-    margin: auto 1rem !important;
+    margin: auto auto !important;
     max-width: 30%;
     width: 30%;
     height: 100%;
@@ -7,7 +7,7 @@
 
 .vertical-stack.textarea {
     max-width: 50%;
-    width: 50%;
+    min-width: 30%;
 }
 
 .name-list {
