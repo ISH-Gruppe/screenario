@@ -10,7 +10,7 @@ import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import TextareaWordlist from "../TextareaWordlist";
 
 export default function EntryView(props) {
-  // TODO: Write a Stackoverflow Reply about the nasty render loop we had
+  // TODO: Write a Stackoverflow reply about the nasty render loop we had
   const [nameList, setNameList] = React.useState(loadState());
   const [numberOfGroups, setNumberOfGroups] = React.useState(2);
   const [showHintNotEnoughGroups, setShowHintNotEnoughGroups] =
@@ -153,25 +153,7 @@ export default function EntryView(props) {
   return (
     <>
       <Stack direction="row" spacing={2}>
-        <Stack className="vertical-stack textarea" spacing={2}>
-          <div className="name-list">
-            <TextareaWordlist
-              valueAsList={nameList}
-              handleWordlistChange={handleNamelistChange}
-              minRows="16"
-              placeholder="Hier einen Namen pro Zeile einfügen "
-              ariaLabel="Namensfeld für zufällige Auslosung von Namen"
-            />
-          </div>
-        </Stack>
-        {/* </div> */}
-
-        <div className="arrow-right-icon">
-          <ArrowRightIcon fontSize="large" />
-        </div>
-
         <Stack className="vertical-stack" spacing={2}>
-          {/* <p className="action-caption">verteilen auf</p> */}
           <div className="button-container">
             <IconButton
               onClick={incrementNumberGroups}
@@ -183,13 +165,11 @@ export default function EntryView(props) {
             </IconButton>
           </div>
 
-          <div>
-            <p className="action-caption">
-              <span className="group-numbers">{numberOfGroups}</span>
-              <br />
-              Gruppen
-            </p>
-          </div>
+          <p className="action-caption">
+            <span className="group-numbers">{numberOfGroups}</span>
+            <br />
+            Gruppen
+          </p>
 
           <div className="button-container">
             <IconButton
@@ -207,7 +187,7 @@ export default function EntryView(props) {
           <ArrowRightIcon fontSize="large" />
         </div>
 
-        <Stack className="vertical-stack" spacing={2}>
+        <Stack className="vertical-stack">
           <span className="action-caption">
             <span className="group-numbers">{numberOfPeoplePerGroup}</span>
             <br />
@@ -215,6 +195,7 @@ export default function EntryView(props) {
           </span>
         </Stack>
       </Stack>
+
       <div className="create-groups-button">
         <Button
           onClick={submitCreatedGroups}
@@ -229,6 +210,16 @@ export default function EntryView(props) {
         {showHintNotEnoughGroups && (
           <small>Nicht genügend Gruppen oder Personen</small>
         )}
+      </div>
+
+      <div className="name-list">
+        <TextareaWordlist
+          valueAsList={nameList}
+          handleWordlistChange={handleNamelistChange}
+          minRows="16"
+          placeholder="Hier einen Namen pro Zeile einfügen "
+          ariaLabel="Namensfeld für zufällige Auslosung von Namen"
+        />
       </div>
     </>
   );
