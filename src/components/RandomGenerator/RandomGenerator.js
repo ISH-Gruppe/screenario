@@ -10,7 +10,13 @@ import Spinwheel from "./Spinwheel/Spinwheel";
 import NamePicker from "./NamePicker/NamePicker";
 
 export default function RandomGenerator({ id, title, onHide, onSave, onLoad }) {
-  const [activeTab, setActiveTab] = React.useState("0");
+  const [activeTab, setActiveTab] = React.useState(loadState());
+
+  function loadState() {
+    return onLoad("RANDOM_GENERATOR_TAB")
+      ? onLoad("RANDOM_GENERATOR_TAB")
+      : "0";
+  }
 
   function handleReset() {}
 
@@ -20,6 +26,7 @@ export default function RandomGenerator({ id, title, onHide, onSave, onLoad }) {
 
   const updateActiveTab = (event, newValue) => {
     setActiveTab(newValue);
+    onSave("RANDOM_GENERATOR_TAB", newValue);
   };
 
   return (

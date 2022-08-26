@@ -18,12 +18,9 @@ export default function EntryView(props) {
   const [numberOfPeoplePerGroup, setNumberOfPeoplePerGroup] = React.useState();
 
   function loadState() {
-    const loadedGroup = props.onLoad("GROUPS_NAMELIST")
+    return props.onLoad("GROUPS_NAMELIST")
       ? props.onLoad("GROUPS_NAMELIST")
       : [];
-    // console.log("loadedGroup ", loadedGroup);
-
-    return loadedGroup;
   }
 
   React.useEffect(() => {
