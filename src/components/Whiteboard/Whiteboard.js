@@ -7,10 +7,14 @@ import useImage from "use-image"; // Konva-specific image hook
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
-
+import Tooltip from "@mui/material/Tooltip";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import ToggleButton from "@mui/material/ToggleButton";
 
+import ColorPalette from "./ColorPalette";
+import BrushPicker from "./BrushPicker";
+
+// Icons
 import UndoIcon from "@mui/icons-material/Undo";
 import RedoIcon from "@mui/icons-material/Redo";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -18,10 +22,13 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import PanToolAltIcon from "@mui/icons-material/PanToolAlt"; // Select
 import BrushIcon from "@mui/icons-material/Brush"; // Brush
 import AutoFixNormalIcon from "@mui/icons-material/AutoFixNormal"; // Eraser
-
 import ClearIcon from "@mui/icons-material/Clear"; // Clear Whiteboard
+
+import DeleteSweepIcon from "@mui/icons-material/DeleteSweep";
 import GetAppIcon from "@mui/icons-material/GetApp"; // Download Canvas
-import InsertPhotoIcon from "@mui/icons-material/InsertPhoto"; // Upload Photo
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate"; // Upload Photo
+import HideImageIcon from "@mui/icons-material/HideImage";
+import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
 
 // CSS
 import "./Whiteboard.scss";
@@ -89,6 +96,7 @@ function UserImage({
           // we will reset it back
           node.scaleX(1);
           node.scaleY(1);
+
           onChange({
             ...imageProps,
             x: node.x(),
@@ -142,10 +150,21 @@ export default function Whiteboard({
   const [images, setImages] = React.useState([]);
   const [selectedImageId, selectImage] = React.useState(null);
 
+  const [selectedColor, selectColor] = React.useState({
+    id: "Schwarz",
+    value: "black",
+  });
+  const [selectedBrush, selectBrush] = React.useState({
+    id: "Mittel",
+    size: 6,
+  });
+
   const fileInput = React.useRef();
 
   // Base Window functions
-  function handleReset() {}
+  function handleReset() {
+    setLines([]);
+  }
   function handleHide() {
     onHide(id);
   }
@@ -173,7 +192,15 @@ export default function Whiteboard({
   const startDrawing = (e) => {
     isDrawing.current = true;
     const pos = e.target.getStage().getPointerPosition();
-    setLines([...lines, { tool, points: [pos.x, pos.y] }]);
+    setLines([
+      ...lines,
+      {
+        tool,
+        color: selectedColor.value,
+        brush: selectedBrush.size,
+        points: [pos.x, pos.y],
+      },
+    ]);
   };
 
   const drawLine = (e) => {
@@ -192,6 +219,14 @@ export default function Whiteboard({
     setLines(lines.concat());
   };
 
+  function setBrushColor(color) {
+    selectColor(color);
+  }
+
+  function changeBrush(brush) {
+    selectBrush(brush);
+  }
+
   // Images
   const checkDeselect = (e) => {
     const clickedOnEmpty = e.target === e.target.getStage();
@@ -207,9 +242,33 @@ export default function Whiteboard({
     fileInput.current.value = "";
   };
 
+  function handleStageWrapperKeyDown(event) {
+    if (event.keyCode === 8) {
+      deleteSelectedImage();
+    } else {
+      return;
+    }
+    event.preventDefault();
+  }
+
+  function deleteSelectedImage() {
+    const imagesCopy = [...images];
+    imagesCopy.map((image, index) => {
+      image.id == selectedImageId ? imagesCopy.splice(index, 1) : true;
+    });
+
+    setImages(imagesCopy);
+  }
+
   return (
     <BaseWindow id={id} title={title} onReset={handleReset} onHide={handleHide}>
       <div id="whiteboard-toolbar">
+        <Tooltip value="clear" title="Zeichnungen löschen">
+          <ToggleButton onClick={handleReset} color="primary" value="clear">
+            <CancelPresentationIcon />
+          </ToggleButton>
+        </Tooltip>
+
         <ToggleButtonGroup
           id="left-side-tools"
           exclusive
@@ -218,87 +277,140 @@ export default function Whiteboard({
             setTool(value);
           }}
         >
-          <ToggleButton color="primary" value="select">
-            <PanToolAltIcon />
-          </ToggleButton>
-          <ToggleButton color="primary" value="draw">
-            <BrushIcon />
-          </ToggleButton>
-          <ToggleButton color="primary" value="erase">
-            <AutoFixNormalIcon />
-          </ToggleButton>
+          <Tooltip title="Auswählen" value="select">
+            <ToggleButton color="primary" value="select">
+              <PanToolAltIcon />
+            </ToggleButton>
+          </Tooltip>
+
+          <Tooltip title="Pinsel" value="draw">
+            <ToggleButton color="primary" value="draw">
+              <BrushIcon />
+            </ToggleButton>
+          </Tooltip>
+          <Tooltip value="erase" title="Radiergummi">
+            <ToggleButton color="primary" value="erase">
+              <AutoFixNormalIcon />
+            </ToggleButton>
+          </Tooltip>
         </ToggleButtonGroup>
+
+        <div>
+          <ColorPalette
+            onClick={setBrushColor}
+            selectedColor={selectedColor}
+            palette={[
+              { id: "Schwarz", value: "black" },
+              { id: "Grün", value: "green" },
+              { id: "Rot", value: "firebrick" },
+              { id: "Blau", value: "blue" },
+              { id: "Gelb", value: "gold" },
+            ]}
+          />
+        </div>
+
+        <div>
+          <BrushPicker
+            onClick={changeBrush}
+            selectedBrush={selectedBrush}
+            brushes={[
+              { id: "Klein", size: 5 },
+              { id: "Mittel", size: 8 },
+              { id: "Groß", size: 12 },
+              { id: "Sehr groß", size: 20 },
+            ]}
+          />
+        </div>
 
         <ButtonGroup
           id="right-side-tools"
           variant="text"
+          size="large"
           color="primary"
           aria-label="primary button group"
         >
-          <Button aria-label="upload picture" component="label">
-            <input
-              hidden
-              accept="image/*"
-              type="file"
-              ref={fileInput}
-              onChange={onImageChange}
-            />
-            <InsertPhotoIcon />
-          </Button>
-          <Button aria-label="Canvas herunterladen" component="label">
+          <Tooltip title="Lokales Bild einfügen">
+            <ToggleButton aria-label="upload picture" component="label">
+              <input
+                hidden
+                accept="image/*"
+                type="file"
+                ref={fileInput}
+                onChange={onImageChange}
+              />
+              <AddPhotoAlternateIcon />
+            </ToggleButton>
+          </Tooltip>
+          <Tooltip title="Bild löschen">
+            <ToggleButton
+              aria-label="Bild löschen"
+              component="label"
+              onClick={deleteSelectedImage}
+            >
+              <HideImageIcon />
+            </ToggleButton>
+          </Tooltip>
+        </ButtonGroup>
+        <Tooltip title="Zeichnung herunterladen">
+          <Button aria-label="Zeichnung herunterladen" component="label">
             <GetAppIcon />
           </Button>
-        </ButtonGroup>
+        </Tooltip>
       </div>
 
-      <Stage
-        width={window.innerWidth}
-        height={window.innerHeight}
-        onMouseDown={handleMouseDown}
-        onMousemove={handleMouseMove}
-        onMouseup={handleMouseUp}
-        onTouchStart={handleMouseDown}
+      <div
+        id="stage-wrapper"
+        tabIndex={1}
+        onKeyDown={handleStageWrapperKeyDown}
       >
-        <Layer id="images">
-          {images.map((image, i) => {
-            return (
-              <UserImage
+        <Stage
+          width={window.innerWidth}
+          height={window.innerHeight}
+          onMouseDown={handleMouseDown}
+          onMousemove={handleMouseMove}
+          onMouseup={handleMouseUp}
+          onTouchStart={handleMouseDown}
+        >
+          <Layer id="images">
+            {images.map((image, i) => {
+              return (
+                <UserImage
+                  key={i}
+                  imageProps={image}
+                  maxWidth={300}
+                  maxHeight={300}
+                  isDraggable={tool == "select"}
+                  isSelected={tool == "select" && image.id === selectedImageId}
+                  onSelect={() => {
+                    tool == "select" ? selectImage(image.id) : false;
+                  }}
+                  onChange={(newAttributes) => {
+                    const imgs = images.slice();
+                    imgs[i] = newAttributes;
+                    setImages(imgs);
+                  }}
+                />
+              );
+            })}
+          </Layer>
+          <Layer id="drawing">
+            {lines.map((line, i) => (
+              <Line
                 key={i}
-                imageProps={image}
-                maxWidth={300}
-                maxHeight={300}
-                isDraggable={tool == "select"}
-                isSelected={tool == "select" && image.id === selectedImageId}
-                onSelect={() => {
-                  tool == "select" ? selectImage(image.id) : false;
-                }}
-                onChange={(newAttributes) => {
-                  const imgs = images.slice();
-                  imgs[i] = newAttributes;
-                  setImages(imgs);
-                  console.log();
-                }}
+                points={line.points}
+                stroke={line.color}
+                strokeWidth={line.tool == "erase" ? line.brush + 5 : line.brush}
+                tension={0.5}
+                lineCap="round"
+                lineJoin="round"
+                globalCompositeOperation={
+                  line.tool === "erase" ? "destination-out" : "source-over"
+                }
               />
-            );
-          })}
-        </Layer>
-        <Layer id="drawing">
-          {lines.map((line, i) => (
-            <Line
-              key={i}
-              points={line.points}
-              stroke="#000000"
-              strokeWidth={6}
-              tension={0.5}
-              lineCap="round"
-              lineJoin="round"
-              globalCompositeOperation={
-                line.tool === "erase" ? "destination-out" : "source-over"
-              }
-            />
-          ))}
-        </Layer>
-      </Stage>
+            ))}
+          </Layer>
+        </Stage>
+      </div>
     </BaseWindow>
   );
 }
