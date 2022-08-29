@@ -12,8 +12,7 @@
 }
 
 .wheel {
-    scale: 75%;
-    transform: translateY(-4rem);
+    transform: scale(0.75) translateY(-4rem);
 }
 
 .activeButton {

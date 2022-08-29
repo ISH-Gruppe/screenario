@@ -9,17 +9,35 @@ import EntryView from "./EntryView";
 import ResultView from "./ResultView";
 
 export default function GroupMaker(props) {
-  const [activeStep, setActiveStep] = React.useState("0");
-  const [groups, setGroups] = React.useState([]);
+  const [activeStep, setActiveStep] = React.useState(loadStateActiveStep());
+  const [groups, setGroups] = React.useState(loadStateGroups());
+
+  function loadStateActiveStep() {
+    return props.onLoad("GROUP_GENERATOR_STEP")
+      ? props.onLoad("GROUP_GENERATOR_STEP")
+      : "0";
+  }
+
+  function loadStateGroups() {
+    return props.onLoad("GROUP_GENERATOR_GROUPS")
+      ? props.onLoad("GROUP_GENERATOR_GROUPS")
+      : [];
+  }
 
   function handleGroupChange(newGroups) {
     setGroups(newGroups);
     setActiveStep("1");
+
+    props.onSave("GROUP_GENERATOR_STEP", "1");
+    props.onSave("GROUP_GENERATOR_GROUPS", newGroups);
   }
 
   function onStepBackRequest() {
     setGroups(groups);
     setActiveStep("0");
+
+    props.onSave("GROUP_GENERATOR_STEP", "0");
+    props.onSave("GROUP_GENERATOR_GROUPS", groups);
   }
 
   function onRecreateGroupsRequest() {
@@ -28,7 +46,7 @@ export default function GroupMaker(props) {
 
   return (
     <>
-      <Stepper activeStep={activeStep}>
+      <Stepper activeStep={Number(activeStep)} >
         <Step onClick={() => setActiveStep("0")}>
           <StepLabel>Namensliste</StepLabel>
         </Step>
@@ -36,8 +54,6 @@ export default function GroupMaker(props) {
           <StepLabel>Gruppenverteilung</StepLabel>
         </Step>
       </Stepper>
-
-      {/* <HorizontalLinearStepper /> */}
 
       <div className="stepper-content">
         {activeStep === "0" && (

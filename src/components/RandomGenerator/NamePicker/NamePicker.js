@@ -85,7 +85,7 @@ export default function NamePicker(props) {
       </div>
 
       <TextareaWordlist
-        valueAsList={availableNamesToDraw}
+        valueAsList={nameList}
         handleWordlistChange={handleWordlistChange}
         minRows="8"
         placeholder="Hier einen Namen pro Zeile einfügen "

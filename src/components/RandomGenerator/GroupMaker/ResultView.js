@@ -8,7 +8,7 @@ export default function ResultView(props) {
   const groupBoxComponents = props.groups.map((group, index) => {
     return (
       <Box key={index} className="groupbox-window">
-        <b>Gruppe {index}</b>
+        <b>Gruppe {index + 1}</b>
         {group.map((element, i) => {
           return <p key={i}>{`${element}\n`} </p>;
         })}
