@@ -6,6 +6,17 @@
   "commit": false,
   "contributors": [
     {
+      "login": "s-gbz",
+      "name": "Sergej Grilborzer",
+      "avatar_url": "https://avatars.githubusercontent.com/u/23424538?v=4",
+      "profile": "https://sergej.grilborzer.de/",
+      "contributions": [
+        "infra",
+        "code",
+        "design"
+      ]
+    },
+    {
       "login": "liam-k",
       "name": "liam-k",
       "avatar_url": "https://avatars.githubusercontent.com/u/34057943?v=4",
@@ -15,7 +26,7 @@
         "code",
         "infra"
       ]
-    }
+    },
   ],
   "contributorsPerLine": 7,
   "projectName": "screenario",
