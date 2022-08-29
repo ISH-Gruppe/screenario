@@ -1,3 +1,15 @@
 #stage-parent {
   width: 100%;
 }
+
+#whiteboard-toolbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+#right-side-tools {
+}
+
+#left-side-tools {
+}

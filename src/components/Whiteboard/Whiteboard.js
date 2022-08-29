@@ -1,124 +1,30 @@
 import BaseWindow from "../BaseWindow/BaseWindow";
 import React, { Component } from "react";
-import {
-  Stage,
-  Layer,
-  Rect,
-  Text,
-  Image,
-  Line,
-  Transformer,
-} from "react-konva";
+import { Stage, Layer, Text, Image, Line, Transformer } from "react-konva";
 import useImage from "use-image"; // Konva-specific image hook
 
 // UI
-
+import ButtonGroup from "@mui/material/ButtonGroup";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
+
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import ToggleButton from "@mui/material/ToggleButton";
 
 import UndoIcon from "@mui/icons-material/Undo";
 import RedoIcon from "@mui/icons-material/Redo";
 import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import AutoFixNormalIcon from "@mui/icons-material/AutoFixNormal";
+
+import PanToolAltIcon from "@mui/icons-material/PanToolAlt"; // Select
+import BrushIcon from "@mui/icons-material/Brush"; // Brush
+import AutoFixNormalIcon from "@mui/icons-material/AutoFixNormal"; // Eraser
+
+import ClearIcon from "@mui/icons-material/Clear"; // Clear Whiteboard
+import GetAppIcon from "@mui/icons-material/GetApp"; // Download Canvas
+import InsertPhotoIcon from "@mui/icons-material/InsertPhoto"; // Upload Photo
 
 // CSS
 import "./Whiteboard.scss";
-
-function Rectangle({
-  shapeProps,
-  isSelected,
-  onSelect,
-  onChange,
-  isDraggable,
-}) {
-  const shapeRef = React.useRef();
-  const trRef = React.useRef();
-
-  React.useEffect(() => {
-    if (isSelected) {
-      // we need to attach transformer manually
-      trRef.current.nodes([shapeRef.current]);
-      trRef.current.getLayer().batchDraw();
-    }
-  }, [isSelected]);
-
-  return (
-    <React.Fragment>
-      <Rect
-        onClick={onSelect}
-        onTap={onSelect}
-        ref={shapeRef}
-        {...shapeProps}
-        draggable={isDraggable}
-        onDragEnd={(e) => {
-          onChange({
-            ...shapeProps,
-            x: e.target.x(),
-            y: e.target.y(),
-          });
-        }}
-        onTransformEnd={(e) => {
-          // transformer is changing scale of the node
-          // and NOT its width or height
-          // but in the store we have only width and height
-          // to match the data better we will reset scale on transform end
-          const node = shapeRef.current;
-          const scaleX = node.scaleX();
-          const scaleY = node.scaleY();
-
-          // we will reset it back
-          node.scaleX(1);
-          node.scaleY(1);
-          onChange({
-            ...shapeProps,
-            x: node.x(),
-            y: node.y(),
-            // set minimal value
-            width: Math.max(5, node.width() * scaleX),
-            height: Math.max(node.height() * scaleY),
-          });
-        }}
-      />
-      {isSelected && (
-        <Transformer
-          ref={trRef}
-          boundBoxFunc={(oldBox, newBox) => {
-            // limit resize
-            if (newBox.width < 5 || newBox.height < 5) {
-              return oldBox;
-            }
-            return newBox;
-          }}
-        />
-      )}
-    </React.Fragment>
-  );
-}
-
-const initialRectangles = [
-  {
-    x: 10,
-    y: 10,
-    width: 100,
-    height: 100,
-    fill: "red",
-    id: "rect1",
-  },
-  {
-    x: 150,
-    y: 150,
-    width: 100,
-    height: 100,
-    fill: "green",
-    id: "rect2",
-  },
-];
-
-// function TestImage({ url }) {
-//   const [image] = useImage(url);
-//   return <Image image={image} />;
-// }
 
 function UserImage({
   imageProps,
@@ -126,10 +32,14 @@ function UserImage({
   onSelect,
   onChange,
   isDraggable,
+  maxWidth,
+  maxHeight,
 }) {
   const imageRef = React.useRef();
   const imgTransformerRef = React.useRef();
-  const [image] = useImage(imageProps.url);
+  const [image, status] = useImage(imageProps.url);
+
+  setImageSize(); // Putting this here kinda doesn’t seem right?
 
   React.useEffect(() => {
     if (isSelected) {
@@ -138,6 +48,20 @@ function UserImage({
       imgTransformerRef.current.getLayer().batchDraw();
     }
   }, [isSelected]);
+
+  function setImageSize() {
+    if (status == "loaded") {
+      const ratio = image.width / image.height;
+      if (ratio > 1) {
+        image.height = maxHeight;
+        image.width = maxHeight * ratio;
+      } else {
+        image.width = maxWidth;
+        image.height = maxWidth / ratio;
+      }
+    }
+  }
+
   return (
     <React.Fragment>
       <Image
@@ -155,8 +79,7 @@ function UserImage({
           });
         }}
         onTransformEnd={(e) => {
-          // transformer is changing scale of the node
-          // and NOT its width or height
+          // Transformer is changing scale of the node and not its width or height
           // but in the store we have only width and height
           // to match the data better we will reset scale on transform end
           const node = imageRef.current;
@@ -191,17 +114,17 @@ function UserImage({
     </React.Fragment>
   );
 }
-
-const initialImages = [
-  {
-    x: 100,
-    y: 100,
-    width: 200,
-    height: 200,
-    url: "https://konvajs.org/assets/lion.png",
-    id: "lion",
-  },
-];
+//
+// const initialImages = [
+//   {
+//     x: 100,
+//     y: 100,
+//     width: 200,
+//     height: 200,
+//     url: "https://konvajs.org/assets/lion.png",
+//     id: "lion",
+//   },
+// ];
 
 export default function Whiteboard({
   id,
@@ -216,11 +139,10 @@ export default function Whiteboard({
   const [lines, setLines] = React.useState([]);
   const isDrawing = React.useRef(false);
 
-  const [rectangles, setRectangles] = React.useState(initialRectangles);
-  const [selectedId, selectShape] = React.useState(null);
-
-  const [images, setImages] = React.useState(initialImages);
+  const [images, setImages] = React.useState([]);
   const [selectedImageId, selectImage] = React.useState(null);
+
+  const fileInput = React.useRef();
 
   // Base Window functions
   function handleReset() {}
@@ -235,8 +157,6 @@ export default function Whiteboard({
     } else if (tool == "select") {
       checkDeselect(e);
     }
-
-    console.log(images);
   };
 
   const handleMouseMove = (e) => {
@@ -257,7 +177,6 @@ export default function Whiteboard({
   };
 
   const drawLine = (e) => {
-    // no drawing - skipping
     if (!isDrawing.current) {
       return;
     }
@@ -275,10 +194,8 @@ export default function Whiteboard({
 
   // Images
   const checkDeselect = (e) => {
-    // deselect when clicked on empty area
     const clickedOnEmpty = e.target === e.target.getStage();
     if (clickedOnEmpty) {
-      selectShape(null);
       selectImage(null);
     }
   };
@@ -286,31 +203,54 @@ export default function Whiteboard({
   const onImageChange = (e) => {
     const [file] = e.target.files;
     const url = URL.createObjectURL(file);
-    setImages([
-      ...images,
-      { id: url.toString(), url: url, x: 100, y: 100, width: 150, height: 150 },
-    ]);
-    console.log(images);
+    setImages([...images, { id: url.toString(), url: url, x: 50, y: 50 }]);
+    fileInput.current.value = "";
   };
 
   return (
     <BaseWindow id={id} title={title} onReset={handleReset} onHide={handleHide}>
-      <div id="stage-parent">
-        <select
+      <div id="whiteboard-toolbar">
+        <ToggleButtonGroup
+          id="left-side-tools"
+          exclusive
           value={tool}
-          onChange={(e) => {
-            setTool(e.target.value);
+          onChange={(e, value) => {
+            setTool(value);
           }}
         >
-          <option value="select">Select</option>
-          <option value="draw">Pen</option>
-          <option value="erase">Eraser</option>
-        </select>
+          <ToggleButton color="primary" value="select">
+            <PanToolAltIcon />
+          </ToggleButton>
+          <ToggleButton color="primary" value="draw">
+            <BrushIcon />
+          </ToggleButton>
+          <ToggleButton color="primary" value="erase">
+            <AutoFixNormalIcon />
+          </ToggleButton>
+        </ToggleButtonGroup>
+
+        <ButtonGroup
+          id="right-side-tools"
+          variant="text"
+          color="primary"
+          aria-label="primary button group"
+        >
+          <Button aria-label="upload picture" component="label">
+            <input
+              hidden
+              accept="image/*"
+              type="file"
+              ref={fileInput}
+              onChange={onImageChange}
+            />
+            <InsertPhotoIcon />
+          </Button>
+          <Button aria-label="Canvas herunterladen" component="label">
+            <GetAppIcon />
+          </Button>
+        </ButtonGroup>
       </div>
 
-      <div>
-        <input type="file" onChange={onImageChange} />
-      </div>
       <Stage
         width={window.innerWidth}
         height={window.innerHeight}
@@ -325,6 +265,8 @@ export default function Whiteboard({
               <UserImage
                 key={i}
                 imageProps={image}
+                maxWidth={300}
+                maxHeight={300}
                 isDraggable={tool == "select"}
                 isSelected={tool == "select" && image.id === selectedImageId}
                 onSelect={() => {
@@ -340,33 +282,13 @@ export default function Whiteboard({
             );
           })}
         </Layer>
-        <Layer id="rectangles">
-          {rectangles.map((rect, i) => {
-            return (
-              <Rectangle
-                key={i}
-                shapeProps={rect}
-                isDraggable={tool == "select"}
-                isSelected={tool == "select" && rect.id === selectedId}
-                onSelect={() => {
-                  tool == "select" ? selectShape(rect.id) : false;
-                }}
-                onChange={(newAttrs) => {
-                  const rects = rectangles.slice();
-                  rects[i] = newAttrs;
-                  setRectangles(rects);
-                }}
-              />
-            );
-          })}
-        </Layer>
         <Layer id="drawing">
           {lines.map((line, i) => (
             <Line
               key={i}
               points={line.points}
-              stroke="#df4b26"
-              strokeWidth={5}
+              stroke="#000000"
+              strokeWidth={6}
               tension={0.5}
               lineCap="round"
               lineJoin="round"
