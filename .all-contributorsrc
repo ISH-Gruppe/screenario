@@ -1,0 +1,26 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "liam-k",
+      "name": "liam-k",
+      "avatar_url": "https://avatars.githubusercontent.com/u/34057943?v=4",
+      "profile": "https://github.com/liam-k",
+      "contributions": [
+        "design",
+        "code",
+        "infra"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "screenario",
+  "projectOwner": "s-gbz",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
