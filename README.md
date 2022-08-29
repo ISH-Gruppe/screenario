@@ -1,6 +1,6 @@
 # Notes
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 - https://create-react-app.dev/docs/adding-a-sass-stylesheet/
 - https://stackoverflow.com/questions/67352418/how-to-add-scss-styles-to-a-react-project
@@ -97,6 +97,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="https://sergej.grilborzer.de/"><img src="https://avatars.githubusercontent.com/u/23424538?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Sergej Grilborzer</b></sub></a><br /><a href="#infra-s-gbz" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/s-gbz/screenario/commits?author=s-gbz" title="Code">💻</a> <a href="#design-s-gbz" title="Design">🎨</a></td>
+    <td align="center"><a href="https://github.com/liam-k"><img src="https://avatars.githubusercontent.com/u/34057943?v=4?s=100" width="100px;" alt=""/><br /><sub><b>liam-k</b></sub></a><br /><a href="#design-liam-k" title="Design">🎨</a> <a href="https://github.com/s-gbz/screenario/commits?author=liam-k" title="Code">💻</a> <a href="#infra-liam-k" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
   </tr>
 </table>
 
