@@ -1,0 +1,59 @@
+name: Bug Report
+description: Report a bug in the Angular Framework
+
+body:
+  - type: dropdown
+    id: affected-packages
+    attributes:
+      label: Which component(s) are the source of the bug?
+      options:
+        - App-Infrastructure (window management/ general stuff)
+        - Work-Phase
+        - Timer
+        - Random-Generator
+        - Notepad
+        - Soundboard
+        - QR-Code-Generator
+        - Digitaler-Stuhlkreis
+        - Don't known / other
+      multiple: true
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: A summary of the issue. This needs to be a clear detailed-rich summary.
+    validations:
+      required: true
+
+  - type: input
+    id: reproduction
+    attributes:
+      label: Please describe the steps to reproduce this bug
+      placeholder: |
+        1. (for example) Went to ...
+        2. Clicked on...
+        3. ...
+
+        Any other relevant information. For example, why do you consider this a bug and what did you expect to happen instead?
+
+  - type: textarea
+    id: technical-details
+    attributes:
+      label: "Browser version: You can use https://www.whatsmybrowser.org/ to find this out"
+      placeholder: |
+       Simply copy/ paste the link à la https://www.whatsmybrowser.org/b/123456 
+
+  - type: textarea
+    id: other
+    attributes:
+      label: Anything else?
+
+  - type: dropdown
+    id: is-regression
+    attributes:
+      label: Is this a regression?
+      options:
+        - "Yes"
+        - "No"
