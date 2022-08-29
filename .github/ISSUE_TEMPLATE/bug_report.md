@@ -6,6 +6,8 @@ labels: bug
 assignees: ""
 ---
 
+body:
+
 Found a bug? Please fill out the sections below. 👍
 
 - type: dropdown
