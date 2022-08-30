@@ -280,6 +280,7 @@ export default function Whiteboard({
   function calculateCanvasSize() {
     const wrapper = document.getElementById("content-container-whiteboard");
     let width, height;
+
     if (wrapper) {
       height = wrapper.getBoundingClientRect().width;
       width = wrapper.getBoundingClientRect().height;
@@ -287,6 +288,7 @@ export default function Whiteboard({
       height = window.innerWidth;
       width = window.innerHeight;
     }
+
     setCanvasHeight(height);
     setCanvasWidth(width);
   }
