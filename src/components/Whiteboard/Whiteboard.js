@@ -417,6 +417,7 @@ export default function Whiteboard({
       </div>
       <div
         id="stage-wrapper"
+        className={selectedBrush.size > 8 ? "large-brush" : "small-brush"}
         tabIndex={1}
         onKeyDown={handleStageWrapperKeyDown}
       >
