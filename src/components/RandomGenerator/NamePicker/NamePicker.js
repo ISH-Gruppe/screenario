@@ -30,6 +30,7 @@ export default function NamePicker(props) {
   }
 
   function handleWordlistChange(updatedList) {
+    // console.log("handleWordlistChange ", updatedList);
     // console.log(updatedList);
     setNameList(updatedList);
     resetAvailableNamesToDraw(updatedList);

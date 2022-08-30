@@ -8,7 +8,9 @@ export default function TextareaWordlist(props) {
     setTextString(createStringFromList(props.valueAsList));
   }, [JSON.stringify(props.valueAsList)]);
 
-  function handleSpinlistInTextareaChange(textArea) {
+  function handleTextareaChange(textArea) {
+    // console.log("TextareaWordlist change", textArea);
+
     setTextString(textArea.target.value);
     props.handleWordlistChange(createListFromString(textArea.target.value));
   }
@@ -44,10 +46,22 @@ export default function TextareaWordlist(props) {
     return listAsAString;
   }
 
+  // SyntheticEvents/ ClipboardEvent such as copy, paste, cut are not handled by onChange
+  function handleCut(event) {
+    setTextString((prevTextString) => {
+      const filteredString = prevTextString.replace(event.target.value, "");
+      // console.log("you cut text!", filteredString);
+
+      props.handleWordlistChange(createListFromString(filteredString));
+      return filteredString;
+    });
+  }
+
   return (
     <TextareaAutosize
       defaultValue={textString}
-      onChange={handleSpinlistInTextareaChange}
+      onChange={handleTextareaChange}
+      onCut={handleCut}
       aria-label={props.ariaLabel}
       minRows={props.minRows}
       placeholder={props.placeholder}
