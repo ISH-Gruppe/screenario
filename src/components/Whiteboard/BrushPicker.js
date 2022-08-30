@@ -20,6 +20,7 @@ export default function BrushPicker({ brushes, onClick, selectedBrush }) {
 
         return (
           <Box
+            key={index}
             sx={{
               "height": "34px",
               "width": brush.size * 2 + 6,

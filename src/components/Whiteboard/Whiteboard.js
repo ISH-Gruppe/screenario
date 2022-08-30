@@ -46,7 +46,7 @@ function UserImage({
   const imgTransformerRef = React.useRef();
   const [image, status] = useImage(imageProps.url);
 
-  setImageSize(); // Putting this here kinda doesn’t seem right?
+  setImageSize();
 
   React.useEffect(() => {
     if (isSelected) {
@@ -122,17 +122,6 @@ function UserImage({
     </React.Fragment>
   );
 }
-//
-// const initialImages = [
-//   {
-//     x: 100,
-//     y: 100,
-//     width: 200,
-//     height: 200,
-//     url: "https://konvajs.org/assets/lion.png",
-//     id: "lion",
-//   },
-// ];
 
 export default function Whiteboard({
   id,
@@ -145,6 +134,7 @@ export default function Whiteboard({
 }) {
   const [tool, setTool] = React.useState("draw");
   const [lines, setLines] = React.useState([]);
+  const [history, setHistory] = React.useState([]);
   const isDrawing = React.useRef(false);
 
   const [images, setImages] = React.useState([]);
@@ -160,6 +150,10 @@ export default function Whiteboard({
   });
 
   const fileInput = React.useRef();
+
+  React.useEffect(() => {
+    calculateCanvasSize();
+  }, []);
 
   // Base Window functions
   function handleReset() {
@@ -227,6 +221,24 @@ export default function Whiteboard({
     selectBrush(brush);
   }
 
+  function undo() {
+    const linesCopy = [...lines];
+
+    if (linesCopy.length) {
+      setHistory([...history, linesCopy.pop()]);
+      setLines([...linesCopy]);
+    }
+  }
+
+  function redo() {
+    const historyCopy = [...history];
+
+    if (history.length) {
+      setLines([...lines, historyCopy.pop()]);
+      setHistory([...historyCopy]);
+    }
+  }
+
   // Images
   const checkDeselect = (e) => {
     const clickedOnEmpty = e.target === e.target.getStage();
@@ -260,15 +272,55 @@ export default function Whiteboard({
     setImages(imagesCopy);
   }
 
+  // Canvas
+
+  const [canvasHeight, setCanvasHeight] = React.useState(window.innerHeight);
+  const [canvasWidth, setCanvasWidth] = React.useState(window.innerWidth);
+
+  function calculateCanvasSize() {
+    const wrapper = document.getElementById("content-container-whiteboard");
+    let width, height;
+    if (wrapper) {
+      height = wrapper.getBoundingClientRect().width;
+      width = wrapper.getBoundingClientRect().height;
+    } else {
+      height = window.innerWidth;
+      width = window.innerHeight;
+    }
+    setCanvasHeight(height);
+    setCanvasWidth(width);
+  }
+
   return (
     <BaseWindow id={id} title={title} onReset={handleReset} onHide={handleHide}>
       <div id="whiteboard-toolbar">
-        <Tooltip value="clear" title="Zeichnungen löschen">
-          <ToggleButton onClick={handleReset} color="primary" value="clear">
+        <Tooltip title="Zeichnungen löschen">
+          <Button onClick={handleReset} color="primary" value="clear">
             <CancelPresentationIcon />
-          </ToggleButton>
+          </Button>
         </Tooltip>
-
+        <div>
+          <Tooltip title="Rückgängig">
+            <ToggleButton
+              onClick={undo}
+              aria-label="Rückgängig"
+              component="label"
+              value=""
+            >
+              <UndoIcon />
+            </ToggleButton>
+          </Tooltip>
+          <Tooltip title="Wiederholen">
+            <ToggleButton
+              onClick={redo}
+              aria-label="Wiederholen"
+              component="label"
+              value=""
+            >
+              <RedoIcon />
+            </ToggleButton>
+          </Tooltip>
+        </div>
         <ToggleButtonGroup
           id="left-side-tools"
           exclusive
@@ -294,7 +346,6 @@ export default function Whiteboard({
             </ToggleButton>
           </Tooltip>
         </ToggleButtonGroup>
-
         <div>
           <ColorPalette
             onClick={setBrushColor}
@@ -308,7 +359,6 @@ export default function Whiteboard({
             ]}
           />
         </div>
-
         <div>
           <BrushPicker
             onClick={changeBrush}
@@ -321,7 +371,6 @@ export default function Whiteboard({
             ]}
           />
         </div>
-
         <ButtonGroup
           id="right-side-tools"
           variant="text"
@@ -330,7 +379,11 @@ export default function Whiteboard({
           aria-label="primary button group"
         >
           <Tooltip title="Lokales Bild einfügen">
-            <ToggleButton aria-label="upload picture" component="label">
+            <ToggleButton
+              aria-label="upload picture"
+              component="label"
+              value=""
+            >
               <input
                 hidden
                 accept="image/*"
@@ -346,26 +399,28 @@ export default function Whiteboard({
               aria-label="Bild löschen"
               component="label"
               onClick={deleteSelectedImage}
+              value=""
             >
               <HideImageIcon />
             </ToggleButton>
           </Tooltip>
         </ButtonGroup>
+        {/*
         <Tooltip title="Zeichnung herunterladen">
           <Button aria-label="Zeichnung herunterladen" component="label">
             <GetAppIcon />
           </Button>
         </Tooltip>
+        */}
       </div>
-
       <div
         id="stage-wrapper"
         tabIndex={1}
         onKeyDown={handleStageWrapperKeyDown}
       >
         <Stage
-          width={window.innerWidth}
-          height={window.innerHeight}
+          width={window.innerWidth * 0.8}
+          height={window.innerHeight * 0.8}
           onMouseDown={handleMouseDown}
           onMousemove={handleMouseMove}
           onMouseup={handleMouseUp}

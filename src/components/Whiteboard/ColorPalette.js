@@ -17,11 +17,12 @@ export default function ColorPalette({ palette, onClick, selectedColor }) {
         },
       }}
     >
-      {palette.map((color) => {
+      {palette.map((color, index) => {
         const isSelected = color.id == selectedColor.id;
         return (
           <Paper
-            elevation={isSelected ? "5" : "0"}
+            key={index}
+            elevation={isSelected ? 5 : 0}
             sx={{
               "backgroundColor": color.value,
               "cursor": "pointer",
