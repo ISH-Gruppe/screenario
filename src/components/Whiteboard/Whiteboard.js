@@ -422,7 +422,7 @@ export default function Whiteboard({
         onKeyDown={handleStageWrapperKeyDown}
       >
         <Stage
-          width={window.innerWidth * 0.8}
+          width={window.innerWidth * 0.95}
           height={window.innerHeight * 0.8}
           onMouseDown={handleMouseDown}
           onMousemove={handleMouseMove}
