@@ -7,6 +7,7 @@ import Notepad from "../Notepad/Notepad";
 import WorkPhase from "../WorkPhase/WorkPhase";
 import QrcodeGenerator from "../QrcodeGenerator/QrcodeGenerator";
 import Soundboard from "../Soundboard/Soundboard";
+import Whiteboard from "../Whiteboard/Whiteboard";
 import DigitalerStuhlkreisWrapper from "../DigitalerStuhlkreisWrapper/DigitalerStuhlkreisWrapper";
 
 import "./WindowManager.css";
@@ -51,12 +52,12 @@ export default class WindowManager extends React.PureComponent {
           static: false,
         },
         {
-          w: 4,
-          h: 3,
+          w: 6,
+          h: 8,
           x: 0,
           y: 15,
           i: "whiteboard",
-          minW: 2,
+          minW: 6,
           moved: false,
           static: false,
         },
@@ -124,16 +125,16 @@ export default class WindowManager extends React.PureComponent {
           static: false,
         },
         { w: 2, h: 5, x: 0, y: 7, i: "timer", moved: false, static: false },
-        // {
-        //   w: 2,
-        //   h: 8,
-        //   x: 0,
-        //   y: 34,
-        //   i: "whiteboard",
-        //   minW: 2,
-        //   moved: false,
-        //   static: false,
-        // },
+        {
+          w: 4,
+          h: 4,
+          y: 0,
+          x: 0,
+          i: "whiteboard",
+          minW: 4,
+          moved: false,
+          static: false,
+        },
         {
           w: 2,
           h: 8,
@@ -208,17 +209,17 @@ export default class WindowManager extends React.PureComponent {
           moved: false,
           static: false,
         },
-        // {
-        //   w: 18,
-        //   h: 6,
-        //   x: 0,
-        //   y: 24,
-        //   i: "whiteboard",
-        //   minW: 12,
-        //   minH: 6,
-        //   moved: false,
-        //   static: false,
-        // },
+        {
+          w: 16,
+          h: 8,
+          x: 0,
+          y: 24,
+          i: "whiteboard",
+          minW: 14,
+          minH: 8,
+          moved: false,
+          static: false,
+        },
         {
           w: 10,
           h: 8,
@@ -299,13 +300,13 @@ export default class WindowManager extends React.PureComponent {
           static: false,
         },
         {
-          w: 16,
-          h: 16,
+          w: 20,
+          h: 8,
           x: 0,
           y: 16,
           i: "whiteboard",
-          minW: 12,
-          minH: 6,
+          minW: 18,
+          minH: 8,
           moved: false,
           static: false,
         },
@@ -397,11 +398,19 @@ export default class WindowManager extends React.PureComponent {
             />
           ),
         },
-        // "whiteboard": {
-        //   key: "whiteboard",
-        //   open: false,
-        //   content: <div> whiteboard </div>,
-        // },
+        "whiteboard": {
+          key: "whiteboard",
+          open: false,
+          content: (
+            <Whiteboard
+              id="whiteboard"
+              title="Whiteboard"
+              onHide={this.handleWindowHide}
+              onSave={this.saveToLocalStorage}
+              onLoad={this.readFromLocalStorage}
+            />
+          ),
+        },
         "random-generator": {
           key: "random-generator",
           open: false,

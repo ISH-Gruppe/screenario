@@ -82,6 +82,17 @@ export default function ToggleButtonsMultiple({
         <LyricsIcon />
         <span class="toolbar-text">Soundboard </span>
       </ToggleButton>
+
+      <ToggleButton
+        color="primary"
+        value="whiteboard"
+        selected={windows["whiteboard"].open}
+        onClick={handleChange}
+      >
+        <BorderColorIcon />
+        <span class="toolbar-text">Whiteboard </span>
+      </ToggleButton>
+
       <ToggleButton
         color="primary"
         value="qrcode-generator"
