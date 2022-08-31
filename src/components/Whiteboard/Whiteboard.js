@@ -10,6 +10,7 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import ToggleButton from "@mui/material/ToggleButton";
+import { useConfirm } from "material-ui-confirm";
 
 import ColorPalette from "./ColorPalette";
 import BrushPicker from "./BrushPicker";
@@ -150,6 +151,7 @@ export default function Whiteboard({
   });
 
   const fileInput = React.useRef();
+  const confirm = useConfirm();
 
   React.useEffect(() => {
     calculateCanvasSize();
@@ -157,7 +159,15 @@ export default function Whiteboard({
 
   // Base Window functions
   function handleReset() {
-    setLines([]);
+    confirm({
+      title: "Whiteboard zurücksetzen",
+      description: "Soll der Inhalt wirklich gelöscht werden?",
+      cancellationText: "Abbrechen"
+    })
+      .then(() => {
+        setLines([]);
+      })
+      .catch(() => {});
   }
   function handleHide() {
     onHide(id);
@@ -296,7 +306,7 @@ export default function Whiteboard({
   return (
     <BaseWindow id={id} title={title} onReset={handleReset} onHide={handleHide}>
       <div id="whiteboard-toolbar">
-        <Tooltip title="Zeichnungen löschen">
+        <Tooltip title="Whiteboard zurücksetzen">
           <Button onClick={handleReset} color="primary" value="clear">
             <CancelPresentationIcon />
           </Button>
