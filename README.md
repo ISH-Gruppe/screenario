@@ -39,6 +39,8 @@ Screenario wouldn’t be possible without these wonderful libraries:
 
 ## Contributors ✨
 
+If you’d like to contribute to Screenario, great! Please check out the [contributor guidelines](CONTRIBUTING.md).
+
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
