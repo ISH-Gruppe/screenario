@@ -17,6 +17,7 @@ We...
 - give each component its own folder & put related CSS in a respective file of the same name
 - prefer functional React components over class-based ones – but class components aren’t evil, use them if they make your life easier
 - discuss build changes and new libraries before adding them to our local branches
+- don’t merge without a review
 - have fun :)
 
 # Committing
