@@ -8,11 +8,11 @@
 
 [Screenario](https://screenar.io) is an interactive dashboard & tool collection for educators, featuring several handy tools like a timer, a whiteboard and an app for generating interesting ice-breaker questions. It’s commissioned by the [ISH Bochum](https://ish-bochum.de/) and only available in German right now.
 
-Screenario is written in React 18 (the exception being [Digitaler Stuhlkreis](https://github.com/s-gbz/screenario/tree/main/src/components/DigitalerStuhlkreisWrapper), which is an Angular web component) and also available separately at [digitaler-stuhlkreis.de](https://digitaler-stuhlkreis.de).
+Screenario is written in React 18 (an exception being [Digitaler Stuhlkreis](https://github.com/s-gbz/screenario/tree/main/src/components/DigitalerStuhlkreisWrapper), which is an Angular web component and also available separately at [digitaler-stuhlkreis.de](https://digitaler-stuhlkreis.de)).
 
 ## Installation
 
-Because of a (hopefully temporary) incompatibility of some libraries with React 18, we need to install our dependencies using --force right now. Same goes for adding new dependencies or uninstalling packages.
+Living on the bleeding edge requires sacrifice sometimes: Because of a (hopefully temporary) incompatibility of some libraries with React 18, we need to install our dependencies using --force right now. Same goes for adding new dependencies or uninstalling packages.
 
 1. Clone the repository.
 2. Run `npm install --force` in the cloned folder.
