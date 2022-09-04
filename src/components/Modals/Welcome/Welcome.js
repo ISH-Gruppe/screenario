@@ -7,9 +7,6 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import Typography from "@mui/material/Typography";
-
-import { Link } from "react-router-dom";
 
 import "./Welcome.css";
 
@@ -49,25 +46,6 @@ const BootstrapDialogTitle = (props) => {
 export default function Welcome({ onSave, onLoad }) {
   const [open, setOpen] = React.useState(true);
 
-  React.useEffect(() => {
-    const savedSettings = onLoad("welcome") || { showWelcomeModal: true };
-    // console.log(savedSettings.showWelcomeModal);
-    // load from localstorage(key: showWelcomeModal, value: true)
-    if (savedSettings.showWelcomeModal == true) {
-      setOpen(true);
-    } else {
-      setOpen(false);
-    }
-  }, []);
-
-  function setDontShowAgain() {
-    onSave("welcome", { showWelcomeModal: false });
-    // save to localStorage (key:showWelcomeModal, value: false)
-  }
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
   const handleClose = () => {
     setOpen(false);
   };
@@ -98,7 +76,14 @@ export default function Welcome({ onSave, onLoad }) {
             Screenario ein browserbasiertes, datenschutzkonformes und
             kostenfreies Tool der ISH Manufaktur. Die ISH Manufaktur ist Teil
             der ISH Gruppe. Nähere Infos zum ISH finden Sie unter{" "}
-            <a href="https://ish-gruppe.de">ish-gruppe.de</a>.
+            <a
+              href="https://ish-gruppe.de"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              ish-gruppe.de
+            </a>
+            .
           </p>
           <span class="modal-imprint-privacy">
             <a href="/impressum">Impressum</a> &{" "}
@@ -110,11 +95,10 @@ export default function Welcome({ onSave, onLoad }) {
           <Button
             autoFocus
             onClick={() => {
-              setDontShowAgain();
               handleClose();
             }}
           >
-            Nicht mehr anzeigen
+            Schließen
           </Button>
         </DialogActions>
       </BootstrapDialog>
