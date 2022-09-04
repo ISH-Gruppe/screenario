@@ -20,10 +20,21 @@ const Datenschutz = () => {
           keine Zugriffslogs.
         </li>
       </ul>
-      Es ist möglich, dass unser Hosting-Partner{" "}
-      <a href="https://www.netlify.com/"> Netlify</a> technische Daten wie
+      Es ist möglich, dass unsere Hosting-Partner{" "}
+      <a href="https://www.vercel.com/"> Vercel</a> und{" "}
+      <a href="https://www.render.com/"> Render</a> technische Daten wie
       IP-Adressen für kurze Zeit verarbeitet, wenn dies für die Bereitstellung
       der Website zwingend notwendig ist.
+      <iframe
+        style={{
+          border: "0",
+          height: "200px",
+          width: "600px",
+          margin: "2rem 0 0 0",
+          padding: "1rem 0",
+        }}
+        src="https://stats1.iquel.de/index.php?module=CoreAdminHome&action=optOut&language=de&fontFamily=Rubik"
+      ></iframe>
       <h2> Benennung der verantwortlichen Stelle </h2>
       Die verantwortliche Stelle für die Datenverarbeitung auf dieser Website
       ist:
