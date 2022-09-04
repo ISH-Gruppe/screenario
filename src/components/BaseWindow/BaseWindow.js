@@ -19,7 +19,7 @@ export default function BaseWindow({
   resetName,
 }) {
   function handleHide() {
-    console.log("handleHide", id);
+    // console.log("handleHide", id);
     onHide(id);
   }
 
