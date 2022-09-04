@@ -74,7 +74,7 @@ export default function NamePicker(props) {
 
       <div className="checkbox-container">
         <FormControlLabel
-          label="Jeden Namen nur ein Mal anzeigen"
+          label="Jeden Namen nur ein Mal auslosen"
           control={
             <Checkbox
               size="small"
