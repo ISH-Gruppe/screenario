@@ -1,5 +1,5 @@
 name: Bug Report
-description: Report a bug in the Angular Framework
+description: Report a bug in the application
 
 body:
   - type: dropdown
@@ -23,7 +23,7 @@ body:
   - type: textarea
     id: description
     attributes:
-      label: A summary of the issue. This needs to be a clear detailed-rich summary.
+      label: A summary of the issue. This needs to be a clear detailed-rich summary
     validations:
       required: true
 
