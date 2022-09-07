@@ -7,7 +7,7 @@ body:
     attributes:
       label: Which component(s) are the source of the bug?
       options:
-        - App-Infrastructure (window management/ general stuff)
+        - App-Infrastructure (window management/global issues)
         - Work-Phase
         - Timer
         - Random-Generator
@@ -15,7 +15,7 @@ body:
         - Soundboard
         - QR-Code-Generator
         - Digitaler-Stuhlkreis
-        - Don't known / other
+        - Don't know / Other
       multiple: true
     validations:
       required: true
@@ -23,14 +23,14 @@ body:
   - type: textarea
     id: description
     attributes:
-      label: A summary of the issue. This needs to be a clear detailed-rich summary
+      label: A summary of the issue. Please write a clear, detailed description.
     validations:
       required: true
 
-  - type: input
+  - type: textarea
     id: reproduction
     attributes:
-      label: Please describe the steps to reproduce this bug
+      label: Please describe the steps to reproduce this bug.
       placeholder: |
         1. (for example) Went to ...
         2. Clicked on...
@@ -43,7 +43,7 @@ body:
     attributes:
       label: "Browser version: You can use https://www.whatsmybrowser.org/ to find this out"
       placeholder: |
-       Simply copy/ paste the link à la https://www.whatsmybrowser.org/b/123456 
+       Simply copy and paste the link. It should look like this: https://www.whatsmybrowser.org/b/123456 
 
   - type: textarea
     id: other
