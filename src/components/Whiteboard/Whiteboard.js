@@ -72,7 +72,7 @@ export default function Whiteboard({
     confirm({
       title: "Whiteboard zurücksetzen",
       description: "Soll der Inhalt wirklich gelöscht werden?",
-      cancellationText: "Abbrechen"
+      cancellationText: "Abbrechen",
     })
       .then(() => {
         setLines([]);
@@ -172,6 +172,7 @@ export default function Whiteboard({
     const url = URL.createObjectURL(file);
     setImages([...images, { id: url.toString(), url: url, x: 50, y: 50 }]);
     fileInput.current.value = "";
+    setTool(["select"]);
   };
 
   function handleStageWrapperKeyDown(event) {
