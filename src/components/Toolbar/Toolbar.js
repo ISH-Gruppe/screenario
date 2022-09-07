@@ -95,6 +95,16 @@ export default function ToggleButtonsMultiple({
 
       <ToggleButton
         color="primary"
+        value="position-cards"
+        selected={windows["position-cards"].open}
+        onClick={handleChange}
+      >
+        <BorderColorIcon />
+        <span class="toolbar-text">Positionskarten</span>
+      </ToggleButton>
+
+      <ToggleButton
+        color="primary"
         value="qrcode-generator"
         selected={windows["qrcode-generator"].open}
         onClick={handleChange}

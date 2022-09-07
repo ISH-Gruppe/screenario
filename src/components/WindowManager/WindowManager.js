@@ -8,6 +8,7 @@ import WorkPhase from "../WorkPhase/WorkPhase";
 import QrcodeGenerator from "../QrcodeGenerator/QrcodeGenerator";
 import Soundboard from "../Soundboard/Soundboard";
 import Whiteboard from "../Whiteboard/Whiteboard";
+import PositionCards from "../PositionCards/PositionCards";
 import DigitalerStuhlkreisWrapper from "../DigitalerStuhlkreisWrapper/DigitalerStuhlkreisWrapper";
 
 import "./WindowManager.css";
@@ -221,6 +222,17 @@ export default class WindowManager extends React.PureComponent {
           static: false,
         },
         {
+          w: 12,
+          h: 8,
+          x: 0,
+          y: 24,
+          i: "position-cards",
+          minW: 10,
+          minH: 8,
+          moved: false,
+          static: false,
+        },
+        {
           w: 10,
           h: 8,
           x: 0,
@@ -405,6 +417,19 @@ export default class WindowManager extends React.PureComponent {
             <Whiteboard
               id="whiteboard"
               title="Whiteboard"
+              onHide={this.handleWindowHide}
+              onSave={this.saveToLocalStorage}
+              onLoad={this.readFromLocalStorage}
+            />
+          ),
+        },
+        "position-cards": {
+          key: "position-cards",
+          open: false,
+          content: (
+            <PositionCards
+              id="position-cards"
+              title="Positionierungskarten"
               onHide={this.handleWindowHide}
               onSave={this.saveToLocalStorage}
               onLoad={this.readFromLocalStorage}
