@@ -33,7 +33,7 @@ export default function PositionCards({
   const [userImages, setUserImages] = React.useState([]);
   const [selectedImageId, selectImage] = React.useState(null);
 
-  const standardImages = [
+  const defaultImages = [
     "/assets/images/einzelarbeit.jpg",
     "/assets/images/partnerarbeit.jpg",
   ];
