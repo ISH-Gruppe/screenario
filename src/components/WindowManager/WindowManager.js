@@ -8,7 +8,7 @@ import WorkPhase from "../WorkPhase/WorkPhase";
 import QrcodeGenerator from "../QrcodeGenerator/QrcodeGenerator";
 import Soundboard from "../Soundboard/Soundboard";
 import Whiteboard from "../Whiteboard/Whiteboard";
-import PositionCards from "../PositionCards/PositionCards";
+import Gallery from "../Gallery/Gallery";
 import DigitalerStuhlkreisWrapper from "../DigitalerStuhlkreisWrapper/DigitalerStuhlkreisWrapper";
 
 import "./WindowManager.css";
@@ -59,6 +59,17 @@ export default class WindowManager extends React.PureComponent {
           y: 15,
           i: "whiteboard",
           minW: 6,
+          moved: false,
+          static: false,
+        },
+        {
+          w: 6,
+          h: 8,
+          x: 0,
+          y: 24,
+          i: "gallery",
+          minW: 6,
+          minH: 6,
           moved: false,
           static: false,
         },
@@ -133,6 +144,17 @@ export default class WindowManager extends React.PureComponent {
           x: 0,
           i: "whiteboard",
           minW: 4,
+          moved: false,
+          static: false,
+        },
+        {
+          w: 4,
+          h: 4,
+          x: 0,
+          y: 24,
+          i: "gallery",
+          minW: 2,
+          minH: 8,
           moved: false,
           static: false,
         },
@@ -222,13 +244,13 @@ export default class WindowManager extends React.PureComponent {
           static: false,
         },
         {
-          w: 12,
-          h: 8,
+          w: 14,
+          h: 7,
           x: 0,
           y: 24,
-          i: "position-cards",
+          i: "gallery",
           minW: 10,
-          minH: 8,
+          minH: 6,
           moved: false,
           static: false,
         },
@@ -322,6 +344,18 @@ export default class WindowManager extends React.PureComponent {
           moved: false,
           static: false,
         },
+        {
+          w: 24,
+          h: 8,
+          x: 0,
+          y: 24,
+          i: "gallery",
+          minW: 18,
+          minH: 8,
+          moved: false,
+          static: false,
+        },
+
         {
           w: 16,
           h: 8,
@@ -423,13 +457,13 @@ export default class WindowManager extends React.PureComponent {
             />
           ),
         },
-        "position-cards": {
-          key: "position-cards",
-          open: false,
+        "gallery": {
+          key: "gallery",
+          open: true,
           content: (
-            <PositionCards
-              id="position-cards"
-              title="Positionierungskarten"
+            <Gallery
+              id="gallery"
+              title="Galerie"
               onHide={this.handleWindowHide}
               onSave={this.saveToLocalStorage}
               onLoad={this.readFromLocalStorage}
