@@ -475,13 +475,6 @@ export default class WindowManager extends React.PureComponent {
           open: false,
           content: (
             <RandomGenerator
-              onHide={this.handleWindowHide}
-              onSave={this.saveToLocalStorage}
-              onLoad={this.readFromLocalStorage}
-            />
-          ),
-          content: (
-            <RandomGenerator
               id="random-generator"
               title="Zufallsgenerator"
               onHide={this.handleWindowHide}
