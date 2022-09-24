@@ -19,6 +19,7 @@
     "react-dom": "^18.2.0",
     "react-grid-layout": "^1.3.4",
     "react-konva": "^18.2.1",
+    "react-konva-utils": "^0.3.0",
     "react-quill": "^2.0.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",

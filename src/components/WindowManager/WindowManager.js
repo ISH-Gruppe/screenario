@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import Welcome from "../Modals/Welcome/Welcome";
 import Timer from "../Timer/Timer";
@@ -466,7 +466,8 @@ export default class WindowManager extends React.PureComponent {
               title="Galerie"
               onHide={this.handleWindowHide}
               onSave={this.saveToLocalStorage}
-              onLoad={this.readFromLocalStorage}
+              onLoad={this.readFromLocalnStorage}
+              resizing={this}
             />
           ),
         },
@@ -533,13 +534,12 @@ export default class WindowManager extends React.PureComponent {
     };
   }
 
-  // static get defaultProps() {
-  //   return {
-  //     className: "layout",
-  //     cols: { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 },
-  //     rowHeight: 150,
-  //   };
-  // }
+  handleResize() {
+    // const stateCopy = { ...this.state };
+    // this.setState({ ...this.state, date: Date.now().toString() });
+    this.forceUpdate();
+    console.log("handleresize");
+  }
 
   resetLayout() {
     this.setState({ layouts: this.defaultLayout });
@@ -549,6 +549,7 @@ export default class WindowManager extends React.PureComponent {
     // TODO: Fix! Temporarily removed
     // saveLayoutToLocalStorage("layouts", layouts);
     this.setState({ layouts });
+    this.layoutChanged = layouts;
   }
 
   handleWindowHide(windowId) {
@@ -624,6 +625,7 @@ export default class WindowManager extends React.PureComponent {
           onLayoutChange={(layout, layouts) =>
             this.onLayoutChange(layout, layouts)
           }
+          onResizeStop={() => this.handleResize()}
         >
           {getOpenWindows()}
         </ResponsiveReactGridLayout>
@@ -631,6 +633,30 @@ export default class WindowManager extends React.PureComponent {
     );
   }
 }
+
+//     this.setState({
+//       layouts: this.originalLayouts,
+//       windows: {
+//         ...this.state.windows,
+//         [windowId]: { ...this.state.windows[windowId], open: true },
+//       },
+//     });
+//
+//
+//     "gallery": {
+//       key: "gallery",
+//       open: true,
+//       content: (
+//         <Gallery
+//           id="gallery"
+//           title="Galerie"
+//           onHide={this.handleWindowHide}
+//           onSave={this.saveToLocalStorage}
+//           onLoad={this.readFromLocalStorage}
+//           layoutChanged={this.layoutChanged}
+//         />
+//       ),
+//     },
 
 function readLayoutFromLocalStorage(key) {
   let ls = {};

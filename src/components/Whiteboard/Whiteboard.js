@@ -72,7 +72,7 @@ export default function Whiteboard({
     confirm({
       title: "Whiteboard zurücksetzen",
       description: "Soll der Inhalt wirklich gelöscht werden?",
-      cancellationText: "Abbrechen"
+      cancellationText: "Abbrechen",
     })
       .then(() => {
         setLines([]);

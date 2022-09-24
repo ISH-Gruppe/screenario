@@ -1,7 +1,7 @@
 import BaseWindow from "../BaseWindow/BaseWindow";
 import React, { Component } from "react";
 import { Stage, Layer, Text, Image, Line, Transformer } from "react-konva";
-
+import useImage from "use-image";
 // UI
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Button from "@mui/material/Button";
@@ -19,9 +19,9 @@ import HideImageIcon from "@mui/icons-material/HideImage";
 import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
 
 // CSS
-import "./PositionCards.scss";
+import "./Gallery.scss";
 
-export default function PositionCards({
+export default function Gallery({
   id,
   title,
   visible,
@@ -30,24 +30,34 @@ export default function PositionCards({
   onSave,
   onLoad,
 }) {
-  const [userImages, setUserImages] = React.useState([]);
-  const [selectedImageId, selectImage] = React.useState(null);
-
-  const defaultImages = [
-    "/assets/images/einzelarbeit.jpg",
-    "/assets/images/partnerarbeit.jpg",
-  ];
-
-  const fileInput = React.useRef();
-  const confirm = useConfirm();
-
-  // runs on mount
-  React.useEffect(() => {}, []);
-
   // Base Window functions
   function handleReset() {}
   function handleHide() {
     onHide(id);
+  }
+
+  // Setup & State
+  const [userImages, setUserImages] = React.useState([]);
+  const [selectedImageId, selectImage] = React.useState(null);
+
+  const [stageSize, setStageSize] = React.useState({ w: 720, h: 480 });
+  const defaultImages = [
+    "/assets/images/positioncards/einzelarbeit.jpg",
+    "/assets/images/positioncards/partnerarbeit.jpg",
+  ];
+
+  const fileInput = React.useRef();
+  // const confirm = useConfirm();
+
+  const grids = ["/assets/images/positioncards/5x4.png"];
+  const selectedGrid = useImage("https://konvajs.github.io/assets/yoda.jpg");
+
+  function GridImage({ width, height }) {
+    const [image, status] = useImage(grids[0]);
+
+    // "image" will be DOM image element or undefined
+
+    return <Image image={image} width={width} height={height} />;
   }
 
   const onImageChange = (e) => {
@@ -68,31 +78,6 @@ export default function PositionCards({
 
     setUserImages(imagesCopy);
   }
-
-  const generateGrid = () => {
-    const lines = [];
-
-    for (let i = 0; i < 8; i++) {
-      lines.push(
-        <Line
-          x={0}
-          y={i * 50}
-          points={[0, 0, 500, 0]}
-          stroke="rgba(0, 0, 0, 0.2)"
-          strokeWidth={1}
-        />,
-        <Line
-          x={i * 50}
-          y={0}
-          points={[0, 0, 0, 500]}
-          stroke="rgba(0, 0, 0, 0.2)"
-          strokeWidth={1}
-        />
-      );
-    }
-
-    return lines;
-  };
 
   return (
     <BaseWindow id={id} title={title} onReset={handleReset} onHide={handleHide}>
@@ -127,11 +112,11 @@ export default function PositionCards({
         </Tooltip>
       </ButtonGroup>
       <div id="stage-wrapper" tabIndex={1}>
-        <Stage
-          width={window.innerWidth * 0.5}
-          height={window.innerHeight * 0.9}
-        >
-          <Layer id="grid">{generateGrid()}</Layer>
+        <Stage width={stageSize.w} height={stageSize.h}>
+          <Layer id="image"></Layer>
+          <Layer id="grid">
+            <GridImage width={stageSize.w} height={stageSize.h} />
+          </Layer>
         </Stage>
       </div>
     </BaseWindow>

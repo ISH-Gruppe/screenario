@@ -95,8 +95,8 @@ export default function ToggleButtonsMultiple({
 
       <ToggleButton
         color="primary"
-        value="position-cards"
-        selected={windows["position-cards"].open}
+        value="gallery"
+        selected={windows["gallery"].open}
         onClick={handleChange}
       >
         <BorderColorIcon />
