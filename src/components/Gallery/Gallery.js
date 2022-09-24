@@ -82,62 +82,44 @@ function Gallery({
 
   const [selectedGridPath, selectGrid] = React.useState("nogrid");
 
-  // Textboxes
-  // const [isEditing, setIsEditing] = React.useState(false);
-  // const [isTransforming, setIsTransforming] = React.useState(false);
-  // const [text, setText] = React.useState(
-  //   "Click to resize. Double click to edit."
-  // );
-  // const [textboxWidth, setWidth] = React.useState(200);
-  // const [textboxHeight, setHeight] = React.useState(200);
-  // const [selected, setSelected] = React.useState(false);
-  // const [position, setPosition] = React.useState({ x: 0, y: 50 });
-
   const [textboxes, setTextboxes] = React.useState([
     {
       isEditing: false,
       isTransforming: false,
-      text: "Doppelklicken zum Bearbeiten",
+      text: "Bearbeiten mit Doppelklick. Bestätigen mit Enter.",
       width: 200,
-      height: 100,
+      height: 50,
       selected: false,
       x: 50,
       y: 50,
     },
   ]);
 
-  // React.useEffect(() => {
-  //   if (!selected && isEditing) {
-  //     setIsEditing(false);
-  //   } else if (!selected && isTransforming) {
-  //     setIsTransforming(false);
-  //   }
-  // }, [selected, isEditing, isTransforming]);
-
   function toggleEdit(boxId) {
-    const textboxesCopy = [...textboxes];
-    const box = textboxes[boxId];
+    const newTextboxes = textboxes.map((box, index) => {
+      if (index === boxId) {
+        box.selected = !box.isEditing;
+        box.isEditing = !box.isEditing;
+      }
+      return box;
+    });
 
-    textboxesCopy[boxId] = {
-      ...box,
-      isEditing: !box.isEditing,
-      selected: !box.isEditing,
-    };
-
-    setTextboxes([...textboxesCopy]);
+    setTextboxes([...newTextboxes]);
   }
 
   function toggleTransforming(boxId) {
-    const textboxesCopy = [...textboxes];
-    const box = textboxes[boxId];
+    const newTextboxes = textboxes.map((box, index) => {
+      if (index === boxId) {
+        box.selected = !box.isTransforming;
+        box.isTransforming = !box.isTransforming;
+      } else {
+        box.selected = false;
+        box.isTransforming = false;
+      }
+      return box;
+    });
 
-    textboxesCopy[boxId] = {
-      ...box,
-      isTransforming: !box.isTransforming,
-      selected: !box.isTransforming,
-    };
-
-    setTextboxes([...textboxesCopy]);
+    setTextboxes([...newTextboxes]);
   }
 
   function onTextResize(boxId, newWidth, newHeight) {
@@ -184,6 +166,7 @@ function Gallery({
   const shownTextboxes = textboxes.map((box, index) => {
     return (
       <EditableText
+        id={index}
         key={index}
         x={box.x}
         y={box.y}
@@ -267,7 +250,7 @@ function Gallery({
       {
         isEditing: false,
         isTransforming: false,
-        text: "Doppelklicken zum Bearbeiten",
+        text: "Doppelklick: Bearbeiten, Enter: Bestätigen, Backspace: Löschen",
         width: 200,
         height: 100,
         selected: false,
@@ -277,9 +260,32 @@ function Gallery({
     ]);
   }
 
+  function deleteSelectedTextBox() {
+    const filteredTextboxes = textboxes.filter(
+      (box) =>
+        box.isEditing === true ||
+        (box.isTransforming === false && box.selected === false)
+    );
+
+    setTextboxes([...filteredTextboxes]);
+    console.log("textboxes", textboxes);
+    console.log("filteredtextboxes", filteredTextboxes);
+  }
+
+  function handleKeyPressOnStageWrapper(event) {
+    console.log("event.key", event.key);
+    if (event.key === "Backspace") {
+      deleteSelectedTextBox();
+    }
+  }
+
   return (
     <BaseWindow id={id} title={title} onReset={handleReset} onHide={handleHide}>
-      <div id="gallery-stage-wrapper">
+      <div
+        id="gallery-stage-wrapper"
+        onKeyDown={handleKeyPressOnStageWrapper}
+        tabIndex={-1}
+      >
         <Stage width={stageSize.w} height={stageSize.h}>
           <Layer id="k-image-layer">
             <LoadedImage

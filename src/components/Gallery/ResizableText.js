@@ -1,7 +1,12 @@
 import React, { useRef, useEffect } from "react";
 import { Text, Transformer } from "react-konva";
 
+const RETURN_KEY = 13;
+const ESCAPE_KEY = 27;
+const BACKSPACE_KEY = 8;
+
 export function ResizableText({
+  id,
   x,
   y,
   text,
@@ -11,6 +16,7 @@ export function ResizableText({
   onClick,
   onDoubleClick,
   onDragEnd,
+  onDeselect,
 }) {
   const textRef = useRef(null);
   const transformerRef = useRef(null);
@@ -21,10 +27,6 @@ export function ResizableText({
       transformerRef.current.getLayer().batchDraw();
     }
   }, [isSelected]);
-
-  function handleKeyDown() {
-    onDoubleClick();
-  }
 
   function handleResize() {
     if (textRef.current !== null) {
@@ -72,7 +74,7 @@ export function ResizableText({
         width={width}
         draggable={true}
         onDragEnd={onDragEnd}
-        onKeyDown={handleKeyDown}
+        tabIndex={0}
       />
       {transformer}
     </>

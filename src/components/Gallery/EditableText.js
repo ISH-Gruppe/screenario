@@ -2,10 +2,8 @@ import React from "react";
 import { ResizableText } from "./ResizableText";
 import { EditableTextInput } from "./EditableTextInput";
 
-const RETURN_KEY = 13;
-const ESCAPE_KEY = 27;
-
 export function EditableText({
+  id,
   x,
   y,
   text,
@@ -19,13 +17,6 @@ export function EditableText({
   onChange,
   onDragEnd,
 }) {
-  function handleEscapeKeys(e) {
-    console.log(e);
-    if ((e.keyCode === RETURN_KEY && !e.shiftKey) || e.keyCode === ESCAPE_KEY) {
-      onToggleEdit(e);
-    }
-  }
-
   function handleTextChange(e) {
     onChange(e.currentTarget.value);
   }
@@ -33,19 +24,21 @@ export function EditableText({
   if (isEditing) {
     return (
       <EditableTextInput
+        id={id}
         x={x}
         y={y}
         width={width}
         height={height}
         value={text}
         onChange={handleTextChange}
-        onKeyDown={handleEscapeKeys}
         isEditing={isEditing}
+        onToggleEdit={onToggleEdit}
       />
     );
   }
   return (
     <ResizableText
+      id={id}
       x={x}
       y={y}
       isSelected={isTransforming}

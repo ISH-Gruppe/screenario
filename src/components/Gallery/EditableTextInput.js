@@ -15,7 +15,7 @@ function getStyle(width, height) {
     background: "none",
     outline: "none",
     resize: "none",
-    border: "none",
+    border: "1px solid grey",
     overflow: "visible",
     color: "black",
     fontSize: "16px",
@@ -31,6 +31,7 @@ function getStyle(width, height) {
 }
 
 export function EditableTextInput({
+  id,
   x,
   y,
   isEditing,
@@ -52,8 +53,7 @@ export function EditableTextInput({
   }
 
   if (isEditing) {
-    console.log("isEditing");
-    const style = getStyle(120, 40);
+    const style = getStyle(width, height);
     return (
       <Html groupProps={{ x, y }} divProps={{ style: { opacity: 1 } }}>
         <textarea
@@ -61,6 +61,8 @@ export function EditableTextInput({
           value={value}
           onChange={onChange}
           style={style}
+          onKeyDown={handleEscapeKeys}
+          tabIndex={-1}
         />
       </Html>
     );
