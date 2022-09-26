@@ -533,17 +533,16 @@ export default function WindowManager() {
     },
   });
 
-  function handleResizeEnd() {
-    galleryComponent.current.updateFromParent();
-  }
+  function handleResizeEnd() {}
 
   function handleResizeStart() {}
 
   function handleResize() {
     if (galleryComponent.current) {
+      console.log("galleryComponent.current", galleryComponent.current);
       setTimeout(() => {
         galleryComponent.current.updateFromParent();
-      }, 50);
+      }, 10);
     }
   }
 

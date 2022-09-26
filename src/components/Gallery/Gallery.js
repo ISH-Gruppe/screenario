@@ -71,7 +71,7 @@ function Gallery(
   const forceUpdate = React.useCallback(() => updateState({}), []);
 
   const [userImages, setUserImages] = React.useState([]);
-  const [selectedImagePath, selectImage] = React.useState("");
+  const [selectedImagePath, selectImage] = React.useState(defaultImages[0]);
   const [stageSize, setStageSize] = React.useState({ w: 960, h: 540 });
 
   const [selectedGridPath, selectGrid] = React.useState("nogrid");
@@ -201,14 +201,15 @@ function Gallery(
   }
 
   function setCanvasSize() {
-    const width = getGalleryWindowSize().w - 100;
-    const height = getGalleryWindowSize().h - 110 - 50 - 40 - 20; // imageCarousel, window top bar, card content padding, window resize handle
+    const width = getGalleryWindowSize().w - 140;
+    const height = getGalleryWindowSize().h - 110 - 50 - 20; // imageCarousel, window top bar, card content padding, window resize handle
     setStageSize({ w: width, h: height });
   }
 
   // Image Carousel
   function handleImageSelect(imagePath) {
     selectImage(imagePath);
+    setCanvasSize();
   }
 
   function nextGrid() {
@@ -228,7 +229,6 @@ function Gallery(
 
   function deleteUserImage(event, value) {
     const imageToDelete = userImages.indexOf(value);
-    console.log(imageToDelete);
     switch (true) {
       case imageToDelete === -1:
         break;
@@ -279,6 +279,15 @@ function Gallery(
     }
   }
 
+  function createGrid(horizontalLines, verticalLines) {
+    stageSize.w;
+    stageSize.h;
+
+    for (let i; i <= horizontalLines; i++) {
+      return <Line />;
+    }
+  }
+
   return (
     <BaseWindow id={id} title={title} onReset={handleReset} onHide={handleHide}>
       <div
@@ -301,19 +310,7 @@ function Gallery(
               stageHeight={stageSize.h}
             />
           </Layer>
-          <Layer
-            // onClick={
-            //   // always deseleiects, doubleclicking not possible anymore
-            //   setTextboxes[
-            //     textboxes.map((box) => {
-            //       (box.selected = false), (box.isEditing = false);
-            //     })
-            //   ]
-            // }
-            id="k-text-layer"
-          >
-            {shownTextboxes}
-          </Layer>
+          <Layer id="k-text-layer">{shownTextboxes}</Layer>
         </Stage>
         <div className="right-toolbar">
           <ButtonGroup

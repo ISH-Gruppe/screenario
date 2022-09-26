@@ -10,15 +10,17 @@ export default ({ stageWidth, stageHeight, imagePath }) => {
     let height = image.naturalHeight;
     const ratio = width / height;
 
-    if (ratio > 0.99 && ratio < 1.02) {
-      height = stageHeight;
-      width = height;
-    } else if (ratio < 1) {
+    if (ratio < 1) {
       height = stageHeight;
       width = height * ratio;
     } else {
       width = stageWidth;
       height = width / ratio;
+
+      const heightDifference = height - stageHeight;
+
+      height = height - heightDifference;
+      width = height * ratio;
     }
     // "image" will be DOM image element or undefined
     return <Image image={image} width={width} height={height} />;
