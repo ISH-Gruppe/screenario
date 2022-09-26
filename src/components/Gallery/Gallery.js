@@ -76,22 +76,11 @@ function Gallery(
 
   const [selectedGridPath, selectGrid] = React.useState("nogrid");
 
-  const [textboxes, setTextboxes] = React.useState([
-    {
-      isEditing: false,
-      isTransforming: false,
-      text: "Bearbeiten mit Doppelklick. Bestätigen mit Enter.",
-      width: 200,
-      height: 50,
-      selected: false,
-      x: 50,
-      y: 50,
-    },
-  ]);
+  const [textboxes, setTextboxes] = React.useState([]);
 
-  // React.useEffect(() => {
-  //   setCanvasSize();
-  // }, [resizing]);
+  React.useEffect(() => {
+    setCanvasSize();
+  }, []);
 
   React.useImperativeHandle(ref, () => ({
     updateFromParent() {
@@ -268,12 +257,9 @@ function Gallery(
     );
 
     setTextboxes([...filteredTextboxes]);
-    console.log("textboxes", textboxes);
-    console.log("filteredtextboxes", filteredTextboxes);
   }
 
   function handleKeyPressOnStageWrapper(event) {
-    console.log("event.key", event.key);
     if (event.key === "Backspace") {
       deleteSelectedTextBox();
     }
