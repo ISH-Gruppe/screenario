@@ -56,16 +56,10 @@ const grids = [
   "/assets/images/gallery/10x7.png",
 ];
 
-function Gallery({
-  id,
-  title,
-  visible,
-  onHide,
-  onChange,
-  onSave,
-  onLoad,
-  resizing,
-}) {
+function Gallery(
+  { id, title, visible, onHide, onChange, onSave, onLoad, resizing },
+  ref
+) {
   // Base Window functions
   function handleReset() {}
   function handleHide() {
@@ -94,6 +88,16 @@ function Gallery({
       y: 50,
     },
   ]);
+
+  // React.useEffect(() => {
+  //   setCanvasSize();
+  // }, [resizing]);
+
+  React.useImperativeHandle(ref, () => ({
+    updateFromParent() {
+      setCanvasSize();
+    },
+  }));
 
   function toggleEdit(boxId) {
     const newTextboxes = textboxes.map((box, index) => {
@@ -199,20 +203,16 @@ function Gallery({
   function setCanvasSize() {
     const width = getGalleryWindowSize().w - 100;
     const height = getGalleryWindowSize().h - 110 - 50 - 40 - 20; // imageCarousel, window top bar, card content padding, window resize handle
-    console.log("height", height);
     setStageSize({ w: width, h: height });
   }
 
   // Image Carousel
   function handleImageSelect(imagePath) {
-    console.log("handleimageselect", imagePath);
     selectImage(imagePath);
-    setCanvasSize();
   }
 
   function nextGrid() {
     const currentGrid = grids.indexOf(selectedGridPath);
-    console.log(currentGrid);
     if (currentGrid < grids.length - 1) {
       selectGrid(grids[currentGrid + 1]);
     } else {
@@ -358,4 +358,4 @@ function Gallery({
   );
 }
 
-export default Gallery;
+export default React.forwardRef(Gallery);
