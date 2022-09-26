@@ -100,7 +100,7 @@ export default function ToggleButtonsMultiple({
         onClick={handleChange}
       >
         <BorderColorIcon />
-        <span class="toolbar-text">Positionskarten</span>
+        <span class="toolbar-text">Galerie</span>
       </ToggleButton>
 
       <ToggleButton
