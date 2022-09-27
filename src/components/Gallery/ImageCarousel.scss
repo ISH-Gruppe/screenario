@@ -1,0 +1,84 @@
+#image-selector {
+}
+
+.image-row {
+  display: flex;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.selector-preview,
+#add-image-button {
+  height: 90px;
+  min-height: 80px;
+  width: 150px;
+  min-width: 140px;
+  margin: 5px 5px;
+  border-radius: 10px;
+  opacity: 0.6;
+  pointer-events: all !important;
+  user-select: all !important;
+  transition: opacity 0.3s ease-in-out;
+  scroll-snap-align: end;
+  object-fit: cover;
+}
+
+.selector-preview:hover,
+.selector-preview:active,
+#add-image-button:hover,
+#add-image-button:active,
+.selected-image {
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+  cursor: pointer;
+}
+.selected-image + #delete-image-button {
+  opacity: 0.7;
+}
+
+.user-image-wrapper {
+  position: relative;
+}
+
+#delete-image-button {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  max-height: 50px;
+  background: white;
+  border-radius: 10px;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+#delete-image-button:hover {
+  transition: opacity 0.3s ease-in-out;
+  opacity: 1;
+}
+
+.carousel-button {
+  position: absolute;
+  cursor: pointer;
+  top: 50%;
+  z-index: 1;
+  transition: transform 0.1s ease-in-out;
+  background: white;
+  border-radius: 15px;
+  border: none;
+  padding: 0.5rem;
+}
+
+.left-carousel-button {
+  left: 0;
+  transform: translate(0%, -50%);
+}
+.right-carousel-button {
+  right: 0;
+  transform: translate(0%, -50%);
+}

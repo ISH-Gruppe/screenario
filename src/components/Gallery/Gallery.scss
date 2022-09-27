@@ -1,0 +1,44 @@
+#stage-parent {
+  width: 100%;
+}
+
+#content-container-gallery {
+  margin-left: unset !important;
+  margin-right: unset !important;
+}
+
+#whiteboard-toolbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+#gallery-stage-wrapper:focus,
+#gallery-stage-wrapper:focus-visible {
+  border: none;
+  outline: none;
+  border-color: inherit;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  outline-style: none;
+  outline-color: red;
+}
+
+#gallery-stage-wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.konva-text {
+  color: red;
+  background: green;
+}
+
+// .editable-textbox {
+//   z-index: 999999;
+//   opacity: 1;
+//   color: red;
+//   border: 2px solid black;
+//   scale: 5;
+// }

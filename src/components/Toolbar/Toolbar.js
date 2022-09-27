@@ -9,6 +9,7 @@ import BorderColorIcon from "@mui/icons-material/BorderColor"; //whiteboard
 import LyricsIcon from "@mui/icons-material/Lyrics"; // soundboard
 import QrCodeIcon from "@mui/icons-material/QrCode";
 import ChairAltIcon from "@mui/icons-material/ChairAlt";
+import GridOnIcon from "@mui/icons-material/GridOn";
 
 import "./Toolbar.css";
 
@@ -91,6 +92,16 @@ export default function ToggleButtonsMultiple({
       >
         <BorderColorIcon />
         <span class="toolbar-text">Whiteboard </span>
+      </ToggleButton>
+
+      <ToggleButton
+        color="primary"
+        value="gallery"
+        selected={windows["gallery"].open}
+        onClick={handleChange}
+      >
+        <GridOnIcon />
+        <span class="toolbar-text">Galerie</span>
       </ToggleButton>
 
       <ToggleButton
