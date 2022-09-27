@@ -42,11 +42,17 @@ import "./Gallery.scss";
 
 // Constants
 const defaultImages = [
-  "/assets/images/gallery/Image 60.jpg",
-  "/assets/images/gallery/Image 62.jpg",
-  "/assets/images/gallery/Image 64.jpg",
-  "/assets/images/gallery/Image 66.jpg",
-  "/assets/images/gallery/Image 68.jpg",
+  "/assets/images/gallery/unsplash_1.jpg",
+  "/assets/images/gallery/unsplash_2.jpg",
+  "/assets/images/gallery/unsplash_3.jpg",
+  "/assets/images/gallery/unsplash_4.jpg",
+  "/assets/images/gallery/unsplash_5.jpg",
+  "/assets/images/gallery/unsplash_6.jpg",
+  "/assets/images/gallery/unsplash_7.jpg",
+  "/assets/images/gallery/unsplash_8.jpg",
+  "/assets/images/gallery/unsplash_9.jpg",
+  "/assets/images/gallery/unsplash_10.jpg",
+  "/assets/images/gallery/unsplash_11.jpg",
 ];
 
 function Gallery(
