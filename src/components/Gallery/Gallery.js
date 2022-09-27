@@ -36,24 +36,17 @@ import PostAddIcon from "@mui/icons-material/PostAdd";
 import ImageCarousel from "./ImageCarousel";
 import LoadedImage from "./LoadedImage";
 import { EditableText } from "./EditableText";
-
+import Grid from "./Grid";
 // CSS
 import "./Gallery.scss";
 
-// Enums
+// Constants
 const defaultImages = [
   "/assets/images/gallery/Image 60.jpg",
   "/assets/images/gallery/Image 62.jpg",
   "/assets/images/gallery/Image 64.jpg",
   "/assets/images/gallery/Image 66.jpg",
   "/assets/images/gallery/Image 68.jpg",
-];
-
-const grids = [
-  "nogrid",
-  "/assets/images/gallery/6x4.png",
-  "/assets/images/gallery/7x5.png",
-  "/assets/images/gallery/10x7.png",
 ];
 
 function Gallery(
@@ -72,11 +65,34 @@ function Gallery(
 
   const [userImages, setUserImages] = React.useState([]);
   const [selectedImagePath, selectImage] = React.useState(defaultImages[0]);
-  const [stageSize, setStageSize] = React.useState({ w: 960, h: 540 });
-
-  const [selectedGridPath, selectGrid] = React.useState("nogrid");
+  const [stageSize, setStageSize] = React.useState({ w: 720, h: 405 });
 
   const [textboxes, setTextboxes] = React.useState([]);
+
+  const grids = [
+    {
+      id: 0,
+      verticalLineAmount: 0,
+      horizontalLineAmount: 0,
+    },
+    {
+      id: 1,
+      verticalLineAmount: 6,
+      horizontalLineAmount: 4,
+    },
+    {
+      id: 2,
+      verticalLineAmount: 7,
+      horizontalLineAmount: 5,
+    },
+    {
+      id: 3,
+      verticalLineAmount: 10,
+      horizontalLineAmount: 7,
+    },
+  ];
+
+  const [selectedGrid, selectGrid] = React.useState(grids[0]);
 
   React.useEffect(() => {
     setCanvasSize();
@@ -202,7 +218,8 @@ function Gallery(
   }
 
   function nextGrid() {
-    const currentGrid = grids.indexOf(selectedGridPath);
+    const currentGrid = selectedGrid.id;
+
     if (currentGrid < grids.length - 1) {
       selectGrid(grids[currentGrid + 1]);
     } else {
@@ -265,15 +282,6 @@ function Gallery(
     }
   }
 
-  function createGrid(horizontalLines, verticalLines) {
-    stageSize.w;
-    stageSize.h;
-
-    for (let i; i <= horizontalLines; i++) {
-      return <Line />;
-    }
-  }
-
   return (
     <BaseWindow id={id} title={title} onReset={handleReset} onHide={handleHide}>
       <div
@@ -290,10 +298,10 @@ function Gallery(
             />
           </Layer>
           <Layer id="k-grid-layer">
-            <LoadedImage
-              imagePath={selectedGridPath}
-              stageWidth={stageSize.w}
-              stageHeight={stageSize.h}
+            <Grid
+              horizontalLineAmount={selectedGrid.horizontalLineAmount}
+              verticalLineAmount={selectedGrid.verticalLineAmount}
+              stageSize={stageSize}
             />
           </Layer>
           <Layer id="k-text-layer">{shownTextboxes}</Layer>

@@ -12,13 +12,14 @@ function getStyle(width, height) {
     height: `${height}px`,
     padding: "0px",
     margin: "0px",
-    background: "none",
+    background: "rgba(255, 255, 255, 0.7)",
     outline: "none",
     resize: "none",
     border: "1px solid grey",
     overflow: "visible",
+    textStroke: "1px black",
     color: "black",
-    fontSize: "16px",
+    fontSize: "20px",
     fontFamily: "sans-serif",
   };
   if (isFirefox) {
