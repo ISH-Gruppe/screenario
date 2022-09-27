@@ -459,7 +459,7 @@ export default function WindowManager() {
     },
     "gallery": {
       key: "gallery",
-      open: true,
+      open: false,
       content: (
         <Gallery
           id="gallery"
