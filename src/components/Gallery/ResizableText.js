@@ -66,7 +66,7 @@ export function ResizableText({
         stroke="black"
         fillAfterStrokeEnabled
         fontFamily="sans-serif"
-        fontSize={20}
+        fontSize={24}
         perfectDrawEnabled={false}
         onTransform={handleResize}
         onClick={onClick}
