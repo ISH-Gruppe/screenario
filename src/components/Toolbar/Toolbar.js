@@ -101,7 +101,7 @@ export default function ToggleButtonsMultiple({
         onClick={handleChange}
       >
         <GridOnIcon />
-        <span class="toolbar-text">Galerie</span>
+        <span class="toolbar-text">Positionierung</span>
       </ToggleButton>
 
       <ToggleButton
