@@ -463,7 +463,7 @@ export default function WindowManager() {
       content: (
         <Gallery
           id="gallery"
-          title="Galerie"
+          title="Positionierung"
           onHide={handleWindowHide}
           onSave={saveToLocalStorage}
           onLoad={readFromLocalStorage}
