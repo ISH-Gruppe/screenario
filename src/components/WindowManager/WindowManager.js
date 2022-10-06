@@ -408,11 +408,11 @@ export default function WindowManager() {
     ],
   };
 
-  const originalLayouts =
-    readLayoutFromLocalStorage("layouts") || defaultLayout;
+  // const originalLayouts =
+  //   readLayoutFromLocalStorage("layouts") || defaultLayout;
 
   const [layouts, setLayouts] = React.useState(
-    JSON.parse(JSON.stringify(originalLayouts))
+    JSON.parse(JSON.stringify(defaultLayout))
   );
 
   const galleryComponent = React.useRef();
@@ -539,7 +539,7 @@ export default function WindowManager() {
 
   function handleResize() {
     if (galleryComponent.current) {
-      console.log("galleryComponent.current", galleryComponent.current);
+      // console.log("galleryComponent.current", galleryComponent.current);
       setTimeout(() => {
         galleryComponent.current.updateFromParent();
       }, 10);
@@ -558,23 +558,18 @@ export default function WindowManager() {
   }
 
   function handleWindowHide(windowId) {
-    // console.log("windowManager handleWindowHide", windowId);
+    let windowsCopy = { ...windows };
+    windowsCopy[windowId].open = false;
 
-    setWindows({
-      ...windows,
-      [windowId]: { ...windows[windowId], open: false },
-    });
+    setWindows({ ...windowsCopy });
   }
 
   function handleWindowShow(windowId) {
-    setWindows({
-      ...windows,
-      [windowId]: { ...windows[windowId], open: true },
-    });
+    const windowsCopy = { ...windows };
+    windowsCopy[windowId].open = true;
 
-    setLayouts({
-      ...originalLayouts,
-    });
+    setWindows({ ...windowsCopy });
+    setLayouts(defaultLayout);
   }
 
   function readFromLocalStorage(key) {
@@ -597,11 +592,9 @@ export default function WindowManager() {
   }
 
   const getOpenWindows = () => {
-    let openWindowsArray = Object.values(windows)
-      .filter((window) => window.open === true)
-      .map((window) =>
-        window.closed ? "" : <div key={window.key}> {window.content} </div>
-      );
+    let openWindowsArray = Object.values(windows).map((window) =>
+      window.open ? <div key={window.key}> {window.content} </div> : null
+    );
 
     return openWindowsArray;
   };
