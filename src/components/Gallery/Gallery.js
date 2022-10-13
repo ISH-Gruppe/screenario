@@ -51,6 +51,10 @@ const defaultImages = [
   "/assets/images/gallery/pixabay_7.jpg",
   "/assets/images/gallery/pixabay_8.jpg",
   "/assets/images/gallery/pixabay_9.jpg",
+  "/assets/images/gallery/unsplash_1.jpg",
+  "/assets/images/gallery/unsplash_2.jpg",
+  "/assets/images/gallery/unsplash_3.jpg",
+  "/assets/images/gallery/unsplash_4.jpg",
 ];
 
 function Gallery(
