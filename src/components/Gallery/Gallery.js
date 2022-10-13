@@ -55,6 +55,9 @@ const defaultImages = [
   "/assets/images/gallery/unsplash_2.jpg",
   "/assets/images/gallery/unsplash_3.jpg",
   "/assets/images/gallery/unsplash_4.jpg",
+  "/assets/images/gallery/collection_1.jpg",
+  "/assets/images/gallery/collection_2.jpg",
+  "/assets/images/gallery/collection_3.jpg",
 ];
 
 function Gallery(
