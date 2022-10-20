@@ -71,11 +71,20 @@ export default function Welcome({ onSave, onLoad }) {
           />
           <h2> Der Screen für jedes Szenario</h2>
 
+          <p> Screenario ist ein ... </p>
+
+          <ul>
+            <li> browserbasiertes </li>
+            <li> datenschutzkonformes </li>
+            <li>
+              <a href="https://github.com/ISH-Gruppe/screenario/blob/main/LICENSE.md">
+                open-source
+              </a>
+            </li>
+          </ul>
           <p>
-            {" "}
-            Screenario ein browserbasiertes, datenschutzkonformes und
-            kostenfreies Tool der ISH Manufaktur. Die ISH Manufaktur ist Teil
-            der ISH Gruppe. Nähere Infos zum ISH finden Sie unter{" "}
+            ... Tool der ISH Manufaktur. Die ISH Manufaktur ist Teil der ISH
+            Gruppe. Nähere Infos zum ISH finden Sie unter{" "}
             <a
               href="https://ish-gruppe.de"
               target="_blank"
