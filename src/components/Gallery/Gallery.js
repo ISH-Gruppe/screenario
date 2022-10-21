@@ -23,6 +23,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
+import Divider from "@mui/material/Divider";
 
 // Icons
 import GridOnIcon from "@mui/icons-material/GridOn";
@@ -31,6 +32,7 @@ import Grid4x4Icon from "@mui/icons-material/Grid4x4";
 import Grid3x3Icon from "@mui/icons-material/Grid3x3";
 import GridGoldenratioIcon from "@mui/icons-material/GridGoldenratio";
 import PostAddIcon from "@mui/icons-material/PostAdd";
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate"; // Upload Photo
 
 // Custom Components
 import ImageCarousel from "./ImageCarousel";
@@ -76,6 +78,9 @@ function Gallery(
 
   const [userImages, setUserImages] = React.useState([]);
   const [selectedImagePath, selectImage] = React.useState(defaultImages[0]);
+  const fileInput = React.useRef();
+  const imageRowRef = React.useRef();
+
   const [stageSize, setStageSize] = React.useState({ w: 720, h: 405 });
 
   const [textboxes, setTextboxes] = React.useState([]);
@@ -238,10 +243,18 @@ function Gallery(
     }
   }
 
-  function addUserImageFile(e) {
-    const [file] = e.target.files;
+  function addUserImageFile(event) {
+    const [file] = event.target.files;
     const url = URL.createObjectURL(file);
     setUserImages([...userImages, url.toString()]);
+  }
+
+  function handleFileSelect(event) {
+    addUserImageFile(event);
+    fileInput.current.value = "";
+    setTimeout(() => {
+      imageRowRef.current.scrollLeft = imageRowRef.current.scrollLeftMax + 200;
+    }, 200);
   }
 
   function deleteUserImage(event, value) {
@@ -335,6 +348,7 @@ function Gallery(
                 <GridOnIcon />
               </ToggleButton>
             </Tooltip>
+
             <Tooltip title="Textfeld hinzufügen">
               <ToggleButton
                 aria-label="Textfeld"
@@ -343,6 +357,26 @@ function Gallery(
                 onClick={addTextBox}
               >
                 <PostAddIcon />
+              </ToggleButton>
+            </Tooltip>
+          </ButtonGroup>
+          <Divider flexItem orientation="horizontal" sx={{ mx: 0.5, my: 1 }} />
+
+          <ButtonGroup>
+            <Tooltip title="Eigenes Bild hinzufügen">
+              <ToggleButton
+                value=""
+                aria-label="Bild hochladen"
+                component="label"
+              >
+                <input
+                  hidden
+                  accept="image/*"
+                  type="file"
+                  ref={fileInput}
+                  onChange={handleFileSelect}
+                />
+                <AddPhotoAlternateIcon />
               </ToggleButton>
             </Tooltip>
           </ButtonGroup>
@@ -355,6 +389,7 @@ function Gallery(
         onImageSelect={handleImageSelect}
         onFileSelect={addUserImageFile}
         onImageDelete={deleteUserImage}
+        imageRowRef={imageRowRef}
       />
     </BaseWindow>
   );
