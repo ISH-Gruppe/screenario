@@ -1,7 +1,6 @@
 import React from "react";
 import "./ImageCarousel.scss";
 
-import AddIcon from "@mui/icons-material/Add";
 import Tooltip from "@mui/material/Tooltip";
 import ToggleButton from "@mui/material/ToggleButton";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -39,27 +38,15 @@ export const ArrowRight = ({ size = 30, color = "#000000" }) => (
   </svg>
 );
 
-// export function usePosition(imageSelectorRef) {
-//   const [prevElement, setPrevElement] = React.useState(null);
-//   const [nextElement, setNextElement] = React.useState(null);
-// }
-
 export default function ImageCarousel({
   selectedImage,
   imagePaths,
   onImageSelect,
   onFileSelect,
   onImageDelete,
+  imageRowRef,
 }) {
   const imageSelectorRef = React.useRef();
-  // const position = usePosition(imageSelectorRef);
-
-  const fileInput = React.useRef();
-
-  function handleFileSelect(event) {
-    onFileSelect(event);
-    fileInput.current.value = "";
-  }
 
   const defaultImages = imagePaths.defaultImages.map((imagePath) => (
     <img
@@ -104,24 +91,9 @@ export default function ImageCarousel({
   return (
     <>
       <div id="image-selector" ref={imageSelectorRef}>
-        <div className="image-row">
+        <div className="image-row" ref={imageRowRef}>
           {defaultImages}
           {userImages}
-          <ToggleButton
-            id="add-image-button"
-            value=""
-            aria-label="Bild hochladen"
-            component="label"
-          >
-            <input
-              hidden
-              accept="image/*"
-              type="file"
-              ref={fileInput}
-              onChange={handleFileSelect}
-            />
-            <AddIcon />
-          </ToggleButton>
         </div>
       </div>
     </>
