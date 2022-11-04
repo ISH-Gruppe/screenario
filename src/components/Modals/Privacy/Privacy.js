@@ -11,19 +11,24 @@ const Datenschutz = () => {
           Präferenzen und eingegeben Begriffe im "Local Storage".
         </li>
         <li>
+          Zu Zwecken der Evaluation dieser kostenfrei bereitgestellten Anwendung
+          erheben wir anonymisierte Zugriffsstatistiken mittels Matomo.
+        </li>
+        <li>
+          Es erfolgt keinerlei Tracking Ihrer Aktivitäten, da auf den Einsatz
+          von Cookies verzichtet wird.
+        </li>
+        <li>
           Es werden keinerlei persönliche Daten auf unseren Servern gespeichert
           oder verarbeitet.
         </li>
-        <li>Es werden keine Analytics- oder Trackingwerkzeuge verwendet.</li>
-        <li>
-          Es werden keine IP-Adressen gespeichert oder verarbeitet und es gibt
-          keine Zugriffslogs.
-        </li>
       </ul>
-      Es ist möglich, dass unser Hosting-Partner{" "}
-      <a href="https://www.netlify.com/"> Netlify</a> technische Daten wie
+      Es ist möglich, dass unsere Hosting-Partner{" "}
+      <a href="https://www.vercel.com/"> Vercel</a> und{" "}
+      <a href="https://www.render.com/"> Render</a> technische Daten wie
       IP-Adressen für kurze Zeit verarbeitet, wenn dies für die Bereitstellung
       der Website zwingend notwendig ist.
+      {/* Opt out not required since we'd use cookieless analytics */}
       <h2> Benennung der verantwortlichen Stelle </h2>
       Die verantwortliche Stelle für die Datenverarbeitung auf dieser Website
       ist:
@@ -97,6 +102,51 @@ const Datenschutz = () => {
         Sie können das Speichern von lokalen Daten in Ihren Browsereinstellungen
         allgemein verbieten. In diesem Fall weisen wir auf mögliche
         Funktionseinschränkungen dieser Seite hin.
+      </p>
+      <h2>Analyse-Tools und Werbung</h2>
+      <h3>Matomo</h3>{" "}
+      <p>Diese Website benutzt den Open Source Webanalysedienst Matomo.</p>{" "}
+      <p>
+        Mit Hilfe von Matomo sind wir in der Lage Daten &uuml;ber die Nutzung
+        unserer Website durch die Websitebesucher zu erfassen und zu
+        analysieren. Hierdurch k&ouml;nnen wir u.&nbsp;a. herausfinden, wann
+        welche Seitenaufrufe get&auml;tigt wurden und aus welcher Region sie
+        kommen. Au&szlig;erdem erfassen wir verschiedene Logdateien (z.&nbsp;B.
+        IP-Adresse, Referrer, verwendete Browser und Betriebssysteme) und
+        k&ouml;nnen messen, ob unsere Websitebesucher bestimmte Aktionen
+        durchf&uuml;hren (z.&nbsp;B. Klicks, K&auml;ufe u. &Auml;.).
+      </p>{" "}
+      <p>
+        Die Nutzung dieses Analyse-Tools erfolgt auf Grundlage von Art. 6 Abs. 1
+        lit. f DSGVO. Der Websitebetreiber hat ein berechtigtes Interesse an der
+        Analyse des Nutzerverhaltens, um sowohl sein Webangebot als auch seine
+        Werbung zu optimieren. Sofern eine entsprechende Einwilligung abgefragt
+        wurde, erfolgt die Verarbeitung ausschlie&szlig;lich auf Grundlage von
+        Art. 6 Abs. 1 lit. a DSGVO und &sect; 25 Abs. 1 TTDSG, soweit die
+        Einwilligung die Speicherung von Cookies oder den Zugriff auf
+        Informationen im Endger&auml;t des Nutzers (z.&nbsp;B.
+        Device-Fingerprinting) im Sinne des TTDSG umfasst. Die Einwilligung ist
+        jederzeit widerrufbar.
+      </p>
+      <h4>IP-Anonymisierung</h4>{" "}
+      <p>
+        Bei der Analyse mit Matomo setzen wir IP-Anonymisierung ein. Hierbei
+        wird Ihre IP-Adresse vor der Analyse gek&uuml;rzt, sodass Sie Ihnen
+        nicht mehr eindeutig zuordenbar ist.
+      </p>
+      <h4>Cookielose Analyse</h4>{" "}
+      <p>
+        Wir haben Matomo so konfiguriert, dass Matomo keine Cookies in Ihrem
+        Browser speichert.
+      </p>
+      <h4>Hosting</h4>{" "}
+      <p>
+        Wir hosten Matomo ausschlie&szlig;lich auf unseren eigenen Servern,
+        sodass alle Analysedaten bei uns verbleiben und nicht weitergegeben
+        werden.
+      </p>
+      <p>
+        Quelle: <a href="https://www.e-recht24.de">https://www.e-recht24.de</a>
       </p>
     </div>
   );
