@@ -30,6 +30,7 @@ export default function NamePicker(props) {
   }
 
   function handleWordlistChange(updatedList) {
+    // console.log("handleWordlistChange ", updatedList);
     // console.log(updatedList);
     setNameList(updatedList);
     resetAvailableNamesToDraw(updatedList);
@@ -73,7 +74,7 @@ export default function NamePicker(props) {
 
       <div className="checkbox-container">
         <FormControlLabel
-          label="Gewählte Namen merken"
+          label="Jeden Namen nur ein Mal auslosen"
           control={
             <Checkbox
               size="small"

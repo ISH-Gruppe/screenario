@@ -32,3 +32,21 @@
   z-index: 11;
   opacity: 50%;
 }
+
+.ish-logo {
+  position: fixed;
+  top: 90vh;
+
+  right: 3rem;
+  width: 6rem;
+  opacity: 0.55;
+}
+
+.ish-logo img {
+  width: 100%;
+  height: 100%;
+}
+
+.ish-logo:hover {
+  opacity: 1;
+}

@@ -65,7 +65,7 @@ export default function Notepad({
   function addNewNote(selectedTab) {
     const newNotes = [...notes];
     newNotes[selectedTab] = { id: selectedTab, text: "" };
-    console.log(newNotes[selectedTab]);
+    // console.log(newNotes[selectedTab]);
     setNotes([...newNotes, { id: "add", text: "+" }]);
     onSave("NOTEPAD_NOTES", [...newNotes, { id: "add", text: "+" }]);
   }
