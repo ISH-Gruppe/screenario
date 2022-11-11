@@ -340,7 +340,7 @@ function Gallery(
             <Grid
               horizontalLineAmount={selectedGrid.horizontalLineAmount}
               verticalLineAmount={selectedGrid.verticalLineAmount}
-              stageSize={stageSize}
+              stageSize={currentImageSize}
             />
           </Layer>
           <Layer id="k-text-layer">{shownTextboxes}</Layer>
