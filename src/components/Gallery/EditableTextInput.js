@@ -19,7 +19,8 @@ function getStyle(width, height) {
     overflow: "visible",
     textStroke: "1px black",
     color: "black",
-    fontSize: "24px",
+    fontWeight: "bold",
+    fontSize: "25px",
     fontFamily: "sans-serif",
   };
   if (isFirefox) {
