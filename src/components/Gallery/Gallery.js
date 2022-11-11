@@ -11,6 +11,8 @@ import {
   Transformer,
 } from "react-konva";
 
+import useImage from "use-image";
+
 // Material UI
 import { useConfirm } from "material-ui-confirm";
 import ButtonGroup from "@mui/material/ButtonGroup";
@@ -39,6 +41,7 @@ import ImageCarousel from "./ImageCarousel";
 import LoadedImage from "./LoadedImage";
 import { EditableText } from "./EditableText";
 import Grid from "./Grid";
+
 // CSS
 import "./Gallery.scss";
 
@@ -81,7 +84,12 @@ function Gallery(
   const fileInput = React.useRef();
   const imageRowRef = React.useRef();
 
-  const [stageSize, setStageSize] = React.useState({ w: 720, h: 405 });
+  const [stageSize, setStageSize] = React.useState({ width: 720, height: 405 });
+
+  const [currentImageSize, setCurrentImageSize] = React.useState({
+    width: 720,
+    height: 405,
+  });
 
   const [textboxes, setTextboxes] = React.useState([]);
 
@@ -224,7 +232,13 @@ function Gallery(
   function setCanvasSize() {
     const width = getGalleryWindowSize().w - 140;
     const height = getGalleryWindowSize().h - 110 - 50 - 20; // imageCarousel, window top bar, card content padding, window resize handle
-    setStageSize({ w: width, h: height });
+    setStageSize({ width: width, height: height });
+  }
+
+  function setCalculatedImageSize(width, height) {
+    if (currentImageSize.width != width || currentImageSize.height != height) {
+      setCurrentImageSize({ width: width, height: height });
+    }
   }
 
   // Image Carousel
@@ -313,12 +327,13 @@ function Gallery(
         onKeyDown={handleKeyPressOnStageWrapper}
         tabIndex={-1}
       >
-        <Stage width={stageSize.w} height={stageSize.h}>
+        <Stage width={stageSize.width} height={stageSize.height}>
           <Layer id="k-image-layer">
             <LoadedImage
+              stageWidth={stageSize.width}
+              stageHeight={stageSize.height}
               imagePath={selectedImagePath}
-              stageWidth={stageSize.w}
-              stageHeight={stageSize.h}
+              onSizeCalculated={setCalculatedImageSize}
             />
           </Layer>
           <Layer id="k-grid-layer">

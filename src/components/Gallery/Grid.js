@@ -12,8 +12,8 @@ export default function createGrid({
     verticalLineAmount += 1;
   }
 
-  const horizontalLineGap = stageSize.h / horizontalLineAmount;
-  const verticalLineGap = stageSize.w / verticalLineAmount;
+  const horizontalLineGap = stageSize.height / horizontalLineAmount;
+  const verticalLineGap = stageSize.width / verticalLineAmount;
 
   const grid = [];
 
@@ -28,7 +28,7 @@ export default function createGrid({
         stroke="red"
         x={0}
         y={horizontalLineGap * i}
-        points={[0, 0, stageSize.w, 0]}
+        points={[0, 0, stageSize.width, 0]}
       />
     );
   }
@@ -38,7 +38,7 @@ export default function createGrid({
         stroke="red"
         x={verticalLineGap * i}
         y={0}
-        points={[0, 0, 0, stageSize.h]}
+        points={[0, 0, 0, stageSize.height]}
       />
     );
   }

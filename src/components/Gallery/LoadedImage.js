@@ -2,7 +2,7 @@ import React from "react";
 import { Image } from "react-konva";
 import useImage from "use-image";
 
-export default ({ stageWidth, stageHeight, imagePath }) => {
+export default ({ stageWidth, stageHeight, imagePath, onSizeCalculated }) => {
   const [image, status] = useImage(imagePath);
 
   if (image) {
@@ -21,8 +21,10 @@ export default ({ stageWidth, stageHeight, imagePath }) => {
 
       height = height - heightDifference;
       width = height * ratio;
+
+      onSizeCalculated(width, height);
+
+      return <Image image={image} width={width} height={height} />;
     }
-    // "image" will be DOM image element or undefined
-    return <Image image={image} width={width} height={height} />;
   }
 };
