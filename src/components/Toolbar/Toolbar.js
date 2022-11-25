@@ -73,6 +73,16 @@ export default function ToggleButtonsMultiple({
         <PostAddIcon />
         <span class="toolbar-text">Textfeld </span>
       </ToggleButton>
+      
+      <ToggleButton
+        color="primary"
+        value="schnaq"
+        selected={windows["schnaq"].open}
+        onClick={handleChange}
+      >
+        <PostAddIcon />
+        <span class="toolbar-text">Schnaq </span>
+      </ToggleButton>
 
       <ToggleButton
         color="primary"

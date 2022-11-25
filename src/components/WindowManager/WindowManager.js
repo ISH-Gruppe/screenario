@@ -4,6 +4,7 @@ import Welcome from "../Modals/Welcome/Welcome";
 import Timer from "../Timer/Timer";
 import Toolbar from "../Toolbar/Toolbar";
 import Notepad from "../Notepad/Notepad";
+import Schnaq from "../Schnaq/Schnaq";
 import WorkPhase from "../WorkPhase/WorkPhase";
 import QrcodeGenerator from "../QrcodeGenerator/QrcodeGenerator";
 import Soundboard from "../Soundboard/Soundboard";
@@ -405,6 +406,17 @@ export default function WindowManager() {
         moved: false,
         static: false,
       },
+      {
+        w: 16,
+        h: 6,
+        x: 32,
+        y: 9,
+        i: "schnaq",
+        minW: 8,
+        minH: 4,
+        moved: false,
+        static: false,
+      },
     ],
   };
 
@@ -525,6 +537,19 @@ export default function WindowManager() {
         <Notepad
           id="notepad"
           title="Notepad"
+          onHide={handleWindowHide}
+          onSave={saveToLocalStorage}
+          onLoad={readFromLocalStorage}
+        />
+      ),
+    },
+    "schnaq": {
+      key: "schnaq",
+      open: false,
+      content: (
+        <Schnaq
+          id="schnaq"
+          title="Schnaq"
           onHide={handleWindowHide}
           onSave={saveToLocalStorage}
           onLoad={readFromLocalStorage}
