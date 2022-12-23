@@ -36,8 +36,14 @@ export default function App() {
           <img src="/assets/ish-gruppe-logo.png" />
         </a>
         <span class="imprint-privacy">
-          <a href="/impressum">Impressum</a> &{" "}
+          <a href="/impressum">Impressum</a>
           <a href="/datenschutz">Datenschutz</a>
+          <a
+            href="https://t11388d93.emailsys1a.net/106/5997/164be38925/subscribe/form.html?_g=1670492756"
+            target="_blank"
+          >
+            Newsletter
+          </a>
         </span>
       </ConfirmProvider>
     </ThemeProvider>

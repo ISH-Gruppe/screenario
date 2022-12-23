@@ -27,6 +27,12 @@ p {
   text-align: center;
 }
 
+.MuiDialogActions-root {
+  display: flex;
+  justify-content: space-between !important;
+  -webkit-justify-content: space-between !important;
+}
+
 a {
   color: black;
 }

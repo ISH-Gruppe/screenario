@@ -100,7 +100,15 @@ export default function Welcome({ onSave, onLoad }) {
             <a href="/lizenzen"> Lizenzen </a>
           </span>
         </DialogContent>
-        <DialogActions>
+
+        <DialogActions classes={"spacing"}>
+          <Button
+            href="https://t11388d93.emailsys1a.net/106/5997/164be38925/subscribe/form.html?_g=1670492756"
+            target="_blank"
+          >
+            Newsletter abonnieren
+          </Button>
+
           <Button
             autoFocus
             onClick={() => {

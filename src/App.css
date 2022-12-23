@@ -26,11 +26,16 @@
 
 .imprint-privacy {
   position: fixed;
-  top: 94vh;
-  left: 42%;
-  width: 18%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  bottom: 2%;
   z-index: 11;
   opacity: 50%;
+  margin: auto;
+}
+
+.imprint-privacy > a {
+  margin: 0 5px;
 }
 
 .ish-logo {
