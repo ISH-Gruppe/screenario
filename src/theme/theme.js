@@ -1,5 +1,5 @@
-import { blue, pink } from "@mui/material/colors";
 import { createTheme } from "@mui/material/styles";
+
 import "./font.css";
 
 export const appTheme = createTheme({

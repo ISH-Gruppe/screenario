@@ -1,20 +1,27 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import { ConfirmProvider } from "material-ui-confirm";
 import { appTheme } from "./theme/theme";
 import "./theme/font.css";
+
+// Mui Components
+import Button from "@mui/material/Button";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 // Components
 import WindowManager from "./components/WindowManager/WindowManager";
 import Imprint from "./components/Modals/Imprint/Imprint";
 import Privacy from "./components/Modals/Privacy/Privacy";
 import Licensing from "./components/Modals/Licensing/Licensing";
+import DonationModal from "./components/Modals/Donation/DonationModal";
 
 // CSS
 import "./App.css";
 
 export default function App() {
+  const [donationModalopen, setDonationModalOpen] = React.useState(false);
+
   return (
     <ThemeProvider theme={appTheme}>
       <ConfirmProvider>
@@ -35,16 +42,26 @@ export default function App() {
         >
           <img src="/assets/ish-gruppe-logo.png" />
         </a>
-        <span class="imprint-privacy">
-          <a href="/impressum">Impressum</a>
-          <a href="/datenschutz">Datenschutz</a>
-          <a
-            href="https://t11388d93.emailsys1a.net/106/5997/164be38925/subscribe/form.html?_g=1670492756"
-            target="_blank"
+
+        <a className="donation-button">
+          <Button
+            variant="outlined"
+            color="primary"
+            startIcon={<FavoriteBorderIcon />}
+            onClick={() => setDonationModalOpen(true)}
           >
-            Newsletter
-          </a>
+            Spenden
+          </Button>
+        </a>
+        <span class="imprint-privacy">
+          <a href="/impressum">Impressum</a> &{" "}
+          <a href="/datenschutz">Datenschutz</a>
         </span>
+
+        <DonationModal
+          open={donationModalopen}
+          handleClose={() => setDonationModalOpen(false)}
+        />
       </ConfirmProvider>
     </ThemeProvider>
   );
