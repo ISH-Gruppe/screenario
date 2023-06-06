@@ -26,25 +26,27 @@
 
 .imprint-privacy {
   position: fixed;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  bottom: 2%;
+  top: 94vh;
+  left: 42%;
+  width: 18%;
   z-index: 11;
   opacity: 50%;
-  margin: auto;
 }
 
-.imprint-privacy > a {
-  margin: 0 5px;
+.donation-button {
+  position: fixed;
+  top: 92vh;
+  left: 4rem;
+  opacity: 0.8;
+  height: 40px;
 }
 
 .ish-logo {
   position: fixed;
-  top: 90vh;
-
-  right: 3rem;
-  width: 6rem;
+  top: 92vh;
+  right: 4rem;
   opacity: 0.55;
+  height: 40px;
 }
 
 .ish-logo img {
