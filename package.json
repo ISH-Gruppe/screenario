@@ -15,6 +15,7 @@
     "@types/node": "^20.9.0",
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
+    "classnames": "^2.3.2",
     "konva": "^8.3.11",
     "material-ui-confirm": "^3.0.5",
     "qrcode.react": "^3.1.0",
@@ -29,9 +30,11 @@
     "react-scripts": "5.0.1",
     "react-timer-hook": "^3.0.5",
     "sass": "^1.54.0",
+    "ts-pattern": "^5.0.5",
     "typescript": "^5.2.2",
     "use-image": "^1.0.12",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "zod": "^3.22.4"
   },
   "scripts": {
     "install-forced": "npm install --force",
