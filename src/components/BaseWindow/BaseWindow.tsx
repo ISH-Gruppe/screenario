@@ -1,14 +1,21 @@
-import React from "react";
+import React, { PropsWithChildren, ReactNode } from "react";
 
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import RemoveIcon from "@mui/icons-material/Remove";
 
 import "./BaseWindow.css";
+
+type BaseWindowProps = PropsWithChildren<{
+  id: string;
+  title: ReactNode;
+  onReset: (id: string) => void;
+  onHide: (id: string) => void;
+  resetName: unknown;
+}>;
 
 export default function BaseWindow({
   id,
@@ -17,7 +24,7 @@ export default function BaseWindow({
   onReset,
   onHide,
   resetName,
-}) {
+}: BaseWindowProps) {
   function handleHide() {
     // console.log("handleHide", id);
     onHide(id);

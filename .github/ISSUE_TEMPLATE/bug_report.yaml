@@ -43,7 +43,7 @@ body:
     attributes:
       label: "Browser version: You can use https://www.whatsmybrowser.org/ to find this out"
       placeholder: |
-       Simply copy and paste the link. It should look like this: https://www.whatsmybrowser.org/b/123456 
+        Simply copy and paste the link. It should look like this: https://www.whatsmybrowser.org/b/123456
 
   - type: textarea
     id: other

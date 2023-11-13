@@ -46,7 +46,7 @@ export default function GroupMaker(props) {
 
   return (
     <>
-      <Stepper activeStep={Number(activeStep)} >
+      <Stepper activeStep={Number(activeStep)}>
         <Step onClick={() => setActiveStep("0")}>
           <StepLabel>Namensliste</StepLabel>
         </Step>
