@@ -12,7 +12,7 @@ export default function useAudio(url) {
 
   useEffect(() => {
     audio.addEventListener("ended", () => setIsMusicPlaying(false));
-    
+
     return () => {
       audio.removeEventListener("ended", () => setIsMusicPlaying(false));
     };

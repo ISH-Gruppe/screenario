@@ -10,21 +10,21 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import "./BaseWindow.css";
 
 type BaseWindowProps = PropsWithChildren<{
-  id: string
-  title: ReactNode
-  onReset: (id: string) => void
-  onHide: (id: string) => void
-  resetName: unknown
-}>
+  id: string;
+  title: ReactNode;
+  onReset: (id: string) => void;
+  onHide: (id: string) => void;
+  resetName: unknown;
+}>;
 
 export default function BaseWindow({
-                                     id,
-                                     title,
-                                     children,
-                                     onReset,
-                                     onHide,
-                                     resetName,
-                                   }: BaseWindowProps) {
+  id,
+  title,
+  children,
+  onReset,
+  onHide,
+  resetName,
+}: BaseWindowProps) {
   function handleHide() {
     // console.log("handleHide", id);
     onHide(id);

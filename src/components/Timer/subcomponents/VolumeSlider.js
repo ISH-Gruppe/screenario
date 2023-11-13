@@ -62,7 +62,7 @@ export default function VolumeSlider(props) {
         min={0}
         max={1.0}
         step={0.1}
-        valueLabelFormat={value => <div>{value * 100}%</div>}
+        valueLabelFormat={(value) => <div>{value * 100}%</div>}
       />
 
       {/* <Popover

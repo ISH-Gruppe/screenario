@@ -8,7 +8,17 @@ Configuration = {
     "type-enum": [
       2,
       "always",
-      ["feat", "fix", "devops", "docs", "style", "refactor", "test", "revert", "chore"],
+      [
+        "feat",
+        "fix",
+        "devops",
+        "docs",
+        "style",
+        "refactor",
+        "test",
+        "revert",
+        "chore",
+      ],
     ],
   },
 };

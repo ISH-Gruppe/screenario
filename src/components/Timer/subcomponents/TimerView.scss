@@ -1,26 +1,26 @@
 .timer-view {
-    display: flex;
-    justify-content: center;
-    flex-grow: 1;
-    width: 100%;
-    height: 100%;
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+  width: 100%;
+  height: 100%;
 }
 
 .timer-digits {
-    font-size: 3.5rem;
+  font-size: 3.5rem;
 }
 
 .button-container-digits {
-    width: 100%;
-    text-align: center;
+  width: 100%;
+  text-align: center;
 }
 
 .buttons-container-start-stop {
-    display: flex;
-    justify-content: center;
-    margin-left: 3.5rem !important;
+  display: flex;
+  justify-content: center;
+  margin-left: 3.5rem !important;
 }
 
 .stack {
-    flex-grow: 1;
+  flex-grow: 1;
 }
