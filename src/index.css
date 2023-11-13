@@ -2,15 +2,17 @@
   display: none !important;
 }
 
-body,
-html {
-  font-family: "Rubik", sans-serif !important;
-  overflow-x: clip;
-}
-
 @font-face {
   font-family: "Rubik";
   src: url("./theme/Rubik-VariableFont_wght.ttf");
+}
+
+.text-rubik {
+  font-family: 'Rubik', sans-serif !important;
+}
+
+.text-abeezee {
+  font-family: 'ABeeZee', sans-serif !important;
 }
 
 .drag-handle {

@@ -2,3 +2,8 @@
   font-family: "Rubik";
   src: url("./Rubik-VariableFont_wght.ttf");
 }
+
+@font-face {
+  font-family: "ABeeZee";
+  src: url("./ABeeZee/ABeeZee-Regular.ttf");
+}

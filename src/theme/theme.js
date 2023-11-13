@@ -1,6 +1,9 @@
 import { createTheme } from "@mui/material/styles";
 
 import "./font.css";
+import { APP_CONFIG } from "../app-config";
+
+const font = APP_CONFIG.font
 
 export const appTheme = createTheme({
   palette: {
@@ -36,18 +39,18 @@ export const appTheme = createTheme({
     },
   },
   typography: {
-    fontFamily: "Rubik",
+    fontFamily: `${font}`,
     h1: {
-      fontFamily: '"Rubik"',
+      fontFamily: `"${font}"`,
     },
     h3: {
-      fontFamily: '"Rubik"',
+      fontFamily: `"${font}"`,
     },
     h2: {
-      fontFamily: '"Rubik"',
+      fontFamily: `"${font}"`,
     },
     button: {
-      fontFamily: '"Rubik"',
+      fontFamily: `"${font}"`,
     },
   },
 });
