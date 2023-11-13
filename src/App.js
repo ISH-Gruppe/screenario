@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import { ConfirmProvider } from "material-ui-confirm";
@@ -18,9 +18,14 @@ import DonationModal from "./components/Modals/Donation/DonationModal";
 
 // CSS
 import "./App.css";
+import { APP_CONFIG } from "./app-config";
 
 export default function App() {
   const [donationModalopen, setDonationModalOpen] = React.useState(false);
+
+  useEffect(() => {
+    document.body.classList.add(`text-${APP_CONFIG.font.toLowerCase()}`)
+  })
 
   return (
     <ThemeProvider theme={appTheme}>
