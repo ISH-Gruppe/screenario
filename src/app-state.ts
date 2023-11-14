@@ -1,100 +1,23 @@
-import { find } from "lodash";
-import { configureStore, createAction, createReducer } from "@reduxjs/toolkit";
-import { useSelector } from "react-redux";
-import {
-  buildQrCodeReducer,
-  QrCodeWindowState,
-} from "./components/QrcodeGenerator/QrCodeGeneratorState";
-import { persistReducer, PersistState, persistStore } from "redux-persist";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import { welcomeSlice } from "./components/Modals/Welcome/welcome-slice";
+import { windowManagementSlice } from "./components/WindowManager/window-management-slice";
 
-export enum WindowType {
-  QrCode = "qr-code",
-}
-
-type WindowState = QrCodeWindowState;
-
-type ScreenarioWindow = {
-  id: string;
-  isOpen: boolean;
-  position: unknown;
-  state: WindowState;
-};
-
-export type AppState = {
-  _persist: PersistState;
-  windows: ScreenarioWindow[];
-};
-export const openWindow = createAction<string>("windowmanagement/openWindow");
-export const closeWindow = createAction<string>("windowmanagement/closeWindow");
-
-export const createWindow = createAction<WindowState>(
-  "windowmanagement/createWindow"
-);
-export const getWindowById = (state: AppState, id: string) =>
-  find(state.windows, { id });
-
-export const getWindowByIdOrFail = (state: AppState, id: string) => {
-  const window = getWindowById(state, id);
-  if (!window) {
-    throw new Error(`Window with ID ${id} not found in state`);
-  }
-  return window;
-};
-
-export const store = configureStore<AppState>({
+export const store = configureStore({
   devTools: true,
   reducer: persistReducer(
     {
       key: "screenario-app-state",
       storage: storage,
     },
-    createReducer(
-      {
-        windows: [
-          {
-            id: crypto.randomUUID(),
-            isOpen: true,
-            position: 0,
-            state: {
-              type: WindowType.QrCode,
-              value: "https://ish-gruppe.de",
-            } satisfies QrCodeWindowState,
-          },
-        ],
-      } as AppState,
-      (builder) => {
-        builder
-          .addCase(openWindow, (state, { payload: id }) => {
-            const window = getWindowById(state, id);
-            if (window) {
-              window.isOpen = true;
-            }
-          })
-          .addCase(closeWindow, (state, { payload: id }) => {
-            const window = getWindowById(state, id);
-            if (window) {
-              window.isOpen = false;
-            }
-          })
-          .addCase(createWindow, (state, { payload: windowState }) => {
-            state.windows.push({
-              id: crypto.randomUUID(),
-              isOpen: true,
-              position: 1,
-              state: windowState,
-            });
-          });
-        buildQrCodeReducer(builder);
-      }
-    )
+    combineReducers({
+      windows: windowManagementSlice.reducer,
+      welcome: welcomeSlice.reducer,
+    })
   ),
 });
 
-export const persistor = persistStore(store);
+export type AppState = ReturnType<typeof store.getState>;
 
-export const useWindowState = <StateType extends WindowState>(id: string) => {
-  return useSelector(
-    (state: AppState) => getWindowByIdOrFail(state, id).state as StateType
-  );
-};
+export const persistor = persistStore(store);

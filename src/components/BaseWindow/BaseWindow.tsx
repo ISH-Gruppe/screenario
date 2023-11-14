@@ -8,15 +8,15 @@ import IconButton from "@mui/material/IconButton";
 import RemoveIcon from "@mui/icons-material/Remove";
 
 import "./BaseWindow.css";
-import { closeWindow } from "../../app-state";
 import { useDispatch } from "react-redux";
+import { windowManagementActions } from "../WindowManager/window-management-slice";
 
 type BaseWindowProps = PropsWithChildren<{
   id: string;
   title: ReactNode;
   onReset: (id: string) => void;
-  onHide: (id: string) => void;
-  resetName: unknown;
+  onHide?: (id: string) => void;
+  resetName?: unknown;
 }>;
 
 export default function BaseWindow({
@@ -24,6 +24,7 @@ export default function BaseWindow({
   title,
   children,
   onReset,
+  // TODO: remove these
   onHide,
   resetName,
 }: BaseWindowProps) {
@@ -31,7 +32,7 @@ export default function BaseWindow({
 
   function handleHide() {
     // console.log("handleHide", id);
-    dispatch(closeWindow(id));
+    dispatch(windowManagementActions.closeWindow(id));
   }
 
   function handleReset() {

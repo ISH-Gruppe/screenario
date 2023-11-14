@@ -12,12 +12,21 @@ import ChairAltIcon from "@mui/icons-material/ChairAlt";
 import GridOnIcon from "@mui/icons-material/GridOn";
 
 import "./Toolbar.css";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  windowManagementActions,
+  WindowType,
+} from "../WindowManager/window-management-slice";
 
-export default function ToggleButtonsMultiple({
-  onWindowShow,
-  onWindowHide,
-  windows,
-}) {
+export default function ToggleButtonsMultiple() {
+  const dispatch = useDispatch();
+  const openWindowTypes = useSelector((state) =>
+    state.windows.reduce(
+      (openTypes, window) =>
+        window.isOpen ? openTypes.add(window.state.type) : openTypes,
+      new Set()
+    )
+  );
   const [formats, setFormats] = React.useState(() => ["bold", "italic"]);
 
   const handleFormat = (event, newFormats) => {
@@ -25,7 +34,7 @@ export default function ToggleButtonsMultiple({
   };
 
   function handleChange(event, value) {
-    windows[value].open ? onWindowHide(value) : onWindowShow(value);
+    dispatch(windowManagementActions.toggleWindowType(value));
   }
 
   return (
@@ -39,8 +48,8 @@ export default function ToggleButtonsMultiple({
     >
       <ToggleButton
         color="primary"
-        value="work-phase"
-        selected={windows["work-phase"].open}
+        value={WindowType.WorkPhase}
+        selected={openWindowTypes.has(WindowType.WorkPhase)}
         onClick={handleChange}
       >
         <SchoolIcon />
@@ -48,8 +57,8 @@ export default function ToggleButtonsMultiple({
       </ToggleButton>
       <ToggleButton
         color="primary"
-        value="timer"
-        selected={windows["timer"].open}
+        value={WindowType.Timer}
+        selected={openWindowTypes.has(WindowType.Timer)}
         onClick={handleChange}
       >
         <HourglassTopIcon />
@@ -57,8 +66,8 @@ export default function ToggleButtonsMultiple({
       </ToggleButton>
       <ToggleButton
         color="primary"
-        value="random-generator"
-        selected={windows["random-generator"].open}
+        value={WindowType.RandomGenerator}
+        selected={openWindowTypes.has(WindowType.RandomGenerator)}
         onClick={handleChange}
       >
         <ShuffleIcon />
@@ -66,8 +75,8 @@ export default function ToggleButtonsMultiple({
       </ToggleButton>
       <ToggleButton
         color="primary"
-        value="notepad"
-        selected={windows["notepad"].open}
+        value={WindowType.Notepad}
+        selected={openWindowTypes.has(WindowType.Notepad)}
         onClick={handleChange}
       >
         <PostAddIcon />
@@ -76,8 +85,8 @@ export default function ToggleButtonsMultiple({
 
       <ToggleButton
         color="primary"
-        value="soundboard"
-        selected={windows["soundboard"].open}
+        value={WindowType.Soundboard}
+        selected={openWindowTypes.has(WindowType.Soundboard)}
         onClick={handleChange}
       >
         <LyricsIcon />
@@ -86,8 +95,8 @@ export default function ToggleButtonsMultiple({
 
       <ToggleButton
         color="primary"
-        value="whiteboard"
-        selected={windows["whiteboard"].open}
+        value={WindowType.Whiteboard}
+        selected={openWindowTypes.has(WindowType.Whiteboard)}
         onClick={handleChange}
       >
         <BorderColorIcon />
@@ -96,8 +105,8 @@ export default function ToggleButtonsMultiple({
 
       <ToggleButton
         color="primary"
-        value="gallery"
-        selected={windows["gallery"].open}
+        value={WindowType.Gallery}
+        selected={openWindowTypes.has(WindowType.Gallery)}
         onClick={handleChange}
       >
         <GridOnIcon />
@@ -106,8 +115,8 @@ export default function ToggleButtonsMultiple({
 
       <ToggleButton
         color="primary"
-        value="qrcode-generator"
-        selected={windows["qrcode-generator"].open}
+        value={WindowType.QrCode}
+        selected={openWindowTypes.has(WindowType.QrCode)}
         onClick={handleChange}
       >
         <QrCodeIcon />
@@ -115,8 +124,8 @@ export default function ToggleButtonsMultiple({
       </ToggleButton>
       <ToggleButton
         color="primary"
-        value="stuhlkreis"
-        selected={windows["stuhlkreis"].open}
+        value={WindowType.Stuhlkreis}
+        selected={openWindowTypes.has(WindowType.Stuhlkreis)}
         onClick={handleChange}
       >
         <ChairAltIcon />

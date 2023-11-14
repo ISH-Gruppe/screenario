@@ -18,9 +18,8 @@ import "/node_modules/react-grid-layout/css/styles.css";
 import "/node_modules/react-resizable/css/styles.css";
 import { Responsive, WidthProvider } from "react-grid-layout";
 import RandomGenerator from "../RandomGenerator/RandomGenerator";
-import { WindowType } from "../../app-state";
-import { match } from "ts-pattern";
 import { useSelector } from "react-redux";
+import { windowConfigs } from "./window-management-slice";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
@@ -412,6 +411,31 @@ export default function WindowManager() {
     ],
   };
 
+  appState.windows.forEach((window) => {
+    const baseLayout = {
+      i: window.id,
+      moved: false,
+      static: false,
+    };
+    const windowDefaultLayout = windowConfigs[window.state.type].defaultLayout;
+    defaultLayout.xs.push({
+      ...windowDefaultLayout.xs,
+      ...baseLayout,
+    });
+    defaultLayout.sm.push({
+      ...windowDefaultLayout.sm,
+      ...baseLayout,
+    });
+    defaultLayout.md.push({
+      ...windowDefaultLayout.md,
+      ...baseLayout,
+    });
+    defaultLayout.lg.push({
+      ...windowDefaultLayout.lg,
+      ...baseLayout,
+    });
+  });
+
   // const originalLayouts =
   //   readLayoutFromLocalStorage("layouts") || defaultLayout;
 
@@ -496,17 +520,6 @@ export default function WindowManager() {
         <Soundboard
           id="soundboard"
           title="Soundboard"
-          onHide={handleWindowHide}
-        />
-      ),
-    },
-    "qrcode-generator": {
-      key: "qrcode-generator",
-      open: false,
-      content: (
-        <QrcodeGenerator
-          id="qrcode-generator"
-          title="QR-Code-Generator"
           onHide={handleWindowHide}
         />
       ),
@@ -607,11 +620,7 @@ export default function WindowManager() {
     <div>
       <Welcome onLoad={readFromLocalStorage} onSave={saveToLocalStorage} />
 
-      <Toolbar
-        onWindowShow={handleWindowShow}
-        onWindowHide={handleWindowHide}
-        windows={windows}
-      />
+      <Toolbar />
 
       <ResponsiveReactGridLayout
         className="layout"
@@ -626,69 +635,13 @@ export default function WindowManager() {
         onResize={() => handleResize()}
       >
         {getOpenWindows()}
-        {appState.windows.flatMap((window) =>
-          window.isOpen
-            ? [
-                match(window.state)
-                  .with({ type: WindowType.QrCode }, () => (
-                    <QrcodeGenerator
-                      key={window.id}
-                      title="QR-Code-Generator"
-                      id={window.id}
-                    />
-                  ))
-                  .exhaustive(),
-              ]
-            : []
-        )}
+        {appState.windows.flatMap((window) => {
+          const Component = windowConfigs[window.state.type].Component;
+          return window.isOpen
+            ? [<Component key={window.id} id={window.id} />]
+            : [];
+        })}
       </ResponsiveReactGridLayout>
     </div>
   );
-}
-
-//     this.setState({
-//       layouts: this.originalLayouts,
-//       windows: {
-//         ...this.state.windows,
-//         [windowId]: { ...this.state.windows[windowId], open: true },
-//       },
-//     });
-//
-//
-//     "gallery": {
-//       key: "gallery",
-//       open: true,
-//       content: (
-//         <Gallery
-//           id="gallery"
-//           title="Galerie"
-//           onHide={this.handleWindowHide}
-//           onSave={this.saveToLocalStorage}
-//           onLoad={this.readFromLocalStorage}
-//           layoutChanged={this.layoutChanged}
-//         />
-//       ),
-//     },
-
-function readLayoutFromLocalStorage(key) {
-  let ls = {};
-  // if (global.localStorage) {
-  try {
-    ls = JSON.parse(global.localStorage.getItem("rgl-8")) || {};
-  } catch (e) {
-    /*Ignore*/
-  }
-  // }
-  return ls[key];
-}
-
-function saveLayoutToLocalStorage(key, value) {
-  // if (global.localStorage) {
-  global.localStorage.setItem(
-    "rgl-8",
-    JSON.stringify({
-      [key]: value,
-    })
-  );
-  // }
 }
