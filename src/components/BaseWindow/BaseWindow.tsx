@@ -38,7 +38,6 @@ export default function BaseWindow({
   return (
     <Card className={"window window-" + id + " "} sx={{ minWidth: 275 }}>
       <Box
-        className="drag-handle"
         sx={{
           "& button": { m: 1 },
           "display": "flex",
@@ -46,6 +45,7 @@ export default function BaseWindow({
           "alignItems": "center",
         }}
       >
+        <div className="window-header-background drag-handle" />
         {
           // <Button
           //   className="resetButton"
