@@ -27,8 +27,14 @@ import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
 
 // CSS
 import "./Whiteboard.scss";
+import {
+  windowManagementActions,
+  WindowType,
+} from "../WindowManager/window-management-slice";
+import { useDispatch } from "react-redux";
 
-export default function Whiteboard({ id, title, onHide }) {
+export default function Whiteboard({ id, title }) {
+  const dispatch = useDispatch();
   const [tool, setTool] = React.useState("draw");
   const [lines, setLines] = React.useState([]);
   const [history, setHistory] = React.useState([]);
@@ -65,8 +71,9 @@ export default function Whiteboard({ id, title, onHide }) {
       })
       .catch(() => {});
   }
+
   function handleHide() {
-    onHide(id);
+    dispatch(windowManagementActions.closeWindow(id));
   }
 
   // Basic handlers, used by all tools
@@ -381,3 +388,45 @@ export default function Whiteboard({ id, title, onHide }) {
     </BaseWindow>
   );
 }
+
+/**
+ * @type {import("../WindowManager/window-management-slice").WindowConfig}
+ */
+export const whiteboardWindowConfig = {
+  getInitialState: () => ({
+    type: WindowType.Whiteboard,
+  }),
+  Component: ({ id }) => <Whiteboard id={id} title="Whiteboard" />,
+  defaultLayout: {
+    xs: {
+      w: 6,
+      h: 8,
+      x: 0,
+      y: 15,
+      minW: 6,
+    },
+    sm: {
+      w: 4,
+      h: 4,
+      y: 0,
+      x: 0,
+      minW: 4,
+    },
+    md: {
+      w: 16,
+      h: 8,
+      x: 0,
+      y: 24,
+      minW: 14,
+      minH: 8,
+    },
+    lg: {
+      w: 20,
+      h: 8,
+      x: 0,
+      y: 16,
+      minW: 18,
+      minH: 8,
+    },
+  },
+};

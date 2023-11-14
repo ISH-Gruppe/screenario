@@ -21,6 +21,7 @@ import {
   stuhlkreisWindowConfig,
 } from "../DigitalerStuhlkreisWrapper/DigitalerStuhlkreisWrapper";
 import { timerWindowConfig } from "../Timer/Timer";
+import { whiteboardWindowConfig } from "../Whiteboard/Whiteboard";
 
 export enum WindowType {
   QrCode = "qr-code",
@@ -79,6 +80,7 @@ export const windowConfigs: Record<WindowType, WindowConfig> = {
   [WindowType.Positioning]: positioningWindowConfig,
   [WindowType.Stuhlkreis]: stuhlkreisWindowConfig,
   [WindowType.Timer]: timerWindowConfig,
+  [WindowType.Whiteboard]: whiteboardWindowConfig,
 } as any; // TODO: remove any
 
 export type ScreenarioWindow = {

@@ -1,11 +1,9 @@
 import React from "react";
 
 import Welcome from "../Modals/Welcome/Welcome";
-import Timer from "../Timer/Timer";
 import Toolbar from "../Toolbar/Toolbar";
 import Notepad from "../Notepad/Notepad";
 import WorkPhase from "../WorkPhase/WorkPhase";
-import Whiteboard from "../Whiteboard/Whiteboard";
 
 import "./WindowManager.css";
 
@@ -28,16 +26,6 @@ export default function WindowManager() {
   const dispatch = useDispatch();
   const defaultLayout: Layouts = {
     xs: [
-      {
-        w: 6,
-        h: 8,
-        x: 0,
-        y: 15,
-        i: "whiteboard",
-        minW: 6,
-        moved: false,
-        static: false,
-      },
       {
         w: 4,
         h: 5,
@@ -81,16 +69,6 @@ export default function WindowManager() {
     ],
     sm: [
       {
-        w: 4,
-        h: 4,
-        y: 0,
-        x: 0,
-        i: "whiteboard",
-        minW: 4,
-        moved: false,
-        static: false,
-      },
-      {
         w: 2,
         h: 8,
         x: 0,
@@ -132,17 +110,6 @@ export default function WindowManager() {
       },
     ],
     md: [
-      {
-        w: 16,
-        h: 8,
-        x: 0,
-        y: 24,
-        i: "whiteboard",
-        minW: 14,
-        minH: 8,
-        moved: false,
-        static: false,
-      },
       {
         w: 10,
         h: 8,
@@ -189,17 +156,6 @@ export default function WindowManager() {
       },
     ],
     lg: [
-      {
-        w: 20,
-        h: 8,
-        x: 0,
-        y: 16,
-        i: "whiteboard",
-        minW: 18,
-        minH: 8,
-        moved: false,
-        static: false,
-      },
       {
         w: 16,
         h: 8,
@@ -281,17 +237,6 @@ export default function WindowManager() {
   console.log({ derivedLayouts: layouts });
 
   const [windows] = React.useState({
-    "whiteboard": {
-      key: "whiteboard",
-      open: false,
-      content: (
-        <Whiteboard
-          id="whiteboard"
-          title="Whiteboard"
-          onHide={handleWindowHide}
-        />
-      ),
-    },
     "random-generator": {
       key: "random-generator",
       open: false,
