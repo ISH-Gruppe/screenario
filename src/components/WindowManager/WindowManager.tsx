@@ -3,7 +3,6 @@ import React from "react";
 import Welcome from "../Modals/Welcome/Welcome";
 import Toolbar from "../Toolbar/Toolbar";
 import Notepad from "../Notepad/Notepad";
-import WorkPhase from "../WorkPhase/WorkPhase";
 
 import "./WindowManager.css";
 
@@ -27,16 +26,6 @@ export default function WindowManager() {
     xs: [
       {
         w: 4,
-        h: 4,
-        x: 0,
-        y: 11,
-        i: "work-phase",
-        minW: 2,
-        moved: false,
-        static: false,
-      },
-      {
-        w: 4,
         h: 3,
         x: 0,
         y: 18,
@@ -47,16 +36,6 @@ export default function WindowManager() {
       },
     ],
     sm: [
-      {
-        w: 2,
-        h: 7,
-        x: 0,
-        y: 0,
-        i: "work-phase",
-        minW: 2,
-        moved: false,
-        static: false,
-      },
       {
         w: 2,
         h: 5,
@@ -70,17 +49,6 @@ export default function WindowManager() {
     ],
     md: [
       {
-        w: 12,
-        h: 8,
-        x: 0,
-        y: 0,
-        i: "work-phase",
-        minW: 12,
-        minH: 6,
-        moved: false,
-        static: false,
-      },
-      {
         w: 10,
         h: 8,
         x: 14,
@@ -93,17 +61,6 @@ export default function WindowManager() {
       },
     ],
     lg: [
-      {
-        w: 18,
-        h: 8,
-        x: 0,
-        y: 0,
-        i: "work-phase",
-        minW: 12,
-        minH: 6,
-        moved: false,
-        static: false,
-      },
       {
         w: 16,
         h: 6,
@@ -152,18 +109,7 @@ export default function WindowManager() {
   console.log({ derivedLayouts: layouts });
 
   const [windows] = React.useState({
-    "work-phase": {
-      key: "work-phase",
-      open: false,
-      content: (
-        <WorkPhase
-          id="work-phase"
-          title="Arbeits- und Pausenphasen"
-          onHide={handleWindowHide}
-        />
-      ),
-    },
-    "notepad": {
+    notepad: {
       key: "notepad",
       open: false,
       content: (

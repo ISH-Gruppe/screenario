@@ -5,8 +5,14 @@ import "./WorkPhase.css";
 // UI
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
+import {
+  windowManagementActions,
+  WindowType,
+} from "../WindowManager/window-management-slice";
+import { useDispatch } from "react-redux";
 
-export default function WorkPhase({ id, title, onHide }) {
+export default function WorkPhase({ id, title }) {
+  const dispatch = useDispatch();
   const workPhases = [
     {
       description: "Arbeitsphasen",
@@ -54,7 +60,7 @@ export default function WorkPhase({ id, title, onHide }) {
   function handleReset() {}
 
   function handleHide() {
-    onHide(id);
+    dispatch(windowManagementActions.closeWindow(id));
   }
 
   const [open, setOpen] = useState(false);
@@ -111,3 +117,59 @@ export default function WorkPhase({ id, title, onHide }) {
     </BaseWindow>
   );
 }
+
+/**
+ * @type {import("../WindowManager/window-management-slice").WindowConfig}
+ */
+export const workPhaseWindowConfig = {
+  getInitialState: () => ({
+    type: WindowType.WorkPhase,
+  }),
+  Component: ({ id }) => (
+    <WorkPhase id={id} title="Arbeits- und Pausenphasen" />
+  ),
+  defaultLayout: {
+    xs: {
+      w: 4,
+      h: 4,
+      x: 0,
+      y: 11,
+      i: "work-phase",
+      minW: 2,
+      moved: false,
+      static: false,
+    },
+    sm: {
+      w: 2,
+      h: 7,
+      x: 0,
+      y: 0,
+      i: "work-phase",
+      minW: 2,
+      moved: false,
+      static: false,
+    },
+    md: {
+      w: 12,
+      h: 8,
+      x: 0,
+      y: 0,
+      i: "work-phase",
+      minW: 12,
+      minH: 6,
+      moved: false,
+      static: false,
+    },
+    lg: {
+      w: 18,
+      h: 8,
+      x: 0,
+      y: 0,
+      i: "work-phase",
+      minW: 12,
+      minH: 6,
+      moved: false,
+      static: false,
+    },
+  },
+};

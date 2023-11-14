@@ -23,6 +23,7 @@ import {
 import { timerWindowConfig } from "../Timer/Timer";
 import { whiteboardWindowConfig } from "../Whiteboard/Whiteboard";
 import { randomGeneratorWindowConfig } from "../RandomGenerator/RandomGenerator";
+import { workPhaseWindowConfig } from "../WorkPhase/WorkPhase";
 
 export enum WindowType {
   QrCode = "qr-code",
@@ -83,6 +84,7 @@ export const windowConfigs: Record<WindowType, WindowConfig> = {
   [WindowType.Timer]: timerWindowConfig,
   [WindowType.Whiteboard]: whiteboardWindowConfig,
   [WindowType.RandomGenerator]: randomGeneratorWindowConfig,
+  [WindowType.WorkPhase]: workPhaseWindowConfig,
 } as any; // TODO: remove any
 
 export type ScreenarioWindow = {
