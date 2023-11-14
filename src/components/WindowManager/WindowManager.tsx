@@ -377,25 +377,27 @@ export default function WindowManager() {
 
   const layouts = appState.windowManagement.windows.reduce(
     (layouts, window) => {
-      const baseLayout = {
-        i: window.id,
-      };
-      layouts.xs.push({
-        ...baseLayout,
-        ...window.layouts.xs,
-      });
-      layouts.sm.push({
-        ...baseLayout,
-        ...window.layouts.sm,
-      });
-      layouts.md.push({
-        ...baseLayout,
-        ...window.layouts.md,
-      });
-      layouts.lg.push({
-        ...baseLayout,
-        ...window.layouts.lg,
-      });
+      if (window.isOpen) {
+        const baseLayout = {
+          i: window.id,
+        };
+        layouts.xs.push({
+          ...baseLayout,
+          ...window.layouts.xs,
+        });
+        layouts.sm.push({
+          ...baseLayout,
+          ...window.layouts.sm,
+        });
+        layouts.md.push({
+          ...baseLayout,
+          ...window.layouts.md,
+        });
+        layouts.lg.push({
+          ...baseLayout,
+          ...window.layouts.lg,
+        });
+      }
       return layouts;
     },
     { xs: [], sm: [], md: [], lg: [] } as Layouts
