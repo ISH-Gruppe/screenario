@@ -19,6 +19,9 @@ import DonationModal from "./components/Modals/Donation/DonationModal";
 // CSS
 import "./App.css";
 import { APP_CONFIG } from "./app-config";
+import { Provider } from "react-redux";
+import { persistor, store } from "./app-state";
+import { PersistGate } from "redux-persist/integration/react";
 
 export default function App() {
   const [donationModalopen, setDonationModalOpen] = React.useState(false);
@@ -29,45 +32,49 @@ export default function App() {
 
   return (
     <ThemeProvider theme={appTheme}>
-      <ConfirmProvider>
-        <Router>
-          <Routes>
-            <Route path="/" element={<WindowManager />} />
-            <Route path="/impressum" element={<Imprint />} />
-            <Route path="/datenschutz" element={<Privacy />} />
-            <Route path="/lizenzen" element={<Licensing />} />
-          </Routes>
-        </Router>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <ConfirmProvider>
+            <Router>
+              <Routes>
+                <Route path="/" element={<WindowManager />} />
+                <Route path="/impressum" element={<Imprint />} />
+                <Route path="/datenschutz" element={<Privacy />} />
+                <Route path="/lizenzen" element={<Licensing />} />
+              </Routes>
+            </Router>
 
-        <a
-          className="ish-logo"
-          href="https://ish-gruppe.de"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img src="/assets/ish-gruppe-logo.png" />
-        </a>
+            <a
+              className="ish-logo"
+              href="https://ish-gruppe.de"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img src="/assets/ish-gruppe-logo.png" />
+            </a>
 
-        <a className="donation-button">
-          <Button
-            variant="outlined"
-            color="primary"
-            startIcon={<FavoriteBorderIcon />}
-            onClick={() => setDonationModalOpen(true)}
-          >
-            Spenden
-          </Button>
-        </a>
-        <span class="imprint-privacy">
-          <a href="/impressum">Impressum</a> &{" "}
-          <a href="/datenschutz">Datenschutz</a>
-        </span>
+            <a className="donation-button">
+              <Button
+                variant="outlined"
+                color="primary"
+                startIcon={<FavoriteBorderIcon />}
+                onClick={() => setDonationModalOpen(true)}
+              >
+                Spenden
+              </Button>
+            </a>
+            <span class="imprint-privacy">
+              <a href="/impressum">Impressum</a> &{" "}
+              <a href="/datenschutz">Datenschutz</a>
+            </span>
 
-        <DonationModal
-          open={donationModalopen}
-          handleClose={() => setDonationModalOpen(false)}
-        />
-      </ConfirmProvider>
+            <DonationModal
+              open={donationModalopen}
+              handleClose={() => setDonationModalOpen(false)}
+            />
+          </ConfirmProvider>
+        </PersistGate>
+      </Provider>
     </ThemeProvider>
   );
 }

@@ -8,6 +8,8 @@ import IconButton from "@mui/material/IconButton";
 import RemoveIcon from "@mui/icons-material/Remove";
 
 import "./BaseWindow.css";
+import { closeWindow } from "../../app-state";
+import { useDispatch } from "react-redux";
 
 type BaseWindowProps = PropsWithChildren<{
   id: string;
@@ -25,9 +27,11 @@ export default function BaseWindow({
   onHide,
   resetName,
 }: BaseWindowProps) {
+  const dispatch = useDispatch();
+
   function handleHide() {
     // console.log("handleHide", id);
-    onHide(id);
+    dispatch(closeWindow(id));
   }
 
   function handleReset() {

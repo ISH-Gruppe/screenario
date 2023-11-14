@@ -18,10 +18,14 @@ import "/node_modules/react-grid-layout/css/styles.css";
 import "/node_modules/react-resizable/css/styles.css";
 import { Responsive, WidthProvider } from "react-grid-layout";
 import RandomGenerator from "../RandomGenerator/RandomGenerator";
+import { WindowType } from "../../app-state";
+import { match } from "ts-pattern";
+import { useSelector } from "react-redux";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 export default function WindowManager() {
+  const appState = useSelector((state) => state);
   const defaultLayout = {
     xs: [
       {
@@ -622,6 +626,21 @@ export default function WindowManager() {
         onResize={() => handleResize()}
       >
         {getOpenWindows()}
+        {appState.windows.flatMap((window) =>
+          window.isOpen
+            ? [
+                match(window.state)
+                  .with({ type: WindowType.QrCode }, () => (
+                    <QrcodeGenerator
+                      key={window.id}
+                      title="QR-Code-Generator"
+                      id={window.id}
+                    />
+                  ))
+                  .exhaustive(),
+              ]
+            : []
+        )}
       </ResponsiveReactGridLayout>
     </div>
   );
