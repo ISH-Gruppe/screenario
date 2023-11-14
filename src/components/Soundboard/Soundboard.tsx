@@ -4,14 +4,20 @@ import "./Soundboard.scss";
 import BaseWindow from "../BaseWindow/BaseWindow";
 
 import Button from "@mui/material/Button";
+import {
+  WindowConfig,
+  WindowType,
+} from "../WindowManager/window-management-slice";
 
-export default function SoundBoard({ id, title, onHide, onChange }) {
+export default function SoundBoard({
+  id,
+  title,
+}: {
+  id: string;
+  title: string;
+}) {
   function handleReset() {
     stopSound();
-  }
-
-  function handleHide() {
-    onHide(id);
   }
 
   const sounds = [
@@ -63,7 +69,7 @@ export default function SoundBoard({ id, title, onHide, onChange }) {
     );
   });
 
-  function playOrStopSound(soundpath) {
+  function playOrStopSound(soundpath: string) {
     if (soundpath == soundPlaying) {
       stopSound();
       setSoundPlaying("");
@@ -75,7 +81,7 @@ export default function SoundBoard({ id, title, onHide, onChange }) {
     }
   }
 
-  function playSound(soundpath) {
+  function playSound(soundpath: string) {
     audio.src = soundpath;
     audio.load();
 
@@ -96,15 +102,60 @@ export default function SoundBoard({ id, title, onHide, onChange }) {
 
   return (
     <div className="base-window-soundboard">
-      <BaseWindow
-        id={id}
-        title={title}
-        onReset={handleReset}
-        onHide={handleHide}
-        resetName="Stop"
-      >
+      <BaseWindow id={id} title={title} onReset={handleReset} resetName="Stop">
         <div id="soundboardButtonWrapper">{soundButtons}</div>
       </BaseWindow>
     </div>
   );
 }
+
+export type SoundboardState = {
+  type: WindowType.Soundboard;
+};
+
+export const soundboardWindowConfig: WindowConfig = {
+  Component: ({ id }) => <SoundBoard id={id} title="Soundboard" />,
+  getInitialState: () => ({
+    type: WindowType.Soundboard,
+  }),
+  defaultLayout: {
+    xs: {
+      w: 4,
+      h: 3,
+      x: 0,
+      y: 21,
+      minW: 2,
+      moved: false,
+      static: false,
+    },
+    sm: {
+      w: 2,
+      h: 5,
+      x: 0,
+      y: 42,
+      minW: 2,
+      moved: false,
+      static: false,
+    },
+    md: {
+      w: 6,
+      h: 6,
+      x: 0,
+      y: 16,
+      minW: 6,
+      minH: 4,
+      moved: false,
+      static: false,
+    },
+    lg: {
+      w: 8,
+      h: 6,
+      x: 26,
+      y: 8,
+      minW: 8,
+      minH: 4,
+      moved: false,
+      static: false,
+    },
+  },
+};

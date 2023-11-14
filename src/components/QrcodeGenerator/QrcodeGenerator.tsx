@@ -20,7 +20,7 @@ export default function QrcodeGenerator({
   id: string;
   title: string;
 }) {
-  const state = useWindowState(id);
+  const state = useWindowState<QrCodeWindowState>(id);
   const dispatch = useDispatch();
 
   function handleTextChange(event: ChangeEvent<HTMLInputElement>) {

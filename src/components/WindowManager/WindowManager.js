@@ -5,8 +5,6 @@ import Timer from "../Timer/Timer";
 import Toolbar from "../Toolbar/Toolbar";
 import Notepad from "../Notepad/Notepad";
 import WorkPhase from "../WorkPhase/WorkPhase";
-import QrcodeGenerator from "../QrcodeGenerator/QrcodeGenerator";
-import Soundboard from "../Soundboard/Soundboard";
 import Whiteboard from "../Whiteboard/Whiteboard";
 import Gallery from "../Gallery/Gallery";
 import DigitalerStuhlkreisWrapper from "../DigitalerStuhlkreisWrapper/DigitalerStuhlkreisWrapper";
@@ -76,16 +74,6 @@ export default function WindowManager() {
         x: 0,
         y: 2,
         i: "random-generator",
-        minW: 2,
-        moved: false,
-        static: false,
-      },
-      {
-        w: 4,
-        h: 3,
-        x: 0,
-        y: 21,
-        i: "soundboard",
         minW: 2,
         moved: false,
         static: false,
@@ -161,16 +149,6 @@ export default function WindowManager() {
         x: 0,
         y: 21,
         i: "random-generator",
-        minW: 2,
-        moved: false,
-        static: false,
-      },
-      {
-        w: 2,
-        h: 5,
-        x: 0,
-        y: 42,
-        i: "soundboard",
         minW: 2,
         moved: false,
         static: false,
@@ -263,17 +241,6 @@ export default function WindowManager() {
         static: false,
       },
       {
-        w: 6,
-        h: 6,
-        x: 0,
-        y: 16,
-        i: "soundboard",
-        minW: 6,
-        minH: 4,
-        moved: false,
-        static: false,
-      },
-      {
         w: 7,
         h: 6,
         x: 6,
@@ -361,17 +328,6 @@ export default function WindowManager() {
         i: "random-generator",
         minW: 10,
         minH: 8,
-        moved: false,
-        static: false,
-      },
-      {
-        w: 8,
-        h: 6,
-        x: 26,
-        y: 8,
-        i: "soundboard",
-        minW: 8,
-        minH: 4,
         moved: false,
         static: false,
       },
@@ -510,17 +466,6 @@ export default function WindowManager() {
           onHide={handleWindowHide}
           onSave={saveToLocalStorage}
           onLoad={readFromLocalStorage}
-        />
-      ),
-    },
-    "soundboard": {
-      key: "soundboard",
-      open: false,
-      content: (
-        <Soundboard
-          id="soundboard"
-          title="Soundboard"
-          onHide={handleWindowHide}
         />
       ),
     },

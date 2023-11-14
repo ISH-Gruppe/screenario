@@ -7,6 +7,10 @@ import { qrCodeWindowConfig } from "../QrcodeGenerator/QrcodeGenerator";
 import { useSelector } from "react-redux";
 import { find } from "lodash";
 import { AppState } from "../../app-state";
+import {
+  SoundboardState,
+  soundboardWindowConfig,
+} from "../Soundboard/Soundboard";
 
 export enum WindowType {
   QrCode = "qr-code",
@@ -20,7 +24,7 @@ export enum WindowType {
   Stuhlkreis = "stuhlkreis",
 }
 
-type WindowState = QrCodeWindowState;
+type WindowState = QrCodeWindowState | SoundboardState;
 
 export type WindowConfig = {
   defaultLayout: Record<"xs" | "sm" | "md" | "lg", unknown>;
@@ -33,6 +37,7 @@ export type WindowConfig = {
 // TODO: make not partial
 export const windowConfigs: Partial<Record<WindowType, WindowConfig>> = {
   [WindowType.QrCode]: qrCodeWindowConfig,
+  [WindowType.Soundboard]: soundboardWindowConfig,
 };
 
 export type ScreenarioWindow = {
