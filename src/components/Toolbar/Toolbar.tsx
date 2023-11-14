@@ -17,10 +17,11 @@ import {
   windowManagementActions,
   WindowType,
 } from "../WindowManager/window-management-slice";
+import { AppState } from "../../app-state";
 
 export default function ToggleButtonsMultiple() {
   const dispatch = useDispatch();
-  const openWindowTypes = useSelector((state) =>
+  const openWindowTypes = useSelector((state: AppState) =>
     state.windows.reduce(
       (openTypes, window) =>
         window.isOpen ? openTypes.add(window.state.type) : openTypes,
@@ -29,11 +30,11 @@ export default function ToggleButtonsMultiple() {
   );
   const [formats, setFormats] = React.useState(() => ["bold", "italic"]);
 
-  const handleFormat = (event, newFormats) => {
+  const handleFormat = (_event: unknown, newFormats: string[]) => {
     setFormats(newFormats);
   };
 
-  function handleChange(event, value) {
+  function handleChange(_event: unknown, value: WindowType) {
     dispatch(windowManagementActions.toggleWindowType(value));
   }
 
@@ -53,7 +54,7 @@ export default function ToggleButtonsMultiple() {
         onClick={handleChange}
       >
         <SchoolIcon />
-        <span class="toolbar-text"> Arbeits- und Pausenphasen </span>
+        <span className="toolbar-text"> Arbeits- und Pausenphasen </span>
       </ToggleButton>
       <ToggleButton
         color="primary"
@@ -62,7 +63,7 @@ export default function ToggleButtonsMultiple() {
         onClick={handleChange}
       >
         <HourglassTopIcon />
-        <span class="toolbar-text">Timer</span>
+        <span className="toolbar-text">Timer</span>
       </ToggleButton>
       <ToggleButton
         color="primary"
@@ -71,7 +72,7 @@ export default function ToggleButtonsMultiple() {
         onClick={handleChange}
       >
         <ShuffleIcon />
-        <span class="toolbar-text">Zufallsgenerator</span>
+        <span className="toolbar-text">Zufallsgenerator</span>
       </ToggleButton>
       <ToggleButton
         color="primary"
@@ -80,7 +81,7 @@ export default function ToggleButtonsMultiple() {
         onClick={handleChange}
       >
         <PostAddIcon />
-        <span class="toolbar-text">Textfeld </span>
+        <span className="toolbar-text">Textfeld </span>
       </ToggleButton>
 
       <ToggleButton
@@ -90,7 +91,7 @@ export default function ToggleButtonsMultiple() {
         onClick={handleChange}
       >
         <LyricsIcon />
-        <span class="toolbar-text">Soundboard </span>
+        <span className="toolbar-text">Soundboard </span>
       </ToggleButton>
 
       <ToggleButton
@@ -100,7 +101,7 @@ export default function ToggleButtonsMultiple() {
         onClick={handleChange}
       >
         <BorderColorIcon />
-        <span class="toolbar-text">Whiteboard </span>
+        <span className="toolbar-text">Whiteboard </span>
       </ToggleButton>
 
       <ToggleButton
@@ -110,7 +111,7 @@ export default function ToggleButtonsMultiple() {
         onClick={handleChange}
       >
         <GridOnIcon />
-        <span class="toolbar-text">Positionierung</span>
+        <span className="toolbar-text">Positionierung</span>
       </ToggleButton>
 
       <ToggleButton
@@ -120,7 +121,7 @@ export default function ToggleButtonsMultiple() {
         onClick={handleChange}
       >
         <QrCodeIcon />
-        <span class="toolbar-text">QR-Code-Generator </span>
+        <span className="toolbar-text">QR-Code-Generator </span>
       </ToggleButton>
       <ToggleButton
         color="primary"
@@ -129,7 +130,7 @@ export default function ToggleButtonsMultiple() {
         onClick={handleChange}
       >
         <ChairAltIcon />
-        <span class="toolbar-text">Digitaler Stuhlkreis </span>
+        <span className="toolbar-text">Digitaler Stuhlkreis </span>
       </ToggleButton>
     </ToggleButtonGroup>
   );
@@ -142,5 +143,5 @@ export default function ToggleButtonsMultiple() {
 //   onClick={handleChange}
 // >
 //   <BorderColorIcon />
-//   <span class="toolbar-text">Whiteboard </span>
+//   <span className="toolbar-text">Whiteboard </span>
 // </ToggleButton>
