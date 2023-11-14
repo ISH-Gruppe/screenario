@@ -15,6 +15,7 @@ import {
 } from "../WindowManager/window-management-slice";
 import { useDispatch } from "react-redux";
 
+// TODO: implement onSave, onLoad in redux
 export default function Timer({ id, title, onSave, onLoad }) {
   const dispatch = useDispatch();
   /*

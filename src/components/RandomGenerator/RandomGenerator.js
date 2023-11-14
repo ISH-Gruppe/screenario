@@ -14,6 +14,7 @@ import {
 } from "../WindowManager/window-management-slice";
 import { useDispatch } from "react-redux";
 
+// TODO implement onSave, onLoad in redux
 export default function RandomGenerator({ id, title, onSave, onLoad }) {
   const dispatch = useDispatch();
   const [activeTab, setActiveTab] = React.useState(loadState());
