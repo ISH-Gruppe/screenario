@@ -11,7 +11,7 @@ import {
   SoundboardState,
   soundboardWindowConfig,
 } from "../Soundboard/Soundboard";
-import { Layout } from "react-grid-layout";
+import { Layout, Layouts } from "react-grid-layout";
 
 export enum WindowType {
   QrCode = "qr-code",
@@ -108,6 +108,19 @@ export const windowManagementSlice = createSlice({
         }
       });
     },
+    setLayouts: (state, { payload: layouts }: PayloadAction<Layouts>) => {
+      (Object.entries(layouts) as [WindowBreakpoint, Layout[]][]).forEach(
+        ([breakpoint, layouts]) => {
+          layouts.forEach((layout) => {
+            const window = getWindowById(state, layout.i);
+            if (window) {
+              window.layouts[breakpoint] = layout;
+            }
+          });
+        }
+      );
+    },
+    // TODO: possibly implement reset function?
   },
   extraReducers: (builder) => {
     buildQrCodeReducer(builder);

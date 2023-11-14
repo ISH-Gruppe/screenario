@@ -56,16 +56,14 @@ export default function SoundBoard({
 
   const soundButtons = sounds.map((sound, index) => {
     return (
-      <>
-        <Button
-          key={index}
-          className="sound-button"
-          onClick={() => playOrStopSound(sound.path)}
-          variant={soundPlaying == sound.path ? "contained" : "outlined"}
-        >
-          {sound.description}
-        </Button>
-      </>
+      <Button
+        key={index}
+        className="sound-button"
+        onClick={() => playOrStopSound(sound.path)}
+        variant={soundPlaying == sound.path ? "contained" : "outlined"}
+      >
+        {sound.description}
+      </Button>
     );
   });
 

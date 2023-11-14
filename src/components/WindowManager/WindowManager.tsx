@@ -372,43 +372,38 @@ export default function WindowManager() {
     ],
   };
 
-  appState.windows.forEach((window) => {
-    const baseLayout = {
-      i: window.id,
-      moved: false,
-      static: false,
-    };
-    const windowDefaultLayout = windowConfigs[window.state.type].defaultLayout;
-    defaultLayout.xs.push({
-      ...windowDefaultLayout.xs,
-      ...baseLayout,
-    });
-    defaultLayout.sm.push({
-      ...windowDefaultLayout.sm,
-      ...baseLayout,
-    });
-    defaultLayout.md.push({
-      ...windowDefaultLayout.md,
-      ...baseLayout,
-    });
-    defaultLayout.lg.push({
-      ...windowDefaultLayout.lg,
-      ...baseLayout,
-    });
-  });
-
   // const originalLayouts =
   //   readLayoutFromLocalStorage("layouts") || defaultLayout;
 
-  const [layouts, setLayouts] = React.useState(
-    JSON.parse(JSON.stringify(defaultLayout))
+  const layouts = appState.windows.reduce(
+    (layouts, window) => {
+      const baseLayout = {
+        i: window.id,
+      };
+      layouts.xs.push({
+        ...baseLayout,
+        ...window.layouts.xs,
+      });
+      layouts.sm.push({
+        ...baseLayout,
+        ...window.layouts.sm,
+      });
+      layouts.md.push({
+        ...baseLayout,
+        ...window.layouts.md,
+      });
+      layouts.lg.push({
+        ...baseLayout,
+        ...window.layouts.lg,
+      });
+      return layouts;
+    },
+    { xs: [], sm: [], md: [], lg: [] } as Layouts
   );
 
-  const galleryComponent = React.useRef();
+  console.log({ derivedLayouts: layouts });
 
-  const [resizing, setResizing] = React.useState(false);
-
-  const [windows, setWindows] = React.useState({
+  const [windows] = React.useState({
     "stuhlkreis": {
       key: "stuhlkreis",
       open: false,
@@ -498,25 +493,15 @@ export default function WindowManager() {
     // TODO perhaps reflect in state
   }
 
-  function resetLayout() {
-    setLayouts({ ...defaultLayout });
-  }
-
   const onLayoutChange = (layout: Layout[], layouts: Layouts) => {
     // TODO: Fix! Temporarily removed
     // saveLayoutToLocalStorage("layouts", layouts);
-    setLayouts({ ...layouts });
+    dispatch(windowManagementActions.setLayouts(layouts));
     // layoutChanged = layouts;
   };
 
   function handleWindowHide(windowId: string) {
     dispatch(windowManagementActions.closeWindow(windowId));
-  }
-
-  function handleWindowShow(windowId: string) {
-    dispatch(windowManagementActions.openWindow(windowId));
-    // TODO: is this necessary?
-    setLayouts(defaultLayout);
   }
 
   function readFromLocalStorage(key: string) {
@@ -568,7 +553,11 @@ export default function WindowManager() {
         {appState.windows.flatMap((window) => {
           const Component = windowConfigs[window.state.type].Component;
           return window.isOpen
-            ? [<Component key={window.id} id={window.id} />]
+            ? [
+                <div key={window.id}>
+                  <Component id={window.id} />
+                </div>,
+              ]
             : [];
         })}
       </ResponsiveReactGridLayout>
