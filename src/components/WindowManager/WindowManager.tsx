@@ -6,7 +6,6 @@ import Toolbar from "../Toolbar/Toolbar";
 import Notepad from "../Notepad/Notepad";
 import WorkPhase from "../WorkPhase/WorkPhase";
 import Whiteboard from "../Whiteboard/Whiteboard";
-import Gallery from "../Gallery/Gallery";
 import DigitalerStuhlkreisWrapper from "../DigitalerStuhlkreisWrapper/DigitalerStuhlkreisWrapper";
 
 import "./WindowManager.css";
@@ -59,17 +58,6 @@ export default function WindowManager() {
         y: 15,
         i: "whiteboard",
         minW: 6,
-        moved: false,
-        static: false,
-      },
-      {
-        w: 6,
-        h: 8,
-        x: 0,
-        y: 24,
-        i: "gallery",
-        minW: 6,
-        minH: 6,
         moved: false,
         static: false,
       },
@@ -134,17 +122,6 @@ export default function WindowManager() {
         x: 0,
         i: "whiteboard",
         minW: 4,
-        moved: false,
-        static: false,
-      },
-      {
-        w: 4,
-        h: 4,
-        x: 0,
-        y: 24,
-        i: "gallery",
-        minW: 2,
-        minH: 8,
         moved: false,
         static: false,
       },
@@ -220,17 +197,6 @@ export default function WindowManager() {
         i: "whiteboard",
         minW: 14,
         minH: 8,
-        moved: false,
-        static: false,
-      },
-      {
-        w: 14,
-        h: 7,
-        x: 0,
-        y: 24,
-        i: "gallery",
-        minW: 10,
-        minH: 6,
         moved: false,
         static: false,
       },
@@ -313,18 +279,6 @@ export default function WindowManager() {
         moved: false,
         static: false,
       },
-      {
-        w: 24,
-        h: 8,
-        x: 0,
-        y: 24,
-        i: "gallery",
-        minW: 18,
-        minH: 8,
-        moved: false,
-        static: false,
-      },
-
       {
         w: 16,
         h: 8,
@@ -433,17 +387,6 @@ export default function WindowManager() {
         <Whiteboard
           id="whiteboard"
           title="Whiteboard"
-          onHide={handleWindowHide}
-        />
-      ),
-    },
-    "gallery": {
-      key: "gallery",
-      open: false,
-      content: (
-        <Gallery
-          id="gallery"
-          title="Positionierung"
           onHide={handleWindowHide}
         />
       ),

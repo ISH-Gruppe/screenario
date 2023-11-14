@@ -22,7 +22,9 @@ import Grid from "./Grid";
 import "./Gallery.scss";
 import {
   getWindowByIdOrFail,
+  WindowConfig,
   windowManagementActions,
+  WindowType,
 } from "../WindowManager/window-management-slice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../../app-state";
@@ -225,12 +227,9 @@ export default function Gallery({ id, title }: { id: string; title: string }) {
 
   // Canvas Size
   function getGalleryWindowSize() {
-    const galleryCanvas = document.querySelector(".window-gallery");
-    if (!galleryCanvas) {
-      throw new Error("This should not be possible");
-    }
-    const width = galleryCanvas.getBoundingClientRect().width;
-    const height = galleryCanvas.getBoundingClientRect().height;
+    const galleryCanvas = document.querySelector(`.window-${id}`);
+    const width = galleryCanvas?.getBoundingClientRect().width ?? 0;
+    const height = galleryCanvas?.getBoundingClientRect().height ?? 0;
 
     return { w: width, h: height };
   }
@@ -426,3 +425,48 @@ export default function Gallery({ id, title }: { id: string; title: string }) {
     </BaseWindow>
   );
 }
+
+export type GalleryConfig = {
+  type: WindowType.Gallery;
+};
+
+export const galleryWindowConfig: WindowConfig = {
+  getInitialState: () => ({
+    type: WindowType.Gallery,
+  }),
+  defaultLayout: {
+    xs: {
+      w: 6,
+      h: 8,
+      x: 0,
+      y: 24,
+      minW: 6,
+      minH: 6,
+    },
+    sm: {
+      w: 4,
+      h: 4,
+      x: 0,
+      y: 24,
+      minW: 2,
+      minH: 8,
+    },
+    md: {
+      w: 14,
+      h: 7,
+      x: 0,
+      y: 24,
+      minW: 10,
+      minH: 6,
+    },
+    lg: {
+      w: 24,
+      h: 8,
+      x: 0,
+      y: 24,
+      minW: 18,
+      minH: 8,
+    },
+  },
+  Component: ({ id }) => <Gallery id={id} title="Positionierung" />,
+};

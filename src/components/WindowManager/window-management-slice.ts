@@ -12,6 +12,7 @@ import {
   soundboardWindowConfig,
 } from "../Soundboard/Soundboard";
 import { Layout, Layouts } from "react-grid-layout";
+import { GalleryConfig, galleryWindowConfig } from "../Gallery/Gallery";
 
 export enum WindowType {
   QrCode = "qr-code",
@@ -25,7 +26,7 @@ export enum WindowType {
   Stuhlkreis = "stuhlkreis",
 }
 
-type WindowState = QrCodeWindowState | SoundboardState;
+type WindowState = QrCodeWindowState | SoundboardState | GalleryConfig;
 
 type WindowBreakpoint = "xs" | "sm" | "md" | "lg";
 type LayoutDefinitions = Record<WindowBreakpoint, Omit<Layout, "i">>;
@@ -41,6 +42,7 @@ export type WindowConfig = {
 export const windowConfigs: Record<WindowType, WindowConfig> = {
   [WindowType.QrCode]: qrCodeWindowConfig,
   [WindowType.Soundboard]: soundboardWindowConfig,
+  [WindowType.Gallery]: galleryWindowConfig,
 } as any; // TODO: remove any
 
 export type ScreenarioWindow = {
