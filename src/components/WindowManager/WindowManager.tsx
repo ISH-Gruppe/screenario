@@ -26,16 +26,6 @@ export default function WindowManager() {
   const defaultLayout: Layouts = {
     xs: [
       {
-        w: 3,
-        h: 4,
-        x: 0,
-        y: 24,
-        i: "qrcode-generator",
-        minW: 3,
-        moved: false,
-        static: false,
-      },
-      {
         w: 4,
         h: 4,
         x: 0,
@@ -59,16 +49,6 @@ export default function WindowManager() {
     sm: [
       {
         w: 2,
-        h: 11,
-        x: 0,
-        y: 47,
-        i: "qrcode-generator",
-        minW: 3,
-        moved: false,
-        static: false,
-      },
-      {
-        w: 2,
         h: 7,
         x: 0,
         y: 0,
@@ -89,17 +69,6 @@ export default function WindowManager() {
       },
     ],
     md: [
-      {
-        w: 7,
-        h: 6,
-        x: 6,
-        y: 16,
-        i: "qrcode-generator",
-        minW: 6,
-        minH: 5,
-        moved: false,
-        static: false,
-      },
       {
         w: 12,
         h: 8,
@@ -124,17 +93,6 @@ export default function WindowManager() {
       },
     ],
     lg: [
-      {
-        w: 8,
-        h: 6,
-        x: 20,
-        y: 8,
-        i: "qrcode-generator",
-        minW: 8,
-        minH: 5,
-        moved: false,
-        static: false,
-      },
       {
         w: 18,
         h: 8,
