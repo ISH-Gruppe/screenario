@@ -8,8 +8,14 @@ import BaseWindow from "../BaseWindow/BaseWindow";
 import GroupMaker from "./GroupMaker/GroupMaker";
 import Spinwheel from "./Spinwheel/Spinwheel";
 import NamePicker from "./NamePicker/NamePicker";
+import {
+  windowManagementActions,
+  WindowType,
+} from "../WindowManager/window-management-slice";
+import { useDispatch } from "react-redux";
 
-export default function RandomGenerator({ id, title, onHide, onSave, onLoad }) {
+export default function RandomGenerator({ id, title, onSave, onLoad }) {
+  const dispatch = useDispatch();
   const [activeTab, setActiveTab] = React.useState(loadState());
 
   function loadState() {
@@ -21,7 +27,7 @@ export default function RandomGenerator({ id, title, onHide, onSave, onLoad }) {
   function handleReset() {}
 
   function handleHide() {
-    onHide(id);
+    dispatch(windowManagementActions.closeWindow(id));
   }
 
   const updateActiveTab = (event, newValue) => {
@@ -83,6 +89,60 @@ export default function RandomGenerator({ id, title, onHide, onSave, onLoad }) {
     </div>
   );
 }
+
+/**
+ * @type {import("../WindowManager/window-management-slice").WindowConfig}
+ */
+export const randomGeneratorWindowConfig = {
+  getInitialState: () => ({
+    type: WindowType.RandomGenerator,
+  }),
+  Component: ({ id }) => <RandomGenerator id={id} title="Zufallsgenerator" />,
+  defaultLayout: {
+    xs: {
+      w: 4,
+      h: 5,
+      x: 0,
+      y: 2,
+      i: "random-generator",
+      minW: 2,
+      moved: false,
+      static: false,
+    },
+    sm: {
+      w: 2,
+      h: 8,
+      x: 0,
+      y: 21,
+      i: "random-generator",
+      minW: 2,
+      moved: false,
+      static: false,
+    },
+    md: {
+      w: 10,
+      h: 8,
+      x: 0,
+      y: 8,
+      i: "random-generator",
+      minW: 10,
+      minH: 8,
+      moved: false,
+      static: false,
+    },
+    lg: {
+      w: 16,
+      h: 8,
+      x: 0,
+      y: 8,
+      i: "random-generator",
+      minW: 10,
+      minH: 8,
+      moved: false,
+      static: false,
+    },
+  },
+};
 
 export const tabsEnum = {
   GROUP_MAKER: {

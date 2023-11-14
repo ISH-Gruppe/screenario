@@ -11,7 +11,6 @@ import "./WindowManager.css";
 import "/node_modules/react-grid-layout/css/styles.css";
 import "/node_modules/react-resizable/css/styles.css";
 import { Layout, Layouts, Responsive, WidthProvider } from "react-grid-layout";
-import RandomGenerator from "../RandomGenerator/RandomGenerator";
 import { useDispatch, useSelector } from "react-redux";
 import {
   windowConfigs,
@@ -26,16 +25,6 @@ export default function WindowManager() {
   const dispatch = useDispatch();
   const defaultLayout: Layouts = {
     xs: [
-      {
-        w: 4,
-        h: 5,
-        x: 0,
-        y: 2,
-        i: "random-generator",
-        minW: 2,
-        moved: false,
-        static: false,
-      },
       {
         w: 3,
         h: 4,
@@ -70,16 +59,6 @@ export default function WindowManager() {
     sm: [
       {
         w: 2,
-        h: 8,
-        x: 0,
-        y: 21,
-        i: "random-generator",
-        minW: 2,
-        moved: false,
-        static: false,
-      },
-      {
-        w: 2,
         h: 11,
         x: 0,
         y: 47,
@@ -110,17 +89,6 @@ export default function WindowManager() {
       },
     ],
     md: [
-      {
-        w: 10,
-        h: 8,
-        x: 0,
-        y: 8,
-        i: "random-generator",
-        minW: 10,
-        minH: 8,
-        moved: false,
-        static: false,
-      },
       {
         w: 7,
         h: 6,
@@ -156,17 +124,6 @@ export default function WindowManager() {
       },
     ],
     lg: [
-      {
-        w: 16,
-        h: 8,
-        x: 0,
-        y: 8,
-        i: "random-generator",
-        minW: 10,
-        minH: 8,
-        moved: false,
-        static: false,
-      },
       {
         w: 8,
         h: 6,
@@ -237,19 +194,6 @@ export default function WindowManager() {
   console.log({ derivedLayouts: layouts });
 
   const [windows] = React.useState({
-    "random-generator": {
-      key: "random-generator",
-      open: false,
-      content: (
-        <RandomGenerator
-          id="random-generator"
-          title="Zufallsgenerator"
-          onHide={handleWindowHide}
-          onSave={saveToLocalStorage}
-          onLoad={readFromLocalStorage}
-        />
-      ),
-    },
     "work-phase": {
       key: "work-phase",
       open: false,

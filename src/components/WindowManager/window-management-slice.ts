@@ -22,6 +22,7 @@ import {
 } from "../DigitalerStuhlkreisWrapper/DigitalerStuhlkreisWrapper";
 import { timerWindowConfig } from "../Timer/Timer";
 import { whiteboardWindowConfig } from "../Whiteboard/Whiteboard";
+import { randomGeneratorWindowConfig } from "../RandomGenerator/RandomGenerator";
 
 export enum WindowType {
   QrCode = "qr-code",
@@ -81,6 +82,7 @@ export const windowConfigs: Record<WindowType, WindowConfig> = {
   [WindowType.Stuhlkreis]: stuhlkreisWindowConfig,
   [WindowType.Timer]: timerWindowConfig,
   [WindowType.Whiteboard]: whiteboardWindowConfig,
+  [WindowType.RandomGenerator]: randomGeneratorWindowConfig,
 } as any; // TODO: remove any
 
 export type ScreenarioWindow = {
