@@ -9,8 +9,14 @@ import VolumeSlider from "./subcomponents/VolumeSlider";
 
 import Grid from "@mui/material/Grid";
 import BaseWindow from "../BaseWindow/BaseWindow";
+import {
+  windowManagementActions,
+  WindowType,
+} from "../WindowManager/window-management-slice";
+import { useDispatch } from "react-redux";
 
-export default function Timer({ id, title, onHide, onSave, onLoad }) {
+export default function Timer({ id, title, onSave, onLoad }) {
+  const dispatch = useDispatch();
   /*
    * Explicitly providing an undefined state since passing a valid TimeStamp from WindowManager
    * doesn't seem to trigger anything in the useTimer hook.
@@ -83,7 +89,7 @@ export default function Timer({ id, title, onHide, onSave, onLoad }) {
   function handleReset() {}
 
   function handleHide() {
-    onHide(id);
+    dispatch(windowManagementActions.closeWindow(id));
   }
 
   return (
@@ -116,3 +122,40 @@ export default function Timer({ id, title, onHide, onSave, onLoad }) {
     </BaseWindow>
   );
 }
+
+/**
+ * @type {import("../WindowManager/window-management-slice").WindowConfig}
+ */
+export const timerWindowConfig = {
+  getInitialState: () => ({
+    type: WindowType.Timer,
+  }),
+  Component: ({ id }) => <Timer id={id} title="Timer" />,
+  defaultLayout: {
+    xs: {
+      w: 2,
+      h: 2,
+      x: 0,
+      y: 0,
+      minW: 2,
+      minH: 2,
+    },
+    sm: { w: 2, h: 5, x: 0, y: 7 },
+    md: {
+      w: 12,
+      h: 8,
+      x: 12,
+      y: 0,
+      minW: 6,
+      minH: 4,
+    },
+    lg: {
+      w: 14,
+      h: 8,
+      x: 18,
+      y: 0,
+      minW: 6,
+      minH: 4,
+    },
+  },
+};

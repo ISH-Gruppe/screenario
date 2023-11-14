@@ -29,17 +29,6 @@ export default function WindowManager() {
   const defaultLayout: Layouts = {
     xs: [
       {
-        w: 2,
-        h: 2,
-        x: 0,
-        y: 0,
-        minW: 2,
-        minH: 2,
-        i: "timer",
-        moved: false,
-        static: false,
-      },
-      {
         w: 6,
         h: 8,
         x: 0,
@@ -91,7 +80,6 @@ export default function WindowManager() {
       },
     ],
     sm: [
-      { w: 2, h: 5, x: 0, y: 7, i: "timer", moved: false, static: false },
       {
         w: 4,
         h: 4,
@@ -144,17 +132,6 @@ export default function WindowManager() {
       },
     ],
     md: [
-      {
-        w: 12,
-        h: 8,
-        x: 12,
-        y: 0,
-        i: "timer",
-        minW: 6,
-        minH: 4,
-        moved: false,
-        static: false,
-      },
       {
         w: 16,
         h: 8,
@@ -212,17 +189,6 @@ export default function WindowManager() {
       },
     ],
     lg: [
-      {
-        w: 14,
-        h: 8,
-        x: 18,
-        y: 0,
-        i: "timer",
-        minW: 6,
-        minH: 4,
-        moved: false,
-        static: false,
-      },
       {
         w: 20,
         h: 8,
@@ -315,19 +281,6 @@ export default function WindowManager() {
   console.log({ derivedLayouts: layouts });
 
   const [windows] = React.useState({
-    "timer": {
-      key: "timer",
-      open: false,
-      content: (
-        <Timer
-          id="timer"
-          title="Timer"
-          onHide={handleWindowHide}
-          onSave={saveToLocalStorage}
-          onLoad={readFromLocalStorage}
-        />
-      ),
-    },
     "whiteboard": {
       key: "whiteboard",
       open: false,
