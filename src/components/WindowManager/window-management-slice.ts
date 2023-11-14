@@ -113,7 +113,7 @@ export const windowManagementSlice = createSlice({
         ([breakpoint, layouts]) => {
           layouts.forEach((layout) => {
             const window = getWindowById(state, layout.i);
-            if (window) {
+            if (window?.isOpen) {
               window.layouts[breakpoint] = layout;
             }
           });
