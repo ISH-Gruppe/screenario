@@ -16,6 +16,10 @@ import {
   GalleryConfig,
   positioningWindowConfig,
 } from "../Positioning/Positioning";
+import {
+  StuhlkreisState,
+  stuhlkreisWindowConfig,
+} from "../DigitalerStuhlkreisWrapper/DigitalerStuhlkreisWrapper";
 
 export enum WindowType {
   QrCode = "qr-code",
@@ -29,7 +33,11 @@ export enum WindowType {
   Stuhlkreis = "stuhlkreis",
 }
 
-type WindowState = QrCodeWindowState | SoundboardState | GalleryConfig;
+type WindowState =
+  | QrCodeWindowState
+  | SoundboardState
+  | GalleryConfig
+  | StuhlkreisState;
 
 type WindowBreakpoint = "xs" | "sm" | "md" | "lg";
 type LayoutDefinitions = Record<WindowBreakpoint, Omit<Layout, "i">>;
@@ -46,6 +54,7 @@ export const windowConfigs: Record<WindowType, WindowConfig> = {
   [WindowType.QrCode]: qrCodeWindowConfig,
   [WindowType.Soundboard]: soundboardWindowConfig,
   [WindowType.Positioning]: positioningWindowConfig,
+  [WindowType.Stuhlkreis]: stuhlkreisWindowConfig,
 } as any; // TODO: remove any
 
 export type ScreenarioWindow = {

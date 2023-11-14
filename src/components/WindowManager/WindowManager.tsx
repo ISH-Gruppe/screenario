@@ -6,7 +6,6 @@ import Toolbar from "../Toolbar/Toolbar";
 import Notepad from "../Notepad/Notepad";
 import WorkPhase from "../WorkPhase/WorkPhase";
 import Whiteboard from "../Whiteboard/Whiteboard";
-import DigitalerStuhlkreisWrapper from "../DigitalerStuhlkreisWrapper/DigitalerStuhlkreisWrapper";
 
 import "./WindowManager.css";
 
@@ -29,17 +28,6 @@ export default function WindowManager() {
   const dispatch = useDispatch();
   const defaultLayout: Layouts = {
     xs: [
-      {
-        w: 4,
-        h: 4,
-        x: 0,
-        y: 7,
-        i: "stuhlkreis",
-        minW: 4,
-        minH: 4,
-        moved: false,
-        static: false,
-      },
       {
         w: 2,
         h: 2,
@@ -103,17 +91,6 @@ export default function WindowManager() {
       },
     ],
     sm: [
-      {
-        w: 2,
-        h: 9,
-        x: 0,
-        y: 12,
-        i: "stuhlkreis",
-        minW: 4,
-        minH: 4,
-        moved: false,
-        static: false,
-      },
       { w: 2, h: 5, x: 0, y: 7, i: "timer", moved: false, static: false },
       {
         w: 4,
@@ -167,17 +144,6 @@ export default function WindowManager() {
       },
     ],
     md: [
-      {
-        w: 14,
-        h: 8,
-        x: 10,
-        y: 8,
-        i: "stuhlkreis",
-        minW: 14,
-        minH: 8,
-        moved: false,
-        static: false,
-      },
       {
         w: 12,
         h: 8,
@@ -246,17 +212,6 @@ export default function WindowManager() {
       },
     ],
     lg: [
-      {
-        w: 16,
-        h: 9,
-        x: 32,
-        y: 0,
-        i: "stuhlkreis",
-        minW: 10,
-        minH: 8,
-        moved: false,
-        static: false,
-      },
       {
         w: 14,
         h: 8,
@@ -360,13 +315,6 @@ export default function WindowManager() {
   console.log({ derivedLayouts: layouts });
 
   const [windows] = React.useState({
-    "stuhlkreis": {
-      key: "stuhlkreis",
-      open: false,
-      content: (
-        <DigitalerStuhlkreisWrapper id="stuhlkreis" onHide={handleWindowHide} />
-      ),
-    },
     "timer": {
       key: "timer",
       open: false,
