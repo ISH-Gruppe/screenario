@@ -106,8 +106,8 @@ export default function ToggleButtonsMultiple() {
 
       <ToggleButton
         color="primary"
-        value={WindowType.Gallery}
-        selected={openWindowTypes.has(WindowType.Gallery)}
+        value={WindowType.Positioning}
+        selected={openWindowTypes.has(WindowType.Positioning)}
         onClick={handleChange}
       >
         <GridOnIcon />

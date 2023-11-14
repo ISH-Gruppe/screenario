@@ -19,7 +19,7 @@ import { EditableText } from "./EditableText";
 import Grid from "./Grid";
 
 // CSS
-import "./Gallery.scss";
+import "./Positioning.scss";
 import {
   getWindowByIdOrFail,
   WindowConfig,
@@ -67,7 +67,13 @@ type DragEvent = {
   };
 };
 
-export default function Gallery({ id, title }: { id: string; title: string }) {
+export default function Positioning({
+  id,
+  title,
+}: {
+  id: string;
+  title: string;
+}) {
   const dispatch = useDispatch();
 
   // Base Window functions
@@ -427,12 +433,12 @@ export default function Gallery({ id, title }: { id: string; title: string }) {
 }
 
 export type GalleryConfig = {
-  type: WindowType.Gallery;
+  type: WindowType.Positioning;
 };
 
-export const galleryWindowConfig: WindowConfig = {
+export const positioningWindowConfig: WindowConfig = {
   getInitialState: () => ({
-    type: WindowType.Gallery,
+    type: WindowType.Positioning,
   }),
   defaultLayout: {
     xs: {
@@ -468,5 +474,5 @@ export const galleryWindowConfig: WindowConfig = {
       minH: 8,
     },
   },
-  Component: ({ id }) => <Gallery id={id} title="Positionierung" />,
+  Component: ({ id }) => <Positioning id={id} title="Positionierung" />,
 };
