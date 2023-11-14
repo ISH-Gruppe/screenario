@@ -98,7 +98,7 @@ export default function Welcome() {
             </a>
             .
           </p>
-          <span class="modal-imprint-privacy">
+          <span className="modal-imprint-privacy">
             <a href="/impressum">Impressum</a> &{" "}
             <a href="/datenschutz">Datenschutz</a>,{" "}
             <a href="/lizenzen"> Lizenzen </a>

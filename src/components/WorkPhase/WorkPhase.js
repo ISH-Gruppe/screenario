@@ -61,7 +61,7 @@ export default function WorkPhase({ id, title, onHide }) {
   const [popupImage, setPopupImage] = useState(<></>);
 
   function openImage(image) {
-    setPopupImage(<img class="popup-image" src={image} />);
+    setPopupImage(<img className="popup-image" src={image} />);
     setOpen(true);
   }
 

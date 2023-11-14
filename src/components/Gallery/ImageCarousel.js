@@ -99,5 +99,5 @@ export default function ImageCarousel({
     </>
   );
 }
-// <div class="carousel-button left-carousel-button"></div>
-// <div class="carousel-button right-carousel-button"></div>
+// <div className="carousel-button left-carousel-button"></div>
+// <div className="carousel-button right-carousel-button"></div>

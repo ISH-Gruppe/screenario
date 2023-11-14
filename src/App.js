@@ -63,7 +63,7 @@ export default function App() {
                 Spenden
               </Button>
             </a>
-            <span class="imprint-privacy">
+            <span className="imprint-privacy">
               <a href="/impressum">Impressum</a> &{" "}
               <a href="/datenschutz">Datenschutz</a>
             </span>
