@@ -24,8 +24,8 @@ export default function App() {
   const [donationModalopen, setDonationModalOpen] = React.useState(false);
 
   useEffect(() => {
-    document.body.classList.add(`text-${APP_CONFIG.font.toLowerCase()}`)
-  })
+    document.body.classList.add(`text-${APP_CONFIG.font.toLowerCase()}`);
+  });
 
   return (
     <ThemeProvider theme={appTheme}>
