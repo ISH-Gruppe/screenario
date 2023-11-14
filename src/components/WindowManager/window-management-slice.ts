@@ -33,11 +33,33 @@ export enum WindowType {
   Stuhlkreis = "stuhlkreis",
 }
 
+// TODO: move to corresponding files once ready
+type WhiteboardState = {
+  type: WindowType.Whiteboard;
+};
+type WorkPhaseState = {
+  type: WindowType.WorkPhase;
+};
+type TimerState = {
+  type: WindowType.Timer;
+};
+type RandomGeneratorState = {
+  type: WindowType.RandomGenerator;
+};
+type NotepadState = {
+  type: WindowType.Notepad;
+};
+
 type WindowState =
   | QrCodeWindowState
   | SoundboardState
   | GalleryConfig
-  | StuhlkreisState;
+  | StuhlkreisState
+  | WhiteboardState
+  | WorkPhaseState
+  | TimerState
+  | RandomGeneratorState
+  | NotepadState;
 
 type WindowBreakpoint = "xs" | "sm" | "md" | "lg";
 type LayoutDefinitions = Record<WindowBreakpoint, Omit<Layout, "i">>;
