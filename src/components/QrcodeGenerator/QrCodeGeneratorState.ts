@@ -1,7 +1,7 @@
 import { ActionReducerMapBuilder, createAction } from "@reduxjs/toolkit";
 import {
   getWindowByIdOrFail,
-  ScreenarioWindow,
+  WindowManagementState,
   WindowType,
 } from "../WindowManager/window-management-slice";
 
@@ -15,10 +15,10 @@ export const setQrCodeValue = createAction<{ id: string; value: string }>(
 );
 
 export const buildQrCodeReducer = (
-  builder: ActionReducerMapBuilder<ScreenarioWindow[]>
+  builder: ActionReducerMapBuilder<WindowManagementState>
 ) => {
   builder.addCase(setQrCodeValue, (state, { payload }) => {
-    const windowState = getWindowByIdOrFail(state, payload.id)
+    const windowState = getWindowByIdOrFail(state.windows, payload.id)
       .state as QrCodeWindowState;
     windowState.value = payload.value;
   });

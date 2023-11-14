@@ -12,7 +12,7 @@ export const store = configureStore({
       storage: storage,
     },
     combineReducers({
-      windows: windowManagementSlice.reducer,
+      windowManagement: windowManagementSlice.reducer,
       welcome: welcomeSlice.reducer,
     })
   ),

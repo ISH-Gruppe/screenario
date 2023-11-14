@@ -22,7 +22,7 @@ import { AppState } from "../../app-state";
 export default function ToggleButtonsMultiple() {
   const dispatch = useDispatch();
   const openWindowTypes = useSelector((state: AppState) =>
-    state.windows.reduce(
+    state.windowManagement.windows.reduce(
       (openTypes, window) =>
         window.isOpen ? openTypes.add(window.state.type) : openTypes,
       new Set()

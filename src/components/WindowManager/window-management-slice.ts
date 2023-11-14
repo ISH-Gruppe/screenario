@@ -61,10 +61,14 @@ export const getWindowByIdOrFail = (state: ScreenarioWindow[], id: string) => {
   return window;
 };
 
+export type WindowManagementState = {
+  windows: ScreenarioWindow[];
+};
+
 export const windowManagementSlice = createSlice({
   name: "window-management",
-  initialState: () =>
-    Object.values(windowConfigs).map((config): ScreenarioWindow => {
+  initialState: (): WindowManagementState => ({
+    windows: Object.values(windowConfigs).map((config): ScreenarioWindow => {
       const id = crypto.randomUUID();
       return {
         id,
@@ -73,15 +77,16 @@ export const windowManagementSlice = createSlice({
         state: config.getInitialState(id),
       };
     }),
+  }),
   reducers: {
     openWindow: (state, { payload: id }: PayloadAction<string>) => {
-      const window = getWindowById(state, id);
+      const window = getWindowById(state.windows, id);
       if (window) {
         window.isOpen = true;
       }
     },
     closeWindow: (state, { payload: id }: PayloadAction<string>) => {
-      const window = getWindowById(state, id);
+      const window = getWindowById(state.windows, id);
       if (window) {
         window.isOpen = false;
       }
@@ -90,19 +95,20 @@ export const windowManagementSlice = createSlice({
       state,
       { payload: windowState }: PayloadAction<WindowState>
     ) => {
-      state.push({
+      const newWindow = {
         id: crypto.randomUUID(),
         isOpen: true,
         // TODO: remove `!`
         layouts: windowConfigs[windowState.type]!.defaultLayout,
         state: windowState,
-      });
+      };
+      state.windows.push(newWindow);
     },
     toggleWindowType: (
       state,
       { payload: windowType }: PayloadAction<WindowType>
     ) => {
-      state.forEach((window) => {
+      state.windows.forEach((window) => {
         if (window.state.type === windowType) {
           window.isOpen = !window.isOpen;
         }
@@ -112,7 +118,7 @@ export const windowManagementSlice = createSlice({
       (Object.entries(layouts) as [WindowBreakpoint, Layout[]][]).forEach(
         ([breakpoint, layouts]) => {
           layouts.forEach((layout) => {
-            const window = getWindowById(state, layout.i);
+            const window = getWindowById(state.windows, layout.i);
             if (window?.isOpen) {
               window.layouts[breakpoint] = layout;
             }
@@ -132,6 +138,6 @@ export const windowManagementActions = windowManagementSlice.actions;
 export const useWindowState = <StateType extends WindowState>(id: string) => {
   return useSelector(
     (state: AppState) =>
-      getWindowByIdOrFail(state.windows, id).state as StateType
+      getWindowByIdOrFail(state.windowManagement.windows, id).state as StateType
   );
 };

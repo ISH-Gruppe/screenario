@@ -35,10 +35,6 @@ export default function BaseWindow({
     dispatch(windowManagementActions.closeWindow(id));
   }
 
-  function handleReset() {
-    onReset(id);
-  }
-
   return (
     <Card className={"window window-" + id + " "} sx={{ minWidth: 275 }}>
       <Box

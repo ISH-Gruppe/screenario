@@ -375,7 +375,7 @@ export default function WindowManager() {
   // const originalLayouts =
   //   readLayoutFromLocalStorage("layouts") || defaultLayout;
 
-  const layouts = appState.windows.reduce(
+  const layouts = appState.windowManagement.windows.reduce(
     (layouts, window) => {
       const baseLayout = {
         i: window.id,
@@ -550,7 +550,7 @@ export default function WindowManager() {
         onResize={() => handleResize()}
       >
         {getOpenWindows()}
-        {appState.windows.flatMap((window) => {
+        {appState.windowManagement.windows.flatMap((window) => {
           const Component = windowConfigs[window.state.type].Component;
           return window.isOpen
             ? [
