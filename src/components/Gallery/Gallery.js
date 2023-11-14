@@ -1,41 +1,17 @@
 import BaseWindow from "../BaseWindow/BaseWindow";
-import React, { Component } from "react";
-import {
-  Group,
-  Rect,
-  Stage,
-  Layer,
-  Text,
-  Image,
-  Line,
-  Transformer,
-} from "react-konva";
-
-import useImage from "use-image";
+import React, { useEffect } from "react";
+import { Layer, Stage } from "react-konva";
 
 // Material UI
-import { useConfirm } from "material-ui-confirm";
 import ButtonGroup from "@mui/material/ButtonGroup";
-import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import ToggleButton from "@mui/material/ToggleButton";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import ImageList from "@mui/material/ImageList";
-import ImageListItem from "@mui/material/ImageListItem";
 import Divider from "@mui/material/Divider";
 
 // Icons
 import GridOnIcon from "@mui/icons-material/GridOn";
-import GridOffIcon from "@mui/icons-material/GridOff";
-import Grid4x4Icon from "@mui/icons-material/Grid4x4";
-import Grid3x3Icon from "@mui/icons-material/Grid3x3";
-import GridGoldenratioIcon from "@mui/icons-material/GridGoldenratio";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate"; // Upload Photo
-
 // Custom Components
 import ImageCarousel from "./ImageCarousel";
 import LoadedImage from "./LoadedImage";
@@ -44,6 +20,8 @@ import Grid from "./Grid";
 
 // CSS
 import "./Gallery.scss";
+import { getWindowByIdOrFail } from "../WindowManager/window-management-slice";
+import { useSelector } from "react-redux";
 
 // Constants
 const defaultImages = [
@@ -65,12 +43,10 @@ const defaultImages = [
   "/assets/images/gallery/collection_3.jpg",
 ];
 
-function Gallery(
-  { id, title, visible, onHide, onChange, onSave, onLoad, resizing },
-  ref
-) {
+export default function Gallery({ id, title, onHide }) {
   // Base Window functions
   function handleReset() {}
+
   function handleHide() {
     onHide(id);
   }
@@ -122,11 +98,11 @@ function Gallery(
     setCanvasSize();
   }, []);
 
-  React.useImperativeHandle(ref, () => ({
-    updateFromParent() {
-      setCanvasSize();
-    },
-  }));
+  const window = useSelector((state) => getWindowByIdOrFail(state, id));
+
+  useEffect(() => {
+    setCanvasSize();
+  }, [window.layouts]);
 
   function toggleEdit(boxId) {
     const newTextboxes = textboxes.map((box, index) => {
@@ -409,5 +385,3 @@ function Gallery(
     </BaseWindow>
   );
 }
-
-export default React.forwardRef(Gallery);

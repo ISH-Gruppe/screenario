@@ -1,11 +1,10 @@
 import BaseWindow from "../BaseWindow/BaseWindow";
-import React, { Component } from "react";
-import { Stage, Layer, Text, Image, Line, Transformer } from "react-konva";
+import React from "react";
+import { Layer, Line, Stage } from "react-konva";
 
 // UI
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import ToggleButton from "@mui/material/ToggleButton";
@@ -18,15 +17,10 @@ import UserImage from "./UserImage";
 // Icons
 import UndoIcon from "@mui/icons-material/Undo";
 import RedoIcon from "@mui/icons-material/Redo";
-import DeleteIcon from "@mui/icons-material/Delete";
 
 import PanToolAltIcon from "@mui/icons-material/PanToolAlt"; // Select
 import BrushIcon from "@mui/icons-material/Brush"; // Brush
 import AutoFixNormalIcon from "@mui/icons-material/AutoFixNormal"; // Eraser
-import ClearIcon from "@mui/icons-material/Clear"; // Clear Whiteboard
-
-import DeleteSweepIcon from "@mui/icons-material/DeleteSweep";
-import GetAppIcon from "@mui/icons-material/GetApp"; // Download Canvas
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate"; // Upload Photo
 import HideImageIcon from "@mui/icons-material/HideImage";
 import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
@@ -34,15 +28,7 @@ import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
 // CSS
 import "./Whiteboard.scss";
 
-export default function Whiteboard({
-  id,
-  title,
-  visible,
-  onHide,
-  onChange,
-  onSave,
-  onLoad,
-}) {
+export default function Whiteboard({ id, title, onHide }) {
   const [tool, setTool] = React.useState("draw");
   const [lines, setLines] = React.useState([]);
   const [history, setHistory] = React.useState([]);

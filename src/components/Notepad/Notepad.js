@@ -16,15 +16,7 @@ import BaseWindow from "../BaseWindow/BaseWindow";
 // CSS
 import "./Notepad.css";
 
-export default function Notepad({
-  id,
-  title,
-  visible,
-  onHide,
-  onChange,
-  onSave,
-  onLoad,
-}) {
+export default function Notepad({ id, title, onHide, onSave, onLoad }) {
   const [notes, setNotes] = React.useState(loadStateNotes());
   const [currentTab, setCurrentTab] = React.useState(loadStateCurrentTab);
 

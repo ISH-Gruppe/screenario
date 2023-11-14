@@ -46,7 +46,7 @@ const BootstrapDialogTitle = (props) => {
   );
 };
 
-export default function Welcome({ onSave, onLoad }) {
+export default function Welcome() {
   const isOpen = useSelector((state) => state.welcome.isOpen);
   const dispatch = useDispatch();
 

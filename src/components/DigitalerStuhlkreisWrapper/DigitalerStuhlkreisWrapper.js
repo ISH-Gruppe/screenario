@@ -23,12 +23,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
  *
  * You can find the original project at https://digitaler-stuhlkreis.de
  */
-export default function DigitalerStuhlkreisWrapper({
-  id,
-  title,
-  onHide,
-  onChange,
-}) {
+export default function DigitalerStuhlkreisWrapper({ id, onHide }) {
   return (
     <Card className="StuhlkreisCard">
       <div id="DigitalerStuhlkreisWrapper" className="">

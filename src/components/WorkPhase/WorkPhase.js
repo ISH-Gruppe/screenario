@@ -6,7 +6,7 @@ import "./WorkPhase.css";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 
-export default function WorkPhase({ id, title, onHide, onChange }) {
+export default function WorkPhase({ id, title, onHide }) {
   const workPhases = [
     {
       description: "Arbeitsphasen",

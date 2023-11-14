@@ -10,15 +10,7 @@ import VolumeSlider from "./subcomponents/VolumeSlider";
 import Grid from "@mui/material/Grid";
 import BaseWindow from "../BaseWindow/BaseWindow";
 
-export default function Timer({
-  id,
-  title,
-  visible,
-  onHide,
-  onChange,
-  onSave,
-  onLoad,
-}) {
+export default function Timer({ id, title, onHide, onSave, onLoad }) {
   /*
    * Explicitly providing an undefined state since passing a valid TimeStamp from WindowManager
    * doesn't seem to trigger anything in the useTimer hook.

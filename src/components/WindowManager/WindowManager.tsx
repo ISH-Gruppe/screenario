@@ -14,16 +14,21 @@ import "./WindowManager.css";
 // 3rd party dependencies
 import "/node_modules/react-grid-layout/css/styles.css";
 import "/node_modules/react-resizable/css/styles.css";
-import { Responsive, WidthProvider } from "react-grid-layout";
+import { Layout, Layouts, Responsive, WidthProvider } from "react-grid-layout";
 import RandomGenerator from "../RandomGenerator/RandomGenerator";
-import { useSelector } from "react-redux";
-import { windowConfigs } from "./window-management-slice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  windowConfigs,
+  windowManagementActions,
+} from "./window-management-slice";
+import { AppState } from "../../app-state";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 export default function WindowManager() {
-  const appState = useSelector((state) => state);
-  const defaultLayout = {
+  const appState = useSelector((state: AppState) => state);
+  const dispatch = useDispatch();
+  const defaultLayout: Layouts = {
     xs: [
       {
         w: 4,
@@ -408,11 +413,7 @@ export default function WindowManager() {
       key: "stuhlkreis",
       open: false,
       content: (
-        <DigitalerStuhlkreisWrapper
-          id="stuhlkreis"
-          title="Digitaler Stuhlkreis"
-          onHide={handleWindowHide}
-        />
+        <DigitalerStuhlkreisWrapper id="stuhlkreis" onHide={handleWindowHide} />
       ),
     },
     "timer": {
@@ -436,8 +437,6 @@ export default function WindowManager() {
           id="whiteboard"
           title="Whiteboard"
           onHide={handleWindowHide}
-          onSave={saveToLocalStorage}
-          onLoad={readFromLocalStorage}
         />
       ),
     },
@@ -449,10 +448,6 @@ export default function WindowManager() {
           id="gallery"
           title="Positionierung"
           onHide={handleWindowHide}
-          onSave={saveToLocalStorage}
-          onLoad={readFromLocalStorage}
-          resizing={false}
-          ref={galleryComponent}
         />
       ),
     },
@@ -500,45 +495,35 @@ export default function WindowManager() {
   function handleResizeStart() {}
 
   function handleResize() {
-    if (galleryComponent.current) {
-      // console.log("galleryComponent.current", galleryComponent.current);
-      setTimeout(() => {
-        galleryComponent.current.updateFromParent();
-      }, 10);
-    }
+    // TODO perhaps reflect in state
   }
 
   function resetLayout() {
     setLayouts({ ...defaultLayout });
   }
 
-  function onLayoutChange(layout, layouts) {
+  const onLayoutChange = (layout: Layout[], layouts: Layouts) => {
     // TODO: Fix! Temporarily removed
     // saveLayoutToLocalStorage("layouts", layouts);
     setLayouts({ ...layouts });
     // layoutChanged = layouts;
+  };
+
+  function handleWindowHide(windowId: string) {
+    dispatch(windowManagementActions.closeWindow(windowId));
   }
 
-  function handleWindowHide(windowId) {
-    let windowsCopy = { ...windows };
-    windowsCopy[windowId].open = false;
-
-    setWindows({ ...windowsCopy });
-  }
-
-  function handleWindowShow(windowId) {
-    const windowsCopy = { ...windows };
-    windowsCopy[windowId].open = true;
-
-    setWindows({ ...windowsCopy });
+  function handleWindowShow(windowId: string) {
+    dispatch(windowManagementActions.openWindow(windowId));
+    // TODO: is this necessary?
     setLayouts(defaultLayout);
   }
 
-  function readFromLocalStorage(key) {
+  function readFromLocalStorage(key: string) {
     let ls = {};
     if (global.localStorage) {
       try {
-        ls = JSON.parse(global.localStorage.getItem(key));
+        ls = JSON.parse(global.localStorage.getItem(key) ?? "undefined");
         // console.log("readFromLocalStorage", ls);
       } catch (e) {
         /*Ignore*/
@@ -547,7 +532,7 @@ export default function WindowManager() {
     return ls;
   }
 
-  function saveToLocalStorage(key, value) {
+  function saveToLocalStorage(key: string, value: unknown) {
     if (global.localStorage) {
       global.localStorage.setItem(key, JSON.stringify(value));
     }
@@ -563,7 +548,7 @@ export default function WindowManager() {
 
   return (
     <div>
-      <Welcome onLoad={readFromLocalStorage} onSave={saveToLocalStorage} />
+      <Welcome />
 
       <Toolbar />
 

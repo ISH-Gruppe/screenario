@@ -37,12 +37,11 @@ export type WindowConfig = {
     id: string;
   }>;
 };
-// TODO: make not partial
 
-export const windowConfigs: Partial<Record<WindowType, WindowConfig>> = {
+export const windowConfigs: Record<WindowType, WindowConfig> = {
   [WindowType.QrCode]: qrCodeWindowConfig,
   [WindowType.Soundboard]: soundboardWindowConfig,
-};
+} as any; // TODO: remove any
 
 export type ScreenarioWindow = {
   id: string;
