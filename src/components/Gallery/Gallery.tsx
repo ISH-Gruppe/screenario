@@ -20,8 +20,12 @@ import Grid from "./Grid";
 
 // CSS
 import "./Gallery.scss";
-import { getWindowByIdOrFail } from "../WindowManager/window-management-slice";
-import { useSelector } from "react-redux";
+import {
+  getWindowByIdOrFail,
+  windowManagementActions,
+} from "../WindowManager/window-management-slice";
+import { useDispatch, useSelector } from "react-redux";
+import { AppState } from "../../app-state";
 
 // Constants
 const defaultImages = [
@@ -43,22 +47,42 @@ const defaultImages = [
   "/assets/images/gallery/collection_3.jpg",
 ];
 
-export default function Gallery({ id, title, onHide }) {
+type Box = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  text: string;
+  selected: boolean;
+  isEditing: boolean;
+  isTransforming: boolean;
+};
+
+type DragEvent = {
+  target: {
+    x: () => number;
+    y: () => number;
+  };
+};
+
+export default function Gallery({ id, title }: { id: string; title: string }) {
+  const dispatch = useDispatch();
+
   // Base Window functions
   function handleReset() {}
 
   function handleHide() {
-    onHide(id);
+    dispatch(windowManagementActions.closeWindow(id));
   }
 
   // State
-  const [, updateState] = React.useState();
+  const [, updateState] = React.useState({});
   const forceUpdate = React.useCallback(() => updateState({}), []);
 
-  const [userImages, setUserImages] = React.useState([]);
+  const [userImages, setUserImages] = React.useState<string[]>([]);
   const [selectedImagePath, selectImage] = React.useState(defaultImages[0]);
-  const fileInput = React.useRef();
-  const imageRowRef = React.useRef();
+  const fileInput = React.useRef<HTMLInputElement>(null);
+  const imageRowRef = React.useRef<HTMLElement>();
 
   const [stageSize, setStageSize] = React.useState({ width: 720, height: 405 });
 
@@ -67,7 +91,7 @@ export default function Gallery({ id, title, onHide }) {
     height: 405,
   });
 
-  const [textboxes, setTextboxes] = React.useState([]);
+  const [textboxes, setTextboxes] = React.useState<Box[]>([]);
 
   const grids = [
     {
@@ -98,13 +122,15 @@ export default function Gallery({ id, title, onHide }) {
     setCanvasSize();
   }, []);
 
-  const window = useSelector((state) => getWindowByIdOrFail(state, id));
+  const window = useSelector((state: AppState) =>
+    getWindowByIdOrFail(state.windowManagement.windows, id)
+  );
 
   useEffect(() => {
     setCanvasSize();
   }, [window.layouts]);
 
-  function toggleEdit(boxId) {
+  function toggleEdit(boxId: number) {
     const newTextboxes = textboxes.map((box, index) => {
       if (index === boxId) {
         box.selected = !box.isEditing;
@@ -116,7 +142,7 @@ export default function Gallery({ id, title, onHide }) {
     setTextboxes([...newTextboxes]);
   }
 
-  function toggleTransforming(boxId) {
+  function toggleTransforming(boxId: number) {
     const newTextboxes = textboxes.map((box, index) => {
       if (index === boxId) {
         box.selected = !box.isTransforming;
@@ -131,7 +157,7 @@ export default function Gallery({ id, title, onHide }) {
     setTextboxes([...newTextboxes]);
   }
 
-  function onTextResize(boxId, newWidth, newHeight) {
+  function onTextResize(boxId: number, newWidth: number, newHeight: number) {
     const textboxesCopy = [...textboxes];
     const box = textboxes[boxId];
 
@@ -144,7 +170,7 @@ export default function Gallery({ id, title, onHide }) {
     setTextboxes([...textboxesCopy]);
   }
 
-  function onTextChange(boxId, value) {
+  function onTextChange(boxId: number, value: string) {
     const textboxesCopy = [...textboxes];
     const box = textboxes[boxId];
 
@@ -156,7 +182,7 @@ export default function Gallery({ id, title, onHide }) {
     setTextboxes([...textboxesCopy]);
   }
 
-  function handleDragEnd(boxId, event) {
+  function handleDragEnd(boxId: number, event: DragEvent) {
     const x = event.target.x();
     const y = event.target.y();
 
@@ -182,16 +208,17 @@ export default function Gallery({ id, title, onHide }) {
         text={box.text}
         width={box.width}
         height={box.height}
-        selected={box.selected}
+        // TODO: check if possible to set
+        // selected={box.selected}
         isEditing={box.isEditing}
         isTransforming={box.isTransforming}
-        onResize={(newWidth, newHeight) =>
+        onResize={(newWidth: number, newHeight: number) =>
           onTextResize(index, newWidth, newHeight)
         }
         onToggleEdit={() => toggleEdit(index)}
         onToggleTransform={() => toggleTransforming(index)}
-        onChange={(value) => onTextChange(index, value)}
-        onDragEnd={(event) => handleDragEnd(index, event)}
+        onChange={(value: string) => onTextChange(index, value)}
+        onDragEnd={(event: DragEvent) => handleDragEnd(index, event)}
       />
     );
   });
@@ -199,6 +226,9 @@ export default function Gallery({ id, title, onHide }) {
   // Canvas Size
   function getGalleryWindowSize() {
     const galleryCanvas = document.querySelector(".window-gallery");
+    if (!galleryCanvas) {
+      throw new Error("This should not be possible");
+    }
     const width = galleryCanvas.getBoundingClientRect().width;
     const height = galleryCanvas.getBoundingClientRect().height;
 
@@ -211,14 +241,14 @@ export default function Gallery({ id, title, onHide }) {
     setStageSize({ width: width, height: height });
   }
 
-  function setCalculatedImageSize(width, height) {
+  function setCalculatedImageSize(width: number, height: number) {
     if (currentImageSize.width != width || currentImageSize.height != height) {
       setCurrentImageSize({ width: width, height: height });
     }
   }
 
   // Image Carousel
-  function handleImageSelect(imagePath) {
+  function handleImageSelect(imagePath: string) {
     selectImage(imagePath);
     setCanvasSize();
   }
@@ -233,21 +263,32 @@ export default function Gallery({ id, title, onHide }) {
     }
   }
 
-  function addUserImageFile(event) {
-    const [file] = event.target.files;
+  function addUserImageFile(event: React.ChangeEvent<HTMLInputElement>) {
+    const files = event.target.files;
+    if (files === null) {
+      throw new Error("No file added");
+    }
+    const [file] = files;
     const url = URL.createObjectURL(file);
     setUserImages([...userImages, url.toString()]);
   }
 
-  function handleFileSelect(event) {
+  function handleFileSelect(event: React.ChangeEvent<HTMLInputElement>) {
     addUserImageFile(event);
-    fileInput.current.value = "";
+    if (fileInput.current) {
+      fileInput.current.value = "";
+    }
     setTimeout(() => {
-      imageRowRef.current.scrollLeft = imageRowRef.current.scrollLeftMax + 200;
+      if (imageRowRef.current) {
+        imageRowRef.current.scrollLeft =
+          // TODO: https://linear.app/ish/issue/SIO-71/gallery-uses-scrollleftmax
+          // @ts-ignore
+          imageRowRef.current.scrollLeftMax + 200;
+      }
     }, 200);
   }
 
-  function deleteUserImage(event, value) {
+  function deleteUserImage(_event: unknown, value: string) {
     const imageToDelete = userImages.indexOf(value);
     switch (true) {
       case imageToDelete === -1:
@@ -290,7 +331,7 @@ export default function Gallery({ id, title, onHide }) {
     setTextboxes([...filteredTextboxes]);
   }
 
-  function handleKeyPressOnStageWrapper(event) {
+  function handleKeyPressOnStageWrapper(event: React.KeyboardEvent) {
     if (event.key === "Backspace") {
       deleteSelectedTextBox();
     }
