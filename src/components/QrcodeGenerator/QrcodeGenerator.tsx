@@ -67,8 +67,6 @@ export const qrCodeWindowConfig: WindowConfig = {
       x: 0,
       y: 24,
       minW: 3,
-      moved: false,
-      static: false,
     },
     sm: {
       w: 2,
@@ -76,8 +74,6 @@ export const qrCodeWindowConfig: WindowConfig = {
       x: 0,
       y: 47,
       minW: 3,
-      moved: false,
-      static: false,
     },
     md: {
       w: 7,
@@ -86,8 +82,6 @@ export const qrCodeWindowConfig: WindowConfig = {
       y: 16,
       minW: 6,
       minH: 5,
-      moved: false,
-      static: false,
     },
     lg: {
       w: 8,
@@ -96,8 +90,6 @@ export const qrCodeWindowConfig: WindowConfig = {
       y: 8,
       minW: 8,
       minH: 5,
-      moved: false,
-      static: false,
     },
   },
 };

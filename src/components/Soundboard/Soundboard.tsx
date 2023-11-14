@@ -125,8 +125,6 @@ export const soundboardWindowConfig: WindowConfig = {
       x: 0,
       y: 21,
       minW: 2,
-      moved: false,
-      static: false,
     },
     sm: {
       w: 2,
@@ -134,8 +132,6 @@ export const soundboardWindowConfig: WindowConfig = {
       x: 0,
       y: 42,
       minW: 2,
-      moved: false,
-      static: false,
     },
     md: {
       w: 6,
@@ -144,8 +140,6 @@ export const soundboardWindowConfig: WindowConfig = {
       y: 16,
       minW: 6,
       minH: 4,
-      moved: false,
-      static: false,
     },
     lg: {
       w: 8,
@@ -154,8 +148,6 @@ export const soundboardWindowConfig: WindowConfig = {
       y: 8,
       minW: 8,
       minH: 4,
-      moved: false,
-      static: false,
     },
   },
 };

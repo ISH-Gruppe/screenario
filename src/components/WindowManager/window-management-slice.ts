@@ -11,6 +11,7 @@ import {
   SoundboardState,
   soundboardWindowConfig,
 } from "../Soundboard/Soundboard";
+import { Layout } from "react-grid-layout";
 
 export enum WindowType {
   QrCode = "qr-code",
@@ -26,15 +27,18 @@ export enum WindowType {
 
 type WindowState = QrCodeWindowState | SoundboardState;
 
+type WindowBreakpoint = "xs" | "sm" | "md" | "lg";
+type LayoutDefinitions = Record<WindowBreakpoint, Omit<Layout, "i">>;
+
 export type WindowConfig = {
-  defaultLayout: Record<"xs" | "sm" | "md" | "lg", unknown>;
+  defaultLayout: LayoutDefinitions;
   getInitialState: (id: string) => WindowState;
   Component: React.FC<{
     id: string;
   }>;
 };
-
 // TODO: make not partial
+
 export const windowConfigs: Partial<Record<WindowType, WindowConfig>> = {
   [WindowType.QrCode]: qrCodeWindowConfig,
   [WindowType.Soundboard]: soundboardWindowConfig,
@@ -43,7 +47,7 @@ export const windowConfigs: Partial<Record<WindowType, WindowConfig>> = {
 export type ScreenarioWindow = {
   id: string;
   isOpen: boolean;
-  position: unknown;
+  layouts: LayoutDefinitions;
   state: WindowState;
 };
 
@@ -58,18 +62,6 @@ export const getWindowByIdOrFail = (state: ScreenarioWindow[], id: string) => {
   return window;
 };
 
-const initialState = Object.values(windowConfigs).map(
-  (config): ScreenarioWindow => {
-    const id = crypto.randomUUID();
-    return {
-      id,
-      isOpen: true,
-      position: 1,
-      state: config.getInitialState(id),
-    };
-  }
-);
-
 export const windowManagementSlice = createSlice({
   name: "window-management",
   initialState: () =>
@@ -78,7 +70,7 @@ export const windowManagementSlice = createSlice({
       return {
         id,
         isOpen: true,
-        position: 1,
+        layouts: config.defaultLayout,
         state: config.getInitialState(id),
       };
     }),
@@ -102,7 +94,8 @@ export const windowManagementSlice = createSlice({
       state.push({
         id: crypto.randomUUID(),
         isOpen: true,
-        position: 1,
+        // TODO: remove `!`
+        layouts: windowConfigs[windowState.type]!.defaultLayout,
         state: windowState,
       });
     },
