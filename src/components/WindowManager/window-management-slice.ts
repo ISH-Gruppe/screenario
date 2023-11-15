@@ -115,7 +115,7 @@ export const windowManagementSlice = createSlice({
       const id = crypto.randomUUID();
       return {
         id,
-        isOpen: true,
+        isOpen: false,
         layouts: config.defaultLayout,
         state: config.getInitialState(id),
       };
