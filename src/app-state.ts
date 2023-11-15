@@ -3,12 +3,13 @@ import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { welcomeSlice } from "./components/Modals/Welcome/welcome-slice";
 import { windowManagementSlice } from "./components/WindowManager/window-management-slice";
+import { STORE_PERSISTOR_KEY } from "./app-config";
 
 export const store = configureStore({
   devTools: true,
   reducer: persistReducer(
     {
-      key: "screenario-app-state",
+      key: STORE_PERSISTOR_KEY,
       storage: storage,
     },
     combineReducers({

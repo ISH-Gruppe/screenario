@@ -23,3 +23,5 @@ export const APP_CONFIG: AppConfig = match(buildMode)
     })
   )
   .exhaustive();
+
+export const STORE_PERSISTOR_KEY = "screenario-app-state";

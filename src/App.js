@@ -22,6 +22,7 @@ import { APP_CONFIG } from "./app-config";
 import { Provider } from "react-redux";
 import { persistor, store } from "./app-state";
 import { PersistGate } from "redux-persist/integration/react";
+import { ImportExportButtons } from "./components/ImportExportButtons";
 
 export default function App() {
   const [donationModalopen, setDonationModalOpen] = React.useState(false);
@@ -53,7 +54,7 @@ export default function App() {
               <img src="/assets/ish-gruppe-logo.png" />
             </a>
 
-            <a className="donation-button">
+            <div className="donation-button">
               <Button
                 variant="outlined"
                 color="primary"
@@ -62,7 +63,10 @@ export default function App() {
               >
                 Spenden
               </Button>
-            </a>
+
+              <ImportExportButtons />
+            </div>
+
             <span className="imprint-privacy">
               <a href="/impressum">Impressum</a> &{" "}
               <a href="/datenschutz">Datenschutz</a>

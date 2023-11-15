@@ -39,6 +39,8 @@
   left: 4rem;
   opacity: 0.8;
   height: 40px;
+  display: flex;
+  gap: 1em;
 }
 
 .ish-logo {
