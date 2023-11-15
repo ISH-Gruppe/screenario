@@ -21,10 +21,6 @@ const ResponsiveReactGridLayout = WidthProvider(Responsive);
 export default function WindowManager() {
   const appState = useSelector((state: AppState) => state);
   const dispatch = useDispatch();
-  const defaultLayout: Layouts = {};
-
-  // const originalLayouts =
-  //   readLayoutFromLocalStorage("layouts") || defaultLayout;
 
   const layouts = appState.windowManagement.windows.reduce(
     (layouts, window) => {
@@ -54,10 +50,6 @@ export default function WindowManager() {
     { xs: [], sm: [], md: [], lg: [] } as Layouts
   );
 
-  console.log({ derivedLayouts: layouts });
-
-  const [windows] = React.useState({});
-
   function handleResizeEnd() {}
 
   function handleResizeStart() {}
@@ -68,14 +60,8 @@ export default function WindowManager() {
 
   const onLayoutChange = (layout: Layout[], layouts: Layouts) => {
     // TODO: Fix! Temporarily removed
-    // saveLayoutToLocalStorage("layouts", layouts);
     dispatch(windowManagementActions.setLayouts(layouts));
-    // layoutChanged = layouts;
   };
-
-  function handleWindowHide(windowId: string) {
-    dispatch(windowManagementActions.closeWindow(windowId));
-  }
 
   function readFromLocalStorage(key: string) {
     let ls = {};
@@ -96,14 +82,6 @@ export default function WindowManager() {
     }
   }
 
-  const getOpenWindows = () => {
-    let openWindowsArray = Object.values(windows).map((window) =>
-      window.open ? <div key={window.key}> {window.content} </div> : null
-    );
-
-    return openWindowsArray;
-  };
-
   return (
     <div>
       <Welcome />
@@ -122,7 +100,6 @@ export default function WindowManager() {
         onResizeStart={() => handleResizeStart()}
         onResize={() => handleResize()}
       >
-        {getOpenWindows()}
         {appState.windowManagement.windows.flatMap((window) => {
           const Component = windowConfigs[window.state.type].Component;
           return window.isOpen
