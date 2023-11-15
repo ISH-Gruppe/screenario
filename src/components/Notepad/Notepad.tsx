@@ -1,12 +1,11 @@
-import React, { useMemo, useState } from "react";
+import React from "react";
 
-import ReactQuill, { Quill } from "react-quill";
+import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
 // UI
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 
@@ -14,39 +13,27 @@ import Button from "@mui/material/Button";
 import BaseWindow from "../BaseWindow/BaseWindow";
 
 import {
-  windowManagementActions,
+  useWindowState,
   WindowConfig,
+  windowManagementActions,
   WindowType,
 } from "../WindowManager/window-management-slice";
 import { useDispatch } from "react-redux";
 
 // CSS
 import "./Notepad.css";
+import {
+  deleteCurrentNote,
+  NotepadState,
+  selectNoteAndCreateIfNeeded,
+  updateCurrentNote,
+} from "./NodepadState";
 
-export default function Notepad({ id, title, onSave, onLoad }) {
+export default function Notepad({ id, title }: { id: string; title: string }) {
+  const windowState = useWindowState(id) as NotepadState;
   const dispatch = useDispatch();
-
-  const [notes, setNotes] = React.useState(loadStateNotes());
-  const [currentTab, setCurrentTab] = React.useState(loadStateCurrentTab);
-
-  function loadStateNotes() {
-    const savedNotes = onLoad("NOTEPAD_NOTES")
-      ? onLoad("NOTEPAD_NOTES")
-      : [
-        { id: 0, text: "" },
-        { id: "add", text: "+" },
-      ];
-    // console.log("loadedGroup ", loadedGroup);
-
-    return savedNotes;
-  }
-
-  function loadStateCurrentTab() {
-    const savedNotes = onLoad("NOTEPAD_TAB") ? onLoad("NOTEPAD_TAB") : 0;
-    // console.log("loadedGroup ", loadedGroup);
-
-    return savedNotes;
-  }
+  const currentTab = windowState.currentNoteIndex;
+  const notes = windowState.notes;
 
   function handleReset() {}
 
@@ -54,56 +41,47 @@ export default function Notepad({ id, title, onSave, onLoad }) {
     dispatch(windowManagementActions.closeWindow(id));
   }
 
-  const changeTabOrCreateNewNote = (event, selectedTab) => {
-    setCurrentTab(selectedTab);
-    onSave("NOTEPAD_TAB", selectedTab);
-
-    if (notes[selectedTab].id == "add") {
-      addNewNote(selectedTab);
-    }
+  const changeTabOrCreateNewNote = (event: unknown, selectedTab: number) => {
+    dispatch(
+      selectNoteAndCreateIfNeeded({
+        windowId: id,
+        noteIndex: selectedTab,
+      })
+    );
   };
 
-  function addNewNote(selectedTab) {
-    const newNotes = [...notes];
-    newNotes[selectedTab] = { id: selectedTab, text: "" };
-    // console.log(newNotes[selectedTab]);
-    setNotes([...newNotes, { id: "add", text: "+" }]);
-    onSave("NOTEPAD_NOTES", [...newNotes, { id: "add", text: "+" }]);
-  }
-
-  function updateNote(noteId, editorContent) {
-    const notesCopy = [...notes];
-    notesCopy[noteId] = { id: noteId, text: editorContent };
-    setNotes([...notesCopy]);
-    onSave("NOTEPAD_NOTES", [...notesCopy]);
-  }
-
   function deleteNote() {
-    setCurrentTab(currentTab - 1);
-    const notesCopy = [...notes];
-    notesCopy.splice(currentTab, 1);
-    setNotes([...notesCopy]);
+    dispatch(
+      deleteCurrentNote({
+        windowId: id,
+      })
+    );
   }
 
-  function handleQuillChange(editorContent) {
-    updateNote(currentTab, editorContent);
+  function handleQuillChange(editorContent: string) {
+    dispatch(
+      updateCurrentNote({
+        windowId: id,
+        note: editorContent,
+      })
+    );
   }
 
-  const tabs = notes.map((note, index) => {
-    let noteText = note.text;
+  const tabsWithCreateTab = [...notes, "+"];
 
-    noteText = noteText.toString();
-    noteText = noteText.replace(/(<([^>]+)>)/gi, "");
+  const tabs = tabsWithCreateTab.map((note, index) => {
+    note = note.toString();
+    note = note.replace(/(<([^>]+)>)/gi, "");
 
     return (
       <Tab
         key={index}
-        label={noteText ? noteText.slice(0, 10) : "Notiz " + (note.id + 1)}
+        label={note ? note.slice(0, 10) : "Notiz " + (index + 1)}
       />
     );
   });
 
-  const tabPanels = notes.map((note, index) => {
+  const tabPanels = tabsWithCreateTab.map((note, index) => {
     return (
       <div
         key={index}
@@ -123,7 +101,7 @@ export default function Notepad({ id, title, onSave, onLoad }) {
               ],
             }}
             theme="snow"
-            value={notes[index].text}
+            value={note}
             onChange={handleQuillChange}
             placeholder="Hier eine Notiz erstellen..."
           />
@@ -158,12 +136,11 @@ export default function Notepad({ id, title, onSave, onLoad }) {
   );
 }
 
-/**
- * @type {import("../WindowManager/window-management-slice").WindowConfig}
- */
-export const notepadWindowConfig = {
+export const notepadWindowConfig: WindowConfig = {
   getInitialState: () => ({
     type: WindowType.Notepad,
+    currentNoteIndex: 0,
+    notes: [""],
   }),
   Component: ({ id }) => <Notepad id={id} title="Notepad" />,
   defaultLayout: {
