@@ -62,7 +62,7 @@ export default function EntryView({ windowId, onGroupChange }) {
   }
 
   function createNewGroups() {
-    const namesShuffled = shuffle(nameList);
+    const namesShuffled = shuffle([...nameList]);
 
     // Create groups based on the requested _quantity of groups_
     return chunkify(namesShuffled, numberOfGroups, true);

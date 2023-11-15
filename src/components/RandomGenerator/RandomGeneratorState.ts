@@ -90,6 +90,7 @@ export const buildRandomGeneratorReducer = (
         const windowState = getWindowByIdOrFail(state.windows, id)
           .state as RandomGeneratorState;
         windowState.groupGenerator.groups = groups;
+        windowState.groupGenerator.activeStep = GroupMakerStep.ResultView;
       }
     )
     .addCase(
