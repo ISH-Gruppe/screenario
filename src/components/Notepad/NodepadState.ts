@@ -34,7 +34,7 @@ export const buildNodepadReducer = (
       (state, { payload: { windowId, noteIndex } }) => {
         const windowState = getWindowByIdOrFail(state.windows, windowId)
           .state as NotepadState;
-        if (windowState.notes[noteIndex]) {
+        if (windowState.notes[noteIndex] !== undefined) {
           windowState.currentNoteIndex = noteIndex;
         } else {
           windowState.currentNoteIndex = windowState.notes.length;
