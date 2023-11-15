@@ -9,21 +9,30 @@ import GroupMaker from "./GroupMaker/GroupMaker";
 import Spinwheel from "./Spinwheel/Spinwheel";
 import NamePicker from "./NamePicker/NamePicker";
 import {
+  useWindowState,
+  WindowConfig,
   windowManagementActions,
   WindowType,
 } from "../WindowManager/window-management-slice";
 import { useDispatch } from "react-redux";
+import {
+  ActiveTab,
+  GroupMakerStep,
+  RandomGeneratorState,
+  setRandomGeneratorActiveTab,
+  tabsEnum,
+} from "./RandomGeneratorState";
 
-// TODO implement onSave, onLoad in redux
-export default function RandomGenerator({ id, title, onSave, onLoad }) {
+export default function RandomGenerator({
+  id,
+  title,
+}: {
+  id: string;
+  title: string;
+}) {
+  const windowState = useWindowState(id) as RandomGeneratorState;
+  const activeTab = windowState.activeTab;
   const dispatch = useDispatch();
-  const [activeTab, setActiveTab] = React.useState(loadState());
-
-  function loadState() {
-    return onLoad("RANDOM_GENERATOR_TAB")
-      ? onLoad("RANDOM_GENERATOR_TAB")
-      : "0";
-  }
 
   function handleReset() {}
 
@@ -31,9 +40,10 @@ export default function RandomGenerator({ id, title, onSave, onLoad }) {
     dispatch(windowManagementActions.closeWindow(id));
   }
 
-  const updateActiveTab = (event, newValue) => {
-    setActiveTab(newValue);
-    onSave("RANDOM_GENERATOR_TAB", newValue);
+  const updateActiveTab = (event: unknown, newValue: string) => {
+    dispatch(
+      setRandomGeneratorActiveTab({ id, activeTab: newValue as ActiveTab })
+    );
   };
 
   return (
@@ -70,19 +80,19 @@ export default function RandomGenerator({ id, title, onSave, onLoad }) {
               key={tabsEnum.GROUP_MAKER.key}
               value={tabsEnum.GROUP_MAKER.tabIndex}
             >
-              <GroupMaker onLoad={onLoad} onSave={onSave} />
+              <GroupMaker windowId={id} />
             </TabPanel>
             <TabPanel
               key={tabsEnum.SPINWHEEL.key}
               value={tabsEnum.SPINWHEEL.tabIndex}
             >
-              <Spinwheel onLoad={onLoad} onSave={onSave} />
+              <Spinwheel />
             </TabPanel>
             <TabPanel
               key={tabsEnum.NAME_PICKER.key}
               value={tabsEnum.NAME_PICKER.tabIndex}
             >
-              <NamePicker onLoad={onLoad} onSave={onSave} />
+              <NamePicker windowId={id} />
             </TabPanel>
           </TabContext>
         </div>
@@ -91,12 +101,18 @@ export default function RandomGenerator({ id, title, onSave, onLoad }) {
   );
 }
 
-/**
- * @type {import("../WindowManager/window-management-slice").WindowConfig}
- */
-export const randomGeneratorWindowConfig = {
+export const randomGeneratorWindowConfig: WindowConfig = {
   getInitialState: () => ({
     type: WindowType.RandomGenerator,
+    activeTab: "0",
+    groupGenerator: {
+      names: [],
+      groups: [],
+      activeStep: GroupMakerStep.DataEntry,
+    },
+    namePicker: {
+      names: [],
+    },
   }),
   Component: ({ id }) => <RandomGenerator id={id} title="Zufallsgenerator" />,
   defaultLayout: {
@@ -105,60 +121,30 @@ export const randomGeneratorWindowConfig = {
       h: 5,
       x: 0,
       y: 2,
-      i: "random-generator",
       minW: 2,
-      moved: false,
-      static: false,
     },
     sm: {
       w: 2,
       h: 8,
       x: 0,
       y: 21,
-      i: "random-generator",
       minW: 2,
-      moved: false,
-      static: false,
     },
     md: {
       w: 10,
       h: 8,
       x: 0,
       y: 8,
-      i: "random-generator",
       minW: 10,
       minH: 8,
-      moved: false,
-      static: false,
     },
     lg: {
       w: 16,
       h: 8,
       x: 0,
       y: 8,
-      i: "random-generator",
       minW: 10,
       minH: 8,
-      moved: false,
-      static: false,
     },
-  },
-};
-
-export const tabsEnum = {
-  GROUP_MAKER: {
-    key: "group-maker",
-    label: "Gruppengenerator",
-    tabIndex: "0",
-  },
-  SPINWHEEL: {
-    key: "spinwheel",
-    label: "Glücksrad",
-    tabIndex: "1",
-  },
-  NAME_PICKER: {
-    key: "name-picker",
-    label: "Namen auslosen",
-    tabIndex: "2",
   },
 };

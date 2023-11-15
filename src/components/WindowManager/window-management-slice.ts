@@ -26,6 +26,10 @@ import { randomGeneratorWindowConfig } from "../RandomGenerator/RandomGenerator"
 import { workPhaseWindowConfig } from "../WorkPhase/WorkPhase";
 import { notepadWindowConfig } from "../Notepad/Notepad";
 import { buildTimerReducer, TimerState } from "../Timer/TimerState";
+import {
+  buildRandomGeneratorReducer,
+  RandomGeneratorState,
+} from "../RandomGenerator/RandomGeneratorState";
 
 export enum WindowType {
   QrCode = "qr-code",
@@ -45,9 +49,6 @@ type WhiteboardState = {
 };
 type WorkPhaseState = {
   type: WindowType.WorkPhase;
-};
-type RandomGeneratorState = {
-  type: WindowType.RandomGenerator;
 };
 type NotepadState = {
   type: WindowType.Notepad;
@@ -174,6 +175,7 @@ export const windowManagementSlice = createSlice({
   extraReducers: (builder) => {
     buildQrCodeReducer(builder);
     buildTimerReducer(builder);
+    buildRandomGeneratorReducer(builder);
   },
 });
 
