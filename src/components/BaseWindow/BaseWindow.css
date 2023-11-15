@@ -19,3 +19,7 @@
   position: absolute;
   inset: 0;
 }
+
+.window-content {
+  position: relative;
+}
