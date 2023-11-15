@@ -2,7 +2,6 @@ import React from "react";
 
 import Welcome from "../Modals/Welcome/Welcome";
 import Toolbar from "../Toolbar/Toolbar";
-import Notepad from "../Notepad/Notepad";
 
 import "./WindowManager.css";
 
@@ -22,58 +21,7 @@ const ResponsiveReactGridLayout = WidthProvider(Responsive);
 export default function WindowManager() {
   const appState = useSelector((state: AppState) => state);
   const dispatch = useDispatch();
-  const defaultLayout: Layouts = {
-    xs: [
-      {
-        w: 4,
-        h: 3,
-        x: 0,
-        y: 18,
-        i: "notepad",
-        minW: 2,
-        moved: false,
-        static: false,
-      },
-    ],
-    sm: [
-      {
-        w: 2,
-        h: 5,
-        x: 0,
-        y: 29,
-        i: "notepad",
-        minW: 2,
-        moved: false,
-        static: false,
-      },
-    ],
-    md: [
-      {
-        w: 10,
-        h: 8,
-        x: 14,
-        y: 16,
-        i: "notepad",
-        minW: 6,
-        minH: 4,
-        moved: false,
-        static: false,
-      },
-    ],
-    lg: [
-      {
-        w: 16,
-        h: 6,
-        x: 32,
-        y: 9,
-        i: "notepad",
-        minW: 8,
-        minH: 4,
-        moved: false,
-        static: false,
-      },
-    ],
-  };
+  const defaultLayout: Layouts = {};
 
   // const originalLayouts =
   //   readLayoutFromLocalStorage("layouts") || defaultLayout;
@@ -108,21 +56,7 @@ export default function WindowManager() {
 
   console.log({ derivedLayouts: layouts });
 
-  const [windows] = React.useState({
-    notepad: {
-      key: "notepad",
-      open: false,
-      content: (
-        <Notepad
-          id="notepad"
-          title="Notepad"
-          onHide={handleWindowHide}
-          onSave={saveToLocalStorage}
-          onLoad={readFromLocalStorage}
-        />
-      ),
-    },
-  });
+  const [windows] = React.useState({});
 
   function handleResizeEnd() {}
 

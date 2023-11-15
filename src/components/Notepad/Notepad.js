@@ -13,10 +13,19 @@ import Button from "@mui/material/Button";
 // Components
 import BaseWindow from "../BaseWindow/BaseWindow";
 
+import {
+  windowManagementActions,
+  WindowConfig,
+  WindowType,
+} from "../WindowManager/window-management-slice";
+import { useDispatch } from "react-redux";
+
 // CSS
 import "./Notepad.css";
 
-export default function Notepad({ id, title, onHide, onSave, onLoad }) {
+export default function Notepad({ id, title, onSave, onLoad }) {
+  const dispatch = useDispatch();
+
   const [notes, setNotes] = React.useState(loadStateNotes());
   const [currentTab, setCurrentTab] = React.useState(loadStateCurrentTab);
 
@@ -24,9 +33,9 @@ export default function Notepad({ id, title, onHide, onSave, onLoad }) {
     const savedNotes = onLoad("NOTEPAD_NOTES")
       ? onLoad("NOTEPAD_NOTES")
       : [
-          { id: 0, text: "" },
-          { id: "add", text: "+" },
-        ];
+        { id: 0, text: "" },
+        { id: "add", text: "+" },
+      ];
     // console.log("loadedGroup ", loadedGroup);
 
     return savedNotes;
@@ -42,7 +51,7 @@ export default function Notepad({ id, title, onHide, onSave, onLoad }) {
   function handleReset() {}
 
   function handleHide() {
-    onHide(id);
+    dispatch(windowManagementActions.closeWindow(id));
   }
 
   const changeTabOrCreateNewNote = (event, selectedTab) => {
@@ -148,3 +157,45 @@ export default function Notepad({ id, title, onHide, onSave, onLoad }) {
     </BaseWindow>
   );
 }
+
+/**
+ * @type {import("../WindowManager/window-management-slice").WindowConfig}
+ */
+export const notepadWindowConfig = {
+  getInitialState: () => ({
+    type: WindowType.Notepad,
+  }),
+  Component: ({ id }) => <Notepad id={id} title="Notepad" />,
+  defaultLayout: {
+    xs: {
+      w: 4,
+      h: 3,
+      x: 0,
+      y: 18,
+      minW: 2,
+    },
+    sm: {
+      w: 2,
+      h: 5,
+      x: 0,
+      y: 29,
+      minW: 2,
+    },
+    md: {
+      w: 10,
+      h: 8,
+      x: 14,
+      y: 16,
+      minW: 6,
+      minH: 4,
+    },
+    lg: {
+      w: 16,
+      h: 6,
+      x: 32,
+      y: 9,
+      minW: 8,
+      minH: 4,
+    },
+  },
+};
