@@ -8,25 +8,42 @@ import BaseWindow from "../BaseWindow/BaseWindow";
 import GroupMaker from "./GroupMaker/GroupMaker";
 import Spinwheel from "./Spinwheel/Spinwheel";
 import NamePicker from "./NamePicker/NamePicker";
+import {
+  useWindowState,
+  WindowConfig,
+  windowManagementActions,
+  WindowType,
+} from "../WindowManager/window-management-slice";
+import { useDispatch } from "react-redux";
+import {
+  ActiveTab,
+  GroupMakerStep,
+  RandomGeneratorState,
+  setRandomGeneratorActiveTab,
+  tabsEnum,
+} from "./RandomGeneratorState";
 
-export default function RandomGenerator({ id, title, onHide, onSave, onLoad }) {
-  const [activeTab, setActiveTab] = React.useState(loadState());
-
-  function loadState() {
-    return onLoad("RANDOM_GENERATOR_TAB")
-      ? onLoad("RANDOM_GENERATOR_TAB")
-      : "0";
-  }
+export default function RandomGenerator({
+  id,
+  title,
+}: {
+  id: string;
+  title: string;
+}) {
+  const windowState = useWindowState(id) as RandomGeneratorState;
+  const activeTab = windowState.activeTab;
+  const dispatch = useDispatch();
 
   function handleReset() {}
 
   function handleHide() {
-    onHide(id);
+    dispatch(windowManagementActions.closeWindow(id));
   }
 
-  const updateActiveTab = (event, newValue) => {
-    setActiveTab(newValue);
-    onSave("RANDOM_GENERATOR_TAB", newValue);
+  const updateActiveTab = (event: unknown, newValue: string) => {
+    dispatch(
+      setRandomGeneratorActiveTab({ id, activeTab: newValue as ActiveTab })
+    );
   };
 
   return (
@@ -63,19 +80,19 @@ export default function RandomGenerator({ id, title, onHide, onSave, onLoad }) {
               key={tabsEnum.GROUP_MAKER.key}
               value={tabsEnum.GROUP_MAKER.tabIndex}
             >
-              <GroupMaker onLoad={onLoad} onSave={onSave} />
+              <GroupMaker windowId={id} />
             </TabPanel>
             <TabPanel
               key={tabsEnum.SPINWHEEL.key}
               value={tabsEnum.SPINWHEEL.tabIndex}
             >
-              <Spinwheel onLoad={onLoad} onSave={onSave} />
+              <Spinwheel />
             </TabPanel>
             <TabPanel
               key={tabsEnum.NAME_PICKER.key}
               value={tabsEnum.NAME_PICKER.tabIndex}
             >
-              <NamePicker onLoad={onLoad} onSave={onSave} />
+              <NamePicker windowId={id} />
             </TabPanel>
           </TabContext>
         </div>
@@ -84,20 +101,51 @@ export default function RandomGenerator({ id, title, onHide, onSave, onLoad }) {
   );
 }
 
-export const tabsEnum = {
-  GROUP_MAKER: {
-    key: "group-maker",
-    label: "Gruppengenerator",
-    tabIndex: "0",
-  },
-  SPINWHEEL: {
-    key: "spinwheel",
-    label: "Glücksrad",
-    tabIndex: "1",
-  },
-  NAME_PICKER: {
-    key: "name-picker",
-    label: "Namen auslosen",
-    tabIndex: "2",
+export const randomGeneratorWindowConfig: WindowConfig = {
+  getInitialState: () => ({
+    type: WindowType.RandomGenerator,
+    activeTab: "0",
+    groupGenerator: {
+      names: [],
+      groups: [],
+      activeStep: GroupMakerStep.DataEntry,
+      numberOfGroups: 0,
+    },
+    namePicker: {
+      names: [],
+    },
+  }),
+  Component: ({ id }) => <RandomGenerator id={id} title="Zufallsgenerator" />,
+  defaultLayout: {
+    xs: {
+      w: 4,
+      h: 5,
+      x: 0,
+      y: 2,
+      minW: 2,
+    },
+    sm: {
+      w: 2,
+      h: 8,
+      x: 0,
+      y: 21,
+      minW: 2,
+    },
+    md: {
+      w: 10,
+      h: 8,
+      x: 0,
+      y: 8,
+      minW: 10,
+      minH: 8,
+    },
+    lg: {
+      w: 16,
+      h: 8,
+      x: 0,
+      y: 8,
+      minW: 10,
+      minH: 8,
+    },
   },
 };

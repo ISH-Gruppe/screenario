@@ -1,41 +1,17 @@
 import BaseWindow from "../BaseWindow/BaseWindow";
-import React, { Component } from "react";
-import {
-  Group,
-  Rect,
-  Stage,
-  Layer,
-  Text,
-  Image,
-  Line,
-  Transformer,
-} from "react-konva";
-
-import useImage from "use-image";
+import React, { useEffect } from "react";
+import { Layer, Stage } from "react-konva";
 
 // Material UI
-import { useConfirm } from "material-ui-confirm";
 import ButtonGroup from "@mui/material/ButtonGroup";
-import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import ToggleButton from "@mui/material/ToggleButton";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import ImageList from "@mui/material/ImageList";
-import ImageListItem from "@mui/material/ImageListItem";
 import Divider from "@mui/material/Divider";
 
 // Icons
 import GridOnIcon from "@mui/icons-material/GridOn";
-import GridOffIcon from "@mui/icons-material/GridOff";
-import Grid4x4Icon from "@mui/icons-material/Grid4x4";
-import Grid3x3Icon from "@mui/icons-material/Grid3x3";
-import GridGoldenratioIcon from "@mui/icons-material/GridGoldenratio";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate"; // Upload Photo
-
 // Custom Components
 import ImageCarousel from "./ImageCarousel";
 import LoadedImage from "./LoadedImage";
@@ -43,7 +19,15 @@ import { EditableText } from "./EditableText";
 import Grid from "./Grid";
 
 // CSS
-import "./Gallery.scss";
+import "./Positioning.scss";
+import {
+  getWindowByIdOrFail,
+  WindowConfig,
+  windowManagementActions,
+  WindowType,
+} from "../WindowManager/window-management-slice";
+import { useDispatch, useSelector } from "react-redux";
+import { AppState } from "../../app-state";
 
 // Constants
 const defaultImages = [
@@ -65,24 +49,48 @@ const defaultImages = [
   "/assets/images/gallery/collection_3.jpg",
 ];
 
-function Gallery(
-  { id, title, visible, onHide, onChange, onSave, onLoad, resizing },
-  ref
-) {
+type Box = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  text: string;
+  selected: boolean;
+  isEditing: boolean;
+  isTransforming: boolean;
+};
+
+type DragEvent = {
+  target: {
+    x: () => number;
+    y: () => number;
+  };
+};
+
+export default function Positioning({
+  id,
+  title,
+}: {
+  id: string;
+  title: string;
+}) {
+  const dispatch = useDispatch();
+
   // Base Window functions
   function handleReset() {}
+
   function handleHide() {
-    onHide(id);
+    dispatch(windowManagementActions.closeWindow(id));
   }
 
   // State
-  const [, updateState] = React.useState();
+  const [, updateState] = React.useState({});
   const forceUpdate = React.useCallback(() => updateState({}), []);
 
-  const [userImages, setUserImages] = React.useState([]);
+  const [userImages, setUserImages] = React.useState<string[]>([]);
   const [selectedImagePath, selectImage] = React.useState(defaultImages[0]);
-  const fileInput = React.useRef();
-  const imageRowRef = React.useRef();
+  const fileInput = React.useRef<HTMLInputElement>(null);
+  const imageRowRef = React.useRef<HTMLElement>();
 
   const [stageSize, setStageSize] = React.useState({ width: 720, height: 405 });
 
@@ -91,7 +99,7 @@ function Gallery(
     height: 405,
   });
 
-  const [textboxes, setTextboxes] = React.useState([]);
+  const [textboxes, setTextboxes] = React.useState<Box[]>([]);
 
   const grids = [
     {
@@ -122,13 +130,15 @@ function Gallery(
     setCanvasSize();
   }, []);
 
-  React.useImperativeHandle(ref, () => ({
-    updateFromParent() {
-      setCanvasSize();
-    },
-  }));
+  const window = useSelector((state: AppState) =>
+    getWindowByIdOrFail(state.windowManagement.windows, id)
+  );
 
-  function toggleEdit(boxId) {
+  useEffect(() => {
+    setCanvasSize();
+  }, [window.layouts]);
+
+  function toggleEdit(boxId: number) {
     const newTextboxes = textboxes.map((box, index) => {
       if (index === boxId) {
         box.selected = !box.isEditing;
@@ -140,7 +150,7 @@ function Gallery(
     setTextboxes([...newTextboxes]);
   }
 
-  function toggleTransforming(boxId) {
+  function toggleTransforming(boxId: number) {
     const newTextboxes = textboxes.map((box, index) => {
       if (index === boxId) {
         box.selected = !box.isTransforming;
@@ -155,7 +165,7 @@ function Gallery(
     setTextboxes([...newTextboxes]);
   }
 
-  function onTextResize(boxId, newWidth, newHeight) {
+  function onTextResize(boxId: number, newWidth: number, newHeight: number) {
     const textboxesCopy = [...textboxes];
     const box = textboxes[boxId];
 
@@ -168,7 +178,7 @@ function Gallery(
     setTextboxes([...textboxesCopy]);
   }
 
-  function onTextChange(boxId, value) {
+  function onTextChange(boxId: number, value: string) {
     const textboxesCopy = [...textboxes];
     const box = textboxes[boxId];
 
@@ -180,7 +190,7 @@ function Gallery(
     setTextboxes([...textboxesCopy]);
   }
 
-  function handleDragEnd(boxId, event) {
+  function handleDragEnd(boxId: number, event: DragEvent) {
     const x = event.target.x();
     const y = event.target.y();
 
@@ -206,25 +216,26 @@ function Gallery(
         text={box.text}
         width={box.width}
         height={box.height}
-        selected={box.selected}
+        // TODO: check if possible to set
+        // selected={box.selected}
         isEditing={box.isEditing}
         isTransforming={box.isTransforming}
-        onResize={(newWidth, newHeight) =>
+        onResize={(newWidth: number, newHeight: number) =>
           onTextResize(index, newWidth, newHeight)
         }
         onToggleEdit={() => toggleEdit(index)}
         onToggleTransform={() => toggleTransforming(index)}
-        onChange={(value) => onTextChange(index, value)}
-        onDragEnd={(event) => handleDragEnd(index, event)}
+        onChange={(value: string) => onTextChange(index, value)}
+        onDragEnd={(event: DragEvent) => handleDragEnd(index, event)}
       />
     );
   });
 
   // Canvas Size
   function getGalleryWindowSize() {
-    const galleryCanvas = document.querySelector(".window-gallery");
-    const width = galleryCanvas.getBoundingClientRect().width;
-    const height = galleryCanvas.getBoundingClientRect().height;
+    const galleryCanvas = document.querySelector(`.window-${id}`);
+    const width = galleryCanvas?.getBoundingClientRect().width ?? 0;
+    const height = galleryCanvas?.getBoundingClientRect().height ?? 0;
 
     return { w: width, h: height };
   }
@@ -235,14 +246,14 @@ function Gallery(
     setStageSize({ width: width, height: height });
   }
 
-  function setCalculatedImageSize(width, height) {
+  function setCalculatedImageSize(width: number, height: number) {
     if (currentImageSize.width != width || currentImageSize.height != height) {
       setCurrentImageSize({ width: width, height: height });
     }
   }
 
   // Image Carousel
-  function handleImageSelect(imagePath) {
+  function handleImageSelect(imagePath: string) {
     selectImage(imagePath);
     setCanvasSize();
   }
@@ -257,21 +268,32 @@ function Gallery(
     }
   }
 
-  function addUserImageFile(event) {
-    const [file] = event.target.files;
+  function addUserImageFile(event: React.ChangeEvent<HTMLInputElement>) {
+    const files = event.target.files;
+    if (files === null) {
+      throw new Error("No file added");
+    }
+    const [file] = files;
     const url = URL.createObjectURL(file);
     setUserImages([...userImages, url.toString()]);
   }
 
-  function handleFileSelect(event) {
+  function handleFileSelect(event: React.ChangeEvent<HTMLInputElement>) {
     addUserImageFile(event);
-    fileInput.current.value = "";
+    if (fileInput.current) {
+      fileInput.current.value = "";
+    }
     setTimeout(() => {
-      imageRowRef.current.scrollLeft = imageRowRef.current.scrollLeftMax + 200;
+      if (imageRowRef.current) {
+        imageRowRef.current.scrollLeft =
+          // TODO: https://linear.app/ish/issue/SIO-71/gallery-uses-scrollleftmax
+          // @ts-ignore
+          imageRowRef.current.scrollLeftMax + 200;
+      }
     }, 200);
   }
 
-  function deleteUserImage(event, value) {
+  function deleteUserImage(_event: unknown, value: string) {
     const imageToDelete = userImages.indexOf(value);
     switch (true) {
       case imageToDelete === -1:
@@ -314,7 +336,7 @@ function Gallery(
     setTextboxes([...filteredTextboxes]);
   }
 
-  function handleKeyPressOnStageWrapper(event) {
+  function handleKeyPressOnStageWrapper(event: React.KeyboardEvent) {
     if (event.key === "Backspace") {
       deleteSelectedTextBox();
     }
@@ -410,4 +432,47 @@ function Gallery(
   );
 }
 
-export default React.forwardRef(Gallery);
+export type GalleryConfig = {
+  type: WindowType.Positioning;
+};
+
+export const positioningWindowConfig: WindowConfig = {
+  getInitialState: () => ({
+    type: WindowType.Positioning,
+  }),
+  defaultLayout: {
+    xs: {
+      w: 6,
+      h: 8,
+      x: 0,
+      y: 24,
+      minW: 6,
+      minH: 6,
+    },
+    sm: {
+      w: 4,
+      h: 4,
+      x: 0,
+      y: 24,
+      minW: 2,
+      minH: 8,
+    },
+    md: {
+      w: 14,
+      h: 7,
+      x: 0,
+      y: 24,
+      minW: 10,
+      minH: 6,
+    },
+    lg: {
+      w: 24,
+      h: 8,
+      x: 0,
+      y: 24,
+      minW: 18,
+      minH: 8,
+    },
+  },
+  Component: ({ id }) => <Positioning id={id} title="Positionierung" />,
+};

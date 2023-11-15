@@ -59,7 +59,7 @@ export function EditableTextInput({
     return (
       <Html groupProps={{ x, y }} divProps={{ style: { opacity: 1 } }}>
         <textarea
-          class="editable-textbox"
+          className="editable-textbox"
           value={value}
           onChange={onChange}
           style={style}

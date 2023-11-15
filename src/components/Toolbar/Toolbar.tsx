@@ -12,20 +12,30 @@ import ChairAltIcon from "@mui/icons-material/ChairAlt";
 import GridOnIcon from "@mui/icons-material/GridOn";
 
 import "./Toolbar.css";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  windowManagementActions,
+  WindowType,
+} from "../WindowManager/window-management-slice";
+import { AppState } from "../../app-state";
 
-export default function ToggleButtonsMultiple({
-  onWindowShow,
-  onWindowHide,
-  windows,
-}) {
+export default function ToggleButtonsMultiple() {
+  const dispatch = useDispatch();
+  const openWindowTypes = useSelector((state: AppState) =>
+    state.windowManagement.windows.reduce(
+      (openTypes, window) =>
+        window.isOpen ? openTypes.add(window.state.type) : openTypes,
+      new Set()
+    )
+  );
   const [formats, setFormats] = React.useState(() => ["bold", "italic"]);
 
-  const handleFormat = (event, newFormats) => {
+  const handleFormat = (_event: unknown, newFormats: string[]) => {
     setFormats(newFormats);
   };
 
-  function handleChange(event, value) {
-    windows[value].open ? onWindowHide(value) : onWindowShow(value);
+  function handleChange(_event: unknown, value: WindowType) {
+    dispatch(windowManagementActions.toggleWindowType(value));
   }
 
   return (
@@ -39,88 +49,88 @@ export default function ToggleButtonsMultiple({
     >
       <ToggleButton
         color="primary"
-        value="work-phase"
-        selected={windows["work-phase"].open}
+        value={WindowType.WorkPhase}
+        selected={openWindowTypes.has(WindowType.WorkPhase)}
         onClick={handleChange}
       >
         <SchoolIcon />
-        <span class="toolbar-text"> Arbeits- und Pausenphasen </span>
+        <span className="toolbar-text"> Arbeits- und Pausenphasen </span>
       </ToggleButton>
       <ToggleButton
         color="primary"
-        value="timer"
-        selected={windows["timer"].open}
+        value={WindowType.Timer}
+        selected={openWindowTypes.has(WindowType.Timer)}
         onClick={handleChange}
       >
         <HourglassTopIcon />
-        <span class="toolbar-text">Timer</span>
+        <span className="toolbar-text">Timer</span>
       </ToggleButton>
       <ToggleButton
         color="primary"
-        value="random-generator"
-        selected={windows["random-generator"].open}
+        value={WindowType.RandomGenerator}
+        selected={openWindowTypes.has(WindowType.RandomGenerator)}
         onClick={handleChange}
       >
         <ShuffleIcon />
-        <span class="toolbar-text">Zufallsgenerator</span>
+        <span className="toolbar-text">Zufallsgenerator</span>
       </ToggleButton>
       <ToggleButton
         color="primary"
-        value="notepad"
-        selected={windows["notepad"].open}
+        value={WindowType.Notepad}
+        selected={openWindowTypes.has(WindowType.Notepad)}
         onClick={handleChange}
       >
         <PostAddIcon />
-        <span class="toolbar-text">Textfeld </span>
+        <span className="toolbar-text">Textfeld </span>
       </ToggleButton>
 
       <ToggleButton
         color="primary"
-        value="soundboard"
-        selected={windows["soundboard"].open}
+        value={WindowType.Soundboard}
+        selected={openWindowTypes.has(WindowType.Soundboard)}
         onClick={handleChange}
       >
         <LyricsIcon />
-        <span class="toolbar-text">Soundboard </span>
+        <span className="toolbar-text">Soundboard </span>
       </ToggleButton>
 
       <ToggleButton
         color="primary"
-        value="whiteboard"
-        selected={windows["whiteboard"].open}
+        value={WindowType.Whiteboard}
+        selected={openWindowTypes.has(WindowType.Whiteboard)}
         onClick={handleChange}
       >
         <BorderColorIcon />
-        <span class="toolbar-text">Whiteboard </span>
+        <span className="toolbar-text">Whiteboard </span>
       </ToggleButton>
 
       <ToggleButton
         color="primary"
-        value="gallery"
-        selected={windows["gallery"].open}
+        value={WindowType.Positioning}
+        selected={openWindowTypes.has(WindowType.Positioning)}
         onClick={handleChange}
       >
         <GridOnIcon />
-        <span class="toolbar-text">Positionierung</span>
+        <span className="toolbar-text">Positionierung</span>
       </ToggleButton>
 
       <ToggleButton
         color="primary"
-        value="qrcode-generator"
-        selected={windows["qrcode-generator"].open}
+        value={WindowType.QrCode}
+        selected={openWindowTypes.has(WindowType.QrCode)}
         onClick={handleChange}
       >
         <QrCodeIcon />
-        <span class="toolbar-text">QR-Code-Generator </span>
+        <span className="toolbar-text">QR-Code-Generator </span>
       </ToggleButton>
       <ToggleButton
         color="primary"
-        value="stuhlkreis"
-        selected={windows["stuhlkreis"].open}
+        value={WindowType.Stuhlkreis}
+        selected={openWindowTypes.has(WindowType.Stuhlkreis)}
         onClick={handleChange}
       >
         <ChairAltIcon />
-        <span class="toolbar-text">Digitaler Stuhlkreis </span>
+        <span className="toolbar-text">Digitaler Stuhlkreis </span>
       </ToggleButton>
     </ToggleButtonGroup>
   );
@@ -133,5 +143,5 @@ export default function ToggleButtonsMultiple({
 //   onClick={handleChange}
 // >
 //   <BorderColorIcon />
-//   <span class="toolbar-text">Whiteboard </span>
+//   <span className="toolbar-text">Whiteboard </span>
 // </ToggleButton>

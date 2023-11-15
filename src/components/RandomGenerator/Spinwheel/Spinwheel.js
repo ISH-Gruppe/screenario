@@ -6,7 +6,7 @@ import { Stack } from "@mui/system";
 import Button from "@mui/material/Button";
 
 // TODO: Spinwheel doesn't yet use the generalized TextareaWordlist component
-export default function Spinwheel(props) {
+export default function Spinwheel() {
   const listNumbers = {
     name: "NUMBERS",
     data: [
@@ -127,15 +127,6 @@ export default function Spinwheel(props) {
   );
   const [prizeNumber, setPrizeNumber] = React.useState(0);
   const [isSpinning, setIsSpinning] = React.useState(false);
-
-  function loadState() {
-    const loadedGroup = props.onLoad("SPINLIST")
-      ? props.onLoad("SPINLIST")
-      : [];
-    // console.log("loadedGroup ", loadedGroup);
-
-    return loadedGroup;
-  }
 
   function handleSpinlistChange(selectedList) {
     setActiveSpinlist(selectedList);

@@ -14,3 +14,12 @@
   color: #000;
   margin: auto; /* remove when re-adding reset button */
 }
+
+.window-header-background {
+  position: absolute;
+  inset: 0;
+}
+
+.window-content {
+  position: relative;
+}

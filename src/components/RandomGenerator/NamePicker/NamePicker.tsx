@@ -4,24 +4,25 @@ import TextareaWordlist from "../TextareaWordlist";
 import RandomPicker from "./RandomPicker/RandomPicker";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import { useDispatch } from "react-redux";
+import { useWindowState } from "../../WindowManager/window-management-slice";
+import {
+  RandomGeneratorState,
+  setRandomGeneratorNamePickerList,
+} from "../RandomGeneratorState";
 
-export default function NamePicker(props) {
-  const [nameList, setNameList] = React.useState(loadState());
+export default function NamePicker({ windowId }: { windowId: string }) {
+  const windowState = useWindowState(windowId) as RandomGeneratorState;
+  const dispatch = useDispatch();
+  const nameList = windowState.namePicker.names;
   const [availableNamesToDraw, setNameAvailableNamesToDraw] =
     React.useState(nameList);
 
   const [rememberChosen, setRememberChosen] = React.useState(true);
 
-  function loadState() {
-    const loadedGroup = props.onLoad("NAME_PICKER")
-      ? props.onLoad("NAME_PICKER")
-      : [];
-    // console.log("loadedGroup ", loadedGroup);
-
-    return loadedGroup;
-  }
-
-  function handleRememberChosenChange(event) {
+  function handleRememberChosenChange(
+    event: React.ChangeEvent<HTMLInputElement>
+  ) {
     if (!event.target.checked) {
       resetAvailableNamesToDraw(nameList);
     }
@@ -29,15 +30,19 @@ export default function NamePicker(props) {
     setRememberChosen(event.target.checked);
   }
 
-  function handleWordlistChange(updatedList) {
+  function handleWordlistChange(updatedList: string[]) {
     // console.log("handleWordlistChange ", updatedList);
     // console.log(updatedList);
-    setNameList(updatedList);
     resetAvailableNamesToDraw(updatedList);
-    props.onSave("NAME_PICKER", updatedList);
+    dispatch(
+      setRandomGeneratorNamePickerList({
+        id: windowId,
+        names: updatedList,
+      })
+    );
   }
 
-  function handleChoiceChange(selectedName) {
+  function handleChoiceChange(selectedName: string) {
     // console.log("selectedName ", selectedName);
 
     if (rememberChosen) {
@@ -61,7 +66,7 @@ export default function NamePicker(props) {
     }
   }
 
-  function resetAvailableNamesToDraw(newNameList) {
+  function resetAvailableNamesToDraw(newNameList: string[]) {
     setNameAvailableNamesToDraw(newNameList);
   }
 

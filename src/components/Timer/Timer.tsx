@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTimer } from "react-timer-hook";
 
 import "./Timer.scss";
@@ -9,16 +9,18 @@ import VolumeSlider from "./subcomponents/VolumeSlider";
 
 import Grid from "@mui/material/Grid";
 import BaseWindow from "../BaseWindow/BaseWindow";
+import {
+  useWindowState,
+  WindowConfig,
+  windowManagementActions,
+  WindowType,
+} from "../WindowManager/window-management-slice";
+import { useDispatch } from "react-redux";
+import { getDateFromTimerValue, setTimer, TimerState } from "./TimerState";
 
-export default function Timer({
-  id,
-  title,
-  visible,
-  onHide,
-  onChange,
-  onSave,
-  onLoad,
-}) {
+export default function Timer({ id, title }: { id: string; title: string }) {
+  const dispatch = useDispatch();
+  const windowState = useWindowState(id) as TimerState;
   /*
    * Explicitly providing an undefined state since passing a valid TimeStamp from WindowManager
    * doesn't seem to trigger anything in the useTimer hook.
@@ -26,22 +28,18 @@ export default function Timer({
    *
    * Another option might be to just create a new Date stamp so that our IDE will know that the expected type is a Date
    **/
-  const [initialTimerValue, setInitialTimerValue] = React.useState(loadState());
+  const [initialTimerValue, setInitialTimerValue] = useState(
+    getDateFromTimerValue(windowState)
+  );
   const { seconds, minutes, hours, isRunning, start, pause, resume, restart } =
     useTimer({
-      initialTimerValue,
+      // initialTimerValue,
+      expiryTimestamp: initialTimerValue,
       autoStart: false,
       onExpire: handleTimerCompletion,
     });
 
   const [ringTimer] = useTimerRinging();
-
-  function loadState() {
-    const savedTimestamp = onLoad("TIMER") ? onLoad("TIMER") : undefined;
-    // console.log("loadedGroup ", loadedGroup);
-
-    return savedTimestamp;
-  }
 
   function updateAndRestartTimer(
     secondsValue = 0,
@@ -53,9 +51,15 @@ export default function Timer({
     newTimestamp.setMinutes(newTimestamp.getMinutes() + minutes + minutesValue);
     newTimestamp.setSeconds(newTimestamp.getSeconds() + seconds + secondsValue);
 
-    setInitialTimerValue(newTimestamp);
-    onSave("TIMER", newTimestamp);
-    restart(newTimestamp, isRunning ? true : false);
+    dispatch(
+      setTimer({
+        id,
+        hours: hoursValue,
+        minutes: minutesValue,
+        seconds: secondsValue,
+      })
+    );
+    restart(newTimestamp, isRunning);
   }
 
   function startTimer() {
@@ -68,14 +72,14 @@ export default function Timer({
 
   function handleTimerCompletion() {
     ringTimer();
-    setInitialTimerValue(initialTimerValue);
+    setInitialTimerValue(getDateFromTimerValue(windowState));
   }
 
-  const [musicVolume, setMusicVolume] = React.useState(0.9);
+  const [musicVolume, setMusicVolume] = useState(0.9);
   const [musicVolumeBeforeMute, setMusicVolumeBeforeMute] =
-    React.useState(musicVolume);
+    useState(musicVolume);
 
-  const handleVolumeChange = (event, newValue) => {
+  const handleVolumeChange = (event: unknown, newValue: number) => {
     setMusicVolume(newValue);
     setMusicVolumeBeforeMute(newValue);
   };
@@ -91,7 +95,7 @@ export default function Timer({
   function handleReset() {}
 
   function handleHide() {
-    onHide(id);
+    dispatch(windowManagementActions.closeWindow(id));
   }
 
   return (
@@ -124,3 +128,42 @@ export default function Timer({
     </BaseWindow>
   );
 }
+
+export const timerWindowConfig: WindowConfig = {
+  getInitialState: () => ({
+    type: WindowType.Timer,
+    timerValue: {
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
+    },
+  }),
+  Component: ({ id }) => <Timer id={id} title="Timer" />,
+  defaultLayout: {
+    xs: {
+      w: 2,
+      h: 2,
+      x: 0,
+      y: 0,
+      minW: 2,
+      minH: 2,
+    },
+    sm: { w: 2, h: 5, x: 0, y: 7 },
+    md: {
+      w: 12,
+      h: 8,
+      x: 12,
+      y: 0,
+      minW: 6,
+      minH: 4,
+    },
+    lg: {
+      w: 14,
+      h: 8,
+      x: 18,
+      y: 0,
+      minW: 6,
+      minH: 4,
+    },
+  },
+};

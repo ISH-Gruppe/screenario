@@ -8,13 +8,15 @@ import IconButton from "@mui/material/IconButton";
 import RemoveIcon from "@mui/icons-material/Remove";
 
 import "./BaseWindow.css";
+import { useDispatch } from "react-redux";
+import { windowManagementActions } from "../WindowManager/window-management-slice";
 
 type BaseWindowProps = PropsWithChildren<{
   id: string;
   title: ReactNode;
   onReset: (id: string) => void;
-  onHide: (id: string) => void;
-  resetName: unknown;
+  onHide?: (id: string) => void;
+  resetName?: unknown;
 }>;
 
 export default function BaseWindow({
@@ -22,22 +24,20 @@ export default function BaseWindow({
   title,
   children,
   onReset,
+  // TODO: remove these
   onHide,
   resetName,
 }: BaseWindowProps) {
+  const dispatch = useDispatch();
+
   function handleHide() {
     // console.log("handleHide", id);
-    onHide(id);
-  }
-
-  function handleReset() {
-    onReset(id);
+    dispatch(windowManagementActions.closeWindow(id));
   }
 
   return (
     <Card className={"window window-" + id + " "} sx={{ minWidth: 275 }}>
       <Box
-        className="drag-handle"
         sx={{
           "& button": { m: 1 },
           "display": "flex",
@@ -45,6 +45,7 @@ export default function BaseWindow({
           "alignItems": "center",
         }}
       >
+        <div className="window-header-background drag-handle" />
         {
           // <Button
           //   className="resetButton"
