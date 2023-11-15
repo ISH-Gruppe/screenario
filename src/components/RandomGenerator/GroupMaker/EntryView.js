@@ -41,7 +41,12 @@ export default function EntryView({ windowId, onGroupChange }) {
   }, [nameList]);
 
   function handleNamelistChange(updatedList) {
-    dispatch(setRandomGeneratorGroupMakerNameList(updatedList));
+    dispatch(
+      setRandomGeneratorGroupMakerNameList({
+        id: windowId,
+        names: updatedList,
+      })
+    );
   }
 
   function incrementNumberGroups() {
