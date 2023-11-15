@@ -7,28 +7,26 @@ const Datenschutz = () => {
       <h2>In Kürze</h2>
       <ul>
         <li>
-          <a href="https://screenar.io">Screenario </a> hinterlegt gewünschte
-          Präferenzen und eingegeben Begriffe im "Local Storage".
+          Die Webanwendung Screenario hinterlegt gewünschte Präferenzen und
+          eingegebene Begriffe im "Local Storage" des Browsers. Eingegebene
+          Daten bleiben so immer auf Ihrem Gerät und werden niemals an unsere
+          Server übertragen.
         </li>
         <li>
-          Zu Zwecken der Evaluation dieser kostenfrei bereitgestellten Anwendung
-          erheben wir anonymisierte Zugriffsstatistiken mittels Matomo.
+          Es erfolgt keinerlei Tracking Ihrer Aktivitäten und auf den Einsatz
+          von Cookies wird verzichtet.
         </li>
         <li>
-          Es erfolgt keinerlei Tracking Ihrer Aktivitäten, da auf den Einsatz
-          von Cookies verzichtet wird.
-        </li>
-        <li>
-          Es werden keinerlei persönliche Daten auf unseren Servern gespeichert
-          oder verarbeitet.
+          Wir sammeln anonymisierte Zugriffsdaten. Ihre IP-Adresse wird dabei
+          gekürzt und ist Ihnen nicht zuordenbar. Wir erhalten grobe
+          Informationen über Standort, Browser und Betriebssystem unserer
+          Nutzer.
         </li>
       </ul>
-      Es ist möglich, dass unsere Hosting-Partner{" "}
-      <a href="https://www.vercel.com/"> Vercel</a> und{" "}
-      <a href="https://www.render.com/"> Render</a> technische Daten wie
+      Es ist möglich, dass unser Hosting-Partner{" "}
+      <a href="https://www.render.com/">Render</a> technische Daten wie
       IP-Adressen für kurze Zeit verarbeitet, wenn dies für die Bereitstellung
       der Website zwingend notwendig ist.
-      {/* Opt out not required since we'd use cookieless analytics */}
       <h2> Benennung der verantwortlichen Stelle </h2>
       Die verantwortliche Stelle für die Datenverarbeitung auf dieser Website
       ist:
