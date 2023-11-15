@@ -25,6 +25,7 @@ import { whiteboardWindowConfig } from "../Whiteboard/Whiteboard";
 import { randomGeneratorWindowConfig } from "../RandomGenerator/RandomGenerator";
 import { workPhaseWindowConfig } from "../WorkPhase/WorkPhase";
 import { notepadWindowConfig } from "../Notepad/Notepad";
+import { buildTimerReducer, TimerState } from "../Timer/TimerState";
 
 export enum WindowType {
   QrCode = "qr-code",
@@ -44,9 +45,6 @@ type WhiteboardState = {
 };
 type WorkPhaseState = {
   type: WindowType.WorkPhase;
-};
-type TimerState = {
-  type: WindowType.Timer;
 };
 type RandomGeneratorState = {
   type: WindowType.RandomGenerator;
@@ -87,7 +85,7 @@ export const windowConfigs: Record<WindowType, WindowConfig> = {
   [WindowType.RandomGenerator]: randomGeneratorWindowConfig,
   [WindowType.WorkPhase]: workPhaseWindowConfig,
   [WindowType.Notepad]: notepadWindowConfig,
-} as any; // TODO: remove any
+};
 
 export type ScreenarioWindow = {
   id: string;
@@ -144,8 +142,7 @@ export const windowManagementSlice = createSlice({
       const newWindow = {
         id: crypto.randomUUID(),
         isOpen: true,
-        // TODO: remove `!`
-        layouts: windowConfigs[windowState.type]!.defaultLayout,
+        layouts: windowConfigs[windowState.type].defaultLayout,
         state: windowState,
       };
       state.windows.push(newWindow);
@@ -176,6 +173,7 @@ export const windowManagementSlice = createSlice({
   },
   extraReducers: (builder) => {
     buildQrCodeReducer(builder);
+    buildTimerReducer(builder);
   },
 });
 
