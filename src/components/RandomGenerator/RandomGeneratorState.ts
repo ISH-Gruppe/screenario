@@ -37,6 +37,7 @@ export type RandomGeneratorState = {
     activeStep: GroupMakerStep;
     names: string[];
     groups: string[][];
+    numberOfGroups: number;
   };
   namePicker: {
     names: string[];
@@ -47,6 +48,7 @@ export const setRandomGeneratorActiveTab = createAction<{
   id: string;
   activeTab: ActiveTab;
 }>("randomGenerator/setActiveTab");
+
 export const setRandomGeneratorGroupMakerActiveStep = createAction<{
   id: string;
   activeStep: GroupMakerStep;
@@ -59,6 +61,11 @@ export const setRandomGeneratorGroupMakerNameList = createAction<{
   id: string;
   names: string[];
 }>("randomGenerator/setRandomGeneratorGroupMakerNameList");
+export const setRandomGeneratorNumberOfGroups = createAction<{
+  id: string;
+  numberOfGroups: number;
+}>("randomGenerator/setRandomGeneratorNumberOfGroups");
+
 export const setRandomGeneratorNamePickerList = createAction<{
   id: string;
   names: string[];
@@ -99,14 +106,35 @@ export const buildRandomGeneratorReducer = (
         const windowState = getWindowByIdOrFail(state.windows, id)
           .state as RandomGeneratorState;
         windowState.groupGenerator.names = names;
+
+        // Enforce minimum of 1, unless there are no names
+        if (names.length === 0) {
+          windowState.groupGenerator.numberOfGroups = 0;
+        } else if (windowState.groupGenerator.numberOfGroups < 1) {
+          windowState.groupGenerator.numberOfGroups = 1;
+        }
+
+        // Enforce maximum of name list length
+        if (windowState.groupGenerator.numberOfGroups > names.length) {
+          windowState.groupGenerator.numberOfGroups = names.length;
+        }
       }
     )
     .addCase(
-      setRandomGeneratorNamePickerList,
-      (state, { payload: { id, names } }) => {
+      setRandomGeneratorNumberOfGroups,
+      (state, { payload: { id, numberOfGroups } }) => {
         const windowState = getWindowByIdOrFail(state.windows, id)
           .state as RandomGeneratorState;
-        windowState.namePicker.names = names;
+        windowState.groupGenerator.numberOfGroups = numberOfGroups;
       }
     );
+
+  builder.addCase(
+    setRandomGeneratorNamePickerList,
+    (state, { payload: { id, names } }) => {
+      const windowState = getWindowByIdOrFail(state.windows, id)
+        .state as RandomGeneratorState;
+      windowState.namePicker.names = names;
+    }
+  );
 };

@@ -9,7 +9,10 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import TextareaWordlist from "../TextareaWordlist";
 import { useWindowState } from "../../WindowManager/window-management-slice";
-import { setRandomGeneratorGroupMakerNameList } from "../RandomGeneratorState";
+import {
+  setRandomGeneratorGroupMakerNameList,
+  setRandomGeneratorNumberOfGroups,
+} from "../RandomGeneratorState";
 import { useDispatch } from "react-redux";
 
 export default function EntryView({ windowId, onGroupChange }) {
@@ -19,7 +22,7 @@ export default function EntryView({ windowId, onGroupChange }) {
   const windowState = useWindowState(windowId);
   const dispatch = useDispatch();
   const nameList = windowState.groupGenerator.names;
-  const [numberOfGroups, setNumberOfGroups] = React.useState(2);
+  const numberOfGroups = windowState.groupGenerator.numberOfGroups;
   const [showHintNotEnoughGroups, setShowHintNotEnoughGroups] =
     React.useState(false);
   const [numberOfPeoplePerGroup, setNumberOfPeoplePerGroup] = React.useState();
@@ -30,11 +33,7 @@ export default function EntryView({ windowId, onGroupChange }) {
 
   React.useEffect(() => {
     if (nameList.length >= 1) {
-      setNumberOfGroups(1);
       setShowHintNotEnoughGroups(false);
-    }
-    if (nameList.length === 0) {
-      setNumberOfGroups(0);
     }
 
     calculateNumberOfPeoplePerGroup();
@@ -50,15 +49,21 @@ export default function EntryView({ windowId, onGroupChange }) {
   }
 
   function incrementNumberGroups() {
-    setNumberOfGroups((prevGroupSize) => {
-      return prevGroupSize + 1;
-    });
+    dispatch(
+      setRandomGeneratorNumberOfGroups({
+        id: windowId,
+        numberOfGroups: numberOfGroups + 1,
+      })
+    );
   }
 
   function decrementNumberOfGroups() {
-    setNumberOfGroups((prevGroupSize) => {
-      return prevGroupSize - 1;
-    });
+    dispatch(
+      setRandomGeneratorNumberOfGroups({
+        id: windowId,
+        numberOfGroups: numberOfGroups - 1,
+      })
+    );
   }
 
   function createNewGroups() {

@@ -109,6 +109,7 @@ export const randomGeneratorWindowConfig: WindowConfig = {
       names: [],
       groups: [],
       activeStep: GroupMakerStep.DataEntry,
+      numberOfGroups: 0,
     },
     namePicker: {
       names: [],
