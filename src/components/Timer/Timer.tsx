@@ -42,21 +42,21 @@ export default function Timer({ id, title }: { id: string; title: string }) {
   const [ringTimer] = useTimerRinging();
 
   function updateAndRestartTimer(
-    secondsValue = 0,
-    minutesValue = 0,
-    hoursValue = 0
+    deltaSeconds = 0,
+    deltaMinutes = 0,
+    deltaHours = 0
   ) {
     const newTimestamp = new Date();
-    newTimestamp.setHours(newTimestamp.getHours() + hours + hoursValue);
-    newTimestamp.setMinutes(newTimestamp.getMinutes() + minutes + minutesValue);
-    newTimestamp.setSeconds(newTimestamp.getSeconds() + seconds + secondsValue);
+    newTimestamp.setHours(newTimestamp.getHours() + hours + deltaHours);
+    newTimestamp.setMinutes(newTimestamp.getMinutes() + minutes + deltaMinutes);
+    newTimestamp.setSeconds(newTimestamp.getSeconds() + seconds + deltaSeconds);
 
     dispatch(
       setTimer({
         id,
-        hours: hoursValue,
-        minutes: minutesValue,
-        seconds: secondsValue,
+        hours: hours + deltaHours,
+        minutes: minutes + deltaMinutes,
+        seconds: seconds + deltaSeconds,
       })
     );
     restart(newTimestamp, isRunning);

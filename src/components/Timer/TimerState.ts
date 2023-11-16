@@ -31,9 +31,9 @@ export const getDateFromTimerValue = (state: TimerState) => {
   const { hours, minutes, seconds } = state.timerValue;
 
   const newTimestamp = new Date();
-  newTimestamp.setHours(newTimestamp.getHours() + hours + hours);
-  newTimestamp.setMinutes(newTimestamp.getMinutes() + minutes + minutes);
-  newTimestamp.setSeconds(newTimestamp.getSeconds() + seconds + seconds);
+  newTimestamp.setHours(newTimestamp.getHours() + hours);
+  newTimestamp.setMinutes(newTimestamp.getMinutes() + minutes);
+  newTimestamp.setSeconds(newTimestamp.getSeconds() + seconds);
 
   return newTimestamp;
 };
