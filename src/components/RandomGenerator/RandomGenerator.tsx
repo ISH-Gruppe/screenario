@@ -22,7 +22,6 @@ import {
   setRandomGeneratorActiveTab,
   tabsEnum,
 } from "./RandomGeneratorState";
-import { replaceState } from "../../redux-helpers";
 
 export default function RandomGenerator({
   id,
@@ -47,14 +46,6 @@ export default function RandomGenerator({
     );
   };
 
-  const test = () => {
-    dispatch(
-      replaceState({
-        welcome: { isOpen: true },
-      })
-    );
-  };
-
   return (
     <div id="RandomGeneratorWrapper">
       <BaseWindow
@@ -64,7 +55,6 @@ export default function RandomGenerator({
         onHide={handleHide}
       >
         <div id="RandomGeneratorContent">
-          <button onClick={test}>Test</button>
           <TabContext value={activeTab}>
             <div className="tabs">
               <TabList onChange={updateActiveTab}>
