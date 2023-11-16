@@ -12,7 +12,6 @@ import BaseWindow from "../BaseWindow/BaseWindow";
 import {
   useWindowState,
   WindowConfig,
-  windowManagementActions,
   WindowType,
 } from "../WindowManager/window-management-slice";
 import { useDispatch } from "react-redux";
@@ -92,14 +91,8 @@ export default function Timer({ id, title }: { id: string; title: string }) {
     setMusicVolume(musicVolumeBeforeMute);
   }
 
-  function handleReset() {}
-
-  function handleHide() {
-    dispatch(windowManagementActions.hideWindow(id));
-  }
-
   return (
-    <BaseWindow id={id} title={title} onReset={handleReset} onHide={handleHide}>
+    <BaseWindow id={id} title={title}>
       <Grid container spacing={2} style={{ textAlign: "center" }}>
         <Grid item xs={12} style={{ textAlign: "center" }}>
           <TimerView

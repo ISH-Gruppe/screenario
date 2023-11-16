@@ -16,10 +16,6 @@ export default function SoundBoard({
   id: string;
   title: string;
 }) {
-  function handleReset() {
-    stopSound();
-  }
-
   const sounds = [
     {
       description: "✅ Das war toll!",
@@ -100,7 +96,7 @@ export default function SoundBoard({
 
   return (
     <div className="base-window-soundboard">
-      <BaseWindow id={id} title={title} onReset={handleReset} resetName="Stop">
+      <BaseWindow id={id} title={title}>
         <div id="soundboardButtonWrapper">{soundButtons}</div>
       </BaseWindow>
     </div>

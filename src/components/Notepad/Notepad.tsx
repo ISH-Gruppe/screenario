@@ -15,7 +15,6 @@ import BaseWindow from "../BaseWindow/BaseWindow";
 import {
   useWindowState,
   WindowConfig,
-  windowManagementActions,
   WindowType,
 } from "../WindowManager/window-management-slice";
 import { useDispatch } from "react-redux";
@@ -34,12 +33,6 @@ export default function Notepad({ id, title }: { id: string; title: string }) {
   const dispatch = useDispatch();
   const currentTab = windowState.currentNoteIndex;
   const notes = windowState.notes;
-
-  function handleReset() {}
-
-  function handleHide() {
-    dispatch(windowManagementActions.hideWindow(id));
-  }
 
   const changeTabOrCreateNewNote = (event: unknown, selectedTab: number) => {
     dispatch(
@@ -117,7 +110,7 @@ export default function Notepad({ id, title }: { id: string; title: string }) {
   });
 
   return (
-    <BaseWindow id={id} title={title} onReset={handleReset} onHide={handleHide}>
+    <BaseWindow id={id} title={title}>
       <Box sx={{ width: "100%" }}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs

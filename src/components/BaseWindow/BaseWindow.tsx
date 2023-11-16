@@ -19,20 +19,9 @@ import {
 type BaseWindowProps = PropsWithChildren<{
   id: string;
   title: ReactNode;
-  onReset: (id: string) => void;
-  onHide?: (id: string) => void;
-  resetName?: unknown;
 }>;
 
-export default function BaseWindow({
-  id,
-  title,
-  children,
-  onReset,
-  // TODO: remove these
-  onHide,
-  resetName,
-}: BaseWindowProps) {
+export default function BaseWindow({ id, title, children }: BaseWindowProps) {
   const dispatch = useDispatch();
   const windowState = useWindowState(id);
 

@@ -5,14 +5,9 @@ import "./WorkPhase.css";
 // UI
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
-import {
-  windowManagementActions,
-  WindowType,
-} from "../WindowManager/window-management-slice";
-import { useDispatch } from "react-redux";
+import { WindowType } from "../WindowManager/window-management-slice";
 
 export default function WorkPhase({ id, title }) {
-  const dispatch = useDispatch();
   const workPhases = [
     {
       description: "Arbeitsphasen",
@@ -57,12 +52,6 @@ export default function WorkPhase({ id, title }) {
     { description: "Eigene Bilder", images: [] },
   ];
 
-  function handleReset() {}
-
-  function handleHide() {
-    dispatch(windowManagementActions.hideWindow(id));
-  }
-
   const [open, setOpen] = useState(false);
   const [popupImage, setPopupImage] = useState(<></>);
 
@@ -101,7 +90,7 @@ export default function WorkPhase({ id, title }) {
   }
 
   return (
-    <BaseWindow id={id} title={title} onReset={handleReset} onHide={handleHide}>
+    <BaseWindow id={id} title={title}>
       <div
         id="image-popup"
         onClick={() => {
