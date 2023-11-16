@@ -128,7 +128,7 @@ export const windowManagementSlice = createSlice({
         window.isOpen = true;
       }
     },
-    closeWindow: (state, { payload: id }: PayloadAction<string>) => {
+    hideWindow: (state, { payload: id }: PayloadAction<string>) => {
       const window = getWindowById(state.windows, id);
       if (window) {
         window.isOpen = false;

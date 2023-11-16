@@ -38,7 +38,7 @@ export default function Notepad({ id, title }: { id: string; title: string }) {
   function handleReset() {}
 
   function handleHide() {
-    dispatch(windowManagementActions.closeWindow(id));
+    dispatch(windowManagementActions.hideWindow(id));
   }
 
   const changeTabOrCreateNewNote = (event: unknown, selectedTab: number) => {

@@ -37,7 +37,7 @@ export default function DigitalerStuhlkreisWrapper({ id }: { id: string }) {
         <div className="dragable-bar drag-handle">
           <IconButton
             className="hideButton"
-            onClick={() => dispatch(windowManagementActions.closeWindow(id))}
+            onClick={() => dispatch(windowManagementActions.hideWindow(id))}
             aria-label="delete"
             size="small"
           >

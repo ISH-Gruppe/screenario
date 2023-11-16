@@ -80,7 +80,7 @@ export default function Positioning({
   function handleReset() {}
 
   function handleHide() {
-    dispatch(windowManagementActions.closeWindow(id));
+    dispatch(windowManagementActions.hideWindow(id));
   }
 
   // State

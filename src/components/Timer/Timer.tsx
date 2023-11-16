@@ -95,7 +95,7 @@ export default function Timer({ id, title }: { id: string; title: string }) {
   function handleReset() {}
 
   function handleHide() {
-    dispatch(windowManagementActions.closeWindow(id));
+    dispatch(windowManagementActions.hideWindow(id));
   }
 
   return (

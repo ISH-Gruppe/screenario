@@ -60,7 +60,7 @@ export default function WorkPhase({ id, title }) {
   function handleReset() {}
 
   function handleHide() {
-    dispatch(windowManagementActions.closeWindow(id));
+    dispatch(windowManagementActions.hideWindow(id));
   }
 
   const [open, setOpen] = useState(false);

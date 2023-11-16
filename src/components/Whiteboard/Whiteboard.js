@@ -73,7 +73,7 @@ export default function Whiteboard({ id, title }) {
   }
 
   function handleHide() {
-    dispatch(windowManagementActions.closeWindow(id));
+    dispatch(windowManagementActions.hideWindow(id));
   }
 
   // Basic handlers, used by all tools

@@ -38,7 +38,7 @@ export default function RandomGenerator({
   function handleReset() {}
 
   function handleHide() {
-    dispatch(windowManagementActions.closeWindow(id));
+    dispatch(windowManagementActions.hideWindow(id));
   }
 
   const updateActiveTab = (event: unknown, newValue: string) => {

@@ -30,7 +30,7 @@ export default function QrcodeGenerator({
   function handleReset() {}
 
   function handleHide() {
-    dispatch(windowManagementActions.closeWindow(id));
+    dispatch(windowManagementActions.hideWindow(id));
   }
 
   return (
