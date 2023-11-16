@@ -5,48 +5,64 @@ import "./WorkPhase.css";
 // UI
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
-import { WindowType } from "../WindowManager/window-management-slice";
+import {
+  WindowConfig,
+  WindowType,
+} from "../WindowManager/window-management-slice";
+import EinzelarbeitImage from "./images/einzelarbeit.jpg";
+import PartnerarbeitImage from "./images/partnerarbeit.jpg";
+import GruppenarbeitImage from "./images/gruppenarbeit.jpg";
 
-export default function WorkPhase({ id, title }) {
+// Pausenphasen
+import KaffeepauseImage from "./images/kaffeepause.jpg";
+import MittagspauseImage from "./images/mittagspause.jpg";
+import FeierabendImage from "./images/feierabend.jpg";
+
+// Pausenphasen (Schule)
+import KurzePauseImage from "./images/kurze-pause.jpg";
+import GrossePauseImage from "./images/grosse-pause.jpg";
+import StundenendeImage from "./images/stundenende.jpg";
+
+// Think, Pair, Share
+import ThinkImage from "./images/think.jpg";
+import PairImage from "./images/pair.jpg";
+import ShareImage from "./images/share.jpg";
+
+// Videokonferenzen
+import HerzlichWillkommenImage from "./images/herzlich-willkommen.jpg";
+import KameraAnschaltenImage from "./images/kamera-anschalten.jpg";
+import FragenImChatImage from "./images/fragen-im-chat.jpg";
+
+export default function WorkPhase({
+  id,
+  title,
+}: {
+  id: string;
+  title: string;
+}) {
   const workPhases = [
     {
       description: "Arbeitsphasen",
-      images: [
-        "/assets/images/einzelarbeit.jpg",
-        "/assets/images/partnerarbeit.jpg",
-        "/assets/images/gruppenarbeit.jpg",
-      ],
+      images: [EinzelarbeitImage, PartnerarbeitImage, GruppenarbeitImage],
     },
     {
       description: "Pausenphasen",
-      images: [
-        "/assets/images/kaffeepause.jpg",
-        "/assets/images/mittagspause.jpg",
-        "/assets/images/feierabend.jpg",
-      ],
+      images: [KaffeepauseImage, MittagspauseImage, FeierabendImage],
     },
     {
       description: "Pausenphasen (Schule)",
-      images: [
-        "/assets/images/kurze-pause.jpg",
-        "/assets/images/grosse-pause.jpg",
-        "/assets/images/stundenende.jpg",
-      ],
+      images: [KurzePauseImage, GrossePauseImage, StundenendeImage],
     },
     {
       description: "Think, Pair, Share",
-      images: [
-        "/assets/images/pair.jpg",
-        "/assets/images/share.jpg",
-        "/assets/images/think.jpg",
-      ],
+      images: [ThinkImage, PairImage, ShareImage],
     },
     {
       description: "Videokonferenzen",
       images: [
-        "/assets/images/herzlich-willkommen.jpg",
-        "/assets/images/kamera-anschalten.jpg",
-        "/assets/images/fragen-im-chat.jpg",
+        HerzlichWillkommenImage,
+        KameraAnschaltenImage,
+        FragenImChatImage,
       ],
     },
     { description: "Eigene Bilder", images: [] },
@@ -55,14 +71,14 @@ export default function WorkPhase({ id, title }) {
   const [open, setOpen] = useState(false);
   const [popupImage, setPopupImage] = useState(<></>);
 
-  function openImage(image) {
+  function openImage(image: string) {
     setPopupImage(<img className="popup-image" src={image} />);
     setOpen(true);
   }
 
-  const galleries = workPhases.map((phase) => {
+  const galleries = workPhases.map((phase, index) => {
     return (
-      <>
+      <React.Fragment key={index}>
         <h3> {phase.description} </h3>
         <ImageList sx={{}} cols={3}>
           {phase.images.map((image) => {
@@ -77,15 +93,15 @@ export default function WorkPhase({ id, title }) {
             );
           })}
         </ImageList>
-      </>
+      </React.Fragment>
     );
   });
 
   function hideOrShowGalleries() {
     if (open) {
-      return { opacity: "0", pointerEvents: "none" };
+      return { opacity: "0", pointerEvents: "none" } as const;
     } else {
-      return { opacity: "1" };
+      return { opacity: "1" } as const;
     }
   }
 
@@ -107,10 +123,7 @@ export default function WorkPhase({ id, title }) {
   );
 }
 
-/**
- * @type {import("../WindowManager/window-management-slice").WindowConfig}
- */
-export const workPhaseWindowConfig = {
+export const workPhaseWindowConfig: WindowConfig = {
   getInitialState: () => ({
     type: WindowType.WorkPhase,
   }),
