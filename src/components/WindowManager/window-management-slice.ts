@@ -108,6 +108,18 @@ export type WindowManagementState = {
   windows: ScreenarioWindow[];
 };
 
+const createWindowByType = (windowType: WindowType): ScreenarioWindow => {
+  const id = crypto.randomUUID();
+  const windowConfig = windowConfigs[windowType];
+  const windowState = windowConfig.getInitialState(id);
+  return {
+    id,
+    isOpen: true,
+    layouts: windowConfig.defaultLayout,
+    state: windowState,
+  };
+};
+
 export const windowManagementSlice = createSlice({
   name: "window-management",
   initialState: (): WindowManagementState => ({
@@ -134,27 +146,37 @@ export const windowManagementSlice = createSlice({
         window.isOpen = false;
       }
     },
+    closeWindow: (state, { payload: id }: PayloadAction<string>) => {
+      state.windows = state.windows.filter((window) => window.id !== id);
+    },
     createWindow: (
       state,
-      { payload: windowState }: PayloadAction<WindowState>
+      { payload: windowType }: PayloadAction<WindowType>
     ) => {
-      const newWindow = {
-        id: crypto.randomUUID(),
-        isOpen: true,
-        layouts: windowConfigs[windowState.type].defaultLayout,
-        state: windowState,
-      };
-      state.windows.push(newWindow);
+      state.windows.push(createWindowByType(windowType));
     },
     toggleWindowType: (
       state,
       { payload: windowType }: PayloadAction<WindowType>
     ) => {
-      state.windows.forEach((window) => {
-        if (window.state.type === windowType) {
-          window.isOpen = !window.isOpen;
-        }
-      });
+      const [relevantWindows, areAllOpen] = state.windows.reduce(
+        (acc, curr) => {
+          if (curr.state.type === windowType) {
+            return [[...acc[0], curr], curr.isOpen && acc[1]];
+          }
+
+          return acc;
+        },
+        [[], true] as [ScreenarioWindow[], boolean]
+      );
+
+      if (relevantWindows.length === 0) {
+        state.windows.push(createWindowByType(windowType));
+      } else {
+        relevantWindows.forEach((window) => {
+          window.isOpen = !areAllOpen;
+        });
+      }
     },
     setLayouts: (state, { payload: layouts }: PayloadAction<Layouts>) => {
       (Object.entries(layouts) as [WindowBreakpoint, Layout[]][]).forEach(
