@@ -9,6 +9,14 @@ import {
   WindowType,
 } from "../WindowManager/window-management-slice";
 
+import GreatSound from "./sounds/great.mp3";
+import TooBadSound from "./sounds/tooBad.mp3";
+import CountdownSound from "./sounds/countdown.mp3";
+import WaitingSound from "./sounds/waiting.mp3";
+import SchoolBellSound from "./sounds/School Bell-SoundBible.com-449398625.mp3";
+import HonkSound from "./sounds/Bike Horn-SoundBible.com-602544869.mp3";
+import YaySound from "./sounds/1_person_cheering-Jett_Rifkin-1851518140.mp3";
+
 export default function SoundBoard({
   id,
   title,
@@ -19,31 +27,31 @@ export default function SoundBoard({
   const sounds = [
     {
       description: "✅ Das war toll!",
-      path: "/assets/sounds/great.mp3",
+      path: GreatSound,
     },
     {
       description: "❎ Leider falsch!",
-      path: "/assets/sounds/tooBad.mp3",
+      path: TooBadSound,
     },
     {
       description: "🏁 Gleich gehts los!",
-      path: "/assets/sounds/countdown.mp3",
+      path: CountdownSound,
     },
     {
       description: "⏳️ Bitte etwas Geduld",
-      path: "/assets/sounds/waiting.mp3",
+      path: WaitingSound,
     },
     {
       description: "⏰ Pausenglocke",
-      path: "/assets/sounds/School Bell-SoundBible.com-449398625.mp3",
+      path: SchoolBellSound,
     },
     {
       description: "📣 Honk Honk!",
-      path: "/assets/sounds/Bike Horn-SoundBible.com-602544869.mp3",
+      path: HonkSound,
     },
     {
       description: "🎉 Yay!",
-      path: "/assets/sounds/1_person_cheering-Jett_Rifkin-1851518140.mp3",
+      path: YaySound,
     },
   ];
 
@@ -64,6 +72,7 @@ export default function SoundBoard({
   });
 
   function playOrStopSound(soundpath: string) {
+    console.log(soundpath);
     if (soundpath == soundPlaying) {
       stopSound();
       setSoundPlaying("");
