@@ -18,14 +18,19 @@ import {
   WindowType,
 } from "../WindowManager/window-management-slice";
 import { AppState } from "../../app-state";
+import { createSelector } from "@reduxjs/toolkit";
 
 export default function ToggleButtonsMultiple() {
   const dispatch = useDispatch();
-  const openWindowTypes = useSelector((state: AppState) =>
-    state.windowManagement.windows.reduce(
-      (openTypes, window) =>
-        window.isOpen ? openTypes.add(window.state.type) : openTypes,
-      new Set()
+  const openWindowTypes = useSelector(
+    createSelector(
+      (state: AppState) => state.windowManagement.windows,
+      (windows) =>
+        windows.reduce(
+          (openTypes, window) =>
+            window.isOpen ? openTypes.add(window.state.type) : openTypes,
+          new Set<WindowType>()
+        )
     )
   );
   const [formats, setFormats] = React.useState(() => ["bold", "italic"]);
