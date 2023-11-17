@@ -256,6 +256,7 @@ export default function Spinwheel() {
             data={activeSpinlist.data}
             backgroundColors={["#3e3e3e", "#df3428"]}
             textColors={["#ffffff"]}
+            spinDuration={0.17}
             onStopSpinning={() => {
               setIsSpinning(false);
             }}
