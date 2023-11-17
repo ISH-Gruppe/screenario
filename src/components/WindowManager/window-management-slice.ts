@@ -31,6 +31,7 @@ import {
   RandomGeneratorState,
 } from "../RandomGenerator/RandomGeneratorState";
 import { buildNodepadReducer, NotepadState } from "../Notepad/NodepadState";
+import { WorkPhaseState } from "../WorkPhase/WorkPhaseState";
 
 export enum WindowType {
   QrCode = "qr-code",
@@ -47,9 +48,6 @@ export enum WindowType {
 // TODO: move to corresponding files once ready
 type WhiteboardState = {
   type: WindowType.Whiteboard;
-};
-type WorkPhaseState = {
-  type: WindowType.WorkPhase;
 };
 
 type WindowState =

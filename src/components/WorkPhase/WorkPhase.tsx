@@ -32,6 +32,16 @@ import ShareImage from "./images/share.jpg";
 import HerzlichWillkommenImage from "./images/herzlich-willkommen.jpg";
 import KameraAnschaltenImage from "./images/kamera-anschalten.jpg";
 import FragenImChatImage from "./images/fragen-im-chat.jpg";
+import ToggleButton from "@mui/material/ToggleButton";
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import Tooltip from "@mui/material/Tooltip";
+import { deleteImage, saveImage } from "./WorkPhaseState";
+import { useDispatch } from "react-redux";
+import { AnyAction } from "redux";
+import { ThunkDispatch } from "@reduxjs/toolkit";
+import { useWorkPhaseCustomImages } from "./useWorkPhaseCustomImages";
+import DeleteIcon from "@mui/icons-material/Delete";
+import IconButton from "@mui/material/IconButton";
 
 export default function WorkPhase({
   id,
@@ -65,9 +75,9 @@ export default function WorkPhase({
         FragenImChatImage,
       ],
     },
-    { description: "Eigene Bilder", images: [] },
   ];
 
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [popupImage, setPopupImage] = useState(<></>);
 
@@ -97,6 +107,53 @@ export default function WorkPhase({
     );
   });
 
+  const customImages = useWorkPhaseCustomImages();
+
+  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files === null) {
+      throw new Error("No file added");
+    }
+    const [file] = files;
+    const url = URL.createObjectURL(file);
+    (dispatch as ThunkDispatch<unknown, unknown, AnyAction>)(
+      saveImage({
+        imageContent: url,
+      })
+    );
+  };
+
+  const onDeleteImage = (e: React.MouseEvent, id: string) => {
+    e.stopPropagation();
+    (dispatch as ThunkDispatch<unknown, unknown, AnyAction>)(deleteImage(id));
+  };
+
+  galleries.push(
+    <React.Fragment key={"custom-images"}>
+      <h3> Eigene Bilder </h3>
+      <ImageList sx={{}} cols={3}>
+        {customImages.map(({ id, content }) => {
+          return (
+            <ImageListItem
+              className="gallery-image"
+              onClick={() => openImage(content)}
+              key={content}
+            >
+              <img src={content} />
+              <IconButton
+                onClick={(e) => onDeleteImage(e, id)}
+                className="close-button"
+                color="error"
+              >
+                <DeleteIcon />
+              </IconButton>
+            </ImageListItem>
+          );
+        })}
+      </ImageList>
+    </React.Fragment>
+  );
+
   function hideOrShowGalleries() {
     if (open) {
       return { opacity: "0", pointerEvents: "none" } as const;
@@ -119,6 +176,18 @@ export default function WorkPhase({
       <div className="galleries" style={hideOrShowGalleries()}>
         {galleries}
       </div>
+      <Tooltip title="Eigenes Bild hinzufügen">
+        <ToggleButton value="" aria-label="Bild hochladen" component="label">
+          <input
+            hidden
+            accept="image/*"
+            type="file"
+            // ref={fileInput}
+            onChange={handleFileSelect}
+          />
+          <AddPhotoAlternateIcon />
+        </ToggleButton>
+      </Tooltip>
     </BaseWindow>
   );
 }

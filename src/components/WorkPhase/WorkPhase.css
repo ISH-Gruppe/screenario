@@ -22,4 +22,12 @@
 .gallery-image {
   cursor: zoom-in;
   height: 100%;
+  position: relative;
+}
+
+.gallery-image .close-button {
+  background: #00000010;
+  position: absolute;
+  top: min(10%, 0.5em);
+  right: min(10%, 0.5em);
 }
