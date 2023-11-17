@@ -1,12 +1,75 @@
-import { WindowType } from "../WindowManager/window-management-slice";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-
-export type WorkPhaseState = {
-  type: WindowType.WorkPhase;
-};
+import {
+  getWindowByIdOrFail,
+  WindowManagementState,
+  WindowType,
+} from "../WindowManager/window-management-slice";
+import {
+  ActionReducerMapBuilder,
+  createAction,
+  createAsyncThunk,
+  createSlice,
+} from "@reduxjs/toolkit";
+import EinzelarbeitImage from "./images/einzelarbeit.jpg";
+import PartnerarbeitImage from "./images/partnerarbeit.jpg";
+import GruppenarbeitImage from "./images/gruppenarbeit.jpg";
+import KaffeepauseImage from "./images/kaffeepause.jpg";
+import MittagspauseImage from "./images/mittagspause.jpg";
+import FeierabendImage from "./images/feierabend.jpg";
+import KurzePauseImage from "./images/kurze-pause.jpg";
+import GrossePauseImage from "./images/grosse-pause.jpg";
+import StundenendeImage from "./images/stundenende.jpg";
+import ThinkImage from "./images/think.jpg";
+import PairImage from "./images/pair.jpg";
+import ShareImage from "./images/share.jpg";
+import HerzlichWillkommenImage from "./images/herzlich-willkommen.jpg";
+import KameraAnschaltenImage from "./images/kamera-anschalten.jpg";
+import FragenImChatImage from "./images/fragen-im-chat.jpg";
 
 export type CustomImageDefinition = {
   id: string;
+};
+
+export const workPhaseTabs = {
+  work: {
+    name: "Arbeit",
+    categories: [
+      {
+        name: "Arbeitsphasen",
+        images: [EinzelarbeitImage, PartnerarbeitImage, GruppenarbeitImage],
+      },
+      {
+        name: "Pausenphasen",
+        images: [KaffeepauseImage, MittagspauseImage, FeierabendImage],
+      },
+      {
+        name: "Pausenphasen (Schule)",
+        images: [KurzePauseImage, GrossePauseImage, StundenendeImage],
+      },
+      {
+        name: "Think, Pair, Share",
+        images: [ThinkImage, PairImage, ShareImage],
+      },
+      {
+        name: "Videokonferenzen",
+        images: [
+          HerzlichWillkommenImage,
+          KameraAnschaltenImage,
+          FragenImChatImage,
+        ],
+      },
+    ],
+  },
+};
+
+export const CUSTOM_IMAGES_WORK_PHASE_TAB_ID = "custom-images";
+
+export type WorkPhaseTabId =
+  | keyof typeof workPhaseTabs
+  | typeof CUSTOM_IMAGES_WORK_PHASE_TAB_ID;
+
+export type WorkPhaseState = {
+  type: WindowType.WorkPhase;
+  currentTab: WorkPhaseTabId;
 };
 
 const getLocalStorageKey = (id: string) =>
@@ -59,3 +122,21 @@ export const workPhaseSlice = createSlice({
       });
   },
 });
+
+export const selectWorkPhaseTab = createAction<{
+  windowId: string;
+  tabId: WorkPhaseTabId;
+}>("workPhase/selectWorkPhaseTab");
+
+export const buildWorkPhaseReducer = (
+  builder: ActionReducerMapBuilder<WindowManagementState>
+) => {
+  builder.addCase(
+    selectWorkPhaseTab,
+    (state, { payload: { windowId, tabId } }) => {
+      const windowState = getWindowByIdOrFail(state.windows, windowId)
+        .state as WorkPhaseState;
+      windowState.currentTab = tabId;
+    }
+  );
+};
