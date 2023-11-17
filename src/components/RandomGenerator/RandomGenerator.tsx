@@ -11,7 +11,6 @@ import NamePicker from "./NamePicker/NamePicker";
 import {
   useWindowState,
   WindowConfig,
-  windowManagementActions,
   WindowType,
 } from "../WindowManager/window-management-slice";
 import { useDispatch } from "react-redux";
@@ -34,12 +33,6 @@ export default function RandomGenerator({
   const activeTab = windowState.activeTab;
   const dispatch = useDispatch();
 
-  function handleReset() {}
-
-  function handleHide() {
-    dispatch(windowManagementActions.closeWindow(id));
-  }
-
   const updateActiveTab = (event: unknown, newValue: string) => {
     dispatch(
       setRandomGeneratorActiveTab({ id, activeTab: newValue as ActiveTab })
@@ -48,12 +41,7 @@ export default function RandomGenerator({
 
   return (
     <div id="RandomGeneratorWrapper">
-      <BaseWindow
-        id={id}
-        title={title}
-        onReset={handleReset}
-        onHide={handleHide}
-      >
+      <BaseWindow id={id} title={title}>
         <div id="RandomGeneratorContent">
           <TabContext value={activeTab}>
             <div className="tabs">

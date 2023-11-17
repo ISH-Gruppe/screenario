@@ -27,14 +27,8 @@ export default function QrcodeGenerator({
     dispatch(setQrCodeValue({ id, value: event.target.value }));
   }
 
-  function handleReset() {}
-
-  function handleHide() {
-    dispatch(windowManagementActions.closeWindow(id));
-  }
-
   return (
-    <BaseWindow id={id} title={title} onReset={handleReset} onHide={handleHide}>
+    <BaseWindow id={id} title={title}>
       <div className="qrcode-generator-container">
         <TextField
           id="filled-basic"

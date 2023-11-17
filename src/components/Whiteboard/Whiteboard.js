@@ -27,14 +27,9 @@ import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
 
 // CSS
 import "./Whiteboard.scss";
-import {
-  windowManagementActions,
-  WindowType,
-} from "../WindowManager/window-management-slice";
-import { useDispatch } from "react-redux";
+import { WindowType } from "../WindowManager/window-management-slice";
 
 export default function Whiteboard({ id, title }) {
-  const dispatch = useDispatch();
   const [tool, setTool] = React.useState("draw");
   const [lines, setLines] = React.useState([]);
   const [history, setHistory] = React.useState([]);
@@ -70,10 +65,6 @@ export default function Whiteboard({ id, title }) {
         setLines([]);
       })
       .catch(() => {});
-  }
-
-  function handleHide() {
-    dispatch(windowManagementActions.closeWindow(id));
   }
 
   // Basic handlers, used by all tools
@@ -210,7 +201,7 @@ export default function Whiteboard({ id, title }) {
   }
 
   return (
-    <BaseWindow id={id} title={title} onReset={handleReset} onHide={handleHide}>
+    <BaseWindow id={id} title={title}>
       <div id="whiteboard-toolbar">
         <Tooltip title="Whiteboard zurücksetzen">
           <Button onClick={handleReset} color="primary" value="clear">

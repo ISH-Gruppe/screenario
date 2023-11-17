@@ -23,10 +23,9 @@ import "./Positioning.scss";
 import {
   getWindowByIdOrFail,
   WindowConfig,
-  windowManagementActions,
   WindowType,
 } from "../WindowManager/window-management-slice";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { AppState } from "../../app-state";
 
 // Constants
@@ -74,19 +73,7 @@ export default function Positioning({
   id: string;
   title: string;
 }) {
-  const dispatch = useDispatch();
-
-  // Base Window functions
-  function handleReset() {}
-
-  function handleHide() {
-    dispatch(windowManagementActions.closeWindow(id));
-  }
-
   // State
-  const [, updateState] = React.useState({});
-  const forceUpdate = React.useCallback(() => updateState({}), []);
-
   const [userImages, setUserImages] = React.useState<string[]>([]);
   const [selectedImagePath, selectImage] = React.useState(defaultImages[0]);
   const fileInput = React.useRef<HTMLInputElement>(null);
@@ -343,7 +330,7 @@ export default function Positioning({
   }
 
   return (
-    <BaseWindow id={id} title={title} onReset={handleReset} onHide={handleHide}>
+    <BaseWindow id={id} title={title}>
       <div
         id="gallery-stage-wrapper"
         onKeyDown={handleKeyPressOnStageWrapper}
