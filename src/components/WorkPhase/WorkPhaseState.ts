@@ -35,31 +35,55 @@ export const workPhaseTabs = {
     categories: [
       {
         name: "Arbeitsphasen",
-        images: [EinzelarbeitImage, PartnerarbeitImage, GruppenarbeitImage],
+        images: [
+          {
+            id: "soloWork",
+            src: EinzelarbeitImage,
+          },
+          { id: "pairWork", src: PartnerarbeitImage },
+          { id: "groupWork", src: GruppenarbeitImage },
+        ],
       },
       {
         name: "Pausenphasen",
-        images: [KaffeepauseImage, MittagspauseImage, FeierabendImage],
+        images: [
+          { id: "kaffeepause", src: KaffeepauseImage },
+          { id: "mittagspause", src: MittagspauseImage },
+          { id: "feierabend", src: FeierabendImage },
+        ],
       },
       {
         name: "Pausenphasen (Schule)",
-        images: [KurzePauseImage, GrossePauseImage, StundenendeImage],
+        images: [
+          { id: "kurzePause", src: KurzePauseImage },
+          { id: "grossePause", src: GrossePauseImage },
+          { id: "stundenende", src: StundenendeImage },
+        ],
       },
       {
         name: "Think, Pair, Share",
-        images: [ThinkImage, PairImage, ShareImage],
+        images: [
+          { id: "think", src: ThinkImage },
+          { id: "pair", src: PairImage },
+          { id: "share", src: ShareImage },
+        ],
       },
       {
         name: "Videokonferenzen",
         images: [
-          HerzlichWillkommenImage,
-          KameraAnschaltenImage,
-          FragenImChatImage,
+          { id: "welcome", src: HerzlichWillkommenImage },
+          { id: "camera", src: KameraAnschaltenImage },
+          { id: "chatQuestions", src: FragenImChatImage },
         ],
       },
     ],
   },
 };
+
+export const getWorkPhaseImageById = (id: string) =>
+  Object.values(workPhaseTabs)
+    .flatMap((tab) => tab.categories.flatMap(({ images }) => images))
+    .find(({ id: curr }) => curr === id);
 
 export const CUSTOM_IMAGES_WORK_PHASE_TAB_ID = "custom-images";
 

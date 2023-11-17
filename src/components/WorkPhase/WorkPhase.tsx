@@ -15,7 +15,6 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import Tooltip from "@mui/material/Tooltip";
 import {
   CUSTOM_IMAGES_WORK_PHASE_TAB_ID,
-  deleteImage,
   saveImage,
   selectWorkPhaseTab,
   WorkPhaseState,
@@ -26,10 +25,9 @@ import { useDispatch } from "react-redux";
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { useWorkPhaseCustomImages } from "./useWorkPhaseCustomImages";
-import DeleteIcon from "@mui/icons-material/Delete";
-import IconButton from "@mui/material/IconButton";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import Tab from "@mui/material/Tab";
+import { ImageContextMenu } from "./ImageContextMenu";
 
 export default function WorkPhase({
   id,
@@ -61,11 +59,6 @@ export default function WorkPhase({
         imageContent: url,
       })
     );
-  };
-
-  const onDeleteImage = (e: React.MouseEvent, id: string) => {
-    e.stopPropagation();
-    (dispatch as ThunkDispatch<unknown, unknown, AnyAction>)(deleteImage(id));
   };
 
   function hideOrShowGalleries() {
@@ -117,10 +110,14 @@ export default function WorkPhase({
                       return (
                         <ImageListItem
                           className="gallery-image"
-                          onClick={() => openImage(image)}
-                          key={image}
+                          onClick={() => openImage(image.src)}
+                          key={image.id}
                         >
-                          <img src={image} />
+                          <img src={image.src} />
+                          <ImageContextMenu
+                            isCustomImage={false}
+                            imageIdOrStorageKey={image.id}
+                          />
                         </ImageListItem>
                       );
                     })}
@@ -154,13 +151,10 @@ export default function WorkPhase({
                     key={content}
                   >
                     <img src={content} />
-                    <IconButton
-                      onClick={(e) => onDeleteImage(e, id)}
-                      className="close-button"
-                      color="error"
-                    >
-                      <DeleteIcon />
-                    </IconButton>
+                    <ImageContextMenu
+                      isCustomImage={true}
+                      imageIdOrStorageKey={id}
+                    />
                   </ImageListItem>
                 );
               })}
