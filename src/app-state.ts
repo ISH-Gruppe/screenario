@@ -5,7 +5,7 @@ import { welcomeSlice } from "./components/Modals/Welcome/welcome-slice";
 import { windowManagementSlice } from "./components/WindowManager/window-management-slice";
 import { STORE_PERSISTOR_KEY } from "./app-config";
 import { workPhaseSlice } from "./components/WorkPhase/WorkPhaseState";
-import { backgroundImageSlice } from "./background-image-slice";
+import { backgroundImageSlice } from "./components/BackgroundImage/background-image-slice";
 
 export const store = configureStore({
   devTools: true,

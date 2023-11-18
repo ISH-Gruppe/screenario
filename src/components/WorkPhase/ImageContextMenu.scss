@@ -1,6 +1,9 @@
-.menu-button {
-  background: #ffffffc0;
+.menu-button-parent {
   position: absolute;
   top: min(10%, 0.5em);
   right: min(10%, 0.5em);
+
+  .menu-button {
+    background: #ffffffc0;
+  }
 }

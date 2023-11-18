@@ -10,7 +10,7 @@ import MenuItem from "@mui/material/MenuItem";
 import DeleteIcon from "@mui/icons-material/Delete";
 import "./ImageContextMenu.scss";
 import { AppState } from "../../app-state";
-import { backgroundImageActions } from "../../background-image-slice";
+import { backgroundImageActions } from "../BackgroundImage/background-image-slice";
 
 type CustomImageProps = {
   isCustomImage: true;
@@ -81,7 +81,7 @@ export const ImageContextMenu = ({
   };
 
   return (
-    <div>
+    <div className="menu-button-parent">
       <IconButton onClick={openMenu} className="menu-button">
         <MoreVertIcon />
       </IconButton>

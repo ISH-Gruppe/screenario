@@ -1,8 +1,8 @@
 import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
-import { AppState } from "./app-state";
+import { AppState } from "../../app-state";
 import { match, P } from "ts-pattern";
-import { getWorkPhaseImageById } from "./components/WorkPhase/WorkPhaseState";
+import { getWorkPhaseImageById } from "../WorkPhase/WorkPhaseState";
 
 export type BackgroundImageState = {
   type: "none" | "workPhaseImage" | "localStorageKey";
