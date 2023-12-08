@@ -28,6 +28,7 @@ import { useWorkPhaseCustomImages } from "./useWorkPhaseCustomImages";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import Tab from "@mui/material/Tab";
 import { ImageContextMenu } from "./ImageContextMenu";
+import { ReactJSXElement } from "@emotion/react/types/jsx-namespace";
 
 const toDataUrl = (file: File) =>
   new Promise<string>((resolve, reject) => {
@@ -54,7 +55,7 @@ export default function WorkPhase({
   const windowState = useWindowState(id) as WorkPhaseState;
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
-  const [popupImage, setPopupImage] = useState(<></>);
+  const [popupImage, setPopupImage] = useState<ReactJSXElement | null>(null);
   const customImages = useWorkPhaseCustomImages();
 
   function openImage(image: string) {
@@ -97,85 +98,88 @@ export default function WorkPhase({
 
   return (
     <BaseWindow id={id} title={title}>
-      <div
-        id="image-popup"
-        onClick={() => {
-          setPopupImage(<> </>);
-          setOpen(false);
-        }}
-      >
-        {popupImage}
-      </div>
-      <div className="galleries" style={hideOrShowGalleries()}>
-        <TabContext value={windowState.currentTab}>
-          <TabList onChange={onSelectTab}>
-            {Object.entries(workPhaseTabs).map(([tabId, { name }]) => (
-              <Tab key={tabId} value={tabId} label={name} />
-            ))}
-            <Tab
-              value={CUSTOM_IMAGES_WORK_PHASE_TAB_ID}
-              label="Eigene Bilder"
-            />
-          </TabList>
-          {Object.entries(workPhaseTabs).map(([tabKey, { categories }]) => (
-            <TabPanel key={tabKey} value={tabKey}>
-              {categories.map(({ name, images }) => (
-                <React.Fragment key={name}>
-                  <h3> {name} </h3>
-                  <ImageList sx={{}} cols={3}>
-                    {images.map((image) => {
-                      return (
-                        <ImageListItem
-                          className="gallery-image"
-                          onClick={() => openImage(image.src)}
-                          key={image.id}
-                        >
-                          <img src={image.src} />
-                          <ImageContextMenu
-                            isCustomImage={false}
-                            imageId={image.id}
-                          />
-                        </ImageListItem>
-                      );
-                    })}
-                  </ImageList>
-                </React.Fragment>
+      {popupImage ? (
+        <div
+          id="image-popup"
+          onClick={() => {
+            setPopupImage(null);
+            setOpen(false);
+          }}
+        >
+          {popupImage}
+        </div>
+      ) : (
+        <div className="galleries" style={hideOrShowGalleries()}>
+          <TabContext value={windowState.currentTab}>
+            <TabList onChange={onSelectTab}>
+              {Object.entries(workPhaseTabs).map(([tabId, { name }]) => (
+                <Tab key={tabId} value={tabId} label={name} />
               ))}
+              <Tab
+                value={CUSTOM_IMAGES_WORK_PHASE_TAB_ID}
+                label="Eigene Bilder"
+              />
+            </TabList>
+            {Object.entries(workPhaseTabs).map(([tabKey, { categories }]) => (
+              <TabPanel key={tabKey} value={tabKey}>
+                {categories.map(({ name, images }) => (
+                  <React.Fragment key={name}>
+                    <h3> {name} </h3>
+                    <ImageList sx={{}} cols={3}>
+                      {images.map((image) => {
+                        return (
+                          <ImageListItem
+                            className="gallery-image"
+                            onClick={() => openImage(image.src)}
+                            key={image.id}
+                          >
+                            <img src={image.src} />
+                            <ImageContextMenu
+                              isCustomImage={false}
+                              imageId={image.id}
+                            />
+                          </ImageListItem>
+                        );
+                      })}
+                    </ImageList>
+                  </React.Fragment>
+                ))}
+              </TabPanel>
+            ))}
+            <TabPanel value={CUSTOM_IMAGES_WORK_PHASE_TAB_ID}>
+              <Tooltip title="Eigenes Bild hinzufügen">
+                <ToggleButton
+                  value=""
+                  aria-label="Bild hochladen"
+                  component="label"
+                >
+                  <input
+                    hidden
+                    accept="image/*"
+                    type="file"
+                    onChange={handleFileSelect}
+                  />
+                  <AddPhotoAlternateIcon />
+                </ToggleButton>
+              </Tooltip>
+              <ImageList sx={{}} cols={3}>
+                {customImages.map(({ id, content }) => {
+                  return (
+                    <ImageListItem
+                      className="gallery-image"
+                      onClick={() => openImage(content)}
+                      key={content}
+                    >
+                      <img src={content} />
+                      <ImageContextMenu isCustomImage={true} imageId={id} />
+                    </ImageListItem>
+                  );
+                })}
+              </ImageList>
             </TabPanel>
-          ))}
-          <TabPanel value={CUSTOM_IMAGES_WORK_PHASE_TAB_ID}>
-            <Tooltip title="Eigenes Bild hinzufügen">
-              <ToggleButton
-                value=""
-                aria-label="Bild hochladen"
-                component="label"
-              >
-                <input
-                  hidden
-                  accept="image/*"
-                  type="file"
-                  onChange={handleFileSelect}
-                />
-                <AddPhotoAlternateIcon />
-              </ToggleButton>
-            </Tooltip>
-            <ImageList sx={{}} cols={3}>
-              {customImages.map(({ id, content }) => {
-                return (
-                  <ImageListItem
-                    className="gallery-image"
-                    onClick={() => openImage(content)}
-                    key={content}
-                  >
-                    <img src={content} />
-                    <ImageContextMenu isCustomImage={true} imageId={id} />
-                  </ImageListItem>
-                );
-              })}
-            </ImageList>
-          </TabPanel>
-        </TabContext>
-      </div>
+          </TabContext>
+        </div>
+      )}
     </BaseWindow>
   );
 }
