@@ -29,6 +29,21 @@ import { TabContext, TabList, TabPanel } from "@mui/lab";
 import Tab from "@mui/material/Tab";
 import { ImageContextMenu } from "./ImageContextMenu";
 
+const toDataUrl = (file: File) =>
+  new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      const result = reader.result;
+      if (typeof result === "string") {
+        resolve(result);
+      } else {
+        reject(new Error("File could not be read"));
+      }
+    };
+    reader.onerror = reject;
+  });
+
 export default function WorkPhase({
   id,
   title,
@@ -47,16 +62,18 @@ export default function WorkPhase({
     setOpen(true);
   }
 
-  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileSelect = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const files = event.target.files;
     if (files === null) {
       throw new Error("No file added");
     }
     const [file] = files;
-    const url = URL.createObjectURL(file);
+    const fileContent = await toDataUrl(file);
     (dispatch as ThunkDispatch<unknown, unknown, AnyAction>)(
       saveImage({
-        imageContent: url,
+        imageContent: fileContent,
       })
     );
   };

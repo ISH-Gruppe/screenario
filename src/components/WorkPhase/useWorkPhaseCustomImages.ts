@@ -1,21 +1,17 @@
 import { useSelector } from "react-redux";
 import { AppState } from "../../app-state";
-import { useMemo } from "react";
-import {
-  CustomImageDefinition,
-  getCustomWorkPhaseImage,
-} from "./WorkPhaseState";
+import { getCustomWorkPhaseImage } from "./WorkPhaseState";
+import { createSelector } from "@reduxjs/toolkit";
 
 export const useWorkPhaseCustomImages = () => {
-  const imageIds: CustomImageDefinition[] = useSelector(
-    (state: AppState) => state.globalWorkPhase.customImages
-  );
-  return useMemo(
-    () =>
-      imageIds.map(({ id }) => ({
-        id,
-        content: getCustomWorkPhaseImage(id),
-      })),
-    [imageIds]
+  return useSelector(
+    createSelector(
+      (state: AppState) => state.globalWorkPhase.customImages,
+      (customImages) =>
+        customImages.map(({ id }) => ({
+          id,
+          content: getCustomWorkPhaseImage(id),
+        }))
+    )
   );
 };
