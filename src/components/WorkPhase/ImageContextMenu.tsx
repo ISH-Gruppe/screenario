@@ -101,8 +101,8 @@ export const ImageContextMenu = ({
           </MenuItem>
         )}
         {isCustomImage && (
-          <MenuItem>
-            <DeleteIcon onClick={onDeleteImage} color="error" />
+          <MenuItem onMouseUp={onDeleteImage}>
+            <DeleteIcon color="error" />
             Löschen
           </MenuItem>
         )}
