@@ -133,7 +133,7 @@ export default function WorkPhase({
                           <img src={image.src} />
                           <ImageContextMenu
                             isCustomImage={false}
-                            imageIdOrStorageKey={image.id}
+                            imageId={image.id}
                           />
                         </ImageListItem>
                       );
@@ -168,10 +168,7 @@ export default function WorkPhase({
                     key={content}
                   >
                     <img src={content} />
-                    <ImageContextMenu
-                      isCustomImage={true}
-                      imageIdOrStorageKey={id}
-                    />
+                    <ImageContextMenu isCustomImage={true} imageId={id} />
                   </ImageListItem>
                 );
               })}

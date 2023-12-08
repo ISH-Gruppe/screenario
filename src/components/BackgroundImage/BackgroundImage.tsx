@@ -8,7 +8,9 @@ export const BackgroundImage = () => {
     <div
       className="app-background-image"
       style={{
-        backgroundImage: `url("${backgroundImageSrc}")`,
+        backgroundImage: backgroundImageSrc
+          ? `url("${backgroundImageSrc}")`
+          : "none",
       }}
     />
   );

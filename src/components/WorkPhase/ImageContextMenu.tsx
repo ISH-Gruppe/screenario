@@ -2,7 +2,10 @@ import IconButton from "@mui/material/IconButton";
 import React, { useState } from "react";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { AnyAction } from "redux";
-import { deleteImage } from "./WorkPhaseState";
+import {
+  deleteImage,
+  getCustomWorkPhaseImageLocalStorageKey,
+} from "./WorkPhaseState";
 import { useDispatch, useSelector } from "react-redux";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Menu } from "@mui/material";
@@ -12,28 +15,24 @@ import "./ImageContextMenu.scss";
 import { AppState } from "../../app-state";
 import { backgroundImageActions } from "../BackgroundImage/background-image-slice";
 
-type CustomImageProps = {
-  isCustomImage: true;
-  imageId: string;
-};
-
-type SystemImageProps = {
-  isCustomImage: false;
-  imagePath: string;
-};
-
 export const ImageContextMenu = ({
   isCustomImage,
-  imageIdOrStorageKey,
+  imageId,
 }: {
   isCustomImage: boolean;
-  imageIdOrStorageKey: string;
+  imageId: string;
 }) => {
+  const localStorageKey = getCustomWorkPhaseImageLocalStorageKey(imageId);
   const dispatch = useDispatch();
   const { src: backgroundImageSrc, type: backgroundImageType } = useSelector(
     (state: AppState) => state.backgroundImage
   );
   const [anchorElement, setAnchorElement] = useState<HTMLElement | null>(null);
+  const currentlyIsBackgroundImage =
+    (backgroundImageType === "workPhaseImage" &&
+      backgroundImageSrc === imageId) ||
+    (backgroundImageType === "localStorageKey" &&
+      backgroundImageSrc === localStorageKey);
 
   const openMenu = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
@@ -51,7 +50,7 @@ export const ImageContextMenu = ({
   const onDeleteImage = (e: React.MouseEvent) => {
     e.stopPropagation();
     (dispatch as ThunkDispatch<unknown, unknown, AnyAction>)(
-      deleteImage(imageIdOrStorageKey)
+      deleteImage(imageId)
     );
     closeMenu();
   };
@@ -61,15 +60,11 @@ export const ImageContextMenu = ({
     if (isCustomImage) {
       dispatch(
         backgroundImageActions.setBackgroundImageFromLocalStorage(
-          imageIdOrStorageKey
+          localStorageKey
         )
       );
     } else {
-      dispatch(
-        backgroundImageActions.setBackgroundImageFromWorkPhase(
-          imageIdOrStorageKey
-        )
-      );
+      dispatch(backgroundImageActions.setBackgroundImageFromWorkPhase(imageId));
     }
     closeMenu();
   };
@@ -90,8 +85,7 @@ export const ImageContextMenu = ({
         anchorEl={anchorElement}
         onClose={closeMenu}
       >
-        {backgroundImageType !== "none" &&
-        backgroundImageSrc === imageIdOrStorageKey ? (
+        {currentlyIsBackgroundImage ? (
           <MenuItem onClick={clearBackgroundImage}>
             Von Hintergrund entfernen
           </MenuItem>
@@ -101,7 +95,10 @@ export const ImageContextMenu = ({
           </MenuItem>
         )}
         {isCustomImage && (
-          <MenuItem onMouseUp={onDeleteImage}>
+          <MenuItem
+            onMouseUp={onDeleteImage}
+            disabled={currentlyIsBackgroundImage}
+          >
             <DeleteIcon color="error" />
             Löschen
           </MenuItem>

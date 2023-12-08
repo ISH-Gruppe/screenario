@@ -96,14 +96,17 @@ export type WorkPhaseState = {
   currentTab: WorkPhaseTabId;
 };
 
-const getLocalStorageKey = (id: string) =>
+export const getCustomWorkPhaseImageLocalStorageKey = (id: string) =>
   `screenario/workPhase-global/customImages/${id}`;
 
 export const saveImage = createAsyncThunk<string, { imageContent: string }>(
   "workPhase-global/saveImage",
   async ({ imageContent }) => {
     const imageId = crypto.randomUUID();
-    localStorage.setItem(getLocalStorageKey(imageId), imageContent);
+    localStorage.setItem(
+      getCustomWorkPhaseImageLocalStorageKey(imageId),
+      imageContent
+    );
     return imageId;
   }
 );
@@ -111,13 +114,15 @@ export const saveImage = createAsyncThunk<string, { imageContent: string }>(
 export const deleteImage = createAsyncThunk<string, string>(
   "workPhase-global/deleteImage",
   async (imageId) => {
-    localStorage.removeItem(getLocalStorageKey(imageId));
+    localStorage.removeItem(getCustomWorkPhaseImageLocalStorageKey(imageId));
     return imageId;
   }
 );
 
 export const getCustomWorkPhaseImage = (id: string) => {
-  const content = localStorage.getItem(getLocalStorageKey(id));
+  const content = localStorage.getItem(
+    getCustomWorkPhaseImageLocalStorageKey(id)
+  );
 
   if (content === null) {
     throw new Error(`No image found for ID ${id}`);
