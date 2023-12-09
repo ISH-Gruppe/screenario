@@ -2,14 +2,19 @@ import Button from "@mui/material/Button";
 import DownloadIcon from "@mui/icons-material/Download";
 import UploadIcon from "@mui/icons-material/Upload";
 import React from "react";
-import { useDispatch, useStore } from "react-redux";
+import { useDispatch, useSelector, useStore } from "react-redux";
 import { AppState } from "../app-state";
 import { replaceState } from "../redux-helpers";
 import { PersistedState } from "redux-persist/es/types";
+import ImageNotSupportedOutlinedIcon from "@mui/icons-material/ImageNotSupportedOutlined";
+import { backgroundImageActions } from "./BackgroundImage/background-image-slice";
 
 export const ImportExportButtons = () => {
   const store = useStore();
   const dispatch = useDispatch();
+  const backgroundImageIsSet = useSelector(
+    (state: AppState) => state.backgroundImage.type !== "none"
+  );
 
   const exportState = () => {
     const { _persist, ...state } = store.getState() as PersistedState &
@@ -53,6 +58,19 @@ export const ImportExportButtons = () => {
 
   return (
     <>
+      {backgroundImageIsSet && (
+        <Button
+          variant="outlined"
+          color="primary"
+          startIcon={<ImageNotSupportedOutlinedIcon />}
+          onClick={() =>
+            dispatch(backgroundImageActions.clearBackgroundImage())
+          }
+        >
+          Hintergrundbild entfernen
+        </Button>
+      )}
+
       <Button
         variant="outlined"
         color="primary"
