@@ -29,21 +29,7 @@ import { TabContext, TabList, TabPanel } from "@mui/lab";
 import Tab from "@mui/material/Tab";
 import { ImageContextMenu } from "./ImageContextMenu";
 import { ReactJSXElement } from "@emotion/react/types/jsx-namespace";
-
-const toDataUrl = (file: File) =>
-  new Promise<string>((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      const result = reader.result;
-      if (typeof result === "string") {
-        resolve(result);
-      } else {
-        reject(new Error("File could not be read"));
-      }
-    };
-    reader.onerror = reject;
-  });
+import { toDataUrl } from "../../utils/fileToDataUrl";
 
 export default function WorkPhase({
   id,

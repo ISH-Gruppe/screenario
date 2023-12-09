@@ -21,10 +21,9 @@ export default ({ stageWidth, stageHeight, imagePath, onSizeCalculated }) => {
 
       height = height - heightDifference;
       width = height * ratio;
-
-      onSizeCalculated(width, height);
-
-      return <Image image={image} width={width} height={height} />;
     }
+
+    onSizeCalculated(width, height);
+    return <Image image={image} width={width} height={height} />;
   }
 };
