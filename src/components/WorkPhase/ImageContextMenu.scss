@@ -1,9 +1,18 @@
 .menu-button-parent {
   position: absolute;
-  top: min(10%, 0.5em);
-  right: min(10%, 0.5em);
+  inset: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  gap: 0.5em;
+  padding: 0.5em;
 
   .menu-button {
-    background: #ffffffc0;
+    background: #ffffff80;
+
+    &:hover,
+    &:focus {
+      background: #ffffffc0;
+    }
   }
 }

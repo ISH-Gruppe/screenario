@@ -1,4 +1,3 @@
-import IconButton from "@mui/material/IconButton";
 import React, { useState } from "react";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { AnyAction } from "redux";
@@ -7,13 +6,14 @@ import {
   getCustomWorkPhaseImageLocalStorageKey,
 } from "./WorkPhaseState";
 import { useDispatch, useSelector } from "react-redux";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { Menu } from "@mui/material";
-import MenuItem from "@mui/material/MenuItem";
 import DeleteIcon from "@mui/icons-material/Delete";
+import AspectRatioOutlinedIcon from "@mui/icons-material/AspectRatioOutlined";
+import ImageNotSupportedOutlinedIcon from "@mui/icons-material/ImageNotSupportedOutlined";
 import "./ImageContextMenu.scss";
 import { AppState } from "../../app-state";
 import { backgroundImageActions } from "../BackgroundImage/background-image-slice";
+import ToggleButton from "@mui/material/ToggleButton";
+import Tooltip from "@mui/material/Tooltip";
 
 export const ImageContextMenu = ({
   isCustomImage,
@@ -76,34 +76,44 @@ export const ImageContextMenu = ({
   };
 
   return (
-    <div className="menu-button-parent">
-      <IconButton onClick={openMenu} className="menu-button">
-        <MoreVertIcon />
-      </IconButton>
-      <Menu
-        open={Boolean(anchorElement)}
-        anchorEl={anchorElement}
-        onClose={closeMenu}
-      >
+    <>
+      <div className="menu-button-parent">
         {currentlyIsBackgroundImage ? (
-          <MenuItem onClick={clearBackgroundImage}>
-            Von Hintergrund entfernen
-          </MenuItem>
+          <Tooltip title="Von Hintergrund entfernen">
+            <ToggleButton
+              onClick={clearBackgroundImage}
+              className="menu-button"
+              aria-label="Von Hintergrund entfernen"
+              value={imageId}
+            >
+              <ImageNotSupportedOutlinedIcon />
+            </ToggleButton>
+          </Tooltip>
         ) : (
-          <MenuItem onClick={setAsBackgroundImage}>
-            Als Hintergrund setzen
-          </MenuItem>
+          <Tooltip title="Als Hintergrund setzen">
+            <ToggleButton
+              onClick={setAsBackgroundImage}
+              className="menu-button"
+              aria-label="Als Hintergrund setzen"
+              value={imageId}
+            >
+              <AspectRatioOutlinedIcon />
+            </ToggleButton>
+          </Tooltip>
         )}
         {isCustomImage && (
-          <MenuItem
-            onMouseUp={onDeleteImage}
-            disabled={currentlyIsBackgroundImage}
-          >
-            <DeleteIcon color="error" />
-            Löschen
-          </MenuItem>
+          <Tooltip title="Bild löschen">
+            <ToggleButton
+              onClick={onDeleteImage}
+              className="menu-button"
+              aria-label="Bild löschen"
+              value={imageId}
+            >
+              <DeleteIcon />
+            </ToggleButton>
+          </Tooltip>
         )}
-      </Menu>
-    </div>
+      </div>
+    </>
   );
 };
