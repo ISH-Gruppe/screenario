@@ -6,32 +6,30 @@ import "./WorkPhase.css";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import {
+  useWindowState,
   WindowConfig,
   WindowType,
 } from "../WindowManager/window-management-slice";
-import EinzelarbeitImage from "./images/einzelarbeit.jpg";
-import PartnerarbeitImage from "./images/partnerarbeit.jpg";
-import GruppenarbeitImage from "./images/gruppenarbeit.jpg";
-
-// Pausenphasen
-import KaffeepauseImage from "./images/kaffeepause.jpg";
-import MittagspauseImage from "./images/mittagspause.jpg";
-import FeierabendImage from "./images/feierabend.jpg";
-
-// Pausenphasen (Schule)
-import KurzePauseImage from "./images/kurze-pause.jpg";
-import GrossePauseImage from "./images/grosse-pause.jpg";
-import StundenendeImage from "./images/stundenende.jpg";
-
-// Think, Pair, Share
-import ThinkImage from "./images/think.jpg";
-import PairImage from "./images/pair.jpg";
-import ShareImage from "./images/share.jpg";
-
-// Videokonferenzen
-import HerzlichWillkommenImage from "./images/herzlich-willkommen.jpg";
-import KameraAnschaltenImage from "./images/kamera-anschalten.jpg";
-import FragenImChatImage from "./images/fragen-im-chat.jpg";
+import ToggleButton from "@mui/material/ToggleButton";
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import Tooltip from "@mui/material/Tooltip";
+import {
+  CUSTOM_IMAGES_WORK_PHASE_TAB_ID,
+  saveImage,
+  selectWorkPhaseTab,
+  WorkPhaseState,
+  WorkPhaseTabId,
+  workPhaseTabs,
+} from "./WorkPhaseState";
+import { useDispatch } from "react-redux";
+import { AnyAction } from "redux";
+import { ThunkDispatch } from "@reduxjs/toolkit";
+import { useWorkPhaseCustomImages } from "./useWorkPhaseCustomImages";
+import { TabContext, TabList, TabPanel } from "@mui/lab";
+import Tab from "@mui/material/Tab";
+import { ImageContextMenu } from "./ImageContextMenu";
+import { ReactJSXElement } from "@emotion/react/types/jsx-namespace";
+import { toDataUrl } from "../../utils/fileToDataUrl";
 
 export default function WorkPhase({
   id,
@@ -40,62 +38,32 @@ export default function WorkPhase({
   id: string;
   title: string;
 }) {
-  const workPhases = [
-    {
-      description: "Arbeitsphasen",
-      images: [EinzelarbeitImage, PartnerarbeitImage, GruppenarbeitImage],
-    },
-    {
-      description: "Pausenphasen",
-      images: [KaffeepauseImage, MittagspauseImage, FeierabendImage],
-    },
-    {
-      description: "Pausenphasen (Schule)",
-      images: [KurzePauseImage, GrossePauseImage, StundenendeImage],
-    },
-    {
-      description: "Think, Pair, Share",
-      images: [ThinkImage, PairImage, ShareImage],
-    },
-    {
-      description: "Videokonferenzen",
-      images: [
-        HerzlichWillkommenImage,
-        KameraAnschaltenImage,
-        FragenImChatImage,
-      ],
-    },
-    { description: "Eigene Bilder", images: [] },
-  ];
-
+  const windowState = useWindowState(id) as WorkPhaseState;
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
-  const [popupImage, setPopupImage] = useState(<></>);
+  const [popupImage, setPopupImage] = useState<ReactJSXElement | null>(null);
+  const customImages = useWorkPhaseCustomImages();
 
   function openImage(image: string) {
     setPopupImage(<img className="popup-image" src={image} />);
     setOpen(true);
   }
 
-  const galleries = workPhases.map((phase, index) => {
-    return (
-      <React.Fragment key={index}>
-        <h3> {phase.description} </h3>
-        <ImageList sx={{}} cols={3}>
-          {phase.images.map((image) => {
-            return (
-              <ImageListItem
-                className="gallery-image"
-                onClick={() => openImage(image)}
-                key={image}
-              >
-                <img src={image} />
-              </ImageListItem>
-            );
-          })}
-        </ImageList>
-      </React.Fragment>
+  const handleFileSelect = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const files = event.target.files;
+    if (files === null) {
+      throw new Error("No file added");
+    }
+    const [file] = files;
+    const fileContent = await toDataUrl(file);
+    (dispatch as ThunkDispatch<unknown, unknown, AnyAction>)(
+      saveImage({
+        imageContent: fileContent,
+      })
     );
-  });
+  };
 
   function hideOrShowGalleries() {
     if (open) {
@@ -105,20 +73,99 @@ export default function WorkPhase({
     }
   }
 
+  const onSelectTab = (_event: unknown, tabId: string) => {
+    dispatch(
+      selectWorkPhaseTab({
+        windowId: id,
+        tabId: tabId as WorkPhaseTabId,
+      })
+    );
+  };
+
   return (
     <BaseWindow id={id} title={title}>
-      <div
-        id="image-popup"
-        onClick={() => {
-          setPopupImage(<> </>);
-          setOpen(false);
-        }}
-      >
-        {popupImage}
-      </div>
-      <div className="galleries" style={hideOrShowGalleries()}>
-        {galleries}
-      </div>
+      {popupImage ? (
+        <div
+          id="image-popup"
+          onClick={() => {
+            setPopupImage(null);
+            setOpen(false);
+          }}
+        >
+          {popupImage}
+        </div>
+      ) : (
+        <div className="galleries" style={hideOrShowGalleries()}>
+          <TabContext value={windowState.currentTab}>
+            <TabList onChange={onSelectTab}>
+              {Object.entries(workPhaseTabs).map(([tabId, { name }]) => (
+                <Tab key={tabId} value={tabId} label={name} />
+              ))}
+              <Tab
+                value={CUSTOM_IMAGES_WORK_PHASE_TAB_ID}
+                label="Eigene Bilder"
+              />
+            </TabList>
+            {Object.entries(workPhaseTabs).map(([tabKey, { categories }]) => (
+              <TabPanel key={tabKey} value={tabKey}>
+                {categories.map(({ name, images }) => (
+                  <React.Fragment key={name}>
+                    <h3> {name} </h3>
+                    <ImageList sx={{}} cols={3}>
+                      {images.map((image) => {
+                        return (
+                          <ImageListItem
+                            className="gallery-image"
+                            onClick={() => openImage(image.src)}
+                            key={image.id}
+                          >
+                            <img src={image.src} />
+                            <ImageContextMenu
+                              isCustomImage={false}
+                              imageId={image.id}
+                            />
+                          </ImageListItem>
+                        );
+                      })}
+                    </ImageList>
+                  </React.Fragment>
+                ))}
+              </TabPanel>
+            ))}
+            <TabPanel value={CUSTOM_IMAGES_WORK_PHASE_TAB_ID}>
+              <Tooltip title="Eigenes Bild hinzufügen">
+                <ToggleButton
+                  value=""
+                  aria-label="Bild hochladen"
+                  component="label"
+                >
+                  <input
+                    hidden
+                    accept="image/*"
+                    type="file"
+                    onChange={handleFileSelect}
+                  />
+                  <AddPhotoAlternateIcon />
+                </ToggleButton>
+              </Tooltip>
+              <ImageList sx={{}} cols={3}>
+                {customImages.map(({ id, content }) => {
+                  return (
+                    <ImageListItem
+                      className="gallery-image"
+                      onClick={() => openImage(content)}
+                      key={content}
+                    >
+                      <img src={content} />
+                      <ImageContextMenu isCustomImage={true} imageId={id} />
+                    </ImageListItem>
+                  );
+                })}
+              </ImageList>
+            </TabPanel>
+          </TabContext>
+        </div>
+      )}
     </BaseWindow>
   );
 }
@@ -126,6 +173,7 @@ export default function WorkPhase({
 export const workPhaseWindowConfig: WindowConfig = {
   getInitialState: () => ({
     type: WindowType.WorkPhase,
+    currentTab: "work",
   }),
   Component: ({ id }) => (
     <WorkPhase id={id} title="Arbeits- und Pausenphasen" />

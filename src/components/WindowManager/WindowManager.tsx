@@ -19,10 +19,12 @@ import { AppState } from "../../app-state";
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 export default function WindowManager() {
-  const appState = useSelector((state: AppState) => state);
+  const windows = useSelector(
+    (state: AppState) => state.windowManagement.windows
+  );
   const dispatch = useDispatch();
 
-  const layouts = appState.windowManagement.windows.reduce(
+  const layouts = windows.reduce(
     (layouts, window) => {
       if (window.isOpen) {
         const baseLayout = {
@@ -100,7 +102,7 @@ export default function WindowManager() {
         onResizeStart={() => handleResizeStart()}
         onResize={() => handleResize()}
       >
-        {appState.windowManagement.windows.flatMap((window) => {
+        {windows.flatMap((window) => {
           const Component = windowConfigs[window.state.type].Component;
           return window.isOpen
             ? [

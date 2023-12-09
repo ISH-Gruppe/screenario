@@ -23,6 +23,7 @@ import { Provider } from "react-redux";
 import { persistor, store } from "./app-state";
 import { PersistGate } from "redux-persist/integration/react";
 import { ImportExportButtons } from "./components/ImportExportButtons";
+import { BackgroundImage } from "./components/BackgroundImage/BackgroundImage";
 
 export default function App() {
   const [donationModalopen, setDonationModalOpen] = React.useState(false);
@@ -36,6 +37,8 @@ export default function App() {
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <ConfirmProvider>
+            <BackgroundImage />
+
             <Router>
               <Routes>
                 <Route path="/" element={<WindowManager />} />
