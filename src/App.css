@@ -44,6 +44,11 @@
 
 .donation-button button,
 .donation-button label {
+  background-color: #fffd;
+}
+
+.donation-button button:hover,
+.donation-button label:hover {
   background-color: white;
 }
 
