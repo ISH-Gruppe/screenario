@@ -34,6 +34,14 @@ export const buildTimerReducer = (
       const windowState = getWindowByIdOrFail(state.windows, id)
         .state as TimerState;
       windowState.showAnalogTimer = !windowState.showAnalogTimer;
+
+      if (windowState.showAnalogTimer && windowState.timerValue.hours > 0) {
+        windowState.timerValue = {
+          hours: 1,
+          minutes: 0,
+          seconds: 0,
+        };
+      }
     });
 };
 

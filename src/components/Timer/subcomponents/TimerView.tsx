@@ -24,9 +24,9 @@ export default function TimerView(props: {
   startTimer: () => void;
   stopTimer: () => void;
   windowId: string;
+  onToggleAnalogTimer: () => void;
 }) {
   const windowState = useWindowState(props.windowId) as TimerState;
-  const dispatch = useDispatch();
 
   return (
     <div className="timer-view">
@@ -144,9 +144,7 @@ export default function TimerView(props: {
             control={
               <Switch
                 checked={windowState.showAnalogTimer}
-                onClick={() =>
-                  dispatch(toggleAnalogTimer({ id: props.windowId }))
-                }
+                onClick={props.onToggleAnalogTimer}
               />
             }
             label="Analog"

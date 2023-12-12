@@ -15,7 +15,12 @@ import {
   WindowType,
 } from "../WindowManager/window-management-slice";
 import { useDispatch } from "react-redux";
-import { getDateFromTimerValue, setTimer, TimerState } from "./TimerState";
+import {
+  getDateFromTimerValue,
+  setTimer,
+  TimerState,
+  toggleAnalogTimer,
+} from "./TimerState";
 import { AnalogTimer } from "./subcomponents/AnalogTimer";
 
 export default function Timer({ id, title }: { id: string; title: string }) {
@@ -71,6 +76,19 @@ export default function Timer({ id, title }: { id: string; title: string }) {
     restart(newTimestamp, isRunning);
   }
 
+  const onToggleAnalogTimer = () => {
+    dispatch(toggleAnalogTimer({ id }));
+
+    // will now be toggled to true
+    if (!windowState.showAnalogTimer && hours > 0) {
+      setInitialTimerValue(getDateFromTimerValue(windowState));
+      dispatch(setTimer({ id, hours: 1, minutes: 0, seconds: 0 }));
+      const newTimestamp = new Date();
+      newTimestamp.setHours(newTimestamp.getHours() + 1);
+      restart(newTimestamp, isRunning);
+    }
+  };
+
   function startTimer() {
     resume();
   }
@@ -119,6 +137,7 @@ export default function Timer({ id, title }: { id: string; title: string }) {
             stopTimer={stopTimer}
             onTimerUpdate={updateAndRestartTimer}
             windowId={id}
+            onToggleAnalogTimer={onToggleAnalogTimer}
           />
         </Grid>
 
