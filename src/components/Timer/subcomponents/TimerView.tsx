@@ -13,7 +13,6 @@ import { TimerState, toggleAnalogTimer } from "../TimerState";
 import { useDispatch } from "react-redux";
 
 export default function TimerView(props: {
-  hours: number;
   minutes: number;
   seconds: number;
   onTimerUpdate: (
@@ -34,48 +33,10 @@ export default function TimerView(props: {
         <Stack className="stack" direction="column" spacing={2}>
           <div className="button-container-digits">
             <IconButton
-              onClick={() => props.onTimerUpdate(0, 0, 1)}
-              aria-label="Timer um eine Stunde erweitern"
-              size="small"
-              disabled={
-                windowState.showAnalogTimer &&
-                (props.hours !== 0 ||
-                  props.minutes !== 0 ||
-                  props.seconds !== 0)
-              }
-            >
-              <AddIcon />
-            </IconButton>
-          </div>
-
-          <div>
-            {props.hours < 10 && <span className="timer-digits">0</span>}
-            <span className="timer-digits">{props.hours}</span>
-          </div>
-
-          <div className="button-container-digits">
-            <IconButton
-              onClick={() => props.onTimerUpdate(0, 0, -1)}
-              disabled={props.hours === 0}
-              aria-label="Timer um eine Stunde reduzieren"
-              size="small"
-            >
-              <RemoveIcon />
-            </IconButton>
-          </div>
-        </Stack>
-
-        <Stack className="stack" direction="column" spacing={2}>
-          <div className="button-container-digits">
-            <IconButton
               onClick={() => props.onTimerUpdate(0, 1)}
               aria-label="Timer um eine Minute reduzieren"
               size="small"
-              disabled={
-                windowState.showAnalogTimer &&
-                (props.hours !== 0 ||
-                  (props.minutes === 59 && props.seconds !== 0))
-              }
+              disabled={props.minutes === 59}
             >
               <AddIcon />
             </IconButton>
@@ -90,7 +51,7 @@ export default function TimerView(props: {
             <IconButton
               onClick={() => props.onTimerUpdate(0, -1)}
               aria-label="Timer um eine Minute reduzieren"
-              disabled={props.hours === 0 && props.minutes === 0}
+              disabled={props.minutes === 0}
               size="small"
             >
               <RemoveIcon />
@@ -104,7 +65,7 @@ export default function TimerView(props: {
               onClick={() => props.onTimerUpdate(1)}
               aria-label="Timer um eine Sekunde erweitern"
               size="small"
-              disabled={windowState.showAnalogTimer && props.hours >= 1}
+              disabled={props.minutes === 59 && props.seconds === 59}
             >
               <AddIcon />
             </IconButton>
@@ -119,9 +80,7 @@ export default function TimerView(props: {
             <IconButton
               onClick={() => props.onTimerUpdate(-1)}
               aria-label="Timer um eine Sekunde reduzieren"
-              disabled={
-                props.hours === 0 && props.minutes === 0 && props.seconds === 0
-              }
+              disabled={props.minutes === 0 && props.seconds === 0}
               size="small"
             >
               <RemoveIcon />

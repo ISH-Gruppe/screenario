@@ -40,7 +40,6 @@ export default function Timer({ id, title }: { id: string; title: string }) {
     totalSeconds,
     seconds,
     minutes,
-    hours,
     isRunning,
     start,
     pause,
@@ -55,20 +54,14 @@ export default function Timer({ id, title }: { id: string; title: string }) {
 
   const [ringTimer] = useTimerRinging();
 
-  function updateAndRestartTimer(
-    deltaSeconds = 0,
-    deltaMinutes = 0,
-    deltaHours = 0
-  ) {
+  function updateAndRestartTimer(deltaSeconds = 0, deltaMinutes = 0) {
     const newTimestamp = new Date();
-    newTimestamp.setHours(newTimestamp.getHours() + hours + deltaHours);
     newTimestamp.setMinutes(newTimestamp.getMinutes() + minutes + deltaMinutes);
     newTimestamp.setSeconds(newTimestamp.getSeconds() + seconds + deltaSeconds);
 
     dispatch(
       setTimer({
         id,
-        hours: hours + deltaHours,
         minutes: minutes + deltaMinutes,
         seconds: seconds + deltaSeconds,
       })
@@ -78,15 +71,6 @@ export default function Timer({ id, title }: { id: string; title: string }) {
 
   const onToggleAnalogTimer = () => {
     dispatch(toggleAnalogTimer({ id }));
-
-    // will now be toggled to true
-    if (!windowState.showAnalogTimer && hours > 0) {
-      setInitialTimerValue(getDateFromTimerValue(windowState));
-      dispatch(setTimer({ id, hours: 1, minutes: 0, seconds: 0 }));
-      const newTimestamp = new Date();
-      newTimestamp.setHours(newTimestamp.getHours() + 1);
-      restart(newTimestamp, isRunning);
-    }
   };
 
   function startTimer() {
@@ -124,13 +108,12 @@ export default function Timer({ id, title }: { id: string; title: string }) {
       <Grid container spacing={2} style={{ textAlign: "center" }}>
         {windowState.showAnalogTimer && (
           <div className="analog-timer">
-            <AnalogTimer seconds={seconds} totalSeconds={totalSeconds} />
+            <AnalogTimer totalSeconds={totalSeconds} />
           </div>
         )}
 
         <Grid item xs={12} style={{ textAlign: "center" }}>
           <TimerView
-            hours={hours}
             minutes={minutes}
             seconds={seconds}
             startTimer={startTimer}
@@ -162,7 +145,6 @@ export const timerWindowConfig: WindowConfig = {
   getInitialState: () => ({
     type: WindowType.Timer,
     timerValue: {
-      hours: 0,
       minutes: 0,
       seconds: 0,
     },
