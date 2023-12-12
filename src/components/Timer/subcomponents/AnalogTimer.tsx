@@ -15,11 +15,18 @@ export const AnalogTimer = ({ totalSeconds }: { totalSeconds: number }) => {
           // ts-ignores because of custom css variables
           style={{
             // @ts-ignore
-            "--filler-rotation": `${totalSeconds / 60 <= 30 ? 90 : 270}deg`,
+            "--filler-rotation": `${isOverHalfHour ? 90 : 270}deg`,
             // @ts-ignore
-            "--progress": `${90 + (totalSeconds / 60 / 60) * 360}deg`,
+            "--progress": `${270 + (-totalMinutes / 60) * 360}deg`,
             // @ts-ignore
-            "--filler-color": totalSeconds / 60 > 30 ? "var(--color)" : "white",
+            "--filler-color": isOverHalfHour ? "var(--color)" : "white",
+            // @ts-ignore
+            "--color":
+              totalMinutes > 10
+                ? "#48C78E"
+                : totalMinutes > 5
+                ? "#FFE08A"
+                : "#FEBAB3",
           }}
         />
         {/*<div*/}
