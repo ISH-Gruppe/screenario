@@ -20,13 +20,19 @@ import {
 import { useDispatch } from "react-redux";
 
 // CSS
-import "./Notepad.css";
+import "./Notepad.scss";
 import {
   deleteCurrentNote,
   NotepadState,
   selectNoteAndCreateIfNeeded,
   updateCurrentNote,
 } from "./NodepadState";
+
+// ALWAYS KEEP IN SYNC WITH ./Notepad.scss
+const fonts = ["Rubik", "Grundschrift"];
+const Font = ReactQuill.Quill.import("formats/font");
+Font.whitelist = fonts;
+ReactQuill.Quill.register(Font, true);
 
 export default function Notepad({ id, title }: { id: string; title: string }) {
   const windowState = useWindowState(id) as NotepadState;
@@ -87,6 +93,7 @@ export default function Notepad({ id, title }: { id: string; title: string }) {
           <ReactQuill
             modules={{
               toolbar: [
+                [{ font: Font.whitelist }],
                 [{ header: [1, 2, 3, false] }],
                 ["bold", "italic", "strike"],
                 [{ list: "ordered" }, { list: "bullet" }],
