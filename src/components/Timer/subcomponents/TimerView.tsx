@@ -7,8 +7,27 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import { useWindowState } from "../../WindowManager/window-management-slice";
+import { FormControlLabel, Switch } from "@mui/material";
+import { TimerState, toggleAnalogTimer } from "../TimerState";
+import { useDispatch } from "react-redux";
 
-export default function TimerView(props) {
+export default function TimerView(props: {
+  hours: number;
+  minutes: number;
+  seconds: number;
+  onTimerUpdate: (
+    deltaHours?: number,
+    deltaMinutes?: number,
+    deltaSeconds?: number
+  ) => void;
+  startTimer: () => void;
+  stopTimer: () => void;
+  windowId: string;
+}) {
+  const windowState = useWindowState(props.windowId) as TimerState;
+  const dispatch = useDispatch();
+
   return (
     <div className="timer-view">
       <Stack direction="row" spacing={2} sx={{ flexGrow: "1" }}>
@@ -109,6 +128,17 @@ export default function TimerView(props) {
           <Button onClick={props.stopTimer} variant="outlined" size="small">
             Stop
           </Button>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={windowState.showAnalogTimer}
+                onClick={() =>
+                  dispatch(toggleAnalogTimer({ id: props.windowId }))
+                }
+              />
+            }
+            label="Analog"
+          />
         </Stack>
       </Stack>
     </div>

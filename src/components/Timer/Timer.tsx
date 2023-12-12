@@ -16,6 +16,7 @@ import {
 } from "../WindowManager/window-management-slice";
 import { useDispatch } from "react-redux";
 import { getDateFromTimerValue, setTimer, TimerState } from "./TimerState";
+import { AnalogTimer } from "./subcomponents/AnalogTimer";
 
 export default function Timer({ id, title }: { id: string; title: string }) {
   const dispatch = useDispatch();
@@ -30,13 +31,22 @@ export default function Timer({ id, title }: { id: string; title: string }) {
   const [initialTimerValue, setInitialTimerValue] = useState(
     getDateFromTimerValue(windowState)
   );
-  const { seconds, minutes, hours, isRunning, start, pause, resume, restart } =
-    useTimer({
-      // initialTimerValue,
-      expiryTimestamp: initialTimerValue,
-      autoStart: false,
-      onExpire: handleTimerCompletion,
-    });
+  const {
+    totalSeconds,
+    seconds,
+    minutes,
+    hours,
+    isRunning,
+    start,
+    pause,
+    resume,
+    restart,
+  } = useTimer({
+    // initialTimerValue,
+    expiryTimestamp: initialTimerValue,
+    autoStart: false,
+    onExpire: handleTimerCompletion,
+  });
 
   const [ringTimer] = useTimerRinging();
 
@@ -94,6 +104,12 @@ export default function Timer({ id, title }: { id: string; title: string }) {
   return (
     <BaseWindow id={id} title={title}>
       <Grid container spacing={2} style={{ textAlign: "center" }}>
+        {windowState.showAnalogTimer && (
+          <div className="analog-timer">
+            <AnalogTimer seconds={seconds} totalSeconds={totalSeconds} />
+          </div>
+        )}
+
         <Grid item xs={12} style={{ textAlign: "center" }}>
           <TimerView
             hours={hours}
@@ -102,6 +118,7 @@ export default function Timer({ id, title }: { id: string; title: string }) {
             startTimer={startTimer}
             stopTimer={stopTimer}
             onTimerUpdate={updateAndRestartTimer}
+            windowId={id}
           />
         </Grid>
 
@@ -130,6 +147,7 @@ export const timerWindowConfig: WindowConfig = {
       minutes: 0,
       seconds: 0,
     },
+    showAnalogTimer: false,
   }),
   Component: ({ id }) => <Timer id={id} title="Timer" />,
   defaultLayout: {
