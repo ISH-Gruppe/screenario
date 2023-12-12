@@ -1,0 +1,91 @@
+$size: 200px;
+$tick-length: 5px;
+$big-tick-length: 2 * $tick-length;
+
+$accent-color: #ff705f;
+$accent-light-color: #ffcbc6;
+
+$big-tick-color: $accent-color;
+$tick-color: $accent-light-color;
+
+.clock {
+  width: $size;
+  height: $size;
+  border-radius: 50%;
+  justify-content: center;
+  position: relative;
+}
+
+.center {
+  $size: 5px;
+  width: $size;
+  height: $size;
+  border-radius: 50%;
+  background-color: $accent-color;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.hand,
+.tick {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform-origin: 0 0;
+}
+
+.secondHand {
+  height: calc($size / 2 - $tick-length - 5%);
+  width: 1px;
+  background-color: $accent-color;
+}
+
+.minuteHand {
+  height: calc($size / 2 - $tick-length - 10%);
+  width: 2px;
+  background-color: $accent-color;
+}
+
+.hourHand {
+  height: calc($size / 2 - $tick-length - 20%);
+  width: 2px;
+  background-color: $accent-color;
+}
+
+.progressBackground {
+  $offset: 0.1 * $size;
+  $size: $size - 2 * $offset;
+  --color: #{$accent-light-color};
+
+  width: $size;
+  height: $size;
+  margin-top: $offset;
+  left: $offset;
+
+  border-radius: 50%;
+  position: absolute;
+  rotate: 180deg;
+  background-image:
+  //
+    linear-gradient(
+      var(--filler-rotation),
+      transparent 50%,
+      var(--filler-color) 50%
+    ),
+    linear-gradient(var(--progress), transparent 50%, var(--color) 50%);
+  //;
+}
+
+.tick {
+  border-bottom: $tick-length solid $tick-color;
+  height: #{$size / 2 - $tick-length};
+  width: 1px;
+
+  &.big {
+    border-bottom-width: $big-tick-length;
+    border-color: $big-tick-color;
+    height: #{$size / 2 - $big-tick-length};
+  }
+}
