@@ -37,6 +37,12 @@ export default function TimerView(props: {
               onClick={() => props.onTimerUpdate(0, 0, 1)}
               aria-label="Timer um eine Stunde erweitern"
               size="small"
+              disabled={
+                windowState.showAnalogTimer &&
+                (props.hours !== 0 ||
+                  props.minutes !== 0 ||
+                  props.seconds !== 0)
+              }
             >
               <AddIcon />
             </IconButton>
@@ -65,6 +71,11 @@ export default function TimerView(props: {
               onClick={() => props.onTimerUpdate(0, 1)}
               aria-label="Timer um eine Minute reduzieren"
               size="small"
+              disabled={
+                windowState.showAnalogTimer &&
+                (props.hours !== 0 ||
+                  (props.minutes === 59 && props.seconds !== 0))
+              }
             >
               <AddIcon />
             </IconButton>
@@ -93,6 +104,7 @@ export default function TimerView(props: {
               onClick={() => props.onTimerUpdate(1)}
               aria-label="Timer um eine Sekunde erweitern"
               size="small"
+              disabled={windowState.showAnalogTimer && props.hours >= 1}
             >
               <AddIcon />
             </IconButton>
