@@ -24,13 +24,19 @@ import { persistor, store } from "./app-state";
 import { PersistGate } from "redux-persist/integration/react";
 import { ImportExportButtons } from "./components/ImportExportButtons";
 import { BackgroundImage } from "./components/BackgroundImage/BackgroundImage";
+import useWakeLock from "react-use-wake-lock";
 
 export default function App() {
   const [donationModalopen, setDonationModalOpen] = React.useState(false);
+  const { request } = useWakeLock();
+
+  useEffect(() => {
+    request();
+  }, []);
 
   useEffect(() => {
     document.body.classList.add(`text-${APP_CONFIG.font.toLowerCase()}`);
-  });
+  }, []);
 
   return (
     <ThemeProvider theme={appTheme}>
