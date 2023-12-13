@@ -5,7 +5,7 @@ import TextareaAutosize from "@mui/material/TextareaAutosize";
 import { Stack } from "@mui/system";
 import Button from "@mui/material/Button";
 import { useAudio } from "../../Timer/subcomponents/useAudio";
-import ringingSound from "../../Timer/subcomponents/WyxD-flipdish-ringer.mp3";
+import endingSound from "./winfantasia-6912.mp3";
 
 type Spinlist = {
   name: string;
@@ -140,7 +140,7 @@ export default function Spinwheel() {
   );
   const [prizeNumber, setPrizeNumber] = useState(0);
   const [isSpinning, setIsSpinning] = useState(false);
-  const { play: playWheelFinishedSound } = useAudio(ringingSound);
+  const { play: playWheelFinishedSound } = useAudio(endingSound);
 
   function handleSpinlistChange(selectedList: Spinlist) {
     setActiveSpinlist(selectedList);
