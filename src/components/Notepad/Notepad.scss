@@ -22,10 +22,10 @@
 }
 
 // ALWAYS KEEP IN SYNC WITH ./Notepad.tsx
-$fonts: [ "Rubik", "Grundschrift"];
+$fonts: [ "Grundschrift", "Rubik"];
 
 .ql-editor {
-  font-family: "Rubik", sans-serif;
+  font-family: "Grundschrift", sans-serif;
 }
 
 @for $i from 1 through length($fonts) {
@@ -41,5 +41,28 @@ $fonts: [ "Rubik", "Grundschrift"];
 
   .ql-font-#{nth($fonts, $i)} {
     font-family: "#{nth($fonts, $i)}", sans-serif;
+  }
+}
+
+$sizes: (
+  18px: "Klein",
+  28px: "Mittel",
+  38px: "Groß",
+);
+
+.ql-snow {
+  .ql-picker.ql-size {
+    @each $size, $label in $sizes {
+      .ql-picker-label[data-value="#{$size}"]::before {
+        content: $label;
+      }
+    }
+
+    @each $size, $label in $sizes {
+      .ql-picker-item[data-value="#{$size}"]::before {
+        content: $label;
+        font-size: $size !important;
+      }
+    }
   }
 }
