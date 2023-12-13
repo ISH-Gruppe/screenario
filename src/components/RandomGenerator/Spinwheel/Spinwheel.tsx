@@ -5,7 +5,18 @@ import TextareaAutosize from "@mui/material/TextareaAutosize";
 import { Stack } from "@mui/system";
 import Button from "@mui/material/Button";
 
-const listNumbers = {
+type Spinlist = {
+  name: string;
+  data: {
+    option: string;
+    style: {
+      backgroundColor: string;
+      textColor: string;
+    };
+  }[];
+};
+
+const listNumbers: Spinlist = {
   name: "NUMBERS",
   data: [
     {
@@ -43,7 +54,7 @@ const listNumbers = {
   ],
 };
 
-const listMovements = {
+const listMovements: Spinlist = {
   name: "MOVEMENTS",
   data: [
     {
@@ -81,7 +92,7 @@ const listMovements = {
   ],
 };
 
-const listCustomWords = {
+const listCustomWords: Spinlist = {
   name: "CUSTOM_WORDS",
   data: [
     {
@@ -128,16 +139,18 @@ export default function Spinwheel() {
   const [prizeNumber, setPrizeNumber] = React.useState(0);
   const [isSpinning, setIsSpinning] = React.useState(false);
 
-  function handleSpinlistChange(selectedList) {
+  function handleSpinlistChange(selectedList: Spinlist) {
     setActiveSpinlist(selectedList);
     setActiveSpinlistAsString(createStringFromList(selectedList));
   }
 
-  function handleSpinlistInTextareaChange(textArea) {
+  function handleSpinlistInTextareaChange(
+    textArea: React.ChangeEvent<HTMLTextAreaElement>
+  ) {
     const spinlistData = createListFromString(textArea.target.value);
 
     setActiveSpinlist((previousActiveSpinlist) => {
-      const newSpinlist = {
+      const newSpinlist: Spinlist = {
         name: previousActiveSpinlist.name,
         data: [],
       };
@@ -163,7 +176,7 @@ export default function Spinwheel() {
     return Math.floor(Math.random() * activeSpinlist.data.length);
   }
 
-  function createStringFromList(passedList) {
+  function createStringFromList(passedList: Spinlist) {
     let listAsAString = "";
 
     passedList.data.forEach((listEntry) => {
@@ -173,7 +186,7 @@ export default function Spinwheel() {
     return listAsAString;
   }
 
-  function createListFromString(passedString) {
+  function createListFromString(passedString: string) {
     const stringAsList = passedString
       .split("\n")
       .filter((n) => n)
