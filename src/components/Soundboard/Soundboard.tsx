@@ -17,7 +17,14 @@ import SchoolBellSound from "./sounds/School Bell-SoundBible.com-449398625.mp3";
 import HonkSound from "./sounds/Bike Horn-SoundBible.com-602544869.mp3";
 import YaySound from "./sounds/1_person_cheering-Jett_Rifkin-1851518140.mp3";
 
-import ExampleVideo from "./videos/sample-5s.mp4";
+// https://stock.adobe.com/de/video/group-of-kids-team-hugging-a-jumping-and-rejoicing-outdoors-happy-family-teamwork-kid-sun-dream-concept-family-children-sisters-brothers-have-fun-hugging-in-the-park-in-nature/625177371
+import HurraVideo from "./videos/hurra.mp4";
+
+// https://stock.adobe.com/de/video/happy-children-run-with-schoolbags-racing-to-school-building-on-street/659119041
+import BreakVideo from "./videos/pause.mp4";
+// source: pixabay
+// license: https://pixabay.com/service/license-summary/
+import BirthdayVideo from "./videos/happy_birthday.mp4";
 
 const sounds = [
   {
@@ -52,8 +59,17 @@ const sounds = [
 
 const videos = [
   {
-    description: "🎥 Beispiel-GIF",
-    path: ExampleVideo,
+    description: "🎥 Geschafft!",
+    path: HurraVideo,
+  },
+
+  {
+    description: "🎥 Geburtstag",
+    path: BirthdayVideo,
+  },
+  {
+    description: "🎥 Pause!",
+    path: BreakVideo,
   },
 ];
 
