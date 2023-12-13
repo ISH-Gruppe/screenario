@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
-import ringingSound from "./WyxD-flipdish-ringer.mp3";
+import ringingSound from "./call-to-attention-123107.mp3";
 
 /* Huge thank you to https://stackoverflow.com/a/47686478/11515036 */
-/* Sound taken from https://codesandbox.io/s/reactplaysound-p47gk?file=/src/index.js:61-105
- * TODO: Check sound license
- */
+// Sound taken from https://pixabay.com/sound-effects/call-to-attention-123107/
 export default function useTimerRinging() {
   const [audio] = useState(new Audio(ringingSound));
   const [isPlaying, setIsPlaying] = useState(false);
