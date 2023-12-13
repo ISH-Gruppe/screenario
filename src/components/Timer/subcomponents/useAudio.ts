@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
-export default function useAudio(url) {
+export default function useAudio(url: string) {
   const [audio, setAudio] = useState(new Audio(url));
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
 

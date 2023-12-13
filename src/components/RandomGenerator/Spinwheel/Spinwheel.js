@@ -5,122 +5,122 @@ import TextareaAutosize from "@mui/material/TextareaAutosize";
 import { Stack } from "@mui/system";
 import Button from "@mui/material/Button";
 
+const listNumbers = {
+  name: "NUMBERS",
+  data: [
+    {
+      option: "1",
+      style: { backgroundColor: "#ff705f", textColor: "#00364a" },
+    },
+    {
+      option: "2",
+      style: { backgroundColor: "#ffe08a", textColor: "#00364a" },
+    },
+    {
+      option: "3",
+      style: { backgroundColor: "#48c78e", textColor: "#00364a" },
+    },
+    {
+      option: "4",
+      style: { backgroundColor: "#66ccc7", textColor: "#00364a" },
+    },
+    {
+      option: "5",
+      style: { backgroundColor: "#ff705f", textColor: "#00364a" },
+    },
+    {
+      option: "6",
+      style: { backgroundColor: "#ffe08a", textColor: "#00364a" },
+    },
+    {
+      option: "7",
+      style: { backgroundColor: "#48c78e", textColor: "#00364a" },
+    },
+    {
+      option: "8",
+      style: { backgroundColor: "#66ccc7", textColor: "#00364a" },
+    },
+  ],
+};
+
+const listMovements = {
+  name: "MOVEMENTS",
+  data: [
+    {
+      option: "Kniebeugen",
+      style: { backgroundColor: "#ff705f", textColor: "#00364a" },
+    },
+    {
+      option: "Hampelmann",
+      style: { backgroundColor: "#ffe08a", textColor: "#00364a" },
+    },
+    {
+      option: "Hand zu Fuß",
+      style: { backgroundColor: "#48c78e", textColor: "#00364a" },
+    },
+    {
+      option: "Strecken",
+      style: { backgroundColor: "#66ccc7", textColor: "#00364a" },
+    },
+    {
+      option: "Hüpfen",
+      style: { backgroundColor: "#ff705f", textColor: "#00364a" },
+    },
+    {
+      option: "Rennen",
+      style: { backgroundColor: "#ffe08a", textColor: "#00364a" },
+    },
+    {
+      option: "Klatschen",
+      style: { backgroundColor: "#48c78e", textColor: "#00364a" },
+    },
+    {
+      option: "Liegestützen",
+      style: { backgroundColor: "#66ccc7", textColor: "#00364a" },
+    },
+  ],
+};
+
+const listCustomWords = {
+  name: "CUSTOM_WORDS",
+  data: [
+    {
+      option: "",
+      style: { backgroundColor: "#ff705f", textColor: "#00364a" },
+    },
+    {
+      option: "",
+      style: { backgroundColor: "#ffe08a", textColor: "#00364a" },
+    },
+    {
+      option: "",
+      style: { backgroundColor: "#48c78e", textColor: "#00364a" },
+    },
+    {
+      option: "",
+      style: { backgroundColor: "#66ccc7", textColor: "#00364a" },
+    },
+    {
+      option: "",
+      style: { backgroundColor: "#ff705f", textColor: "#00364a" },
+    },
+    {
+      option: "",
+      style: { backgroundColor: "#ffe08a", textColor: "#00364a" },
+    },
+    {
+      option: "",
+      style: { backgroundColor: "#48c78e", textColor: "#00364a" },
+    },
+    {
+      option: "",
+      style: { backgroundColor: "#66ccc7", textColor: "#00364a" },
+    },
+  ],
+};
+
 // TODO: Spinwheel doesn't yet use the generalized TextareaWordlist component
 export default function Spinwheel() {
-  const listNumbers = {
-    name: "NUMBERS",
-    data: [
-      {
-        option: "1",
-        style: { backgroundColor: "#ff705f", textColor: "#00364a" },
-      },
-      {
-        option: "2",
-        style: { backgroundColor: "#ffe08a", textColor: "#00364a" },
-      },
-      {
-        option: "3",
-        style: { backgroundColor: "#48c78e", textColor: "#00364a" },
-      },
-      {
-        option: "4",
-        style: { backgroundColor: "#66ccc7", textColor: "#00364a" },
-      },
-      {
-        option: "5",
-        style: { backgroundColor: "#ff705f", textColor: "#00364a" },
-      },
-      {
-        option: "6",
-        style: { backgroundColor: "#ffe08a", textColor: "#00364a" },
-      },
-      {
-        option: "7",
-        style: { backgroundColor: "#48c78e", textColor: "#00364a" },
-      },
-      {
-        option: "8",
-        style: { backgroundColor: "#66ccc7", textColor: "#00364a" },
-      },
-    ],
-  };
-
-  const listMovements = {
-    name: "MOVEMENTS",
-    data: [
-      {
-        option: "Kniebeugen",
-        style: { backgroundColor: "#ff705f", textColor: "#00364a" },
-      },
-      {
-        option: "Hampelmann",
-        style: { backgroundColor: "#ffe08a", textColor: "#00364a" },
-      },
-      {
-        option: "Hand zu Fuß",
-        style: { backgroundColor: "#48c78e", textColor: "#00364a" },
-      },
-      {
-        option: "Strecken",
-        style: { backgroundColor: "#66ccc7", textColor: "#00364a" },
-      },
-      {
-        option: "Hüpfen",
-        style: { backgroundColor: "#ff705f", textColor: "#00364a" },
-      },
-      {
-        option: "Rennen",
-        style: { backgroundColor: "#ffe08a", textColor: "#00364a" },
-      },
-      {
-        option: "Klatschen",
-        style: { backgroundColor: "#48c78e", textColor: "#00364a" },
-      },
-      {
-        option: "Liegestützen",
-        style: { backgroundColor: "#66ccc7", textColor: "#00364a" },
-      },
-    ],
-  };
-
-  const listCustomWords = {
-    name: "CUSTOM_WORDS",
-    data: [
-      {
-        option: "",
-        style: { backgroundColor: "#ff705f", textColor: "#00364a" },
-      },
-      {
-        option: "",
-        style: { backgroundColor: "#ffe08a", textColor: "#00364a" },
-      },
-      {
-        option: "",
-        style: { backgroundColor: "#48c78e", textColor: "#00364a" },
-      },
-      {
-        option: "",
-        style: { backgroundColor: "#66ccc7", textColor: "#00364a" },
-      },
-      {
-        option: "",
-        style: { backgroundColor: "#ff705f", textColor: "#00364a" },
-      },
-      {
-        option: "",
-        style: { backgroundColor: "#ffe08a", textColor: "#00364a" },
-      },
-      {
-        option: "",
-        style: { backgroundColor: "#48c78e", textColor: "#00364a" },
-      },
-      {
-        option: "",
-        style: { backgroundColor: "#66ccc7", textColor: "#00364a" },
-      },
-    ],
-  };
-
   const [activeSpinlist, setActiveSpinlist] = React.useState(listMovements);
   const [activeSpinlistAsString, setActiveSpinlistAsString] = React.useState(
     createStringFromList(activeSpinlist)
