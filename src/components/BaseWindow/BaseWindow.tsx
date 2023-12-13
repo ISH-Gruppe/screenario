@@ -42,9 +42,12 @@ export default function BaseWindow({ id, title, children }: BaseWindowProps) {
       <Box
         sx={{
           "& button": { m: 1 },
-          "display": "flex",
+          "display": "grid",
+          "gridTemplateColumns": "1fr auto 1fr",
+          "gridTemplateAreas": '"left center right"',
           "justifyContent": "space-between",
           "alignItems": "center",
+          "position": "relative",
         }}
       >
         <div className="window-header-background drag-handle" />
@@ -59,34 +62,55 @@ export default function BaseWindow({ id, title, children }: BaseWindowProps) {
           // </Button>
         }
 
-        <IconButton
-          className="hideButton"
-          onClick={handleCreate}
-          aria-label="Neues Fenster erzeugen"
-          size="small"
+        <Box
+          sx={{
+            gridArea: "left",
+          }}
         >
-          <ControlPointDuplicateIcon />
-        </IconButton>
+          <IconButton
+            className="hideButton"
+            onClick={handleCreate}
+            aria-label="Neues Fenster erzeugen"
+            size="small"
+          >
+            <ControlPointDuplicateIcon />
+          </IconButton>
+        </Box>
 
-        <h3 className="window-title">{title}</h3>
-
-        <IconButton
-          className="hideButton"
-          onClick={handleHide}
-          aria-label="Fenster verbergen"
-          size="small"
+        <h3
+          className="window-title"
+          style={{
+            gridArea: "center",
+          }}
         >
-          <RemoveIcon />
-        </IconButton>
+          {title}
+        </h3>
 
-        <IconButton
-          className="closeButton"
-          onClick={handleClose}
-          aria-label="Fenster schließen"
-          size="small"
+        <Box
+          sx={{
+            gridArea: "right",
+            display: "flex",
+            justifyContent: "flex-end",
+          }}
         >
-          <CloseIcon />
-        </IconButton>
+          <IconButton
+            className="hideButton"
+            onClick={handleHide}
+            aria-label="Fenster verbergen"
+            size="small"
+          >
+            <RemoveIcon />
+          </IconButton>
+
+          <IconButton
+            className="closeButton"
+            onClick={handleClose}
+            aria-label="Fenster schließen"
+            size="small"
+          >
+            <CloseIcon />
+          </IconButton>
+        </Box>
       </Box>
 
       <CardContent className="window-content">
