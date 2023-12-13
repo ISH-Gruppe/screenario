@@ -1,22 +1,26 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
-export default function useAudio(url: string) {
-  const [audio, setAudio] = useState(new Audio(url));
-  const [isMusicPlaying, setIsMusicPlaying] = useState(false);
-
-  const toggle = () => setIsMusicPlaying(!isMusicPlaying);
-
-  useEffect(() => {
-    isMusicPlaying ? audio.play() : audio.pause();
-  }, [isMusicPlaying]);
+export const useAudio = (url: string) => {
+  // Provide unique audio elements per usage while
+  // avoiding constant audio element creation and destruction.
+  const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    audio.addEventListener("ended", () => setIsMusicPlaying(false));
+    setAudio(new Audio(url));
+  }, [url]);
 
-    return () => {
-      audio.removeEventListener("ended", () => setIsMusicPlaying(false));
-    };
-  }, []);
+  const play = useCallback(
+    () =>
+      audio?.play() ??
+      Promise.reject(new Error("Audio element has not yet been initialized!")),
+    [audio]
+  );
 
-  return [isMusicPlaying, toggle, audio, setAudio];
-}
+  const pause = useCallback(() => audio?.pause(), [audio]);
+
+  return {
+    audio,
+    play,
+    pause,
+  };
+};

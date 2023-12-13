@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Spinwheel.scss";
 import { Wheel } from "react-custom-roulette";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
 import { Stack } from "@mui/system";
 import Button from "@mui/material/Button";
+import { useAudio } from "../../Timer/subcomponents/useAudio";
+import ringingSound from "../../Timer/subcomponents/WyxD-flipdish-ringer.mp3";
 
 type Spinlist = {
   name: string;
@@ -132,12 +134,13 @@ const listCustomWords: Spinlist = {
 
 // TODO: Spinwheel doesn't yet use the generalized TextareaWordlist component
 export default function Spinwheel() {
-  const [activeSpinlist, setActiveSpinlist] = React.useState(listMovements);
-  const [activeSpinlistAsString, setActiveSpinlistAsString] = React.useState(
+  const [activeSpinlist, setActiveSpinlist] = useState(listMovements);
+  const [activeSpinlistAsString, setActiveSpinlistAsString] = useState(
     createStringFromList(activeSpinlist)
   );
-  const [prizeNumber, setPrizeNumber] = React.useState(0);
-  const [isSpinning, setIsSpinning] = React.useState(false);
+  const [prizeNumber, setPrizeNumber] = useState(0);
+  const [isSpinning, setIsSpinning] = useState(false);
+  const { play: playWheelFinishedSound } = useAudio(ringingSound);
 
   function handleSpinlistChange(selectedList: Spinlist) {
     setActiveSpinlist(selectedList);
@@ -203,6 +206,11 @@ export default function Spinwheel() {
 
     return stringAsList;
   }
+
+  const onStopSpinning = () => {
+    setIsSpinning(false);
+    playWheelFinishedSound().catch(console.error);
+  };
 
   return (
     <div className="spinwheel-wrapper">
@@ -270,9 +278,7 @@ export default function Spinwheel() {
             backgroundColors={["#3e3e3e", "#df3428"]}
             textColors={["#ffffff"]}
             spinDuration={0.17}
-            onStopSpinning={() => {
-              setIsSpinning(false);
-            }}
+            onStopSpinning={onStopSpinning}
           />
         </div>
       </Stack>
