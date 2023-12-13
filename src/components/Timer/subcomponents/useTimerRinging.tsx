@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import ringingSound from "./call-to-attention-123107.mp3";
 
 /* Huge thank you to https://stackoverflow.com/a/47686478/11515036 */
