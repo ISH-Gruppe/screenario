@@ -17,6 +17,46 @@ import SchoolBellSound from "./sounds/School Bell-SoundBible.com-449398625.mp3";
 import HonkSound from "./sounds/Bike Horn-SoundBible.com-602544869.mp3";
 import YaySound from "./sounds/1_person_cheering-Jett_Rifkin-1851518140.mp3";
 
+import ExampleVideo from "./videos/sample-5s.mp4";
+
+const sounds = [
+  {
+    description: "✅ Das war toll!",
+    path: GreatSound,
+  },
+  {
+    description: "❎ Leider falsch!",
+    path: TooBadSound,
+  },
+  {
+    description: "🏁 Gleich gehts los!",
+    path: CountdownSound,
+  },
+  {
+    description: "⏳️ Bitte etwas Geduld",
+    path: WaitingSound,
+  },
+  {
+    description: "⏰ Pausenglocke",
+    path: SchoolBellSound,
+  },
+  {
+    description: "📣 Honk Honk!",
+    path: HonkSound,
+  },
+  {
+    description: "🎉 Yay!",
+    path: YaySound,
+  },
+];
+
+const videos = [
+  {
+    description: "🎥 Beispiel-GIF",
+    path: ExampleVideo,
+  },
+];
+
 export default function SoundBoard({
   id,
   title,
@@ -24,55 +64,13 @@ export default function SoundBoard({
   id: string;
   title: string;
 }) {
-  const sounds = [
-    {
-      description: "✅ Das war toll!",
-      path: GreatSound,
-    },
-    {
-      description: "❎ Leider falsch!",
-      path: TooBadSound,
-    },
-    {
-      description: "🏁 Gleich gehts los!",
-      path: CountdownSound,
-    },
-    {
-      description: "⏳️ Bitte etwas Geduld",
-      path: WaitingSound,
-    },
-    {
-      description: "⏰ Pausenglocke",
-      path: SchoolBellSound,
-    },
-    {
-      description: "📣 Honk Honk!",
-      path: HonkSound,
-    },
-    {
-      description: "🎉 Yay!",
-      path: YaySound,
-    },
-  ];
-
   const [soundPlaying, setSoundPlaying] = useState("");
+  const [videoPlaying, setVideoPlaying] = useState<undefined | string>(
+    undefined
+  );
   const [audio, setAudio] = useState(new Audio(""));
 
-  const soundButtons = sounds.map((sound, index) => {
-    return (
-      <Button
-        key={index}
-        className="sound-button"
-        onClick={() => playOrStopSound(sound.path)}
-        variant={soundPlaying == sound.path ? "contained" : "outlined"}
-      >
-        {sound.description}
-      </Button>
-    );
-  });
-
   function playOrStopSound(soundpath: string) {
-    console.log(soundpath);
     if (soundpath == soundPlaying) {
       stopSound();
       setSoundPlaying("");
@@ -103,10 +101,68 @@ export default function SoundBoard({
     setSoundPlaying("");
   }
 
+  const playOrStopVideo = (videopath: string) => {
+    if (soundPlaying) {
+      stopSound();
+    }
+
+    if (videoPlaying == videopath) {
+      setVideoPlaying(undefined);
+    } else {
+      setVideoPlaying(videopath);
+    }
+  };
+
+  const stopVideo = () => {
+    setVideoPlaying(undefined);
+  };
+
+  const soundButtons = sounds.map((sound, index) => {
+    return (
+      <Button
+        key={index}
+        className="sound-button"
+        onClick={() => playOrStopSound(sound.path)}
+        variant={soundPlaying == sound.path ? "contained" : "outlined"}
+      >
+        {sound.description}
+      </Button>
+    );
+  });
+
+  const videoButtons = videos.map((video, index) => {
+    return (
+      <Button
+        key={video.path}
+        className="video-button"
+        onClick={() => playOrStopVideo(video.path)}
+        variant={videoPlaying == video.path ? "contained" : "outlined"}
+      >
+        {video.description}
+      </Button>
+    );
+  });
+
   return (
     <div className="base-window-soundboard">
       <BaseWindow id={id} title={title}>
-        <div id="soundboardButtonWrapper">{soundButtons}</div>
+        {videoPlaying ? (
+          <video
+            className="soundboardVideo"
+            src={videoPlaying}
+            autoPlay
+            muted
+            playsInline
+            onEnded={stopVideo}
+            onClick={stopVideo}
+          ></video>
+        ) : (
+          <>
+            <div id="soundboardButtonWrapper">{soundButtons}</div>
+            <h2>GIFs</h2>
+            <div id="soundboardButtonWrapper">{videoButtons}</div>
+          </>
+        )}
       </BaseWindow>
     </div>
   );
