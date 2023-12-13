@@ -1,5 +1,6 @@
 import zod from "zod";
 import { match } from "ts-pattern";
+import { WindowType } from "./components/WindowManager/window-management-slice";
 
 const buildModeSchema = zod.enum(["workshop", "school"]);
 
@@ -7,6 +8,7 @@ const buildMode = buildModeSchema.parse(process.env.REACT_APP_BUILD_VARIANT);
 
 export type AppConfig = {
   font: string;
+  hiddenWindowTypes: WindowType[];
 };
 
 export const APP_CONFIG: AppConfig = match(buildMode)
@@ -14,12 +16,14 @@ export const APP_CONFIG: AppConfig = match(buildMode)
     "workshop",
     (): AppConfig => ({
       font: "Rubik",
+      hiddenWindowTypes: [],
     })
   )
   .with(
     "school",
     (): AppConfig => ({
       font: "ABeeZee",
+      hiddenWindowTypes: [WindowType.Positioning, WindowType.QrCode],
     })
   )
   .exhaustive();

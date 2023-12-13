@@ -22,7 +22,18 @@
   height: 100% !important;
 }
 
-.sound-button {
+.sound-button,
+.video-button {
   width: 200px;
   flex-grow: 1;
+}
+
+.soundboardVideo {
+  position: absolute;
+  inset: 5px;
+  width: 100%;
+  max-width: 100%;
+  max-height: calc(100% - 10px);
+  object-fit: contain;
+  cursor: pointer;
 }

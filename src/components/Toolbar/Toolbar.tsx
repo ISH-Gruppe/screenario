@@ -19,6 +19,57 @@ import {
 } from "../WindowManager/window-management-slice";
 import { AppState } from "../../app-state";
 import { createSelector } from "@reduxjs/toolkit";
+import { APP_CONFIG } from "../../app-config";
+import { omit } from "lodash";
+
+type WindowDescriptor = {
+  icon: React.ReactNode;
+  name: string;
+};
+
+const availableWindowDescriptors: Record<WindowType, WindowDescriptor> = {
+  [WindowType.WorkPhase]: {
+    icon: <SchoolIcon />,
+    name: "Arbeits- und Pausenphasen",
+  },
+  [WindowType.Timer]: {
+    icon: <HourglassTopIcon />,
+    name: "Timer",
+  },
+  [WindowType.RandomGenerator]: {
+    icon: <ShuffleIcon />,
+    name: "Zufallsgenerator",
+  },
+  [WindowType.Notepad]: {
+    icon: <PostAddIcon />,
+    name: "Textfeld",
+  },
+  [WindowType.Soundboard]: {
+    icon: <LyricsIcon />,
+    name: "Soundboard",
+  },
+  [WindowType.Whiteboard]: {
+    icon: <BorderColorIcon />,
+    name: "Whiteboard",
+  },
+  [WindowType.Positioning]: {
+    icon: <GridOnIcon />,
+    name: "Positionierung",
+  },
+  [WindowType.QrCode]: {
+    icon: <QrCodeIcon />,
+    name: "QR-Code-Generator",
+  },
+  [WindowType.Stuhlkreis]: {
+    icon: <ChairAltIcon />,
+    name: "Digitaler Stuhlkreis",
+  },
+};
+
+const displayedWindowDescriptors = omit(
+  availableWindowDescriptors,
+  APP_CONFIG.hiddenWindowTypes
+);
 
 export default function ToggleButtonsMultiple() {
   const dispatch = useDispatch();
@@ -52,101 +103,23 @@ export default function ToggleButtonsMultiple() {
       fullWidth={true}
       size="small"
     >
-      <ToggleButton
-        color="primary"
-        value={WindowType.WorkPhase}
-        selected={openWindowTypes.has(WindowType.WorkPhase)}
-        onClick={handleChange}
-      >
-        <SchoolIcon />
-        <span className="toolbar-text"> Arbeits- und Pausenphasen </span>
-      </ToggleButton>
-      <ToggleButton
-        color="primary"
-        value={WindowType.Timer}
-        selected={openWindowTypes.has(WindowType.Timer)}
-        onClick={handleChange}
-      >
-        <HourglassTopIcon />
-        <span className="toolbar-text">Timer</span>
-      </ToggleButton>
-      <ToggleButton
-        color="primary"
-        value={WindowType.RandomGenerator}
-        selected={openWindowTypes.has(WindowType.RandomGenerator)}
-        onClick={handleChange}
-      >
-        <ShuffleIcon />
-        <span className="toolbar-text">Zufallsgenerator</span>
-      </ToggleButton>
-      <ToggleButton
-        color="primary"
-        value={WindowType.Notepad}
-        selected={openWindowTypes.has(WindowType.Notepad)}
-        onClick={handleChange}
-      >
-        <PostAddIcon />
-        <span className="toolbar-text">Textfeld </span>
-      </ToggleButton>
-
-      <ToggleButton
-        color="primary"
-        value={WindowType.Soundboard}
-        selected={openWindowTypes.has(WindowType.Soundboard)}
-        onClick={handleChange}
-      >
-        <LyricsIcon />
-        <span className="toolbar-text">Soundboard </span>
-      </ToggleButton>
-
-      <ToggleButton
-        color="primary"
-        value={WindowType.Whiteboard}
-        selected={openWindowTypes.has(WindowType.Whiteboard)}
-        onClick={handleChange}
-      >
-        <BorderColorIcon />
-        <span className="toolbar-text">Whiteboard </span>
-      </ToggleButton>
-
-      <ToggleButton
-        color="primary"
-        value={WindowType.Positioning}
-        selected={openWindowTypes.has(WindowType.Positioning)}
-        onClick={handleChange}
-      >
-        <GridOnIcon />
-        <span className="toolbar-text">Positionierung</span>
-      </ToggleButton>
-
-      <ToggleButton
-        color="primary"
-        value={WindowType.QrCode}
-        selected={openWindowTypes.has(WindowType.QrCode)}
-        onClick={handleChange}
-      >
-        <QrCodeIcon />
-        <span className="toolbar-text">QR-Code-Generator </span>
-      </ToggleButton>
-      <ToggleButton
-        color="primary"
-        value={WindowType.Stuhlkreis}
-        selected={openWindowTypes.has(WindowType.Stuhlkreis)}
-        onClick={handleChange}
-      >
-        <ChairAltIcon />
-        <span className="toolbar-text">Digitaler Stuhlkreis </span>
-      </ToggleButton>
+      {(
+        Object.entries(displayedWindowDescriptors) as [
+          WindowType,
+          WindowDescriptor
+        ][]
+      ).map(([type, descriptor]) => (
+        <ToggleButton
+          key={type}
+          color="primary"
+          value={type}
+          selected={openWindowTypes.has(type)}
+          onClick={handleChange}
+        >
+          {descriptor.icon}
+          <span className="toolbar-text"> {descriptor.name} </span>
+        </ToggleButton>
+      ))}
     </ToggleButtonGroup>
   );
 }
-
-// <ToggleButton
-//   color="primary"
-//   value="whiteboard"
-//   selected={windows["whiteboard"].open}
-//   onClick={handleChange}
-// >
-//   <BorderColorIcon />
-//   <span className="toolbar-text">Whiteboard </span>
-// </ToggleButton>
