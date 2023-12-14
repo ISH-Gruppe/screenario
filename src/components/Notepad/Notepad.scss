@@ -1,0 +1,68 @@
+.ql-container {
+  box-sizing: border-box;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  height: 100%;
+  margin: 0px;
+  position: relative;
+}
+
+.quill {
+  scale: 100%;
+  margin-top: 10px;
+}
+
+.ql-container.ql-snow,
+.ql-toolbar.ql-snow {
+  border: none;
+}
+
+#content-container-notepad {
+  margin: 0 0;
+}
+
+// ALWAYS KEEP IN SYNC WITH ./Notepad.tsx
+$fonts: [ "Grundschrift", "Rubik"];
+
+.ql-editor {
+  font-family: "Grundschrift", sans-serif;
+}
+
+@for $i from 1 through length($fonts) {
+  .ql-snow
+    .ql-picker.ql-font
+    .ql-picker-label[data-value="#{nth($fonts, $i)}"]::before,
+  .ql-snow
+    .ql-picker.ql-font
+    .ql-picker-item[data-value="#{nth($fonts, $i)}"]::before {
+    font-family: "#{nth($fonts, $i)}", sans-serif;
+    content: "#{nth($fonts, $i)}";
+  }
+
+  .ql-font-#{nth($fonts, $i)} {
+    font-family: "#{nth($fonts, $i)}", sans-serif;
+  }
+}
+
+$sizes: (
+  18px: "Klein",
+  28px: "Mittel",
+  38px: "Groß",
+);
+
+.ql-snow {
+  .ql-picker.ql-size {
+    @each $size, $label in $sizes {
+      .ql-picker-label[data-value="#{$size}"]::before {
+        content: $label;
+      }
+    }
+
+    @each $size, $label in $sizes {
+      .ql-picker-item[data-value="#{$size}"]::before {
+        content: $label;
+        font-size: $size !important;
+      }
+    }
+  }
+}
