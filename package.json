@@ -40,6 +40,7 @@
     "sass": "^1.54.0",
     "ts-pattern": "^5.0.5",
     "typescript": "^5.2.2",
+    "use-debounce": "^10.0.0",
     "use-image": "^1.0.12",
     "web-vitals": "^2.1.4",
     "zod": "^3.22.4"

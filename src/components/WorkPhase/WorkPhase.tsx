@@ -15,6 +15,7 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import Tooltip from "@mui/material/Tooltip";
 import {
   CUSTOM_IMAGES_WORK_PHASE_TAB_ID,
+  CUSTOM_PICTOGRAM_TAB_ID,
   saveImage,
   selectWorkPhaseTab,
   WorkPhaseState,
@@ -30,6 +31,7 @@ import Tab from "@mui/material/Tab";
 import { ImageContextMenu } from "./ImageContextMenu";
 import { ReactJSXElement } from "@emotion/react/types/jsx-namespace";
 import { toDataUrl } from "../../utils/fileToDataUrl";
+import { PictogramSearch } from "./PictogramSearch";
 
 export default function WorkPhase({
   id,
@@ -101,6 +103,7 @@ export default function WorkPhase({
               {Object.entries(workPhaseTabs).map(([tabId, { name }]) => (
                 <Tab key={tabId} value={tabId} label={name} />
               ))}
+              <Tab value={CUSTOM_PICTOGRAM_TAB_ID} label="Piktogrammsuche" />
               <Tab
                 value={CUSTOM_IMAGES_WORK_PHASE_TAB_ID}
                 label="Eigene Bilder"
@@ -132,6 +135,9 @@ export default function WorkPhase({
                 ))}
               </TabPanel>
             ))}
+            <TabPanel value={CUSTOM_PICTOGRAM_TAB_ID}>
+              <PictogramSearch />
+            </TabPanel>
             <TabPanel value={CUSTOM_IMAGES_WORK_PHASE_TAB_ID}>
               <Tooltip title="Eigenes Bild hinzufügen">
                 <ToggleButton
