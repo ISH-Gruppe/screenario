@@ -81,6 +81,7 @@ export default function BaseWindow({ id, title, children }: BaseWindowProps) {
           className="window-title"
           style={{
             gridArea: "center",
+            textAlign: "center",
           }}
         >
           {title}
