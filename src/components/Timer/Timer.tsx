@@ -15,7 +15,13 @@ import {
   WindowType,
 } from "../WindowManager/window-management-slice";
 import { useDispatch } from "react-redux";
-import { getDateFromTimerValue, setTimer, TimerState } from "./TimerState";
+import {
+  getDateFromTimerValue,
+  setTimer,
+  TimerState,
+  toggleAnalogTimer,
+} from "./TimerState";
+import { AnalogTimer } from "./subcomponents/AnalogTimer";
 
 export default function Timer({ id, title }: { id: string; title: string }) {
   const dispatch = useDispatch();
@@ -30,36 +36,42 @@ export default function Timer({ id, title }: { id: string; title: string }) {
   const [initialTimerValue, setInitialTimerValue] = useState(
     getDateFromTimerValue(windowState)
   );
-  const { seconds, minutes, hours, isRunning, start, pause, resume, restart } =
-    useTimer({
-      // initialTimerValue,
-      expiryTimestamp: initialTimerValue,
-      autoStart: false,
-      onExpire: handleTimerCompletion,
-    });
+  const {
+    totalSeconds,
+    seconds,
+    minutes,
+    isRunning,
+    start,
+    pause,
+    resume,
+    restart,
+  } = useTimer({
+    // initialTimerValue,
+    expiryTimestamp: initialTimerValue,
+    autoStart: false,
+    onExpire: handleTimerCompletion,
+  });
 
   const [ringTimer] = useTimerRinging();
 
-  function updateAndRestartTimer(
-    deltaSeconds = 0,
-    deltaMinutes = 0,
-    deltaHours = 0
-  ) {
+  function updateAndRestartTimer(deltaSeconds = 0, deltaMinutes = 0) {
     const newTimestamp = new Date();
-    newTimestamp.setHours(newTimestamp.getHours() + hours + deltaHours);
     newTimestamp.setMinutes(newTimestamp.getMinutes() + minutes + deltaMinutes);
     newTimestamp.setSeconds(newTimestamp.getSeconds() + seconds + deltaSeconds);
 
     dispatch(
       setTimer({
         id,
-        hours: hours + deltaHours,
         minutes: minutes + deltaMinutes,
         seconds: seconds + deltaSeconds,
       })
     );
     restart(newTimestamp, isRunning);
   }
+
+  const onToggleAnalogTimer = () => {
+    dispatch(toggleAnalogTimer({ id }));
+  };
 
   function startTimer() {
     resume();
@@ -94,14 +106,21 @@ export default function Timer({ id, title }: { id: string; title: string }) {
   return (
     <BaseWindow id={id} title={title}>
       <Grid container spacing={2} style={{ textAlign: "center" }}>
+        {windowState.showAnalogTimer && (
+          <div className="analog-timer">
+            <AnalogTimer totalSeconds={totalSeconds} />
+          </div>
+        )}
+
         <Grid item xs={12} style={{ textAlign: "center" }}>
           <TimerView
-            hours={hours}
             minutes={minutes}
             seconds={seconds}
             startTimer={startTimer}
             stopTimer={stopTimer}
             onTimerUpdate={updateAndRestartTimer}
+            windowId={id}
+            onToggleAnalogTimer={onToggleAnalogTimer}
           />
         </Grid>
 
@@ -126,10 +145,10 @@ export const timerWindowConfig: WindowConfig = {
   getInitialState: () => ({
     type: WindowType.Timer,
     timerValue: {
-      hours: 0,
       minutes: 0,
       seconds: 0,
     },
+    showAnalogTimer: false,
   }),
   Component: ({ id }) => <Timer id={id} title="Timer" />,
   defaultLayout: {

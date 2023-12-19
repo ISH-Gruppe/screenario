@@ -21,6 +21,9 @@ export const store = configureStore({
       backgroundImage: backgroundImageSlice.reducer,
     })
   ),
+
+  // https://stackoverflow.com/a/77509978
+  middleware: [],
 });
 
 export type AppState = ReturnType<typeof store.getState>;
