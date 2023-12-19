@@ -85,11 +85,13 @@ export const getWorkPhaseImageById = (id: string) =>
     .flatMap((tab) => tab.categories.flatMap(({ images }) => images))
     .find(({ id: curr }) => curr === id);
 
+export const CUSTOM_PICTOGRAM_TAB_ID = "pictograms";
 export const CUSTOM_IMAGES_WORK_PHASE_TAB_ID = "custom-images";
 
 export type WorkPhaseTabId =
   | keyof typeof workPhaseTabs
-  | typeof CUSTOM_IMAGES_WORK_PHASE_TAB_ID;
+  | typeof CUSTOM_IMAGES_WORK_PHASE_TAB_ID
+  | typeof CUSTOM_PICTOGRAM_TAB_ID;
 
 export type WorkPhaseState = {
   type: WindowType.WorkPhase;

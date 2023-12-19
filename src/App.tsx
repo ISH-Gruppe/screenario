@@ -25,6 +25,10 @@ import { PersistGate } from "redux-persist/integration/react";
 import { ImportExportButtons } from "./components/ImportExportButtons";
 import { BackgroundImage } from "./components/BackgroundImage/BackgroundImage";
 import useWakeLock from "react-use-wake-lock";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
+const queryClient = new QueryClient();
 
 export default function App() {
   const [donationModalopen, setDonationModalOpen] = React.useState(false);
@@ -39,55 +43,60 @@ export default function App() {
   }, []);
 
   return (
-    <ThemeProvider theme={appTheme}>
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <ConfirmProvider>
-            <BackgroundImage />
+    <QueryClientProvider client={queryClient}>
+      {/* These are automatically excluded on production builds */}
+      <ReactQueryDevtools />
 
-            <Router>
-              <Routes>
-                <Route path="/" element={<WindowManager />} />
-                <Route path="/impressum" element={<Imprint />} />
-                <Route path="/datenschutz" element={<Privacy />} />
-                <Route path="/lizenzen" element={<Licensing />} />
-              </Routes>
-            </Router>
+      <ThemeProvider theme={appTheme}>
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <ConfirmProvider>
+              <BackgroundImage />
 
-            <a
-              className="ish-logo"
-              href="https://ish-gruppe.de"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img src="/assets/ish-gruppe-logo.png" />
-            </a>
+              <Router>
+                <Routes>
+                  <Route path="/" element={<WindowManager />} />
+                  <Route path="/impressum" element={<Imprint />} />
+                  <Route path="/datenschutz" element={<Privacy />} />
+                  <Route path="/lizenzen" element={<Licensing />} />
+                </Routes>
+              </Router>
 
-            <div className="donation-button">
-              <Button
-                variant="outlined"
-                color="primary"
-                startIcon={<FavoriteBorderIcon />}
-                onClick={() => setDonationModalOpen(true)}
+              <a
+                className="ish-logo"
+                href="https://ish-gruppe.de"
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                Spenden
-              </Button>
+                <img src="/assets/ish-gruppe-logo.png" />
+              </a>
 
-              <ImportExportButtons />
-            </div>
+              <div className="donation-button">
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  startIcon={<FavoriteBorderIcon />}
+                  onClick={() => setDonationModalOpen(true)}
+                >
+                  Spenden
+                </Button>
 
-            <span className="imprint-privacy">
-              <a href="/impressum">Impressum</a> &{" "}
-              <a href="/datenschutz">Datenschutz</a>
-            </span>
+                <ImportExportButtons />
+              </div>
 
-            <DonationModal
-              open={donationModalopen}
-              handleClose={() => setDonationModalOpen(false)}
-            />
-          </ConfirmProvider>
-        </PersistGate>
-      </Provider>
-    </ThemeProvider>
+              <span className="imprint-privacy">
+                <a href="/impressum">Impressum</a> &{" "}
+                <a href="/datenschutz">Datenschutz</a>
+              </span>
+
+              <DonationModal
+                open={donationModalopen}
+                handleClose={() => setDonationModalOpen(false)}
+              />
+            </ConfirmProvider>
+          </PersistGate>
+        </Provider>
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }
