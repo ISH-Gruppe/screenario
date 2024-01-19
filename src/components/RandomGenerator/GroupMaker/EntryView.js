@@ -10,7 +10,7 @@ import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import TextareaWordlist from "../TextareaWordlist";
 import { useWindowState } from "../../WindowManager/window-management-slice";
 import {
-  setRandomGeneratorGroupMakerNameList,
+  setRandomGeneratorGroupMakerWordList,
   setRandomGeneratorNumberOfGroups,
 } from "../RandomGeneratorState";
 import { useDispatch } from "react-redux";
@@ -41,9 +41,9 @@ export default function EntryView({ windowId, onGroupChange }) {
 
   function handleNamelistChange(updatedList) {
     dispatch(
-      setRandomGeneratorGroupMakerNameList({
+      setRandomGeneratorGroupMakerWordList({
         id: windowId,
-        names: updatedList,
+        words: updatedList,
       })
     );
   }

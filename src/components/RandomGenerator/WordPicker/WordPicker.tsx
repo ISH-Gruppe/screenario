@@ -1,5 +1,5 @@
 import React from "react";
-import "./NamePicker.scss";
+import "./WordPicker.scss";
 import TextareaWordlist from "../TextareaWordlist";
 import RandomPicker from "./RandomPicker/RandomPicker";
 import Checkbox from "@mui/material/Checkbox";
@@ -8,15 +8,15 @@ import { useDispatch } from "react-redux";
 import { useWindowState } from "../../WindowManager/window-management-slice";
 import {
   RandomGeneratorState,
-  setRandomGeneratorNamePickerList,
+  setRandomGeneratorWordPickerList,
 } from "../RandomGeneratorState";
 
-export default function NamePicker({ windowId }: { windowId: string }) {
+export default function WordPicker({ windowId }: { windowId: string }) {
   const windowState = useWindowState(windowId) as RandomGeneratorState;
   const dispatch = useDispatch();
-  const nameList = windowState.namePicker.names;
-  const [availableNamesToDraw, setNameAvailableNamesToDraw] =
-    React.useState(nameList);
+  const wordList = windowState.wordPicker.words;
+  const [availableWordsToDraw, setAvailableWordsToDraw] =
+    React.useState(wordList);
 
   const [rememberChosen, setRememberChosen] = React.useState(true);
 
@@ -24,7 +24,7 @@ export default function NamePicker({ windowId }: { windowId: string }) {
     event: React.ChangeEvent<HTMLInputElement>
   ) {
     if (!event.target.checked) {
-      resetAvailableNamesToDraw(nameList);
+      resetAvailableWordsToDraw(wordList);
     }
 
     setRememberChosen(event.target.checked);
@@ -33,53 +33,53 @@ export default function NamePicker({ windowId }: { windowId: string }) {
   function handleWordlistChange(updatedList: string[]) {
     // console.log("handleWordlistChange ", updatedList);
     // console.log(updatedList);
-    resetAvailableNamesToDraw(updatedList);
+    resetAvailableWordsToDraw(updatedList);
     dispatch(
-      setRandomGeneratorNamePickerList({
+      setRandomGeneratorWordPickerList({
         id: windowId,
-        names: updatedList,
+        words: updatedList,
       })
     );
   }
 
-  function handleChoiceChange(selectedName: string) {
-    // console.log("selectedName ", selectedName);
+  function handleChoiceChange(selectedWord: string) {
+    // console.log("selectedWord ", selectedWord);
 
     if (rememberChosen) {
       // Remove choice from array
       // Reset the array if it's empty after removal
 
-      setNameAvailableNamesToDraw((prevAvailableNamesToDraw) => {
-        // const leftNamesToDraw = [...prevAvailableNamesToDraw];
-        const leftNamesToDraw = prevAvailableNamesToDraw.filter(
-          (name) => selectedName !== name
+      setAvailableWordsToDraw((prevAvailableWordsToDraw) => {
+        // const leftWordsToDraw = [...prevAvailableWordsToDraw];
+        const leftWordsToDraw = prevAvailableWordsToDraw.filter(
+          (word) => selectedWord !== word
         );
 
-        // console.log("leftNamesToDraw ", leftNamesToDraw);
+        // console.log("leftWordsToDraw ", leftWordsToDraw);
 
-        if (leftNamesToDraw.length > 0) {
-          return leftNamesToDraw;
+        if (leftWordsToDraw.length > 0) {
+          return leftWordsToDraw;
         } else {
-          return nameList;
+          return wordList;
         }
       });
     }
   }
 
-  function resetAvailableNamesToDraw(newNameList: string[]) {
-    setNameAvailableNamesToDraw(newNameList);
+  function resetAvailableWordsToDraw(newWordList: string[]) {
+    setAvailableWordsToDraw(newWordList);
   }
 
   return (
     <>
       <RandomPicker
-        items={availableNamesToDraw}
+        items={availableWordsToDraw}
         onChoiceChange={handleChoiceChange}
       />
 
       <div className="checkbox-container">
         <FormControlLabel
-          label="Jeden Namen nur ein Mal auslosen"
+          label="Jeden Begriff nur ein Mal auslosen"
           control={
             <Checkbox
               size="small"
@@ -91,11 +91,11 @@ export default function NamePicker({ windowId }: { windowId: string }) {
       </div>
 
       <TextareaWordlist
-        valueAsList={nameList}
+        valueAsList={wordList}
         handleWordlistChange={handleWordlistChange}
         minRows="8"
-        placeholder="Hier einen Namen pro Zeile einfügen "
-        ariaLabel="Namensfeld für zufällige Auslosung von Namen"
+        placeholder="Hier einen Begriff pro Zeile einfügen "
+        ariaLabel="Begriffsfeld für zufällige Auslosung von Begriffen"
       />
     </>
   );

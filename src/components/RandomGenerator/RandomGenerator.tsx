@@ -7,7 +7,7 @@ import "./RandomGenerator.scss";
 import BaseWindow from "../BaseWindow/BaseWindow";
 import GroupMaker from "./GroupMaker/GroupMaker";
 import Spinwheel from "./Spinwheel/Spinwheel";
-import NamePicker from "./NamePicker/NamePicker";
+import WordPicker from "./WordPicker/WordPicker";
 import {
   useWindowState,
   WindowConfig,
@@ -57,9 +57,9 @@ export default function RandomGenerator({
                   value={tabsEnum.SPINWHEEL.tabIndex}
                 />
                 <Tab
-                  key={tabsEnum.NAME_PICKER.key}
-                  label={tabsEnum.NAME_PICKER.label}
-                  value={tabsEnum.NAME_PICKER.tabIndex}
+                  key={tabsEnum.WORD_PICKER.key}
+                  label={tabsEnum.WORD_PICKER.label}
+                  value={tabsEnum.WORD_PICKER.tabIndex}
                 />
               </TabList>
             </div>
@@ -77,10 +77,10 @@ export default function RandomGenerator({
               <Spinwheel />
             </TabPanel>
             <TabPanel
-              key={tabsEnum.NAME_PICKER.key}
-              value={tabsEnum.NAME_PICKER.tabIndex}
+              key={tabsEnum.WORD_PICKER.key}
+              value={tabsEnum.WORD_PICKER.tabIndex}
             >
-              <NamePicker windowId={id} />
+              <WordPicker windowId={id} />
             </TabPanel>
           </TabContext>
         </div>
@@ -99,8 +99,8 @@ export const randomGeneratorWindowConfig: WindowConfig = {
       activeStep: GroupMakerStep.DataEntry,
       numberOfGroups: 0,
     },
-    namePicker: {
-      names: [],
+    wordPicker: {
+      words: [],
     },
   }),
   Component: ({ id }) => <RandomGenerator id={id} title="Zufallsgenerator" />,
