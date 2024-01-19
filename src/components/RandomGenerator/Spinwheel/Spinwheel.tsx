@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Spinwheel.scss";
 import { Wheel } from "react-custom-roulette";
 import { Stack } from "@mui/system";
@@ -11,6 +11,8 @@ import { setSpinwheelList, SpinwheelState } from "../RandomGeneratorState";
 import TextareaWordlist from "../TextareaWordlist";
 import { useDispatch } from "react-redux";
 import { WheelData } from "react-custom-roulette/dist/components/Wheel/types";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 const spinWheelBackgroundColors = ["#ff705f", "#ffe08a", "#48c78e", "#66ccc7"];
 
@@ -24,18 +26,43 @@ export default function Spinwheel({
   const dispatch = useDispatch();
   const [activeListName, setActiveListName] =
     useState<keyof SpinwheelState>("movements");
+  const [rememberChosen, setRememberChosen] = useState(false);
+
   const activeSpinlist = state[activeListName];
+
+  const [freshElements, setFreshElements] = useState(
+    activeSpinlist.map((_, index) => index)
+  );
+  useEffect(() => {
+    setFreshElements(activeSpinlist.map((_, index) => index));
+  }, [activeSpinlist, rememberChosen]);
+
   const [prizeNumber, setPrizeNumber] = useState(0);
   const [isSpinning, setIsSpinning] = useState(false);
   const { play: playSpinningSound, pause: pauseSpinningSound } =
     useAudio(spinningSound);
   const { play: playWheelFinishedSound } = useAudio(endingSound);
 
-  const getRandomNumberFromActiveSpinlist = () =>
-    Math.floor(Math.random() * activeSpinlist.length);
+  const getRandomNumberFromFreshList = () => {
+    const randomIndex = Math.floor(Math.random() * freshElements.length);
+    const result = freshElements[randomIndex] ?? 0;
+
+    if (!rememberChosen) {
+      return result;
+    }
+
+    if (freshElements.length > 1) {
+      setFreshElements(
+        freshElements.filter((_, index) => index !== randomIndex)
+      );
+    } else {
+      setFreshElements(activeSpinlist.map((_, index) => index));
+    }
+    return result;
+  };
 
   const handleSpinClick = () => {
-    setPrizeNumber(getRandomNumberFromActiveSpinlist());
+    setPrizeNumber(getRandomNumberFromFreshList());
     setIsSpinning(true);
     playSpinningSound().catch(console.error);
   };
@@ -44,6 +71,10 @@ export default function Spinwheel({
     setIsSpinning(false);
     pauseSpinningSound();
     playWheelFinishedSound().catch(console.error);
+  };
+
+  const handleRememberChosenChange = (_: unknown, checked: boolean) => {
+    setRememberChosen(checked);
   };
 
   const wheelData: WheelData[] = (
@@ -106,11 +137,21 @@ export default function Spinwheel({
                 )
               }
               minRows={8}
-              placeholder="Hier einen Begriff pro Zeile einfügen (genau 8 Zeilen)"
+              placeholder="Hier einen Begriff pro Zeile einfügen"
               ariaLabel="Begriffsfeld für zufällige Auslosung von Begriffen"
             />
           </div>
-          <small>Hinweis: Es gelten die 8 letzten Begriffe</small>
+
+          <FormControlLabel
+            label="Jeden Begriff nur ein Mal auslosen"
+            control={
+              <Checkbox
+                size="small"
+                checked={rememberChosen}
+                onChange={handleRememberChosenChange}
+              />
+            }
+          />
 
           <Button variant="contained" onClick={handleSpinClick}>
             Drehen
