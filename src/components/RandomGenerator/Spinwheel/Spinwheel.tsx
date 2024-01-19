@@ -1,216 +1,74 @@
 import React, { useState } from "react";
 import "./Spinwheel.scss";
 import { Wheel } from "react-custom-roulette";
-import TextareaAutosize from "@mui/material/TextareaAutosize";
 import { Stack } from "@mui/system";
 import Button from "@mui/material/Button";
 import { useAudio } from "../../Timer/subcomponents/useAudio";
 import endingSound from "./winfantasia-6912.mp3";
+import { setSpinwheelList, SpinwheelState } from "../RandomGeneratorState";
+import TextareaWordlist from "../TextareaWordlist";
+import { useDispatch } from "react-redux";
+import { WheelData } from "react-custom-roulette/dist/components/Wheel/types";
 
-type Spinlist = {
-  name: string;
-  data: {
-    option: string;
-    style: {
-      backgroundColor: string;
-      textColor: string;
-    };
-  }[];
-};
+const baseWheelData = [
+  {
+    style: { backgroundColor: "#ff705f", textColor: "#00364a" },
+  },
+  {
+    style: { backgroundColor: "#ffe08a", textColor: "#00364a" },
+  },
+  {
+    style: { backgroundColor: "#48c78e", textColor: "#00364a" },
+  },
+  {
+    style: { backgroundColor: "#66ccc7", textColor: "#00364a" },
+  },
+  {
+    style: { backgroundColor: "#ff705f", textColor: "#00364a" },
+  },
+  {
+    style: { backgroundColor: "#ffe08a", textColor: "#00364a" },
+  },
+  {
+    style: { backgroundColor: "#48c78e", textColor: "#00364a" },
+  },
+  {
+    style: { backgroundColor: "#66ccc7", textColor: "#00364a" },
+  },
+];
 
-const listNumbers: Spinlist = {
-  name: "NUMBERS",
-  data: [
-    {
-      option: "1",
-      style: { backgroundColor: "#ff705f", textColor: "#00364a" },
-    },
-    {
-      option: "2",
-      style: { backgroundColor: "#ffe08a", textColor: "#00364a" },
-    },
-    {
-      option: "3",
-      style: { backgroundColor: "#48c78e", textColor: "#00364a" },
-    },
-    {
-      option: "4",
-      style: { backgroundColor: "#66ccc7", textColor: "#00364a" },
-    },
-    {
-      option: "5",
-      style: { backgroundColor: "#ff705f", textColor: "#00364a" },
-    },
-    {
-      option: "6",
-      style: { backgroundColor: "#ffe08a", textColor: "#00364a" },
-    },
-    {
-      option: "7",
-      style: { backgroundColor: "#48c78e", textColor: "#00364a" },
-    },
-    {
-      option: "8",
-      style: { backgroundColor: "#66ccc7", textColor: "#00364a" },
-    },
-  ],
-};
-
-const listMovements: Spinlist = {
-  name: "MOVEMENTS",
-  data: [
-    {
-      option: "Kniebeugen",
-      style: { backgroundColor: "#ff705f", textColor: "#00364a" },
-    },
-    {
-      option: "Hampelmann",
-      style: { backgroundColor: "#ffe08a", textColor: "#00364a" },
-    },
-    {
-      option: "Hand zu Fuß",
-      style: { backgroundColor: "#48c78e", textColor: "#00364a" },
-    },
-    {
-      option: "Strecken",
-      style: { backgroundColor: "#66ccc7", textColor: "#00364a" },
-    },
-    {
-      option: "Hüpfen",
-      style: { backgroundColor: "#ff705f", textColor: "#00364a" },
-    },
-    {
-      option: "Rennen",
-      style: { backgroundColor: "#ffe08a", textColor: "#00364a" },
-    },
-    {
-      option: "Klatschen",
-      style: { backgroundColor: "#48c78e", textColor: "#00364a" },
-    },
-    {
-      option: "Liegestützen",
-      style: { backgroundColor: "#66ccc7", textColor: "#00364a" },
-    },
-  ],
-};
-
-const listCustomWords: Spinlist = {
-  name: "CUSTOM_WORDS",
-  data: [
-    {
-      option: "",
-      style: { backgroundColor: "#ff705f", textColor: "#00364a" },
-    },
-    {
-      option: "",
-      style: { backgroundColor: "#ffe08a", textColor: "#00364a" },
-    },
-    {
-      option: "",
-      style: { backgroundColor: "#48c78e", textColor: "#00364a" },
-    },
-    {
-      option: "",
-      style: { backgroundColor: "#66ccc7", textColor: "#00364a" },
-    },
-    {
-      option: "",
-      style: { backgroundColor: "#ff705f", textColor: "#00364a" },
-    },
-    {
-      option: "",
-      style: { backgroundColor: "#ffe08a", textColor: "#00364a" },
-    },
-    {
-      option: "",
-      style: { backgroundColor: "#48c78e", textColor: "#00364a" },
-    },
-    {
-      option: "",
-      style: { backgroundColor: "#66ccc7", textColor: "#00364a" },
-    },
-  ],
-};
-
-// TODO: Spinwheel doesn't yet use the generalized TextareaWordlist component
-export default function Spinwheel() {
-  const [activeSpinlist, setActiveSpinlist] = useState(listMovements);
-  const [activeSpinlistAsString, setActiveSpinlistAsString] = useState(
-    createStringFromList(activeSpinlist)
-  );
+export default function Spinwheel({
+  state,
+  windowId,
+}: {
+  state: SpinwheelState;
+  windowId: string;
+}) {
+  const dispatch = useDispatch();
+  const [activeListName, setActiveListName] =
+    useState<keyof SpinwheelState>("movements");
+  const activeSpinlist = state[activeListName];
   const [prizeNumber, setPrizeNumber] = useState(0);
   const [isSpinning, setIsSpinning] = useState(false);
   const { play: playWheelFinishedSound } = useAudio(endingSound);
 
-  function handleSpinlistChange(selectedList: Spinlist) {
-    setActiveSpinlist(selectedList);
-    setActiveSpinlistAsString(createStringFromList(selectedList));
-  }
+  const getRandomNumberFromActiveSpinlist = () =>
+    Math.floor(Math.random() * activeSpinlist.length);
 
-  function handleSpinlistInTextareaChange(
-    textArea: React.ChangeEvent<HTMLTextAreaElement>
-  ) {
-    const spinlistData = createListFromString(textArea.target.value);
-
-    setActiveSpinlist((previousActiveSpinlist) => {
-      const newSpinlist: Spinlist = {
-        name: previousActiveSpinlist.name,
-        data: [],
-      };
-
-      for (let index = 0; index < previousActiveSpinlist.data.length; index++) {
-        newSpinlist.data.push({
-          option: spinlistData[index],
-          style: previousActiveSpinlist.data[index].style,
-        });
-      }
-
-      return newSpinlist;
-    });
-    setActiveSpinlistAsString(textArea.target.value);
-  }
-
-  function handleSpinClick() {
+  const handleSpinClick = () => {
     setPrizeNumber(getRandomNumberFromActiveSpinlist());
     setIsSpinning(true);
-  }
-
-  function getRandomNumberFromActiveSpinlist() {
-    return Math.floor(Math.random() * activeSpinlist.data.length);
-  }
-
-  function createStringFromList(passedList: Spinlist) {
-    let listAsAString = "";
-
-    passedList.data.forEach((listEntry) => {
-      listAsAString += listEntry.option + "\n";
-    });
-
-    return listAsAString;
-  }
-
-  function createListFromString(passedString: string) {
-    const stringAsList = passedString
-      .split("\n")
-      .filter((n) => n)
-      .slice(-8);
-
-    const requiredNumberOfItems = 8;
-    const missingNumberOfItems = requiredNumberOfItems - stringAsList.length;
-
-    if (missingNumberOfItems !== 0 && missingNumberOfItems > 0) {
-      for (let index = 0; index < missingNumberOfItems; index++) {
-        stringAsList.push("");
-      }
-    }
-
-    return stringAsList;
-  }
+  };
 
   const onStopSpinning = () => {
     setIsSpinning(false);
     playWheelFinishedSound().catch(console.error);
   };
+
+  const wheelData: WheelData[] = baseWheelData.map((baseData, index) => ({
+    ...baseData,
+    option: activeSpinlist[index] ?? "",
+  }));
 
   return (
     <div className="spinwheel-wrapper">
@@ -221,30 +79,24 @@ export default function Spinwheel() {
         sx={{ marginBottom: "1.5rem" }}
       >
         <Button
-          onClick={() => handleSpinlistChange(listMovements)}
-          className={
-            activeSpinlist.name === listMovements.name ? "activeButton" : ""
-          }
+          onClick={() => setActiveListName("movements")}
+          className={activeListName === "movements" ? "activeButton" : ""}
           size="small"
           variant="outlined"
         >
           Bewegungen
         </Button>
         <Button
-          onClick={() => handleSpinlistChange(listNumbers)}
-          className={
-            activeSpinlist.name === listNumbers.name ? "activeButton" : ""
-          }
+          onClick={() => setActiveListName("numbers")}
+          className={activeListName === "numbers" ? "activeButton" : ""}
           size="small"
           variant="outlined"
         >
           Zahlen 1-8
         </Button>
         <Button
-          onClick={() => handleSpinlistChange(listCustomWords)}
-          className={
-            activeSpinlist.name === listCustomWords.name ? "activeButton" : ""
-          }
+          onClick={() => setActiveListName("words")}
+          className={activeListName === "words" ? "activeButton" : ""}
           size="small"
           variant="outlined"
         >
@@ -255,12 +107,20 @@ export default function Spinwheel() {
       <Stack direction="row">
         <Stack spacing={2} sx={{ marginTop: "1rem" }}>
           <div className="textarea-wrapper">
-            <TextareaAutosize
-              value={activeSpinlistAsString}
-              onChange={handleSpinlistInTextareaChange}
-              aria-label="Begriffe für das Glücksrad"
+            <TextareaWordlist
+              valueAsList={activeSpinlist}
+              handleWordlistChange={(list) =>
+                dispatch(
+                  setSpinwheelList({
+                    id: windowId,
+                    list,
+                    listName: activeListName,
+                  })
+                )
+              }
               minRows={8}
-              placeholder="Es gelten die 8 letzten Begriffe"
+              placeholder="Hier einen Begriff pro Zeile einfügen (genau 8 Zeilen)"
+              ariaLabel="Begriffsfeld für zufällige Auslosung von Begriffen"
             />
           </div>
           <small>Hinweis: Es gelten die 8 letzten Begriffe</small>
@@ -274,7 +134,7 @@ export default function Spinwheel() {
           <Wheel
             mustStartSpinning={isSpinning}
             prizeNumber={prizeNumber}
-            data={activeSpinlist.data}
+            data={wheelData}
             backgroundColors={["#3e3e3e", "#df3428"]}
             textColors={["#ffffff"]}
             spinDuration={0.17}

@@ -30,6 +30,12 @@ export enum GroupMakerStep {
 
 export type ActiveTab = (typeof tabsEnum)[keyof typeof tabsEnum]["tabIndex"];
 
+export type SpinwheelState = {
+  movements: string[];
+  numbers: string[];
+  words: string[];
+};
+
 export type RandomGeneratorState = {
   type: WindowType.RandomGenerator;
   activeTab: ActiveTab;
@@ -42,6 +48,7 @@ export type RandomGeneratorState = {
   wordPicker: {
     words: string[];
   };
+  spinWheel: SpinwheelState;
   /**
    * @deprecated Renamed to `wordPicker` in state v-1 -> v0
    */
@@ -79,6 +86,12 @@ export const setRandomGeneratorWordPickerList = createAction<{
   id: string;
   words: string[];
 }>("randomGenerator/setRandomGeneratorWordPickerList");
+
+export const setSpinwheelList = createAction<{
+  id: string;
+  listName: keyof SpinwheelState;
+  list: string[];
+}>("randomGenerator/setSpinwheelList");
 
 export const buildRandomGeneratorReducer = (
   builder: ActionReducerMapBuilder<WindowManagementState>
@@ -136,7 +149,12 @@ export const buildRandomGeneratorReducer = (
           .state as RandomGeneratorState;
         windowState.groupGenerator.numberOfGroups = numberOfGroups;
       }
-    );
+    )
+    .addCase(setSpinwheelList, (state, { payload: { id, list, listName } }) => {
+      const windowState = getWindowByIdOrFail(state.windows, id)
+        .state as RandomGeneratorState;
+      windowState.spinWheel[listName] = list;
+    });
 
   builder.addCase(
     setRandomGeneratorWordPickerList,

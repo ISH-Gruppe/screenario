@@ -74,7 +74,7 @@ export default function RandomGenerator({
               key={tabsEnum.SPINWHEEL.key}
               value={tabsEnum.SPINWHEEL.tabIndex}
             >
-              <Spinwheel />
+              <Spinwheel windowId={id} state={windowState.spinWheel} />
             </TabPanel>
             <TabPanel
               key={tabsEnum.WORD_PICKER.key}
@@ -101,6 +101,20 @@ export const randomGeneratorWindowConfig: WindowConfig = {
     },
     wordPicker: {
       words: [],
+    },
+    spinWheel: {
+      movements: [
+        "Kniebeugen",
+        "Hampelmann",
+        "Hand zu Fuß",
+        "Strecken",
+        "Hüpfen",
+        "Rennen",
+        "Klatschen",
+        "Liegestützen",
+      ],
+      numbers: Array.from({ length: 8 }, (_, index) => (index + 1).toString()),
+      words: Array(8).fill(""),
     },
   }),
   Component: ({ id }) => <RandomGenerator id={id} title="Zufallsgenerator" />,
