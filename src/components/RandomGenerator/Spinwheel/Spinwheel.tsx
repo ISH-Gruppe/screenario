@@ -10,32 +10,7 @@ import TextareaWordlist from "../TextareaWordlist";
 import { useDispatch } from "react-redux";
 import { WheelData } from "react-custom-roulette/dist/components/Wheel/types";
 
-const baseWheelData = [
-  {
-    style: { backgroundColor: "#ff705f", textColor: "#00364a" },
-  },
-  {
-    style: { backgroundColor: "#ffe08a", textColor: "#00364a" },
-  },
-  {
-    style: { backgroundColor: "#48c78e", textColor: "#00364a" },
-  },
-  {
-    style: { backgroundColor: "#66ccc7", textColor: "#00364a" },
-  },
-  {
-    style: { backgroundColor: "#ff705f", textColor: "#00364a" },
-  },
-  {
-    style: { backgroundColor: "#ffe08a", textColor: "#00364a" },
-  },
-  {
-    style: { backgroundColor: "#48c78e", textColor: "#00364a" },
-  },
-  {
-    style: { backgroundColor: "#66ccc7", textColor: "#00364a" },
-  },
-];
+const spinWheelBackgroundColors = ["#ff705f", "#ffe08a", "#48c78e", "#66ccc7"];
 
 export default function Spinwheel({
   state,
@@ -65,9 +40,15 @@ export default function Spinwheel({
     playWheelFinishedSound().catch(console.error);
   };
 
-  const wheelData: WheelData[] = baseWheelData.map((baseData, index) => ({
-    ...baseData,
-    option: activeSpinlist[index] ?? "",
+  const wheelData: WheelData[] = (
+    activeSpinlist.length > 0 ? activeSpinlist : [""]
+  ).map((option, index) => ({
+    style: {
+      backgroundColor:
+        spinWheelBackgroundColors[index % spinWheelBackgroundColors.length],
+      textColor: "#00364a",
+    },
+    option,
   }));
 
   return (

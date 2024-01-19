@@ -25,9 +25,7 @@ export default function TextareaWordlist(props: {
   };
 
   function createListFromString(passedString: string) {
-    const requiredNumberOfItems = props.maxNumberOfItemsPerList
-      ? props.maxNumberOfItemsPerList
-      : 0;
+    const requiredNumberOfItems = props.maxNumberOfItemsPerList ?? 0;
 
     const stringAsList = passedString
       .split("\n")

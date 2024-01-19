@@ -114,7 +114,7 @@ export const randomGeneratorWindowConfig: WindowConfig = {
         "Liegestützen",
       ],
       numbers: Array.from({ length: 8 }, (_, index) => (index + 1).toString()),
-      words: Array(8).fill(""),
+      words: [],
     },
   }),
   Component: ({ id }) => <RandomGenerator id={id} title="Zufallsgenerator" />,
