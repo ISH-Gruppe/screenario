@@ -4,6 +4,8 @@ import { Wheel } from "react-custom-roulette";
 import { Stack } from "@mui/system";
 import Button from "@mui/material/Button";
 import { useAudio } from "../../Timer/subcomponents/useAudio";
+// TODO @liam: replace with some proper sound
+import spinningSound from "../../Soundboard/sounds/countdown.mp3";
 import endingSound from "./winfantasia-6912.mp3";
 import { setSpinwheelList, SpinwheelState } from "../RandomGeneratorState";
 import TextareaWordlist from "../TextareaWordlist";
@@ -25,6 +27,8 @@ export default function Spinwheel({
   const activeSpinlist = state[activeListName];
   const [prizeNumber, setPrizeNumber] = useState(0);
   const [isSpinning, setIsSpinning] = useState(false);
+  const { play: playSpinningSound, pause: pauseSpinningSound } =
+    useAudio(spinningSound);
   const { play: playWheelFinishedSound } = useAudio(endingSound);
 
   const getRandomNumberFromActiveSpinlist = () =>
@@ -33,10 +37,12 @@ export default function Spinwheel({
   const handleSpinClick = () => {
     setPrizeNumber(getRandomNumberFromActiveSpinlist());
     setIsSpinning(true);
+    playSpinningSound().catch(console.error);
   };
 
   const onStopSpinning = () => {
     setIsSpinning(false);
+    pauseSpinningSound();
     playWheelFinishedSound().catch(console.error);
   };
 
