@@ -4,7 +4,6 @@
 }
 
 #image-popup {
-  position: absolute;
   padding: 0;
   margin: 0;
   z-index: 10;
@@ -22,4 +21,10 @@
 .gallery-image {
   cursor: zoom-in;
   height: 100%;
+  position: relative;
+}
+
+.gallery-image img {
+  object-fit: cover;
+  aspect-ratio: 16/9;
 }

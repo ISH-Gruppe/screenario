@@ -8,20 +8,24 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import TextareaWordlist from "../TextareaWordlist";
+import { useWindowState } from "../../WindowManager/window-management-slice";
+import {
+  setRandomGeneratorGroupMakerNameList,
+  setRandomGeneratorNumberOfGroups,
+} from "../RandomGeneratorState";
+import { useDispatch } from "react-redux";
 
-export default function EntryView(props) {
-  // TODO: Write a Stackoverflow reply about the nasty render loop we had
-  const [nameList, setNameList] = React.useState(loadState());
-  const [numberOfGroups, setNumberOfGroups] = React.useState(2);
+export default function EntryView({ windowId, onGroupChange }) {
+  /**
+   * @type {import("../RandomGeneratorState").RandomGeneratorState}
+   */
+  const windowState = useWindowState(windowId);
+  const dispatch = useDispatch();
+  const nameList = windowState.groupGenerator.names;
+  const numberOfGroups = windowState.groupGenerator.numberOfGroups;
   const [showHintNotEnoughGroups, setShowHintNotEnoughGroups] =
     React.useState(false);
   const [numberOfPeoplePerGroup, setNumberOfPeoplePerGroup] = React.useState();
-
-  function loadState() {
-    return props.onLoad("GROUPS_NAMELIST")
-      ? props.onLoad("GROUPS_NAMELIST")
-      : [];
-  }
 
   React.useEffect(() => {
     calculateNumberOfPeoplePerGroup();
@@ -29,35 +33,41 @@ export default function EntryView(props) {
 
   React.useEffect(() => {
     if (nameList.length >= 1) {
-      setNumberOfGroups(1);
       setShowHintNotEnoughGroups(false);
-    }
-    if (nameList.length === 0) {
-      setNumberOfGroups(0);
     }
 
     calculateNumberOfPeoplePerGroup();
   }, [nameList]);
 
   function handleNamelistChange(updatedList) {
-    setNameList(updatedList);
-    props.onSave("GROUPS_NAMELIST", updatedList);
+    dispatch(
+      setRandomGeneratorGroupMakerNameList({
+        id: windowId,
+        names: updatedList,
+      })
+    );
   }
 
   function incrementNumberGroups() {
-    setNumberOfGroups((prevGroupSize) => {
-      return prevGroupSize + 1;
-    });
+    dispatch(
+      setRandomGeneratorNumberOfGroups({
+        id: windowId,
+        numberOfGroups: numberOfGroups + 1,
+      })
+    );
   }
 
   function decrementNumberOfGroups() {
-    setNumberOfGroups((prevGroupSize) => {
-      return prevGroupSize - 1;
-    });
+    dispatch(
+      setRandomGeneratorNumberOfGroups({
+        id: windowId,
+        numberOfGroups: numberOfGroups - 1,
+      })
+    );
   }
 
   function createNewGroups() {
-    const namesShuffled = shuffle(nameList);
+    const namesShuffled = shuffle([...nameList]);
 
     // Create groups based on the requested _quantity of groups_
     return chunkify(namesShuffled, numberOfGroups, true);
@@ -66,7 +76,7 @@ export default function EntryView(props) {
   function submitCreatedGroups() {
     if (numberOfGroups > 0) {
       const newGroups = createNewGroups();
-      props.onGroupChange(newGroups);
+      onGroupChange(newGroups);
     } else {
       setShowHintNotEnoughGroups(true);
     }
@@ -135,7 +145,7 @@ export default function EntryView(props) {
       randomIndex;
 
     // While there remain elements to shuffle.
-    while (currentIndex != 0) {
+    while (currentIndex !== 0) {
       // Pick a remaining element.
       randomIndex = Math.floor(Math.random() * currentIndex);
       currentIndex--;

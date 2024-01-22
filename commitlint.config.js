@@ -1,10 +1,10 @@
 /** @format */
 
-Configuration = {
+module.exports = {
   extends: ["@commitlint/config-conventional"],
   rules: {
-    "body-case": [2, "always", "sentence-case"],
-    "scope-case": [2, "always", "lower-case"],
+    "scope-case": [0, "never", ["lower-case", "pascal-case", "camel-case"]],
+    "body-max-line-length": [0, "always", 120],
     "type-enum": [
       2,
       "always",
@@ -22,5 +22,3 @@ Configuration = {
     ],
   },
 };
-
-module.exports = Configuration;
