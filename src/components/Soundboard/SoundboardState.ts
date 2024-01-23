@@ -11,23 +11,27 @@ import {
 } from "../WindowManager/window-management-slice";
 
 type CustomFileDefinition = {
+  name: string;
   id: string;
 };
 
 const getCustomSoundboardFileLocalStorageKey = (id: string) =>
   `screenario/soundboard-global/custom-files/${id}`;
 
-export const saveFile = createAsyncThunk<string, { imageContent: string }>(
-  "soundboard-global/saveFile",
-  async ({ imageContent }) => {
-    const imageId = crypto.randomUUID();
-    localStorage.setItem(
-      getCustomSoundboardFileLocalStorageKey(imageId),
-      imageContent
-    );
-    return imageId;
-  }
-);
+export const saveFile = createAsyncThunk<
+  { id: string; name: string },
+  { fileContent: string; name: string }
+>("soundboard-global/saveFile", async ({ fileContent, name }) => {
+  const imageId = crypto.randomUUID();
+  localStorage.setItem(
+    getCustomSoundboardFileLocalStorageKey(imageId),
+    fileContent
+  );
+  return {
+    id: imageId,
+    name,
+  };
+});
 
 export const deleteFile = createAsyncThunk<string, string>(
   "soundboard-global/deleteFile",
@@ -57,10 +61,8 @@ export const globalSoundboardSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(saveFile.fulfilled, (state, { payload: createdId }) => {
-        state.customFiles.push({
-          id: createdId,
-        });
+      .addCase(saveFile.fulfilled, (state, { payload: fileDefinition }) => {
+        state.customFiles.push(fileDefinition);
       })
       .addCase(deleteFile.fulfilled, (state, { payload: deletedId }) => {
         state.customFiles = state.customFiles.filter(
