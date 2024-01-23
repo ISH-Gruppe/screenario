@@ -42,11 +42,17 @@ export default function ImageCarousel({
   selectedImage,
   imagePaths,
   onImageSelect,
-  onFileSelect,
   onImageDelete,
   imageRowRef,
+}: {
+  selectedImage: string;
+  imagePaths: { defaultImages: string[]; userImages: string[] };
+  onImageSelect: (imagePath: string) => void;
+  onFileSelect?: (imagePath: string) => void;
+  onImageDelete: (event: unknown, imagePath: string) => void;
+  imageRowRef: React.RefObject<HTMLDivElement>;
 }) {
-  const imageSelectorRef = React.useRef();
+  const imageSelectorRef = React.useRef<HTMLDivElement>(null);
 
   const defaultImages = imagePaths.defaultImages.map((imagePath) => (
     <img
