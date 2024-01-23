@@ -1,11 +1,12 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { persistReducer, persistStore } from "redux-persist";
+import { createMigrate, persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { welcomeSlice } from "./components/Modals/Welcome/welcome-slice";
 import { windowManagementSlice } from "./components/WindowManager/window-management-slice";
 import { STORE_PERSISTOR_KEY } from "./app-config";
 import { workPhaseSlice } from "./components/WorkPhase/WorkPhaseState";
 import { backgroundImageSlice } from "./components/BackgroundImage/background-image-slice";
+import { migrations } from "./migrations";
 
 export const store = configureStore({
   devTools: true,
@@ -13,6 +14,8 @@ export const store = configureStore({
     {
       key: STORE_PERSISTOR_KEY,
       storage: storage,
+      version: 1,
+      migrate: createMigrate(migrations, { debug: true }),
     },
     combineReducers({
       windowManagement: windowManagementSlice.reducer,
