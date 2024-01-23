@@ -7,39 +7,37 @@ import StepLabel from "@mui/material/StepLabel";
 
 import EntryView from "./EntryView";
 import ResultView from "./ResultView";
-import { useDispatch } from "react-redux";
-import { useWindowState } from "../../WindowManager/window-management-slice";
-import {
-  GroupMakerStep,
-  setAndViewRandomGeneratorGroups,
-  setRandomGeneratorGroupMakerActiveStep,
-} from "../RandomGeneratorState";
 
-export default function GroupMaker({ windowId }) {
-  /**
-   * @type {import("../RandomGeneratorState").RandomGeneratorState}
-   */
-  const windowState = useWindowState(windowId);
-  const dispatch = useDispatch();
-  const activeStep = windowState.groupGenerator.activeStep;
-  const groups = windowState.groupGenerator.groups;
+export default function GroupMaker(props) {
+  const [activeStep, setActiveStep] = React.useState(loadStateActiveStep());
+  const [groups, setGroups] = React.useState(loadStateGroups());
+
+  function loadStateActiveStep() {
+    return props.onLoad("GROUP_GENERATOR_STEP")
+      ? props.onLoad("GROUP_GENERATOR_STEP")
+      : "0";
+  }
+
+  function loadStateGroups() {
+    return props.onLoad("GROUP_GENERATOR_GROUPS")
+      ? props.onLoad("GROUP_GENERATOR_GROUPS")
+      : [];
+  }
 
   function handleGroupChange(newGroups) {
-    dispatch(
-      setAndViewRandomGeneratorGroups({
-        id: windowId,
-        groups: newGroups,
-      })
-    );
+    setGroups(newGroups);
+    setActiveStep("1");
+
+    props.onSave("GROUP_GENERATOR_STEP", "1");
+    props.onSave("GROUP_GENERATOR_GROUPS", newGroups);
   }
 
   function onStepBackRequest() {
-    dispatch(
-      setRandomGeneratorGroupMakerActiveStep({
-        id: windowId,
-        activeStep: GroupMakerStep.DataEntry,
-      })
-    );
+    setGroups(groups);
+    setActiveStep("0");
+
+    props.onSave("GROUP_GENERATOR_STEP", "0");
+    props.onSave("GROUP_GENERATOR_GROUPS", groups);
   }
 
   function onRecreateGroupsRequest() {
@@ -48,8 +46,8 @@ export default function GroupMaker({ windowId }) {
 
   return (
     <>
-      <Stepper activeStep={activeStep}>
-        <Step onClick={onStepBackRequest}>
+      <Stepper activeStep={Number(activeStep)}>
+        <Step onClick={() => setActiveStep("0")}>
           <StepLabel>Namensliste</StepLabel>
         </Step>
         <Step>
@@ -58,14 +56,15 @@ export default function GroupMaker({ windowId }) {
       </Stepper>
 
       <div className="stepper-content">
-        {activeStep === GroupMakerStep.DataEntry && (
+        {activeStep === "0" && (
           <EntryView
-            windowId={windowId}
             groups={groups}
             onGroupChange={handleGroupChange}
+            onLoad={props.onLoad}
+            onSave={props.onSave}
           />
         )}
-        {activeStep === GroupMakerStep.ResultView && (
+        {activeStep === "1" && (
           <ResultView
             groups={groups}
             onStepBackRequest={onStepBackRequest}

@@ -1,10 +1,11 @@
 import BaseWindow from "../BaseWindow/BaseWindow";
-import React from "react";
-import { Layer, Line, Stage } from "react-konva";
+import React, { Component } from "react";
+import { Stage, Layer, Text, Image, Line, Transformer } from "react-konva";
 
 // UI
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import ToggleButton from "@mui/material/ToggleButton";
@@ -17,19 +18,31 @@ import UserImage from "./UserImage";
 // Icons
 import UndoIcon from "@mui/icons-material/Undo";
 import RedoIcon from "@mui/icons-material/Redo";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import PanToolAltIcon from "@mui/icons-material/PanToolAlt"; // Select
 import BrushIcon from "@mui/icons-material/Brush"; // Brush
 import AutoFixNormalIcon from "@mui/icons-material/AutoFixNormal"; // Eraser
+import ClearIcon from "@mui/icons-material/Clear"; // Clear Whiteboard
+
+import DeleteSweepIcon from "@mui/icons-material/DeleteSweep";
+import GetAppIcon from "@mui/icons-material/GetApp"; // Download Canvas
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate"; // Upload Photo
 import HideImageIcon from "@mui/icons-material/HideImage";
 import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
 
 // CSS
 import "./Whiteboard.scss";
-import { WindowType } from "../WindowManager/window-management-slice";
 
-export default function Whiteboard({ id, title }) {
+export default function Whiteboard({
+  id,
+  title,
+  visible,
+  onHide,
+  onChange,
+  onSave,
+  onLoad,
+}) {
   const [tool, setTool] = React.useState("draw");
   const [lines, setLines] = React.useState([]);
   const [history, setHistory] = React.useState([]);
@@ -65,6 +78,9 @@ export default function Whiteboard({ id, title }) {
         setLines([]);
       })
       .catch(() => {});
+  }
+  function handleHide() {
+    onHide(id);
   }
 
   // Basic handlers, used by all tools
@@ -201,7 +217,7 @@ export default function Whiteboard({ id, title }) {
   }
 
   return (
-    <BaseWindow id={id} title={title}>
+    <BaseWindow id={id} title={title} onReset={handleReset} onHide={handleHide}>
       <div id="whiteboard-toolbar">
         <Tooltip title="Whiteboard zurücksetzen">
           <Button onClick={handleReset} color="primary" value="clear">
@@ -379,45 +395,3 @@ export default function Whiteboard({ id, title }) {
     </BaseWindow>
   );
 }
-
-/**
- * @type {import("../WindowManager/window-management-slice").WindowConfig}
- */
-export const whiteboardWindowConfig = {
-  getInitialState: () => ({
-    type: WindowType.Whiteboard,
-  }),
-  Component: ({ id }) => <Whiteboard id={id} title="Whiteboard" />,
-  defaultLayout: {
-    xs: {
-      w: 6,
-      h: 8,
-      x: 0,
-      y: 15,
-      minW: 6,
-    },
-    sm: {
-      w: 4,
-      h: 4,
-      y: 0,
-      x: 0,
-      minW: 4,
-    },
-    md: {
-      w: 16,
-      h: 8,
-      x: 0,
-      y: 24,
-      minW: 14,
-      minH: 8,
-    },
-    lg: {
-      w: 20,
-      h: 8,
-      x: 0,
-      y: 16,
-      minW: 18,
-      minH: 8,
-    },
-  },
-};

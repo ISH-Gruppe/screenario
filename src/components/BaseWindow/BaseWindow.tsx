@@ -6,51 +6,45 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import IconButton from "@mui/material/IconButton";
 import RemoveIcon from "@mui/icons-material/Remove";
-import CloseIcon from "@mui/icons-material/Close";
-import ControlPointDuplicateIcon from "@mui/icons-material/ControlPointDuplicate";
 
 import "./BaseWindow.css";
-import { useDispatch } from "react-redux";
-import {
-  useWindowState,
-  windowManagementActions,
-} from "../WindowManager/window-management-slice";
 
 type BaseWindowProps = PropsWithChildren<{
   id: string;
   title: ReactNode;
+  onReset: (id: string) => void;
+  onHide: (id: string) => void;
+  resetName: unknown;
 }>;
 
-export default function BaseWindow({ id, title, children }: BaseWindowProps) {
-  const dispatch = useDispatch();
-  const windowState = useWindowState(id);
-
-  function handleCreate() {
-    dispatch(windowManagementActions.createWindow(windowState.type));
-  }
-
+export default function BaseWindow({
+  id,
+  title,
+  children,
+  onReset,
+  onHide,
+  resetName,
+}: BaseWindowProps) {
   function handleHide() {
-    dispatch(windowManagementActions.hideWindow(id));
+    // console.log("handleHide", id);
+    onHide(id);
   }
 
-  function handleClose() {
-    dispatch(windowManagementActions.closeWindow(id));
+  function handleReset() {
+    onReset(id);
   }
 
   return (
     <Card className={"window window-" + id + " "} sx={{ minWidth: 275 }}>
       <Box
+        className="drag-handle"
         sx={{
           "& button": { m: 1 },
-          "display": "grid",
-          "gridTemplateColumns": "1fr auto 1fr",
-          "gridTemplateAreas": '"left center right"',
+          "display": "flex",
           "justifyContent": "space-between",
           "alignItems": "center",
-          "position": "relative",
         }}
       >
-        <div className="window-header-background drag-handle" />
         {
           // <Button
           //   className="resetButton"
@@ -61,57 +55,16 @@ export default function BaseWindow({ id, title, children }: BaseWindowProps) {
           //   {resetName ? resetName : "Reset"}
           // </Button>
         }
+        <h3 className="window-title">{title}</h3>
 
-        <Box
-          sx={{
-            gridArea: "left",
-          }}
+        <IconButton
+          className="hideButton"
+          onClick={handleHide}
+          aria-label="delete"
+          size="small"
         >
-          <IconButton
-            className="hideButton"
-            onClick={handleCreate}
-            aria-label="Neues Fenster erzeugen"
-            size="small"
-          >
-            <ControlPointDuplicateIcon />
-          </IconButton>
-        </Box>
-
-        <h3
-          className="window-title"
-          style={{
-            gridArea: "center",
-            textAlign: "center",
-          }}
-        >
-          {title}
-        </h3>
-
-        <Box
-          sx={{
-            gridArea: "right",
-            display: "flex",
-            justifyContent: "flex-end",
-          }}
-        >
-          <IconButton
-            className="hideButton"
-            onClick={handleHide}
-            aria-label="Fenster verbergen"
-            size="small"
-          >
-            <RemoveIcon />
-          </IconButton>
-
-          <IconButton
-            className="closeButton"
-            onClick={handleClose}
-            aria-label="Fenster schließen"
-            size="small"
-          >
-            <CloseIcon />
-          </IconButton>
-        </Box>
+          <RemoveIcon />
+        </IconButton>
       </Box>
 
       <CardContent className="window-content">

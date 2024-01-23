@@ -3,7 +3,7 @@ import { createTheme } from "@mui/material/styles";
 import "./font.css";
 import { APP_CONFIG } from "../app-config";
 
-const font = APP_CONFIG.font;
+const font = APP_CONFIG.font
 
 export const appTheme = createTheme({
   palette: {

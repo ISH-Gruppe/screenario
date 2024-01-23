@@ -9,8 +9,6 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 
 import "./Welcome.css";
-import { useDispatch, useSelector } from "react-redux";
-import { welcomeActions } from "./welcome-slice";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -23,7 +21,6 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 const BootstrapDialogTitle = (props) => {
   const { children, onClose, ...other } = props;
-  const dispatch = useDispatch();
 
   return (
     <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
@@ -31,7 +28,7 @@ const BootstrapDialogTitle = (props) => {
       {onClose ? (
         <IconButton
           aria-label="close"
-          onClick={() => dispatch(welcomeActions.close())}
+          onClick={onClose}
           sx={{
             position: "absolute",
             right: 8,
@@ -46,12 +43,11 @@ const BootstrapDialogTitle = (props) => {
   );
 };
 
-export default function Welcome() {
-  const isOpen = useSelector((state) => state.welcome.isOpen);
-  const dispatch = useDispatch();
+export default function Welcome({ onSave, onLoad }) {
+  const [open, setOpen] = React.useState(true);
 
   const handleClose = () => {
-    dispatch(welcomeActions.close());
+    setOpen(false);
   };
 
   return (
@@ -60,7 +56,7 @@ export default function Welcome() {
         className="welcome-modal"
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
-        open={isOpen}
+        open={open}
       >
         <BootstrapDialogTitle
           id="customized-dialog-title"
@@ -78,8 +74,8 @@ export default function Welcome() {
           <p> Screenario ist ein ... </p>
 
           <ul>
-            <li> browserbasiertes</li>
-            <li> datenschutzkonformes</li>
+            <li> browserbasiertes </li>
+            <li> datenschutzkonformes </li>
             <li>
               <a href="https://github.com/ISH-Gruppe/screenario/blob/main/LICENSE.md">
                 open-source
@@ -98,7 +94,7 @@ export default function Welcome() {
             </a>
             .
           </p>
-          <span className="modal-imprint-privacy">
+          <span class="modal-imprint-privacy">
             <a href="/impressum">Impressum</a> &{" "}
             <a href="/datenschutz">Datenschutz</a>,{" "}
             <a href="/lizenzen"> Lizenzen </a>
