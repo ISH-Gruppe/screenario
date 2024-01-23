@@ -110,7 +110,7 @@ export default function Spinwheel({
           size="small"
           variant="outlined"
         >
-          Zahlen 1-8
+          Zahlen
         </Button>
         <Button
           onClick={() => setActiveListName("words")}
