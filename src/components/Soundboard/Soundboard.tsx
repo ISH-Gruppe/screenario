@@ -30,6 +30,8 @@ import { Favorite, FavoriteBorder } from "@mui/icons-material";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import { useDispatch } from "react-redux";
 import { SoundboardState, toggleFavorite } from "./SoundboardState";
+import { TabContext, TabList } from "@mui/lab";
+import Tab from "@mui/material/Tab";
 
 const sounds = [
   {
@@ -99,6 +101,7 @@ export default function SoundBoard({
     undefined
   );
   const [audio, setAudio] = useState(new Audio(""));
+  const [activeTab, setActiveTab] = useState<"all" | "favorites">("all");
   const dispatch = useDispatch();
   const windowState = useWindowState(id) as SoundboardState;
 
@@ -151,7 +154,7 @@ export default function SoundBoard({
 
   const soundButtons = sounds.map((sound) => {
     const isFavorite = windowState.favorites.sounds.includes(sound.id);
-    return (
+    return activeTab !== "favorites" || isFavorite ? (
       <ButtonGroup
         key={sound.id}
         variant={soundPlaying == sound.path ? "contained" : "outlined"}
@@ -176,59 +179,74 @@ export default function SoundBoard({
           {isFavorite ? <Favorite /> : <FavoriteBorder />}
         </Button>
       </ButtonGroup>
-    );
+    ) : null;
   });
 
-  const videoButtons = videos.map((video, index) => {
+  const videoButtons = videos.flatMap((video, index) => {
     const isFavorite = windowState.favorites.videos.includes(video.id);
-    return (
-      <ButtonGroup
-        key={video.id}
-        variant={videoPlaying == video.path ? "contained" : "outlined"}
-      >
-        <Button
-          className="video-button"
-          onClick={() => playOrStopVideo(video.path)}
-        >
-          {video.description}
-        </Button>
-        <Button
-          onClick={() =>
-            dispatch(
-              toggleFavorite({
-                id: video.id,
-                type: "videos",
-                windowId: id,
-              })
-            )
-          }
-        >
-          {isFavorite ? <Favorite /> : <FavoriteBorder />}
-        </Button>
-      </ButtonGroup>
-    );
+    return activeTab !== "favorites" || isFavorite
+      ? [
+          <ButtonGroup
+            key={video.id}
+            variant={videoPlaying == video.path ? "contained" : "outlined"}
+          >
+            <Button
+              className="video-button"
+              onClick={() => playOrStopVideo(video.path)}
+            >
+              {video.description}
+            </Button>
+            <Button
+              onClick={() =>
+                dispatch(
+                  toggleFavorite({
+                    id: video.id,
+                    type: "videos",
+                    windowId: id,
+                  })
+                )
+              }
+            >
+              {isFavorite ? <Favorite /> : <FavoriteBorder />}
+            </Button>
+          </ButtonGroup>,
+        ]
+      : [];
   });
 
   return (
     <div className="base-window-soundboard">
       <BaseWindow id={id} title={title}>
-        {videoPlaying ? (
-          <video
-            className="soundboardVideo"
-            src={videoPlaying}
-            autoPlay
-            muted
-            playsInline
-            onEnded={stopVideo}
-            onClick={stopVideo}
-          ></video>
-        ) : (
-          <>
-            <div id="soundboardButtonWrapper">{soundButtons}</div>
-            <h2>GIFs</h2>
-            <div id="soundboardButtonWrapper">{videoButtons}</div>
-          </>
-        )}
+        <TabContext value={activeTab}>
+          {videoPlaying ? (
+            <video
+              className="soundboardVideo"
+              src={videoPlaying}
+              autoPlay
+              muted
+              playsInline
+              onEnded={stopVideo}
+              onClick={stopVideo}
+            ></video>
+          ) : (
+            <>
+              <TabList
+                className={"tab-list"}
+                onChange={(_, newValue) => setActiveTab(newValue)}
+              >
+                <Tab key="all" label="Alle" value="all" />
+                <Tab key="favorites" label="Favoriten" value="favorites" />
+              </TabList>
+              <div id="soundboardButtonWrapper">{soundButtons}</div>
+              {videoButtons.length > 0 ? (
+                <>
+                  <h2>GIFs</h2>
+                  <div id="soundboardButtonWrapper">{videoButtons}</div>
+                </>
+              ) : null}
+            </>
+          )}
+        </TabContext>
       </BaseWindow>
     </div>
   );
