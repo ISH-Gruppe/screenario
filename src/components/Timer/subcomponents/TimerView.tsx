@@ -32,6 +32,7 @@ export default function TimerView(props: {
   onTimerUpdate: (deltaSeconds?: number, deltaMinutes?: number) => void;
   startTimer: () => void;
   stopTimer: () => void;
+  isTimerRunning: boolean;
   windowId: string;
   onToggleAnalogTimer: () => void;
 }) {
@@ -89,10 +90,25 @@ export default function TimerView(props: {
     }
   };
 
+  const onMinutesKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "ArrowRight" || event.key === "Enter") {
+      event.preventDefault();
+      secondsInputRef.current?.focus();
+      secondsInputRef.current?.select();
+    }
+  };
+
   const onSecondsKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Backspace" && secondsInput.length === 0) {
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      minutesInputRef.current?.focus();
+      minutesInputRef.current?.select();
+    } else if (event.key === "Backspace" && secondsInput.length === 0) {
       setTimeFromInputs("");
       minutesInputRef.current?.focus();
+    } else if (event.key === "Enter") {
+      props.startTimer();
+      secondsInputRef.current?.blur();
     }
   };
 
@@ -116,9 +132,12 @@ export default function TimerView(props: {
               ref={minutesInputRef}
               type="number"
               className="timer-digits"
+              disabled={props.isTimerRunning}
               value={minutesInput}
               onBlur={resetMinutes}
               onChange={onMinutesChange}
+              onKeyDown={onMinutesKeyDown}
+              onClick={(e) => e.currentTarget.select()}
               min={0}
               max={59}
             />
@@ -153,9 +172,12 @@ export default function TimerView(props: {
               ref={secondsInputRef}
               type="number"
               className="timer-digits"
+              disabled={props.isTimerRunning}
               value={secondsInput}
               onBlur={resetSeconds}
               onChange={(e) => setSecondsInput(e.target.value)}
+              onClick={(e) => e.currentTarget.select()}
+              onKeyDown={onSecondsKeyDown}
               min={0}
               max={59}
               onKeyDown={onSecondsKeyDown}
@@ -179,10 +201,20 @@ export default function TimerView(props: {
           direction="column"
           spacing={2}
         >
-          <Button onClick={props.startTimer} variant="contained" size="small">
+          <Button
+            onClick={props.startTimer}
+            variant="contained"
+            size="small"
+            disabled={props.isTimerRunning}
+          >
             Start
           </Button>
-          <Button onClick={props.stopTimer} variant="outlined" size="small">
+          <Button
+            onClick={props.stopTimer}
+            variant="outlined"
+            size="small"
+            disabled={!props.isTimerRunning}
+          >
             Stop
           </Button>
           <FormControlLabel
