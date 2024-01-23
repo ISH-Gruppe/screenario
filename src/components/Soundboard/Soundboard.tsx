@@ -5,6 +5,7 @@ import BaseWindow from "../BaseWindow/BaseWindow";
 
 import Button from "@mui/material/Button";
 import {
+  useWindowState,
   WindowConfig,
   WindowType,
 } from "../WindowManager/window-management-slice";
@@ -25,35 +26,44 @@ import BreakVideo from "./videos/pause.mp4";
 // source: pixabay
 // license: https://pixabay.com/service/license-summary/
 import BirthdayVideo from "./videos/happy_birthday.mp4";
-import { FavoriteBorder } from "@mui/icons-material";
+import { Favorite, FavoriteBorder } from "@mui/icons-material";
 import ButtonGroup from "@mui/material/ButtonGroup";
+import { useDispatch } from "react-redux";
+import { SoundboardState, toggleFavorite } from "./SoundboardState";
 
 const sounds = [
   {
+    id: "great_sound",
     description: "✅ Das war toll!",
     path: GreatSound,
   },
   {
+    id: "too_bad_sound",
     description: "❎ Leider falsch!",
     path: TooBadSound,
   },
   {
+    id: "countdown_sound",
     description: "🏁 Gleich gehts los!",
     path: CountdownSound,
   },
   {
+    id: "waiting_sound",
     description: "⏳️ Bitte etwas Geduld",
     path: WaitingSound,
   },
   {
+    id: "school_bell_sound",
     description: "⏰ Pausenglocke",
     path: SchoolBellSound,
   },
   {
+    id: "honk_sound",
     description: "📣 Honk Honk!",
     path: HonkSound,
   },
   {
+    id: "yay_sound",
     description: "🎉 Yay!",
     path: YaySound,
   },
@@ -61,15 +71,17 @@ const sounds = [
 
 const videos = [
   {
+    id: "hurra_video",
     description: "🎥 Geschafft!",
     path: HurraVideo,
   },
-
   {
+    id: "birthday_video",
     description: "🎥 Geburtstag",
     path: BirthdayVideo,
   },
   {
+    id: "break_video",
     description: "🎥 Pause!",
     path: BreakVideo,
   },
@@ -87,6 +99,8 @@ export default function SoundBoard({
     undefined
   );
   const [audio, setAudio] = useState(new Audio(""));
+  const dispatch = useDispatch();
+  const windowState = useWindowState(id) as SoundboardState;
 
   function playOrStopSound(soundpath: string) {
     if (soundpath == soundPlaying) {
@@ -135,10 +149,11 @@ export default function SoundBoard({
     setVideoPlaying(undefined);
   };
 
-  const soundButtons = sounds.map((sound, index) => {
+  const soundButtons = sounds.map((sound) => {
+    const isFavorite = windowState.favorites.sounds.includes(sound.id);
     return (
       <ButtonGroup
-        key={index}
+        key={sound.id}
         variant={soundPlaying == sound.path ? "contained" : "outlined"}
       >
         <Button
@@ -147,24 +162,50 @@ export default function SoundBoard({
         >
           {sound.description}
         </Button>
-        <Button>
-          <FavoriteBorder />
-          {/*<Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite />} />*/}
+        <Button
+          onClick={() =>
+            dispatch(
+              toggleFavorite({
+                id: sound.id,
+                type: "sounds",
+                windowId: id,
+              })
+            )
+          }
+        >
+          {isFavorite ? <Favorite /> : <FavoriteBorder />}
         </Button>
       </ButtonGroup>
     );
   });
 
   const videoButtons = videos.map((video, index) => {
+    const isFavorite = windowState.favorites.videos.includes(video.id);
     return (
-      <Button
-        key={video.path}
-        className="video-button"
-        onClick={() => playOrStopVideo(video.path)}
+      <ButtonGroup
+        key={video.id}
         variant={videoPlaying == video.path ? "contained" : "outlined"}
       >
-        {video.description}
-      </Button>
+        <Button
+          className="video-button"
+          onClick={() => playOrStopVideo(video.path)}
+        >
+          {video.description}
+        </Button>
+        <Button
+          onClick={() =>
+            dispatch(
+              toggleFavorite({
+                id: video.id,
+                type: "videos",
+                windowId: id,
+              })
+            )
+          }
+        >
+          {isFavorite ? <Favorite /> : <FavoriteBorder />}
+        </Button>
+      </ButtonGroup>
     );
   });
 
@@ -193,14 +234,14 @@ export default function SoundBoard({
   );
 }
 
-export type SoundboardState = {
-  type: WindowType.Soundboard;
-};
-
 export const soundboardWindowConfig: WindowConfig = {
   Component: ({ id }) => <SoundBoard id={id} title="Soundboard" />,
   getInitialState: () => ({
     type: WindowType.Soundboard,
+    favorites: {
+      sounds: [],
+      videos: [],
+    },
   }),
   defaultLayout: {
     xs: {
