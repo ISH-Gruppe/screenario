@@ -1,4 +1,12 @@
 #image-selector {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  width: 100%;
+  max-width: 100%;
+}
+
+.image-carousel-scroll-button {
+  align-self: center;
 }
 
 .image-row {
