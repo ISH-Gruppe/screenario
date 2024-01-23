@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import "./TimerView.scss";
 
@@ -11,6 +11,20 @@ import { useWindowState } from "../../WindowManager/window-management-slice";
 import { FormControlLabel, Switch } from "@mui/material";
 import { TimerState, toggleAnalogTimer } from "../TimerState";
 import { useDispatch } from "react-redux";
+import { match } from "ts-pattern";
+import { z } from "zod";
+
+const parseTimeValue = (value: string) =>
+  match(parseInt(value, 10))
+    .when(
+      (x) => x > 59,
+      () => 59
+    )
+    .when(
+      (x) => x >= 0,
+      (x) => x
+    )
+    .otherwise(() => 0);
 
 export default function TimerView(props: {
   minutes: number;
@@ -26,6 +40,40 @@ export default function TimerView(props: {
   onToggleAnalogTimer: () => void;
 }) {
   const windowState = useWindowState(props.windowId) as TimerState;
+  const [minutesInput, setMinutesInput] = useState(
+    props.minutes.toString().padStart(2, "0")
+  );
+  const [secondsInput, setSecondsInput] = useState(
+    props.seconds.toString().padStart(2, "0")
+  );
+
+  useEffect(() => {
+    const seconds = parseTimeValue(secondsInput);
+    const minutes = parseTimeValue(minutesInput);
+    const deltaSeconds = seconds - props.seconds;
+    const deltaMinutes = minutes - props.minutes;
+
+    if (deltaSeconds !== 0 || deltaMinutes !== 0) {
+      props.onTimerUpdate(0, deltaMinutes, deltaSeconds);
+    }
+  }, [minutesInput, secondsInput]);
+
+  const resetSeconds = () => {
+    setSecondsInput(props.seconds.toString().padStart(2, "0"));
+  };
+
+  const resetMinutes = () => {
+    setMinutesInput(props.minutes.toString().padStart(2, "0"));
+  };
+
+  useEffect(() => {
+    if (props.seconds !== parseTimeValue(secondsInput)) {
+      resetSeconds();
+    }
+    if (props.minutes !== parseTimeValue(minutesInput)) {
+      resetMinutes();
+    }
+  }, [props.seconds, props.minutes]);
 
   return (
     <div className="timer-view">
@@ -43,8 +91,15 @@ export default function TimerView(props: {
           </div>
 
           <div>
-            {props.minutes < 10 && <span className="timer-digits">0</span>}
-            <span className="timer-digits">{props.minutes}</span>
+            <input
+              type="number"
+              className="timer-digits"
+              value={minutesInput}
+              onBlur={resetMinutes}
+              onChange={(e) => setMinutesInput(e.target.value)}
+              min={0}
+              max={59}
+            />
           </div>
 
           <div className="button-container-digits">
@@ -72,8 +127,15 @@ export default function TimerView(props: {
           </div>
 
           <div>
-            {props.seconds < 10 && <span className="timer-digits">0</span>}
-            <span className="timer-digits">{props.seconds}</span>
+            <input
+              type="number"
+              className="timer-digits"
+              value={secondsInput}
+              onBlur={resetSeconds}
+              onChange={(e) => setSecondsInput(e.target.value)}
+              min={0}
+              max={59}
+            />
           </div>
 
           <div className="button-container-digits">

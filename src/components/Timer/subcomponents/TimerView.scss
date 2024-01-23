@@ -8,6 +8,14 @@
 
 .timer-digits {
   font-size: 3.5rem;
+  width: 2em;
+  text-align: center;
+}
+
+.timer-digits::-webkit-inner-spin-button,
+.timer-digits::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .button-container-digits {
