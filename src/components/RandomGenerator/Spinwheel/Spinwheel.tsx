@@ -141,6 +141,9 @@ export default function Spinwheel({
               ariaLabel="Begriffsfeld für zufällige Auslosung von Begriffen"
             />
           </div>
+          <small>
+            Hinweis: Wir empfehlen für gute Lesbarkeit maximal 12 Einträge
+          </small>
 
           <FormControlLabel
             label="Jeden Begriff nur ein Mal auslosen"
