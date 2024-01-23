@@ -25,6 +25,8 @@ import BreakVideo from "./videos/pause.mp4";
 // source: pixabay
 // license: https://pixabay.com/service/license-summary/
 import BirthdayVideo from "./videos/happy_birthday.mp4";
+import { FavoriteBorder } from "@mui/icons-material";
+import ButtonGroup from "@mui/material/ButtonGroup";
 
 const sounds = [
   {
@@ -135,14 +137,21 @@ export default function SoundBoard({
 
   const soundButtons = sounds.map((sound, index) => {
     return (
-      <Button
+      <ButtonGroup
         key={index}
-        className="sound-button"
-        onClick={() => playOrStopSound(sound.path)}
         variant={soundPlaying == sound.path ? "contained" : "outlined"}
       >
-        {sound.description}
-      </Button>
+        <Button
+          className="sound-button"
+          onClick={() => playOrStopSound(sound.path)}
+        >
+          {sound.description}
+        </Button>
+        <Button>
+          <FavoriteBorder />
+          {/*<Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite />} />*/}
+        </Button>
+      </ButtonGroup>
     );
   });
 
