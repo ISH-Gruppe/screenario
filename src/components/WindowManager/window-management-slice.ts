@@ -7,10 +7,7 @@ import { qrCodeWindowConfig } from "../QrcodeGenerator/QrcodeGenerator";
 import { useSelector } from "react-redux";
 import { find } from "lodash";
 import { AppState } from "../../app-state";
-import {
-  SoundboardState,
-  soundboardWindowConfig,
-} from "../Soundboard/Soundboard";
+import { soundboardWindowConfig } from "../Soundboard/Soundboard";
 import { Layout, Layouts } from "react-grid-layout";
 import {
   GalleryConfig,
@@ -35,6 +32,10 @@ import {
   buildWorkPhaseReducer,
   WorkPhaseState,
 } from "../WorkPhase/WorkPhaseState";
+import {
+  buildSoundboardReducer,
+  SoundboardState,
+} from "../Soundboard/SoundboardState";
 
 export enum WindowType {
   QrCode = "qr-code",
@@ -191,6 +192,7 @@ export const windowManagementSlice = createSlice({
     buildRandomGeneratorReducer(builder);
     buildNodepadReducer(builder);
     buildWorkPhaseReducer(builder);
+    buildSoundboardReducer(builder);
   },
 });
 
