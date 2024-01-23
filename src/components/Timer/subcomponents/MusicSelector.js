@@ -173,9 +173,6 @@ export default function MusicSelector(props) {
           label="Musik"
           onChange={handlePlaylistChange}
         >
-          <MenuItem value={PlaylistsEnum.NO_MUSIC}>
-            {PlaylistsEnum.NO_MUSIC}
-          </MenuItem>
           <MenuItem value={PlaylistsEnum.AMBIENT}>
             {PlaylistsEnum.AMBIENT}
           </MenuItem>
@@ -196,7 +193,6 @@ export default function MusicSelector(props) {
 // Explicitly naming the object "Enum" to differentiate between "the other" Playlists file
 // "the other" Playlists file -> /music/Playlists.js contains actual tracks
 export const PlaylistsEnum = {
-  NO_MUSIC: "Keine Musik",
   RELAXATION: "Entspannung",
   PIANO: "Piano",
   SYNTHWAVE: "Synthwave",

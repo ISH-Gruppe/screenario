@@ -86,9 +86,8 @@ export default function Timer({ id, title }: { id: string; title: string }) {
     setInitialTimerValue(getDateFromTimerValue(windowState));
   }
 
-  const [musicVolume, setMusicVolume] = useState(0.9);
-  const [musicVolumeBeforeMute, setMusicVolumeBeforeMute] =
-    useState(musicVolume);
+  const [musicVolume, setMusicVolume] = useState(0);
+  const [musicVolumeBeforeMute, setMusicVolumeBeforeMute] = useState(0.9);
 
   const handleVolumeChange = (event: unknown, newValue: number) => {
     setMusicVolume(newValue);
