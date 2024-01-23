@@ -7,6 +7,7 @@ import { STORE_PERSISTOR_KEY } from "./app-config";
 import { workPhaseSlice } from "./components/WorkPhase/WorkPhaseState";
 import { backgroundImageSlice } from "./components/BackgroundImage/background-image-slice";
 import { migrations } from "./migrations";
+import { globalSoundboardSlice } from "./components/Soundboard/SoundboardState";
 
 export const store = configureStore({
   devTools: true,
@@ -21,6 +22,7 @@ export const store = configureStore({
       windowManagement: windowManagementSlice.reducer,
       welcome: welcomeSlice.reducer,
       globalWorkPhase: workPhaseSlice.reducer,
+      globalSoundboard: globalSoundboardSlice.reducer,
       backgroundImage: backgroundImageSlice.reducer,
     })
   ),
