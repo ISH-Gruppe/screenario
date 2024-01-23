@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import "./TimerView.scss";
 
@@ -29,11 +29,7 @@ const parseTimeValue = (value: string) =>
 export default function TimerView(props: {
   minutes: number;
   seconds: number;
-  onTimerUpdate: (
-    deltaHours?: number,
-    deltaMinutes?: number,
-    deltaSeconds?: number
-  ) => void;
+  onTimerUpdate: (deltaSeconds?: number, deltaMinutes?: number) => void;
   startTimer: () => void;
   stopTimer: () => void;
   windowId: string;
@@ -46,17 +42,24 @@ export default function TimerView(props: {
   const [secondsInput, setSecondsInput] = useState(
     props.seconds.toString().padStart(2, "0")
   );
+  const secondsInputRef = useRef<HTMLInputElement>(null);
+  const minutesInputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    const seconds = parseTimeValue(secondsInput);
-    const minutes = parseTimeValue(minutesInput);
+  function setTimeFromInputs(
+    secondsStr = secondsInput,
+    minutesStr = minutesInput
+  ) {
+    const seconds = parseTimeValue(secondsStr);
+    const minutes = parseTimeValue(minutesStr);
     const deltaSeconds = seconds - props.seconds;
     const deltaMinutes = minutes - props.minutes;
 
     if (deltaSeconds !== 0 || deltaMinutes !== 0) {
-      props.onTimerUpdate(0, deltaMinutes, deltaSeconds);
+      props.onTimerUpdate(deltaSeconds, deltaMinutes);
     }
-  }, [minutesInput, secondsInput]);
+  }
+
+  useEffect(() => setTimeFromInputs(), [minutesInput, secondsInput]);
 
   const resetSeconds = () => {
     setSecondsInput(props.seconds.toString().padStart(2, "0"));
@@ -75,6 +78,24 @@ export default function TimerView(props: {
     }
   }, [props.seconds, props.minutes]);
 
+  const onMinutesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setMinutesInput(event.target.value);
+    if (event.target.value.length === 2) {
+      requestAnimationFrame(() => {
+        setTimeFromInputs(secondsInput, event.target.value);
+        secondsInputRef.current?.focus();
+        secondsInputRef.current?.select();
+      });
+    }
+  };
+
+  const onSecondsKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Backspace" && secondsInput.length === 0) {
+      setTimeFromInputs("");
+      minutesInputRef.current?.focus();
+    }
+  };
+
   return (
     <div className="timer-view">
       <Stack direction="row" spacing={2} sx={{ flexGrow: "1" }}>
@@ -92,11 +113,12 @@ export default function TimerView(props: {
 
           <div>
             <input
+              ref={minutesInputRef}
               type="number"
               className="timer-digits"
               value={minutesInput}
               onBlur={resetMinutes}
-              onChange={(e) => setMinutesInput(e.target.value)}
+              onChange={onMinutesChange}
               min={0}
               max={59}
             />
@@ -128,6 +150,7 @@ export default function TimerView(props: {
 
           <div>
             <input
+              ref={secondsInputRef}
               type="number"
               className="timer-digits"
               value={secondsInput}
@@ -135,6 +158,7 @@ export default function TimerView(props: {
               onChange={(e) => setSecondsInput(e.target.value)}
               min={0}
               max={59}
+              onKeyDown={onSecondsKeyDown}
             />
           </div>
 
