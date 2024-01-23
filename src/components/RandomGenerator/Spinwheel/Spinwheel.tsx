@@ -44,20 +44,21 @@ export default function Spinwheel({
   const { play: playWheelFinishedSound } = useAudio(endingSound);
 
   const getRandomNumberFromFreshList = () => {
-    const randomIndex = Math.floor(Math.random() * freshElements.length);
-    const result = freshElements[randomIndex] ?? 0;
+    const choices =
+      freshElements.length > 0
+        ? freshElements
+        : activeSpinlist.map((_, index) => index);
+    const randomIndex = Math.floor(Math.random() * choices.length);
+    const result = choices[randomIndex] ?? 0;
 
     if (!rememberChosen) {
       return result;
     }
 
-    if (freshElements.length > 1) {
-      setFreshElements(
-        freshElements.filter((_, index) => index !== randomIndex)
-      );
-    } else {
-      setFreshElements(activeSpinlist.map((_, index) => index));
+    if (rememberChosen) {
+      setFreshElements(choices.filter((_, index) => index !== randomIndex));
     }
+
     return result;
   };
 
@@ -157,7 +158,10 @@ export default function Spinwheel({
           />
 
           <Button variant="contained" onClick={handleSpinClick}>
-            Drehen
+            Drehen{" "}
+            {freshElements.length === 0 && rememberChosen
+              ? "(neuer Durchlauf)"
+              : ""}
           </Button>
         </Stack>
 
