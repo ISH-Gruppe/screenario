@@ -77,7 +77,7 @@ export default function Positioning({
   const [userImages, setUserImages] = React.useState<string[]>([]);
   const [selectedImagePath, selectImage] = React.useState(defaultImages[0]);
   const fileInput = React.useRef<HTMLInputElement>(null);
-  const imageRowRef = React.useRef<HTMLElement>();
+  const imageRowRef = React.useRef<HTMLDivElement | null>(null);
 
   const [stageSize, setStageSize] = React.useState({ width: 720, height: 405 });
 
@@ -411,7 +411,6 @@ export default function Positioning({
         selectedImage={selectedImagePath}
         imagePaths={{ defaultImages: defaultImages, userImages: userImages }}
         onImageSelect={handleImageSelect}
-        onFileSelect={addUserImageFile}
         onImageDelete={deleteUserImage}
         imageRowRef={imageRowRef}
       />

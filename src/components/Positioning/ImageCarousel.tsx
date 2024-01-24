@@ -4,6 +4,8 @@ import "./ImageCarousel.scss";
 import Tooltip from "@mui/material/Tooltip";
 import ToggleButton from "@mui/material/ToggleButton";
 import DeleteIcon from "@mui/icons-material/Delete";
+import IconButton from "@mui/material/IconButton";
+import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 
 export const ArrowLeft = ({ size = 30, color = "#000000" }) => (
   <svg
@@ -42,11 +44,17 @@ export default function ImageCarousel({
   selectedImage,
   imagePaths,
   onImageSelect,
-  onFileSelect,
   onImageDelete,
   imageRowRef,
+}: {
+  selectedImage: string;
+  imagePaths: { defaultImages: string[]; userImages: string[] };
+  onImageSelect: (imagePath: string) => void;
+  onFileSelect?: (imagePath: string) => void;
+  onImageDelete: (event: unknown, imagePath: string) => void;
+  imageRowRef: React.RefObject<HTMLDivElement>;
 }) {
-  const imageSelectorRef = React.useRef();
+  const imageSelectorRef = React.useRef<HTMLDivElement>(null);
 
   const defaultImages = imagePaths.defaultImages.map((imagePath) => (
     <img
@@ -88,15 +96,44 @@ export default function ImageCarousel({
     </div>
   ));
 
+  const scrollOnePage = (dir: "left" | "right") => {
+    if (imageRowRef.current) {
+      const imageWidth = imageRowRef.current.children[0]?.clientWidth ?? 1;
+      const numCompletelyVisibleImages = Math.floor(
+        imageRowRef.current.clientWidth / imageWidth
+      );
+      const margin = 5;
+
+      const delta = numCompletelyVisibleImages * (imageWidth + 2 * margin);
+      const factor = dir === "left" ? -1 : 1;
+      imageRowRef.current.scrollBy({
+        left: factor * delta,
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
-    <>
-      <div id="image-selector" ref={imageSelectorRef}>
-        <div className="image-row" ref={imageRowRef}>
-          {defaultImages}
-          {userImages}
-        </div>
+    <div id="image-selector" ref={imageSelectorRef}>
+      <IconButton
+        onClick={() => scrollOnePage("left")}
+        className="image-carousel-scroll-button"
+      >
+        <ChevronLeft />
+        {/*<ArrowLeft />*/}
+      </IconButton>
+      <div className="image-row" ref={imageRowRef}>
+        {defaultImages}
+        {userImages}
       </div>
-    </>
+      <IconButton
+        onClick={() => scrollOnePage("right")}
+        className="image-carousel-scroll-button"
+      >
+        <ChevronRight />
+        {/*<ArrowRight />*/}
+      </IconButton>
+    </div>
   );
 }
 // <div className="carousel-button left-carousel-button"></div>
