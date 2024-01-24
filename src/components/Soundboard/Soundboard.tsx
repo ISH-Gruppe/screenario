@@ -296,7 +296,7 @@ export default function SoundBoard({
               <div id="soundboardButtonWrapper">{soundButtons}</div>
               {videoButtons.length > 0 ? (
                 <>
-                  <h2>GIFs</h2>
+                  <h2>Videos</h2>
                   <div id="soundboardButtonWrapper">{videoButtons}</div>
                 </>
               ) : null}
