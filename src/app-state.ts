@@ -16,7 +16,7 @@ export const store = configureStore({
     {
       key: STORE_PERSISTOR_KEY,
       storage: storage,
-      version: 1,
+      version: 2,
       migrate: createMigrate(migrations, { debug: true }),
     },
     combineReducers({

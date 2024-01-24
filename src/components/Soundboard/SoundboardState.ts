@@ -77,6 +77,7 @@ export type SoundboardState = {
   favorites: {
     sounds: string[];
     videos: string[];
+    customFiles: string[];
   };
 };
 

@@ -208,8 +208,11 @@ export default function SoundBoard({
     ) : null;
   });
 
-  const customSoundButtons = customSoundboardFiles.map((sound) => {
-    const isFavorite = windowState.favorites.sounds.includes(sound.id);
+  const customFileButtons = customSoundboardFiles.map((sound) => {
+    const isFavorite = windowState.favorites.customFiles.includes(sound.id);
+    const isSound = sound.content.startsWith("data:audio");
+    const playPauseFunction = isSound ? playOrStopSound : playOrStopVideo;
+
     return activeTab !== "favorites" || isFavorite ? (
       <ButtonGroup
         key={sound.id}
@@ -217,7 +220,7 @@ export default function SoundBoard({
       >
         <Button
           className="sound-button"
-          onClick={() => playOrStopSound(sound.content)}
+          onClick={() => playPauseFunction(sound.content)}
         >
           {sound.name}
         </Button>
@@ -226,7 +229,7 @@ export default function SoundBoard({
             dispatch(
               toggleFavorite({
                 id: sound.id,
-                type: "sounds",
+                type: "customFiles",
                 windowId: id,
               })
             )
@@ -302,7 +305,7 @@ export default function SoundBoard({
               ) : null}
               <h2>Eigene</h2>
               <div id="soundboardButtonWrapper">
-                {customSoundButtons}
+                {customFileButtons}
                 <Button
                   component="label"
                   variant="outlined"
@@ -312,7 +315,7 @@ export default function SoundBoard({
                   <input
                     hidden
                     type="file"
-                    accept="audio/*"
+                    accept="audio/*, video/*"
                     onChange={handleFileSelect}
                   />
                 </Button>
@@ -332,6 +335,7 @@ export const soundboardWindowConfig: WindowConfig = {
     favorites: {
       sounds: [],
       videos: [],
+      customFiles: [],
     },
   }),
   defaultLayout: {
