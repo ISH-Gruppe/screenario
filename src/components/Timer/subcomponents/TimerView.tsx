@@ -91,7 +91,13 @@ export default function TimerView(props: {
   };
 
   const onMinutesKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "ArrowRight" || event.key === "Enter") {
+    if (
+      event.key === "Enter" ||
+      event.key === "ArrowRight" ||
+      event.key === "ArrowLeft" ||
+      event.key === "ArrowDown" ||
+      event.key === "ArrowUp"
+    ) {
       event.preventDefault();
       secondsInputRef.current?.focus();
       secondsInputRef.current?.select();
@@ -99,7 +105,12 @@ export default function TimerView(props: {
   };
 
   const onSecondsKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "ArrowLeft") {
+    if (
+      event.key === "ArrowLeft" ||
+      event.key === "ArrowRight" ||
+      event.key === "ArrowUp" ||
+      event.key === "ArrowDown"
+    ) {
       event.preventDefault();
       minutesInputRef.current?.focus();
       minutesInputRef.current?.select();
@@ -180,7 +191,6 @@ export default function TimerView(props: {
               onKeyDown={onSecondsKeyDown}
               min={0}
               max={59}
-              onKeyDown={onSecondsKeyDown}
             />
           </div>
 
