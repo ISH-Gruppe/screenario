@@ -1,24 +1,31 @@
 import React from "react";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
 
-export default function TextareaWordlist(props) {
+export default function TextareaWordlist(props: {
+  valueAsList: string[];
+  handleWordlistChange?: (updatedList: string[]) => void;
+  ariaLabel?: string;
+  minRows?: string | number;
+  placeholder?: string;
+  maxNumberOfItemsPerList?: number;
+}) {
   const [textString, setTextString] = React.useState(createStringFromList([]));
 
   React.useEffect(() => {
     setTextString(createStringFromList(props.valueAsList));
   }, [JSON.stringify(props.valueAsList)]);
 
-  function handleTextareaChange(textArea) {
+  const handleTextareaChange: React.ChangeEventHandler<HTMLTextAreaElement> = (
+    textArea
+  ) => {
     // console.log("TextareaWordlist change", textArea);
 
     setTextString(textArea.target.value);
-    props.handleWordlistChange(createListFromString(textArea.target.value));
-  }
+    props.handleWordlistChange?.(createListFromString(textArea.target.value));
+  };
 
-  function createListFromString(passedString) {
-    const requiredNumberOfItems = props.maxNumberOfItemsPerList
-      ? props.maxNumberOfItemsPerList
-      : 0;
+  function createListFromString(passedString: string) {
+    const requiredNumberOfItems = props.maxNumberOfItemsPerList ?? 0;
 
     const stringAsList = passedString
       .split("\n")
@@ -36,30 +43,27 @@ export default function TextareaWordlist(props) {
     return stringAsList;
   }
 
-  function createStringFromList(passedList) {
-    let listAsAString = "";
-
-    passedList.forEach((listEntry) => {
-      listAsAString += listEntry + "\n";
-    });
-
-    return listAsAString;
+  function createStringFromList(passedList: string[]) {
+    return passedList.join("\n");
   }
 
   // SyntheticEvents/ ClipboardEvent such as copy, paste, cut are not handled by onChange
-  function handleCut(event) {
+  const handleCut: React.ClipboardEventHandler = (event) => {
     setTextString((prevTextString) => {
-      const filteredString = prevTextString.replace(event.target.value, "");
+      const filteredString = prevTextString.replace(
+        (event.target as HTMLTextAreaElement).value,
+        ""
+      );
       // console.log("you cut text!", filteredString);
 
-      props.handleWordlistChange(createListFromString(filteredString));
+      props.handleWordlistChange?.(createListFromString(filteredString));
       return filteredString;
     });
-  }
+  };
 
   return (
     <TextareaAutosize
-      defaultValue={textString}
+      value={textString}
       onChange={handleTextareaChange}
       onCut={handleCut}
       aria-label={props.ariaLabel}

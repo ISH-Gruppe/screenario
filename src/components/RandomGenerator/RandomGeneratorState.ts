@@ -16,9 +16,9 @@ export const tabsEnum = {
     label: "Glücksrad",
     tabIndex: "1",
   },
-  NAME_PICKER: {
-    key: "name-picker",
-    label: "Namen auslosen",
+  WORD_PICKER: {
+    key: "word-picker",
+    label: "Begriffe auslosen",
     tabIndex: "2",
   },
 } as const;
@@ -30,6 +30,12 @@ export enum GroupMakerStep {
 
 export type ActiveTab = (typeof tabsEnum)[keyof typeof tabsEnum]["tabIndex"];
 
+export type SpinwheelState = {
+  movements: string[];
+  numbers: string[];
+  words: string[];
+};
+
 export type RandomGeneratorState = {
   type: WindowType.RandomGenerator;
   activeTab: ActiveTab;
@@ -39,7 +45,17 @@ export type RandomGeneratorState = {
     groups: string[][];
     numberOfGroups: number;
   };
-  namePicker: {
+  wordPicker: {
+    words: string[];
+  };
+  spinWheel: SpinwheelState;
+  /**
+   * @deprecated Renamed to `wordPicker` in state v-1 -> v0
+   */
+  namePicker?: {
+    /**
+     * @deprecated Moved to `wordPicker.words` in state v-1 -> v0
+     */
     names: string[];
   };
 };
@@ -57,19 +73,25 @@ export const setAndViewRandomGeneratorGroups = createAction<{
   id: string;
   groups: string[][];
 }>("randomGenerator/setAndViewRandomGeneratorGroups");
-export const setRandomGeneratorGroupMakerNameList = createAction<{
+export const setRandomGeneratorGroupMakerWordList = createAction<{
   id: string;
-  names: string[];
-}>("randomGenerator/setRandomGeneratorGroupMakerNameList");
+  words: string[];
+}>("randomGenerator/setRandomGeneratorGroupMakerWordList");
 export const setRandomGeneratorNumberOfGroups = createAction<{
   id: string;
   numberOfGroups: number;
 }>("randomGenerator/setRandomGeneratorNumberOfGroups");
 
-export const setRandomGeneratorNamePickerList = createAction<{
+export const setRandomGeneratorWordPickerList = createAction<{
   id: string;
-  names: string[];
-}>("randomGenerator/setRandomGeneratorNamePickerList");
+  words: string[];
+}>("randomGenerator/setRandomGeneratorWordPickerList");
+
+export const setSpinwheelList = createAction<{
+  id: string;
+  listName: keyof SpinwheelState;
+  list: string[];
+}>("randomGenerator/setSpinwheelList");
 
 export const buildRandomGeneratorReducer = (
   builder: ActionReducerMapBuilder<WindowManagementState>
@@ -101,22 +123,22 @@ export const buildRandomGeneratorReducer = (
       }
     )
     .addCase(
-      setRandomGeneratorGroupMakerNameList,
-      (state, { payload: { id, names } }) => {
+      setRandomGeneratorGroupMakerWordList,
+      (state, { payload: { id, words } }) => {
         const windowState = getWindowByIdOrFail(state.windows, id)
           .state as RandomGeneratorState;
-        windowState.groupGenerator.names = names;
+        windowState.groupGenerator.names = words;
 
         // Enforce minimum of 1, unless there are no names
-        if (names.length === 0) {
+        if (words.length === 0) {
           windowState.groupGenerator.numberOfGroups = 0;
         } else if (windowState.groupGenerator.numberOfGroups < 1) {
           windowState.groupGenerator.numberOfGroups = 1;
         }
 
         // Enforce maximum of name list length
-        if (windowState.groupGenerator.numberOfGroups > names.length) {
-          windowState.groupGenerator.numberOfGroups = names.length;
+        if (windowState.groupGenerator.numberOfGroups > words.length) {
+          windowState.groupGenerator.numberOfGroups = words.length;
         }
       }
     )
@@ -127,14 +149,19 @@ export const buildRandomGeneratorReducer = (
           .state as RandomGeneratorState;
         windowState.groupGenerator.numberOfGroups = numberOfGroups;
       }
-    );
-
-  builder.addCase(
-    setRandomGeneratorNamePickerList,
-    (state, { payload: { id, names } }) => {
+    )
+    .addCase(setSpinwheelList, (state, { payload: { id, list, listName } }) => {
       const windowState = getWindowByIdOrFail(state.windows, id)
         .state as RandomGeneratorState;
-      windowState.namePicker.names = names;
+      windowState.spinWheel[listName] = list;
+    });
+
+  builder.addCase(
+    setRandomGeneratorWordPickerList,
+    (state, { payload: { id, words } }) => {
+      const windowState = getWindowByIdOrFail(state.windows, id)
+        .state as RandomGeneratorState;
+      windowState.wordPicker.words = words;
     }
   );
 };

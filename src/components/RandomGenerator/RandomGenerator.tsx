@@ -7,7 +7,7 @@ import "./RandomGenerator.scss";
 import BaseWindow from "../BaseWindow/BaseWindow";
 import GroupMaker from "./GroupMaker/GroupMaker";
 import Spinwheel from "./Spinwheel/Spinwheel";
-import NamePicker from "./NamePicker/NamePicker";
+import WordPicker from "./WordPicker/WordPicker";
 import {
   useWindowState,
   WindowConfig,
@@ -57,9 +57,9 @@ export default function RandomGenerator({
                   value={tabsEnum.SPINWHEEL.tabIndex}
                 />
                 <Tab
-                  key={tabsEnum.NAME_PICKER.key}
-                  label={tabsEnum.NAME_PICKER.label}
-                  value={tabsEnum.NAME_PICKER.tabIndex}
+                  key={tabsEnum.WORD_PICKER.key}
+                  label={tabsEnum.WORD_PICKER.label}
+                  value={tabsEnum.WORD_PICKER.tabIndex}
                 />
               </TabList>
             </div>
@@ -74,13 +74,13 @@ export default function RandomGenerator({
               key={tabsEnum.SPINWHEEL.key}
               value={tabsEnum.SPINWHEEL.tabIndex}
             >
-              <Spinwheel />
+              <Spinwheel windowId={id} state={windowState.spinWheel} />
             </TabPanel>
             <TabPanel
-              key={tabsEnum.NAME_PICKER.key}
-              value={tabsEnum.NAME_PICKER.tabIndex}
+              key={tabsEnum.WORD_PICKER.key}
+              value={tabsEnum.WORD_PICKER.tabIndex}
             >
-              <NamePicker windowId={id} />
+              <WordPicker windowId={id} />
             </TabPanel>
           </TabContext>
         </div>
@@ -99,8 +99,22 @@ export const randomGeneratorWindowConfig: WindowConfig = {
       activeStep: GroupMakerStep.DataEntry,
       numberOfGroups: 0,
     },
-    namePicker: {
-      names: [],
+    wordPicker: {
+      words: [],
+    },
+    spinWheel: {
+      movements: [
+        "Kniebeugen",
+        "Hampelmann",
+        "Hand zu Fuß",
+        "Strecken",
+        "Hüpfen",
+        "Rennen",
+        "Klatschen",
+        "Liegestützen",
+      ],
+      numbers: Array.from({ length: 8 }, (_, index) => (index + 1).toString()),
+      words: [],
     },
   }),
   Component: ({ id }) => <RandomGenerator id={id} title="Zufallsgenerator" />,
