@@ -118,6 +118,7 @@ export default function Timer({ id, title }: { id: string; title: string }) {
             startTimer={startTimer}
             stopTimer={stopTimer}
             onTimerUpdate={updateAndRestartTimer}
+            isTimerRunning={isRunning}
             windowId={id}
             onToggleAnalogTimer={onToggleAnalogTimer}
           />

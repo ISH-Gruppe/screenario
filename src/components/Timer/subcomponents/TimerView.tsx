@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import "./TimerView.scss";
 
@@ -9,23 +9,117 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { useWindowState } from "../../WindowManager/window-management-slice";
 import { FormControlLabel, Switch } from "@mui/material";
-import { TimerState, toggleAnalogTimer } from "../TimerState";
-import { useDispatch } from "react-redux";
+import { TimerState } from "../TimerState";
+import { match } from "ts-pattern";
+
+const parseTimeValue = (value: string) =>
+  match(parseInt(value, 10))
+    .when(
+      (x) => x > 59,
+      () => 59
+    )
+    .when(
+      (x) => x >= 0,
+      (x) => x
+    )
+    .otherwise(() => 0);
 
 export default function TimerView(props: {
   minutes: number;
   seconds: number;
-  onTimerUpdate: (
-    deltaHours?: number,
-    deltaMinutes?: number,
-    deltaSeconds?: number
-  ) => void;
+  onTimerUpdate: (deltaSeconds?: number, deltaMinutes?: number) => void;
   startTimer: () => void;
   stopTimer: () => void;
+  isTimerRunning: boolean;
   windowId: string;
   onToggleAnalogTimer: () => void;
 }) {
   const windowState = useWindowState(props.windowId) as TimerState;
+  const [minutesInput, setMinutesInput] = useState(
+    props.minutes.toString().padStart(2, "0")
+  );
+  const [secondsInput, setSecondsInput] = useState(
+    props.seconds.toString().padStart(2, "0")
+  );
+  const secondsInputRef = useRef<HTMLInputElement>(null);
+  const minutesInputRef = useRef<HTMLInputElement>(null);
+
+  function setTimeFromInputs(
+    secondsStr = secondsInput,
+    minutesStr = minutesInput
+  ) {
+    const seconds = parseTimeValue(secondsStr);
+    const minutes = parseTimeValue(minutesStr);
+    const deltaSeconds = seconds - props.seconds;
+    const deltaMinutes = minutes - props.minutes;
+
+    if (deltaSeconds !== 0 || deltaMinutes !== 0) {
+      props.onTimerUpdate(deltaSeconds, deltaMinutes);
+    }
+  }
+
+  useEffect(() => setTimeFromInputs(), [minutesInput, secondsInput]);
+
+  const resetSeconds = () => {
+    setSecondsInput(props.seconds.toString().padStart(2, "0"));
+  };
+
+  const resetMinutes = () => {
+    setMinutesInput(props.minutes.toString().padStart(2, "0"));
+  };
+
+  useEffect(() => {
+    if (props.seconds !== parseTimeValue(secondsInput)) {
+      resetSeconds();
+    }
+    if (props.minutes !== parseTimeValue(minutesInput)) {
+      resetMinutes();
+    }
+  }, [props.seconds, props.minutes]);
+
+  const onMinutesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setMinutesInput(event.target.value);
+    if (event.target.value.length === 2) {
+      requestAnimationFrame(() => {
+        setTimeFromInputs(secondsInput, event.target.value);
+        secondsInputRef.current?.focus();
+        secondsInputRef.current?.select();
+      });
+    }
+  };
+
+  const onMinutesKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (
+      event.key === "Enter" ||
+      event.key === "ArrowRight" ||
+      event.key === "ArrowLeft" ||
+      event.key === "ArrowDown" ||
+      event.key === "ArrowUp"
+    ) {
+      event.preventDefault();
+      secondsInputRef.current?.focus();
+      secondsInputRef.current?.select();
+    }
+  };
+
+  const onSecondsKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (
+      event.key === "ArrowLeft" ||
+      event.key === "ArrowRight" ||
+      event.key === "ArrowUp" ||
+      event.key === "ArrowDown"
+    ) {
+      event.preventDefault();
+      minutesInputRef.current?.focus();
+      minutesInputRef.current?.select();
+    } else if (event.key === "Backspace" && secondsInput.length === 0) {
+      setTimeFromInputs("");
+      minutesInputRef.current?.focus();
+    } else if (event.key === "Enter") {
+      props.startTimer();
+      secondsInputRef.current?.blur();
+    }
+  };
 
   return (
     <div className="timer-view">
@@ -43,8 +137,19 @@ export default function TimerView(props: {
           </div>
 
           <div>
-            {props.minutes < 10 && <span className="timer-digits">0</span>}
-            <span className="timer-digits">{props.minutes}</span>
+            <input
+              ref={minutesInputRef}
+              type="number"
+              className="timer-digits"
+              disabled={props.isTimerRunning}
+              value={minutesInput}
+              onBlur={resetMinutes}
+              onChange={onMinutesChange}
+              onKeyDown={onMinutesKeyDown}
+              onClick={(e) => e.currentTarget.select()}
+              min={0}
+              max={59}
+            />
           </div>
 
           <div className="button-container-digits">
@@ -72,8 +177,19 @@ export default function TimerView(props: {
           </div>
 
           <div>
-            {props.seconds < 10 && <span className="timer-digits">0</span>}
-            <span className="timer-digits">{props.seconds}</span>
+            <input
+              ref={secondsInputRef}
+              type="number"
+              className="timer-digits"
+              disabled={props.isTimerRunning}
+              value={secondsInput}
+              onBlur={resetSeconds}
+              onChange={(e) => setSecondsInput(e.target.value)}
+              onClick={(e) => e.currentTarget.select()}
+              onKeyDown={onSecondsKeyDown}
+              min={0}
+              max={59}
+            />
           </div>
 
           <div className="button-container-digits">
@@ -93,10 +209,20 @@ export default function TimerView(props: {
           direction="column"
           spacing={2}
         >
-          <Button onClick={props.startTimer} variant="contained" size="small">
+          <Button
+            onClick={props.startTimer}
+            variant="contained"
+            size="small"
+            disabled={props.isTimerRunning}
+          >
             Start
           </Button>
-          <Button onClick={props.stopTimer} variant="outlined" size="small">
+          <Button
+            onClick={props.stopTimer}
+            variant="outlined"
+            size="small"
+            disabled={!props.isTimerRunning}
+          >
             Stop
           </Button>
           <FormControlLabel
