@@ -4,8 +4,7 @@ import { Wheel } from "react-custom-roulette";
 import { Stack } from "@mui/system";
 import Button from "@mui/material/Button";
 import { useAudio } from "../../Timer/subcomponents/useAudio";
-// TODO @liam: replace with some proper sound
-import spinningSound from "../../Soundboard/sounds/countdown.mp3";
+import spinningSound from "./wheel.mp3";
 import endingSound from "./winfantasia-6912.mp3";
 import { setSpinwheelList, SpinwheelState } from "../RandomGeneratorState";
 import TextareaWordlist from "../TextareaWordlist";
