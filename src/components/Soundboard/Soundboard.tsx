@@ -29,9 +29,13 @@ import BirthdayVideo from "./videos/happy_birthday.mp4";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import { useDispatch } from "react-redux";
-import { SoundboardState, toggleFavorite } from "./SoundboardState";
+import { saveFile, SoundboardState, toggleFavorite } from "./SoundboardState";
 import { TabContext, TabList } from "@mui/lab";
 import Tab from "@mui/material/Tab";
+import { useCustomSoundboardFiles } from "./useCustomSoundboardFiles";
+import { toDataUrl } from "../../utils/fileToDataUrl";
+import { ThunkDispatch } from "@reduxjs/toolkit";
+import { AnyAction } from "redux";
 
 const sounds = [
   {
@@ -104,6 +108,7 @@ export default function SoundBoard({
   const [activeTab, setActiveTab] = useState<"all" | "favorites">("all");
   const dispatch = useDispatch();
   const windowState = useWindowState(id) as SoundboardState;
+  const customSoundboardFiles = useCustomSoundboardFiles();
 
   function playOrStopSound(soundpath: string) {
     if (soundpath == soundPlaying) {
@@ -152,6 +157,27 @@ export default function SoundBoard({
     setVideoPlaying(undefined);
   };
 
+  const handleFileSelect = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const files = event.target.files;
+    if (files === null) {
+      throw new Error("No file added");
+    }
+    const [file] = files;
+    try {
+      const fileContent = await toDataUrl(file);
+      (dispatch as ThunkDispatch<unknown, unknown, AnyAction>)(
+        saveFile({
+          name: file.name,
+          fileContent: fileContent,
+        })
+      );
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   const soundButtons = sounds.map((sound) => {
     const isFavorite = windowState.favorites.sounds.includes(sound.id);
     return activeTab !== "favorites" || isFavorite ? (
@@ -171,6 +197,39 @@ export default function SoundBoard({
               toggleFavorite({
                 id: sound.id,
                 type: "sounds",
+                windowId: id,
+              })
+            )
+          }
+        >
+          {isFavorite ? <Favorite /> : <FavoriteBorder />}
+        </Button>
+      </ButtonGroup>
+    ) : null;
+  });
+
+  const customFileButtons = customSoundboardFiles.map((sound) => {
+    const isFavorite = windowState.favorites.customFiles.includes(sound.id);
+    const isSound = sound.content.startsWith("data:audio");
+    const playPauseFunction = isSound ? playOrStopSound : playOrStopVideo;
+
+    return activeTab !== "favorites" || isFavorite ? (
+      <ButtonGroup
+        key={sound.id}
+        variant={soundPlaying === sound.content ? "contained" : "outlined"}
+      >
+        <Button
+          className="sound-button"
+          onClick={() => playPauseFunction(sound.content)}
+        >
+          {sound.name}
+        </Button>
+        <Button
+          onClick={() =>
+            dispatch(
+              toggleFavorite({
+                id: sound.id,
+                type: "customFiles",
                 windowId: id,
               })
             )
@@ -240,10 +299,27 @@ export default function SoundBoard({
               <div id="soundboardButtonWrapper">{soundButtons}</div>
               {videoButtons.length > 0 ? (
                 <>
-                  <h2>GIFs</h2>
+                  <h2>Videos</h2>
                   <div id="soundboardButtonWrapper">{videoButtons}</div>
                 </>
               ) : null}
+              <h2>Eigene</h2>
+              <div id="soundboardButtonWrapper">
+                {customFileButtons}
+                <Button
+                  component="label"
+                  variant="outlined"
+                  className="add-file-button"
+                >
+                  + Neue Datei
+                  <input
+                    hidden
+                    type="file"
+                    accept="audio/*, video/*"
+                    onChange={handleFileSelect}
+                  />
+                </Button>
+              </div>
             </>
           )}
         </TabContext>
@@ -259,6 +335,7 @@ export const soundboardWindowConfig: WindowConfig = {
     favorites: {
       sounds: [],
       videos: [],
+      customFiles: [],
     },
   }),
   defaultLayout: {

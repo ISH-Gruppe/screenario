@@ -7,6 +7,8 @@ import { STORE_PERSISTOR_KEY } from "./app-config";
 import { workPhaseSlice } from "./components/WorkPhase/WorkPhaseState";
 import { backgroundImageSlice } from "./components/BackgroundImage/background-image-slice";
 import { migrations } from "./migrations";
+import { globalSoundboardSlice } from "./components/Soundboard/SoundboardState";
+import { CurriedGetDefaultMiddleware } from "@reduxjs/toolkit/dist/getDefaultMiddleware";
 
 export const store = configureStore({
   devTools: true,
@@ -14,19 +16,33 @@ export const store = configureStore({
     {
       key: STORE_PERSISTOR_KEY,
       storage: storage,
-      version: 1,
+      version: 2,
       migrate: createMigrate(migrations, { debug: true }),
     },
     combineReducers({
       windowManagement: windowManagementSlice.reducer,
       welcome: welcomeSlice.reducer,
       globalWorkPhase: workPhaseSlice.reducer,
+      globalSoundboard: globalSoundboardSlice.reducer,
       backgroundImage: backgroundImageSlice.reducer,
     })
   ),
 
   // https://stackoverflow.com/a/77509978
-  middleware: [],
+  middleware: ((getDefaultMiddleware: CurriedGetDefaultMiddleware) => {
+    return getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [
+          "persist/REGISTER",
+          "persist/REHYDRATE",
+          "persist/PERSIST",
+          "persist/PAUSE",
+          "persist/PURGE",
+          "persist/FLUSH",
+        ],
+      },
+    }).concat();
+  }) as unknown as [],
 });
 
 export type AppState = ReturnType<typeof store.getState>;
