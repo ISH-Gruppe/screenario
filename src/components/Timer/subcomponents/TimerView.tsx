@@ -9,10 +9,8 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { useWindowState } from "../../WindowManager/window-management-slice";
 import { FormControlLabel, Switch } from "@mui/material";
-import { TimerState, toggleAnalogTimer } from "../TimerState";
-import { useDispatch } from "react-redux";
+import { TimerState } from "../TimerState";
 import { match } from "ts-pattern";
-import { z } from "zod";
 
 const parseTimeValue = (value: string) =>
   match(parseInt(value, 10))
