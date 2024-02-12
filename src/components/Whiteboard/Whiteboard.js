@@ -388,7 +388,7 @@ export const whiteboardWindowConfig = {
     type: WindowType.Whiteboard,
   }),
   Component: ({ id }) => <Whiteboard id={id} title="Whiteboard" />,
-  defaultLayout: {
+  getDefaultLayout: () => ({
     xs: {
       w: 6,
       h: 8,
@@ -419,5 +419,5 @@ export const whiteboardWindowConfig = {
       minW: 18,
       minH: 8,
     },
-  },
+  }),
 };

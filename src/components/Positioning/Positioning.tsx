@@ -426,7 +426,7 @@ export const positioningWindowConfig: WindowConfig = {
   getInitialState: () => ({
     type: WindowType.Positioning,
   }),
-  defaultLayout: {
+  getDefaultLayout: () => ({
     xs: {
       w: 6,
       h: 8,
@@ -459,6 +459,6 @@ export const positioningWindowConfig: WindowConfig = {
       minW: 18,
       minH: 8,
     },
-  },
+  }),
   Component: ({ id }) => <Positioning id={id} title="Positionierung" />,
 };

@@ -338,7 +338,7 @@ export const soundboardWindowConfig: WindowConfig = {
       customFiles: [],
     },
   }),
-  defaultLayout: {
+  getDefaultLayout: () => ({
     xs: {
       w: 4,
       h: 3,
@@ -369,5 +369,5 @@ export const soundboardWindowConfig: WindowConfig = {
       minW: 8,
       minH: 4,
     },
-  },
+  }),
 };

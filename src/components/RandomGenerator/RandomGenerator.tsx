@@ -118,7 +118,7 @@ export const randomGeneratorWindowConfig: WindowConfig = {
     },
   }),
   Component: ({ id }) => <RandomGenerator id={id} title="Zufallsgenerator" />,
-  defaultLayout: {
+  getDefaultLayout: () => ({
     xs: {
       w: 4,
       h: 5,
@@ -149,5 +149,5 @@ export const randomGeneratorWindowConfig: WindowConfig = {
       minW: 10,
       minH: 8,
     },
-  },
+  }),
 };

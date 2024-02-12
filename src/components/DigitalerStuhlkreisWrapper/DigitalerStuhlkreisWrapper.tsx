@@ -60,7 +60,7 @@ export const stuhlkreisWindowConfig: WindowConfig = {
     type: WindowType.Stuhlkreis,
   }),
   Component: ({ id }) => <DigitalerStuhlkreisWrapper id={id} />,
-  defaultLayout: {
+  getDefaultLayout: () => ({
     xs: {
       w: 4,
       h: 4,
@@ -93,5 +93,5 @@ export const stuhlkreisWindowConfig: WindowConfig = {
       minW: 10,
       minH: 8,
     },
-  },
+  }),
 };

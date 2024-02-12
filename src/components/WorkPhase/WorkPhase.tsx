@@ -184,7 +184,7 @@ export const workPhaseWindowConfig: WindowConfig = {
   Component: ({ id }) => (
     <WorkPhase id={id} title="Arbeits- und Pausenphasen" />
   ),
-  defaultLayout: {
+  getDefaultLayout: () => ({
     xs: {
       w: 4,
       h: 4,
@@ -215,5 +215,5 @@ export const workPhaseWindowConfig: WindowConfig = {
       minW: 12,
       minH: 6,
     },
-  },
+  }),
 };
