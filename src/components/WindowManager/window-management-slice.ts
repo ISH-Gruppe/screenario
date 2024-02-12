@@ -122,6 +122,36 @@ const createWindowByType = (windowType: WindowType): ScreenarioWindow => {
   };
 };
 
+const moveOpenWindowsBelow = (
+  prioritizedWindows: ScreenarioWindow[],
+  allWindows: ScreenarioWindow[]
+) => {
+  // We can just move windows as low as we want,
+  // they'll be moved back up by the layout engine.
+  // Therefore, we only care about keeping old relative distances.
+
+  // Compute how much each window has to be moved down per layout
+  const deltas: Partial<Record<keyof LayoutDefinitions, number>> = {};
+  for (const window of prioritizedWindows) {
+    for (let layoutKey in window.layouts) {
+      const asKey = layoutKey as keyof LayoutDefinitions;
+      const layout = window.layouts[asKey];
+      const oldDelta = deltas[asKey] ?? 0;
+      deltas[asKey] = oldDelta + layout.y + layout.h;
+    }
+  }
+
+  const prioritizedWindowIds = new Set(prioritizedWindows.map((w) => w.id));
+  for (const window of allWindows) {
+    if (window.isOpen && !prioritizedWindowIds.has(window.id)) {
+      for (let layoutKey in window.layouts) {
+        const layout = window.layouts[layoutKey as keyof LayoutDefinitions];
+        layout.y += deltas[layoutKey as keyof LayoutDefinitions] ?? 0;
+      }
+    }
+  }
+};
+
 export const windowManagementSlice = createSlice({
   name: "window-management",
   initialState: (): WindowManagementState => ({
@@ -151,24 +181,8 @@ export const windowManagementSlice = createSlice({
       for (let layoutsKey in newWindow.layouts) {
         newWindow.layouts[layoutsKey as keyof LayoutDefinitions].y = 0;
       }
-
-      for (const window of state.windows) {
-        if (window.isOpen) {
-          for (let layoutKey in window.layouts) {
-            const layout = window.layouts[layoutKey as keyof LayoutDefinitions];
-            const layoutOfNewWindow =
-              newWindow.layouts[layoutKey as keyof LayoutDefinitions];
-            const isOverlapFree =
-              layoutOfNewWindow.x + layoutOfNewWindow.w < layout.x ||
-              layout.x + layout.w < layoutOfNewWindow.x;
-            if (!isOverlapFree) {
-              layout.y += layoutOfNewWindow.h;
-            }
-          }
-        }
-      }
-
       state.windows.push(newWindow);
+      moveOpenWindowsBelow([newWindow], state.windows);
     },
     toggleWindowType: (
       state,
@@ -186,11 +200,14 @@ export const windowManagementSlice = createSlice({
       );
 
       if (relevantWindows.length === 0) {
-        state.windows.push(createWindowByType(windowType));
+        const newWindow = createWindowByType(windowType);
+        state.windows.push(newWindow);
+        moveOpenWindowsBelow([newWindow], state.windows);
       } else {
         relevantWindows.forEach((window) => {
           window.isOpen = !areAllOpen;
         });
+        moveOpenWindowsBelow(relevantWindows, state.windows);
       }
     },
     setLayouts: (state, { payload: layouts }: PayloadAction<Layouts>) => {
