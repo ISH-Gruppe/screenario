@@ -152,6 +152,39 @@ const moveOpenWindowsBelow = (
   }
 };
 
+const moveWindowIntoFreeSpot = (
+  window: ScreenarioWindow,
+  otherWindows: ScreenarioWindow[]
+) => {
+  for (const key in window.layouts) {
+    const layoutKey = key as keyof LayoutDefinitions;
+    const layout = window.layouts[layoutKey];
+    const layoutsByXAsc = otherWindows
+      // remove layouts that are above our window anyway
+      .filter(
+        (curr) =>
+          curr.isOpen &&
+          curr.layouts[layoutKey] !== undefined &&
+          curr.layouts[layoutKey].y < layout.h
+      )
+      .map((w) => w.layouts[layoutKey])
+      .toSorted((a, b) => a.x - b.x);
+
+    for (let lastFreeX = 0, i = 0; i < layoutsByXAsc.length; i++) {
+      const curr = layoutsByXAsc[i];
+      if (lastFreeX + layout.w <= curr.x) {
+        layout.x = lastFreeX;
+        break;
+      }
+      lastFreeX = curr.x + curr.w;
+      // this will make the window be added at the rightmost end of another window.
+      // This position may well be off-screen, but the layout engine will move it
+      // back up.
+      layout.x = lastFreeX;
+    }
+  }
+};
+
 export const windowManagementSlice = createSlice({
   name: "window-management",
   initialState: (): WindowManagementState => ({
@@ -181,8 +214,9 @@ export const windowManagementSlice = createSlice({
       for (let layoutsKey in newWindow.layouts) {
         newWindow.layouts[layoutsKey as keyof LayoutDefinitions].y = 0;
       }
-      state.windows.push(newWindow);
+      moveWindowIntoFreeSpot(newWindow, state.windows);
       moveOpenWindowsBelow([newWindow], state.windows);
+      state.windows.push(newWindow);
     },
     toggleWindowType: (
       state,
@@ -201,8 +235,9 @@ export const windowManagementSlice = createSlice({
 
       if (relevantWindows.length === 0) {
         const newWindow = createWindowByType(windowType);
-        state.windows.push(newWindow);
+        moveWindowIntoFreeSpot(newWindow, state.windows);
         moveOpenWindowsBelow([newWindow], state.windows);
+        state.windows.push(newWindow);
       } else {
         relevantWindows.forEach((window) => {
           window.isOpen = !areAllOpen;
