@@ -147,7 +147,7 @@ export const notepadWindowConfig: WindowConfig = {
     notes: [""],
   }),
   Component: ({ id }) => <Notepad id={id} title="Notepad" />,
-  defaultLayout: {
+  getDefaultLayout: () => ({
     xs: {
       w: 4,
       h: 3,
@@ -178,5 +178,5 @@ export const notepadWindowConfig: WindowConfig = {
       minW: 8,
       minH: 4,
     },
-  },
+  }),
 };

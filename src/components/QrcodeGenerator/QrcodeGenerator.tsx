@@ -54,7 +54,7 @@ export const qrCodeWindowConfig: WindowConfig = {
     type: WindowType.QrCode,
     value: "https://ish-gruppe.de",
   }),
-  defaultLayout: {
+  getDefaultLayout: () => ({
     xs: {
       w: 3,
       h: 4,
@@ -85,5 +85,5 @@ export const qrCodeWindowConfig: WindowConfig = {
       minW: 8,
       minH: 5,
     },
-  },
+  }),
 };

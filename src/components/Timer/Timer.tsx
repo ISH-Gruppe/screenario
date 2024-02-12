@@ -151,7 +151,7 @@ export const timerWindowConfig: WindowConfig = {
     showAnalogTimer: false,
   }),
   Component: ({ id }) => <Timer id={id} title="Timer" />,
-  defaultLayout: {
+  getDefaultLayout: () => ({
     xs: {
       w: 2,
       h: 2,
@@ -177,5 +177,5 @@ export const timerWindowConfig: WindowConfig = {
       minW: 6,
       minH: 4,
     },
-  },
+  }),
 };

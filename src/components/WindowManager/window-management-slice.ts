@@ -69,7 +69,7 @@ type WindowBreakpoint = "xs" | "sm" | "md" | "lg";
 type LayoutDefinitions = Record<WindowBreakpoint, Omit<Layout, "i">>;
 
 export type WindowConfig = {
-  defaultLayout: LayoutDefinitions;
+  getDefaultLayout: () => LayoutDefinitions;
   getInitialState: (id: string) => WindowState;
   Component: React.FC<{
     id: string;
@@ -117,7 +117,7 @@ const createWindowByType = (windowType: WindowType): ScreenarioWindow => {
   return {
     id,
     isOpen: true,
-    layouts: windowConfig.defaultLayout,
+    layouts: windowConfig.getDefaultLayout(),
     state: windowState,
   };
 };

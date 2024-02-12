@@ -65,25 +65,6 @@ export default function WindowManager() {
     dispatch(windowManagementActions.setLayouts(layouts));
   };
 
-  function readFromLocalStorage(key: string) {
-    let ls = {};
-    if (global.localStorage) {
-      try {
-        ls = JSON.parse(global.localStorage.getItem(key) ?? "undefined");
-        // console.log("readFromLocalStorage", ls);
-      } catch (e) {
-        /*Ignore*/
-      }
-    }
-    return ls;
-  }
-
-  function saveToLocalStorage(key: string, value: unknown) {
-    if (global.localStorage) {
-      global.localStorage.setItem(key, JSON.stringify(value));
-    }
-  }
-
   return (
     <div>
       <Welcome />
