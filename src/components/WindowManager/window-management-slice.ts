@@ -147,7 +147,28 @@ export const windowManagementSlice = createSlice({
       state,
       { payload: windowType }: PayloadAction<WindowType>
     ) => {
-      state.windows.push(createWindowByType(windowType));
+      const newWindow = createWindowByType(windowType);
+      for (let layoutsKey in newWindow.layouts) {
+        newWindow.layouts[layoutsKey as keyof LayoutDefinitions].y = 0;
+      }
+
+      for (const window of state.windows) {
+        if (window.isOpen) {
+          for (let layoutKey in window.layouts) {
+            const layout = window.layouts[layoutKey as keyof LayoutDefinitions];
+            const layoutOfNewWindow =
+              newWindow.layouts[layoutKey as keyof LayoutDefinitions];
+            const isOverlapFree =
+              layoutOfNewWindow.x + layoutOfNewWindow.w < layout.x ||
+              layout.x + layout.w < layoutOfNewWindow.x;
+            if (!isOverlapFree) {
+              layout.y += layoutOfNewWindow.h;
+            }
+          }
+        }
+      }
+
+      state.windows.push(newWindow);
     },
     toggleWindowType: (
       state,
