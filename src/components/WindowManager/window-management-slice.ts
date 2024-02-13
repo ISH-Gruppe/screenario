@@ -241,8 +241,17 @@ export const windowManagementSlice = createSlice({
       } else {
         relevantWindows.forEach((window) => {
           window.isOpen = !areAllOpen;
+          if (window.isOpen) {
+            moveWindowIntoFreeSpot(
+              window,
+              state.windows.filter((w) => w.id !== window.id)
+            );
+          }
         });
-        moveOpenWindowsBelow(relevantWindows, state.windows);
+
+        if (!areAllOpen) {
+          moveOpenWindowsBelow(relevantWindows, state.windows);
+        }
       }
     },
     setLayouts: (state, { payload: layouts }: PayloadAction<Layouts>) => {
