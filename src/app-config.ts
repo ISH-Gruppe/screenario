@@ -4,7 +4,9 @@ import { WindowType } from "./components/WindowManager/window-management-slice";
 
 const buildModeSchema = zod.enum(["workshop", "school"]);
 
-const buildMode = buildModeSchema.parse(process.env.REACT_APP_BUILD_VARIANT);
+const buildMode = buildModeSchema.parse(
+  localStorage.getItem("buildMode") || "workshop"
+);
 
 export type AppConfig = {
   font: string;

@@ -15,7 +15,7 @@ import Imprint from "./components/Modals/Imprint/Imprint";
 import Privacy from "./components/Modals/Privacy/Privacy";
 import Licensing from "./components/Modals/Licensing/Licensing";
 import DonationModal from "./components/Modals/Donation/DonationModal";
-
+import ModeToggleButtons from "./components/ModeToggleButtons";
 // CSS
 import "./App.css";
 import { APP_CONFIG } from "./app-config";
@@ -62,15 +62,6 @@ export default function App() {
                 </Routes>
               </Router>
 
-              <a
-                className="ish-logo"
-                href="https://ish-gruppe.de"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <img src="/assets/ish-gruppe-logo.png" />
-              </a>
-
               <div className="donation-button">
                 <Button
                   variant="outlined"
@@ -82,11 +73,22 @@ export default function App() {
                 </Button>
 
                 <ImportExportButtons />
+                <ModeToggleButtons />
               </div>
 
               <span className="imprint-privacy">
-                <a href="/impressum">Impressum</a> &{" "}
-                <a href="/datenschutz">Datenschutz</a>
+                <a
+                  className="ish-logo"
+                  href="https://ish-gruppe.de"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img src="/assets/ish-gruppe-logo.png" />
+                </a>
+                <span>
+                  <a href="/impressum">Impressum</a> &{" "}
+                  <a href="/datenschutz">Datenschutz</a>
+                </span>
               </span>
 
               <DonationModal
