@@ -12,3 +12,13 @@
   font-family: "Grundschrift";
   src: url("./Grundschrift/Grundschrift-Regular.otf");
 }
+
+@font-face {
+  font-family: "Druckschrift95";
+  src: url("druckschrift95.ttf");
+}
+
+@font-face {
+  font-family: "ComicRelief";
+  src: url("./ComicRelief/ComicRelief-Regular.woff2");
+}

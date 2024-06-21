@@ -27,7 +27,7 @@ import {
   buildRandomGeneratorReducer,
   RandomGeneratorState,
 } from "../RandomGenerator/RandomGeneratorState";
-import { buildNodepadReducer, NotepadState } from "../Notepad/NodepadState";
+import { buildNodepadReducer, NotepadState } from "../Notepad/NotepadState";
 import {
   buildWorkPhaseReducer,
   WorkPhaseState,
