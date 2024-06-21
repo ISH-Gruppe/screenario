@@ -283,6 +283,7 @@ export default function SoundBoard({
               src={videoPlaying}
               autoPlay
               muted
+              controls
               playsInline
               onEnded={stopVideo}
               onClick={stopVideo}

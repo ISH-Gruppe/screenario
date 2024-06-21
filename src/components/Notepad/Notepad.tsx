@@ -26,11 +26,18 @@ import {
   NotepadState,
   selectNoteAndCreateIfNeeded,
   updateCurrentNote,
-} from "./NodepadState";
+} from "./NotepadState";
+
+import { APP_CONFIG } from "../../app-config";
 
 // ALWAYS KEEP IN SYNC WITH ./Notepad.scss
-const fonts = ["Grundschrift", "Rubik"];
+const fonts = ["Grundschrift", "Rubik", "Druckschrift95", "ComicRelief"];
 const Font = ReactQuill.Quill.import("formats/font");
+
+// This does NOT match the APP_CONFIG.notepadFontWhitelist at first because we can’t
+// access the config when initializing React Quill, which injects
+// itself at root immediately upon load.
+// We will use the whitelist when creating the font selection menu in the toolbar further down.
 Font.whitelist = fonts;
 ReactQuill.Quill.register(Font, true);
 
@@ -97,7 +104,7 @@ export default function Notepad({ id, title }: { id: string; title: string }) {
           <ReactQuill
             modules={{
               toolbar: [
-                [{ font: Font.whitelist }],
+                [{ font: APP_CONFIG.notepadFontWhitelist }],
                 [{ size: ["18px", "28px", "38px"] }],
                 ["bold", "italic", "strike"],
                 [{ list: "ordered" }, { list: "bullet" }],

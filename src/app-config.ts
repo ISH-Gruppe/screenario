@@ -11,6 +11,7 @@ const buildMode = buildModeSchema.parse(
 export type AppConfig = {
   font: string;
   hiddenWindowTypes: WindowType[];
+  notepadFontWhitelist: string[];
 };
 
 export const APP_CONFIG: AppConfig = match(buildMode)
@@ -19,13 +20,20 @@ export const APP_CONFIG: AppConfig = match(buildMode)
     (): AppConfig => ({
       font: "Rubik",
       hiddenWindowTypes: [],
+      notepadFontWhitelist: ["Rubik", "ComicRelief"],
     })
   )
   .with(
     "school",
     (): AppConfig => ({
       font: "ABeeZee",
-      hiddenWindowTypes: [WindowType.Positioning, WindowType.QrCode],
+      hiddenWindowTypes: [WindowType.QrCode],
+      notepadFontWhitelist: [
+        "Grundschrift",
+        "Rubik",
+        "Druckschrift95",
+        "ComicRelief",
+      ],
     })
   )
   .exhaustive();
