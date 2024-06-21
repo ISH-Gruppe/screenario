@@ -11,6 +11,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import "./Welcome.css";
 import { useDispatch, useSelector } from "react-redux";
 import { welcomeActions } from "./welcome-slice";
+import { Switch } from "@mui/material";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -20,6 +21,16 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     padding: theme.spacing(1),
   },
 }));
+
+function handleModeSwitch(event) {
+  if (event.target.checked) {
+    localStorage.setItem("buildMode", "school");
+    window.location.reload();
+  } else {
+    localStorage.setItem("buildMode", "workshop");
+    window.location.reload();
+  }
+}
 
 const BootstrapDialogTitle = (props) => {
   const { children, onClose, ...other } = props;
@@ -106,6 +117,14 @@ export default function Welcome() {
         </DialogContent>
 
         <DialogActions classes={"spacing"}>
+          <div>
+            <label>Tagung</label>
+            <Switch
+              defaultChecked={localStorage.getItem("buildMode") === "school"}
+              onChange={handleModeSwitch}
+            />
+            <label>Schule</label>
+          </div>
           <Button
             href="https://t11388d93.emailsys1a.net/106/5997/164be38925/subscribe/form.html?_g=1670492756"
             target="_blank"

@@ -26,11 +26,12 @@
 
 .imprint-privacy {
   position: fixed;
-  top: 94vh;
-  left: 42%;
-  width: 18%;
+  bottom: 2rem;
+  right: 4rem;
   z-index: 11;
   opacity: 50%;
+  display: flex;
+  flex-direction: column;
 }
 
 .donation-button {
@@ -53,15 +54,12 @@
 }
 
 .ish-logo {
-  position: fixed;
-  top: 92vh;
-  right: 4rem;
   opacity: 0.55;
   height: 40px;
 }
 
 .ish-logo img {
-  width: 100%;
+  margin: auto;
   height: 100%;
 }
 
