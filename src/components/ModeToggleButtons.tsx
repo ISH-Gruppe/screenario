@@ -3,7 +3,7 @@ import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 
 export default function ColorToggleButton() {
-  function handleModeSwitch(event) {
+  function handleModeSwitch(event: any) {
     if (event.target.value === "school") {
       localStorage.setItem("buildMode", "school");
       window.location.reload();
