@@ -56,6 +56,10 @@ const availableWindowDescriptors: Record<WindowType, WindowDescriptor> = {
     icon: <GridOnIcon />,
     name: "Positionierung",
   },
+  [WindowType.GuessingGame]: {
+    icon: <GridOnIcon />,
+    name: "Ratespiel",
+  },
   [WindowType.QrCode]: {
     icon: <QrCodeIcon />,
     name: "QR-Code-Generator",
