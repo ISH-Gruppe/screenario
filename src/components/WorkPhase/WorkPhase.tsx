@@ -32,6 +32,7 @@ import { ImageContextMenu } from "./ImageContextMenu";
 import { ReactJSXElement } from "@emotion/react/types/jsx-namespace";
 import { toDataUrl } from "../../utils/fileToDataUrl";
 import { PictogramSearch } from "./PictogramSearch";
+import { APP_CONFIG } from "../../app-config";
 
 export default function WorkPhase({
   id,
@@ -45,6 +46,12 @@ export default function WorkPhase({
   const [open, setOpen] = useState(false);
   const [popupImage, setPopupImage] = useState<ReactJSXElement | null>(null);
   const customImages = useWorkPhaseCustomImages();
+
+  const filteredWorkPhaseTabs = Object.fromEntries(
+    Object.entries(workPhaseTabs).filter(
+      ([key]) => !APP_CONFIG.hiddenWorkPhaseTabs.includes(key)
+    )
+  );
 
   function openImage(image: string) {
     setPopupImage(<img className="popup-image" src={image} />);
@@ -100,41 +107,53 @@ export default function WorkPhase({
         <div className="galleries" style={hideOrShowGalleries()}>
           <TabContext value={windowState.currentTab}>
             <TabList onChange={onSelectTab}>
-              {Object.entries(workPhaseTabs).map(([tabId, { name }]) => (
-                <Tab key={tabId} value={tabId} label={name} />
-              ))}
-              <Tab value={CUSTOM_PICTOGRAM_TAB_ID} label="Piktogrammsuche" />
-              <Tab
-                value={CUSTOM_IMAGES_WORK_PHASE_TAB_ID}
-                label="Eigene Bilder"
-              />
+              {Object.entries(filteredWorkPhaseTabs).map(
+                ([tabId, { name }]) => (
+                  <Tab key={tabId} value={tabId} label={name} />
+                )
+              )}
+              {!APP_CONFIG.hiddenWorkPhaseTabs.includes(
+                CUSTOM_PICTOGRAM_TAB_ID
+              ) && (
+                <Tab value={CUSTOM_PICTOGRAM_TAB_ID} label="Piktogrammsuche" />
+              )}
+              {!APP_CONFIG.hiddenWorkPhaseTabs.includes(
+                CUSTOM_IMAGES_WORK_PHASE_TAB_ID
+              ) && (
+                <Tab
+                  value={CUSTOM_IMAGES_WORK_PHASE_TAB_ID}
+                  label="Eigene Bilder"
+                />
+              )}
             </TabList>
-            {Object.entries(workPhaseTabs).map(([tabKey, { categories }]) => (
-              <TabPanel key={tabKey} value={tabKey}>
-                {categories.map(({ name, images }) => (
-                  <React.Fragment key={name}>
-                    <h3> {name} </h3>
-                    <ImageList sx={{}} cols={3}>
-                      {images.map((image) => {
-                        return (
-                          <ImageListItem
-                            className="gallery-image"
-                            onClick={() => openImage(image.src)}
-                            key={image.id}
-                          >
-                            <img src={image.src} />
-                            <ImageContextMenu
-                              isCustomImage={false}
-                              imageId={image.id}
-                            />
-                          </ImageListItem>
-                        );
-                      })}
-                    </ImageList>
-                  </React.Fragment>
-                ))}
-              </TabPanel>
-            ))}
+            {Object.entries(filteredWorkPhaseTabs).map(
+              ([tabKey, { categories }]) => (
+                <TabPanel key={tabKey} value={tabKey}>
+                  {categories.map(({ name, images }) => (
+                    <React.Fragment key={name}>
+                      <h3> {name} </h3>
+                      <ImageList sx={{}} cols={3}>
+                        {images.map((image) => {
+                          return (
+                            <ImageListItem
+                              className="gallery-image"
+                              onClick={() => openImage(image.src)}
+                              key={image.id}
+                            >
+                              <img src={image.src} />
+                              <ImageContextMenu
+                                isCustomImage={false}
+                                imageId={image.id}
+                              />
+                            </ImageListItem>
+                          );
+                        })}
+                      </ImageList>
+                    </React.Fragment>
+                  ))}
+                </TabPanel>
+              )
+            )}
             <TabPanel value={CUSTOM_PICTOGRAM_TAB_ID}>
               <PictogramSearch />
             </TabPanel>

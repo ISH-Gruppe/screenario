@@ -9,6 +9,8 @@ import {
   createAsyncThunk,
   createSlice,
 } from "@reduxjs/toolkit";
+
+//WorkImages
 import EinzelarbeitImage from "./images/einzelarbeit.jpg";
 import PartnerarbeitImage from "./images/partnerarbeit.jpg";
 import GruppenarbeitImage from "./images/gruppenarbeit.jpg";
@@ -24,6 +26,47 @@ import ShareImage from "./images/share.jpg";
 import HerzlichWillkommenImage from "./images/herzlich-willkommen.jpg";
 import KameraAnschaltenImage from "./images/kamera-anschalten.jpg";
 import FragenImChatImage from "./images/fragen-im-chat.jpg";
+
+//SchoolImages
+// Sitzordnung
+import FreiePlatzwahlImage from "./images/school/Freie Platzwahl.jpg";
+import AufDemBodenImage from "./images/school/Auf dem Boden.jpg";
+import AufDemFlurImage from "./images/school/Auf dem Flur.jpg";
+import KinositzImage from "./images/school/Kinositz.jpg";
+import SitzsackImage from "./images/school/Sitzsack.jpg";
+import GruppentischImage from "./images/school/Gruppentisch.jpg";
+
+// Rollen
+import SchreiberinImage from "./images/school/Schreiberin.jpg";
+import VorleserinImage from "./images/school/Vorleserin.jpg";
+import ZeitwaechterinImage from "./images/school/Zeitwächterin.jpg";
+import ModerationImage from "./images/school/Moderation.jpg";
+import PartnerinnenarbeitImage from "./images/school/Partnerinnenarbeit.jpg";
+
+// Dinge
+import FedermappeImage from "./images/school/Federmappe.jpg";
+import KleberImage from "./images/school/Kleber.jpg";
+import StiftImage from "./images/school/Stift.jpg";
+import LinealImage from "./images/school/Lineal.jpg";
+import PapageiImage from "./images/school/Papagei.jpg";
+
+// Arbeitsphase
+import EinzelarbeitSchoolImage from "./images/school/Einzelarbeit.jpg";
+import GruppenarbeitSchoolImage from "./images/school/Gruppenarbeit.jpg";
+import KonferenzImage from "./images/school/Konferenz.jpg";
+import CheckImage from "./images/school/Check.jpg";
+import LautstaerkeImage from "./images/school/Lautstärke.jpg";
+
+// Pausenphase
+import MittagspauseSchoolImage from "./images/school/Mittagspause.jpg";
+import FeierabendMitTextImage from "./images/school/Feierabend mit Text.jpg";
+import HerzlichWillkommenSchoolImage from "./images/school/Herzlich wilkommen.jpg";
+import HaltestelleImage from "./images/school/Haltestelle.jpg";
+import KurzePauseSchoolImage from "./images/school/Kurze Pause.jpg";
+
+// Online
+import BitteKameraEinschaltenImage from "./images/school/Bitte Kamera einschalten.jpg";
+import FragenUeberDenChatImage from "./images/school/Fragen über den Chat.jpg";
 
 export type CustomImageDefinition = {
   id: string;
@@ -74,6 +117,77 @@ export const workPhaseTabs = {
           { id: "welcome", src: HerzlichWillkommenImage },
           { id: "camera", src: KameraAnschaltenImage },
           { id: "chatQuestions", src: FragenImChatImage },
+        ],
+      },
+    ],
+  },
+  school: {
+    name: "Schule",
+    categories: [
+      {
+        name: "Sitzordnungen",
+        images: [
+          { id: "aufDemBoden", src: AufDemBodenImage },
+          { id: "aufDemFlur", src: AufDemFlurImage },
+          { id: "sitzsack", src: SitzsackImage },
+          { id: "freiePlatzwahl", src: FreiePlatzwahlImage },
+          { id: "kinositz", src: KinositzImage },
+          { id: "gruppentisch", src: GruppentischImage },
+        ],
+      },
+      {
+        name: "Rollenkarten",
+        images: [
+          { id: "schreiberin", src: SchreiberinImage },
+          { id: "vorleserin", src: VorleserinImage },
+          { id: "zeitwaechterin", src: ZeitwaechterinImage },
+        ],
+      },
+      {
+        name: "Arbeitsmaterial",
+        images: [
+          { id: "federmappe", src: FedermappeImage },
+          { id: "kleber", src: KleberImage },
+          { id: "stift", src: StiftImage },
+          { id: "lineal", src: LinealImage },
+        ],
+      },
+      {
+        name: "Arbeitsphasen",
+        images: [
+          { id: "einzelarbeitSchool", src: EinzelarbeitSchoolImage },
+          { id: "gruppenarbeitSchool", src: GruppenarbeitSchoolImage },
+          { id: "partnerinnenarbeit", src: PartnerinnenarbeitImage },
+          { id: "moderation", src: ModerationImage },
+          { id: "konferenz", src: KonferenzImage },
+          { id: "haltestelle", src: HaltestelleImage },
+        ],
+      },
+      {
+        name: "Pausenphasen",
+        images: [
+          {
+            id: "herzlichWillkommenSchool",
+            src: HerzlichWillkommenSchoolImage,
+          },
+          { id: "kurzePauseSchool", src: KurzePauseSchoolImage },
+          { id: "mittagspauseSchool", src: MittagspauseSchoolImage },
+          { id: "feierabendMitText", src: FeierabendMitTextImage },
+        ],
+      },
+      {
+        name: "Online-Unterricht",
+        images: [
+          { id: "bitteKameraEinschalten", src: BitteKameraEinschaltenImage },
+          { id: "fragenUeberDenChat", src: FragenUeberDenChatImage },
+        ],
+      },
+      {
+        name: "Anderes",
+        images: [
+          { id: "lautstaerke", src: LautstaerkeImage },
+          { id: "check", src: CheckImage },
+          { id: "papagei", src: PapageiImage },
         ],
       },
     ],

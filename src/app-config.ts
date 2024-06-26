@@ -12,6 +12,7 @@ export type AppConfig = {
   font: string;
   hiddenWindowTypes: WindowType[];
   notepadFontWhitelist: string[];
+  hiddenWorkPhaseTabs: string[];
 };
 
 export const APP_CONFIG: AppConfig = match(buildMode)
@@ -21,6 +22,7 @@ export const APP_CONFIG: AppConfig = match(buildMode)
       font: "Rubik",
       hiddenWindowTypes: [],
       notepadFontWhitelist: ["Rubik", "ComicRelief"],
+      hiddenWorkPhaseTabs: ["school", "pictograms"],
     })
   )
   .with(
@@ -34,6 +36,7 @@ export const APP_CONFIG: AppConfig = match(buildMode)
         "Druckschrift95",
         "ComicRelief",
       ],
+      hiddenWorkPhaseTabs: ["work"],
     })
   )
   .exhaustive();
