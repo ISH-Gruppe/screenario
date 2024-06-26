@@ -39,7 +39,7 @@ import GruppentischImage from "./images/school/Gruppentisch.jpg";
 // Rollen
 import SchreiberinImage from "./images/school/Schreiberin.jpg";
 import VorleserinImage from "./images/school/Vorleserin.jpg";
-import ZeitwaechterinImage from "./images/school/Zeitwächterin.jpg";
+import ZeitwaechterinImage from "./images/school/Zeitwaechterin.jpg";
 import ModerationImage from "./images/school/Moderation.jpg";
 import PartnerinnenarbeitImage from "./images/school/Partnerinnenarbeit.jpg";
 
