@@ -55,7 +55,7 @@ import EinzelarbeitSchoolImage from "./images/school/Einzelarbeit.jpg";
 import GruppenarbeitSchoolImage from "./images/school/Gruppenarbeit.jpg";
 import KonferenzImage from "./images/school/Konferenz.jpg";
 import CheckImage from "./images/school/Check.jpg";
-import LautstaerkeImage from "./images/school/Lautstärke.jpg";
+import LautstaerkeImage from "./images/school/Lautstaerke.jpg";
 
 // Pausenphase
 import MittagspauseSchoolImage from "./images/school/Mittagspause.jpg";
@@ -66,7 +66,7 @@ import KurzePauseSchoolImage from "./images/school/Kurze Pause.jpg";
 
 // Online
 import BitteKameraEinschaltenImage from "./images/school/Bitte Kamera einschalten.jpg";
-import FragenUeberDenChatImage from "./images/school/Fragen über den Chat.jpg";
+import FragenUeberDenChatImage from "./images/school/Fragen ueber den Chat.jpg";
 
 export type CustomImageDefinition = {
   id: string;
