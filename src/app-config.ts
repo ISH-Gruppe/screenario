@@ -29,7 +29,7 @@ export const APP_CONFIG: AppConfig = match(buildMode)
     "school",
     (): AppConfig => ({
       font: "ABeeZee",
-      hiddenWindowTypes: [WindowType.QrCode],
+      hiddenWindowTypes: [WindowType.QrCode, WindowType.GuessingGame],
       notepadFontWhitelist: [
         "Grundschrift",
         "Rubik",
