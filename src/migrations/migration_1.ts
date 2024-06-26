@@ -1,8 +1,6 @@
 import { MigrationManifest } from "redux-persist/es/types";
-import {
-  WindowManagementState,
-  WindowType,
-} from "../components/WindowManager/window-management-slice";
+import { WindowManagementState } from "../components/WindowManager/window-management-slice";
+import { WindowType } from "../components/WindowManager/window-type";
 
 export const migration_1: MigrationManifest[string] = (state: any) => {
   const windowManagementState: WindowManagementState = state.windowManagement;

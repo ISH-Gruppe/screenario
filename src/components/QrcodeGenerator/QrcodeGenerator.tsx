@@ -10,8 +10,8 @@ import {
   useWindowState,
   WindowConfig,
   windowManagementActions,
-  WindowType,
 } from "../WindowManager/window-management-slice";
+import { WindowType } from "../WindowManager/window-type";
 
 export default function QrcodeGenerator({
   id,

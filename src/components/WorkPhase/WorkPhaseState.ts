@@ -1,8 +1,8 @@
 import {
   getWindowByIdOrFail,
   WindowManagementState,
-  WindowType,
 } from "../WindowManager/window-management-slice";
+import { WindowType } from "../WindowManager/window-type";
 import {
   ActionReducerMapBuilder,
   createAction,

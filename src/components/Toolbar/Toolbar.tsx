@@ -14,10 +14,8 @@ import QuizIcon from "@mui/icons-material/Quiz";
 
 import "./Toolbar.css";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  windowManagementActions,
-  WindowType,
-} from "../WindowManager/window-management-slice";
+import { windowManagementActions } from "../WindowManager/window-management-slice";
+import { WindowType } from "../WindowManager/window-type";
 import { AppState } from "../../app-state";
 import { createSelector } from "@reduxjs/toolkit";
 import { APP_CONFIG } from "../../app-config";

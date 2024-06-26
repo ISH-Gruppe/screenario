@@ -8,8 +8,8 @@ import ImageListItem from "@mui/material/ImageListItem";
 import {
   useWindowState,
   WindowConfig,
-  WindowType,
 } from "../WindowManager/window-management-slice";
+import { WindowType } from "../WindowManager/window-type";
 import ToggleButton from "@mui/material/ToggleButton";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import Tooltip from "@mui/material/Tooltip";
@@ -34,6 +34,12 @@ import { toDataUrl } from "../../utils/fileToDataUrl";
 import { PictogramSearch } from "./PictogramSearch";
 import { APP_CONFIG } from "../../app-config";
 
+const filteredWorkPhaseTabs = Object.fromEntries(
+  Object.entries(workPhaseTabs).filter(
+    ([key]) => !APP_CONFIG.hiddenWorkPhaseTabs.includes(key)
+  )
+);
+
 export default function WorkPhase({
   id,
   title,
@@ -46,12 +52,6 @@ export default function WorkPhase({
   const [open, setOpen] = useState(false);
   const [popupImage, setPopupImage] = useState<ReactJSXElement | null>(null);
   const customImages = useWorkPhaseCustomImages();
-
-  const filteredWorkPhaseTabs = Object.fromEntries(
-    Object.entries(workPhaseTabs).filter(
-      ([key]) => !APP_CONFIG.hiddenWorkPhaseTabs.includes(key)
-    )
-  );
 
   function openImage(image: string) {
     setPopupImage(<img className="popup-image" src={image} />);

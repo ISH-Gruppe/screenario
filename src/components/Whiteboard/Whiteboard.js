@@ -27,7 +27,7 @@ import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
 
 // CSS
 import "./Whiteboard.scss";
-import { WindowType } from "../WindowManager/window-management-slice";
+import { WindowType } from "../WindowManager/window-type";
 
 export default function Whiteboard({ id, title }) {
   const [tool, setTool] = React.useState("draw");

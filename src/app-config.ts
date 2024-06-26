@@ -1,6 +1,6 @@
 import zod from "zod";
 import { match } from "ts-pattern";
-import { WindowType } from "./components/WindowManager/window-management-slice";
+import { WindowType } from "./components/WindowManager/window-type";
 
 const buildModeSchema = zod.enum(["workshop", "school"]);
 

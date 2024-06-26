@@ -2,10 +2,8 @@ import { useState } from "react";
 import { Button, Typography, Box } from "@mui/material";
 import ReplayIcon from "@mui/icons-material/Replay";
 import BaseWindow from "../BaseWindow/BaseWindow";
-import {
-  WindowConfig,
-  WindowType,
-} from "../WindowManager/window-management-slice";
+import { WindowConfig } from "../WindowManager/window-management-slice";
+import { WindowType } from "../WindowManager/window-type";
 
 export type GuessingGameState = {
   type: WindowType.GuessingGame;

@@ -7,8 +7,8 @@ import {
 import {
   getWindowByIdOrFail,
   WindowManagementState,
-  WindowType,
 } from "../WindowManager/window-management-slice";
+import { WindowType } from "../WindowManager/window-type";
 
 type CustomFileDefinition = {
   name: string;
