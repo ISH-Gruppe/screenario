@@ -31,7 +31,7 @@ export const PictogramSearch = () => {
 
   return (
     <>
-      <h1>PictogramSearch</h1>
+      <h1>Piktogramme</h1>
       <TextField
         label="Suchbegriffe"
         variant="outlined"

@@ -10,6 +10,7 @@ import LyricsIcon from "@mui/icons-material/Lyrics"; // soundboard
 import QrCodeIcon from "@mui/icons-material/QrCode";
 import ChairAltIcon from "@mui/icons-material/ChairAlt";
 import GridOnIcon from "@mui/icons-material/GridOn";
+import QuizIcon from "@mui/icons-material/Quiz";
 
 import "./Toolbar.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -55,6 +56,10 @@ const availableWindowDescriptors: Record<WindowType, WindowDescriptor> = {
   [WindowType.Positioning]: {
     icon: <GridOnIcon />,
     name: "Positionierung",
+  },
+  [WindowType.GuessingGame]: {
+    icon: <QuizIcon />,
+    name: "Ratespiel",
   },
   [WindowType.QrCode]: {
     icon: <QrCodeIcon />,

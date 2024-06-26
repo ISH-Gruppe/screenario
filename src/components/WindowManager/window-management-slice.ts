@@ -22,6 +22,10 @@ import { whiteboardWindowConfig } from "../Whiteboard/Whiteboard";
 import { randomGeneratorWindowConfig } from "../RandomGenerator/RandomGenerator";
 import { workPhaseWindowConfig } from "../WorkPhase/WorkPhase";
 import { notepadWindowConfig } from "../Notepad/Notepad";
+import {
+  GuessingGameWindowConfig,
+  GuessingGameState,
+} from "../GuessingGame/GuessingGame";
 import { buildTimerReducer, TimerState } from "../Timer/TimerState";
 import {
   buildRandomGeneratorReducer,
@@ -47,6 +51,7 @@ export enum WindowType {
   Whiteboard = "whiteboard",
   Positioning = "gallery",
   Stuhlkreis = "stuhlkreis",
+  GuessingGame = "guessing-game",
 }
 
 // TODO: move to corresponding files once ready
@@ -63,7 +68,8 @@ type WindowState =
   | WorkPhaseState
   | TimerState
   | RandomGeneratorState
-  | NotepadState;
+  | NotepadState
+  | GuessingGameState;
 
 type WindowBreakpoint = "xs" | "sm" | "md" | "lg";
 type LayoutDefinitions = Record<WindowBreakpoint, Omit<Layout, "i">>;
@@ -86,6 +92,7 @@ export const windowConfigs: Record<WindowType, WindowConfig> = {
   [WindowType.RandomGenerator]: randomGeneratorWindowConfig,
   [WindowType.WorkPhase]: workPhaseWindowConfig,
   [WindowType.Notepad]: notepadWindowConfig,
+  [WindowType.GuessingGame]: GuessingGameWindowConfig,
 };
 
 export type ScreenarioWindow = {
