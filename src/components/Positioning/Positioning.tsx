@@ -23,8 +23,8 @@ import "./Positioning.scss";
 import {
   getWindowByIdOrFail,
   WindowConfig,
-  WindowType,
 } from "../WindowManager/window-management-slice";
+import { WindowType } from "../WindowManager/window-type";
 import { useSelector } from "react-redux";
 import { AppState } from "../../app-state";
 

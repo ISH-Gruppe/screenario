@@ -11,8 +11,8 @@ import WordPicker from "./WordPicker/WordPicker";
 import {
   useWindowState,
   WindowConfig,
-  WindowType,
 } from "../WindowManager/window-management-slice";
+import { WindowType } from "../WindowManager/window-type";
 import { useDispatch } from "react-redux";
 import {
   ActiveTab,

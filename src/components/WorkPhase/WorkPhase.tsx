@@ -8,8 +8,8 @@ import ImageListItem from "@mui/material/ImageListItem";
 import {
   useWindowState,
   WindowConfig,
-  WindowType,
 } from "../WindowManager/window-management-slice";
+import { WindowType } from "../WindowManager/window-type";
 import ToggleButton from "@mui/material/ToggleButton";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import Tooltip from "@mui/material/Tooltip";

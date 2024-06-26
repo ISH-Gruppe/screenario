@@ -2,8 +2,8 @@ import { ActionReducerMapBuilder, createAction } from "@reduxjs/toolkit";
 import {
   getWindowByIdOrFail,
   WindowManagementState,
-  WindowType,
 } from "../WindowManager/window-management-slice";
+import { WindowType } from "../WindowManager/window-type";
 
 export type QrCodeWindowState = {
   type: WindowType.QrCode;

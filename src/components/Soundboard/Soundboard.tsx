@@ -7,8 +7,8 @@ import Button from "@mui/material/Button";
 import {
   useWindowState,
   WindowConfig,
-  WindowType,
 } from "../WindowManager/window-management-slice";
+import { WindowType } from "../WindowManager/window-type";
 
 import GreatSound from "./sounds/great.mp3";
 import TooBadSound from "./sounds/tooBad.mp3";

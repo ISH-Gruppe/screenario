@@ -17,8 +17,8 @@ import { useDispatch } from "react-redux";
 import {
   WindowConfig,
   windowManagementActions,
-  WindowType,
 } from "../WindowManager/window-management-slice";
+import { WindowType } from "../WindowManager/window-type";
 
 /*
  * This component is an Angular project that is provided as a WebComponent

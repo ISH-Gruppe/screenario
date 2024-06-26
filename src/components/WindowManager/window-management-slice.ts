@@ -40,19 +40,7 @@ import {
   buildSoundboardReducer,
   SoundboardState,
 } from "../Soundboard/SoundboardState";
-
-export enum WindowType {
-  QrCode = "qr-code",
-  WorkPhase = "work-phase",
-  Timer = "timer",
-  RandomGenerator = "random-generator",
-  Notepad = "notepad",
-  Soundboard = "soundboard",
-  Whiteboard = "whiteboard",
-  Positioning = "gallery",
-  Stuhlkreis = "stuhlkreis",
-  GuessingGame = "guessing-game",
-}
+import { WindowType } from "./window-type";
 
 // TODO: move to corresponding files once ready
 type WhiteboardState = {
