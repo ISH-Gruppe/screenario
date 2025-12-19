@@ -29,7 +29,6 @@ import { useWorkPhaseCustomImages } from "./useWorkPhaseCustomImages";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import Tab from "@mui/material/Tab";
 import { ImageContextMenu } from "./ImageContextMenu";
-import { ReactJSXElement } from "@emotion/react/types/jsx-namespace";
 import { toDataUrl } from "../../utils/fileToDataUrl";
 import { PictogramSearch } from "./PictogramSearch";
 import { APP_CONFIG } from "../../app-config";
@@ -50,7 +49,7 @@ export default function WorkPhase({
   const windowState = useWindowState(id) as WorkPhaseState;
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
-  const [popupImage, setPopupImage] = useState<ReactJSXElement | null>(null);
+  const [popupImage, setPopupImage] = useState<JSX.Element | null>(null);
   const customImages = useWorkPhaseCustomImages();
 
   function openImage(image: string) {
