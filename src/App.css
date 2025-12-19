@@ -1,4 +1,6 @@
 .legal-text {
+  position: relative;
+  z-index: 1;
   color: var(--text-color);
   max-width: 600px;
   margin: 50px auto;
