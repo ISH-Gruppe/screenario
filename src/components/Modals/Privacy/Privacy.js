@@ -24,9 +24,11 @@ const Datenschutz = () => {
         </li>
       </ul>
       Es ist möglich, dass unser Hosting-Partner{" "}
-      <a href="https://www.render.com/">Render</a> technische Daten wie
-      IP-Adressen für kurze Zeit verarbeitet, wenn dies für die Bereitstellung
-      der Website zwingend notwendig ist.
+      <a target="_blank" href="https://www.render.com/">
+        Render
+      </a>{" "}
+      technische Daten wie IP-Adressen für kurze Zeit verarbeitet, wenn dies für
+      die Bereitstellung der Website zwingend notwendig ist.
       <h2> Benennung der verantwortlichen Stelle </h2>
       Die verantwortliche Stelle für die Datenverarbeitung auf dieser Website
       ist:
@@ -46,7 +48,10 @@ const Datenschutz = () => {
         der Landesdatenschutzbeauftragte des Bundeslandes, in dem sich der Sitz
         unseres Unternehmens befindet. Der folgende Link stellt eine Liste der
         Datenschutzbeauftragten sowie deren Kontaktdaten bereit:{" "}
-        <a href="https://www.bfdi.bund.de/DE/Service/Anschriften/anschriften_table.html">
+        <a
+          target="_blank"
+          href="https://www.bfdi.bund.de/DE/Service/Anschriften/anschriften_table.html"
+        >
           Bundesbeauftragte für Datenschutz
         </a>
       </p>
@@ -101,7 +106,7 @@ const Datenschutz = () => {
         allgemein verbieten. In diesem Fall weisen wir auf mögliche
         Funktionseinschränkungen dieser Seite hin.
       </p>
-      <h2>Analyse-Tools und Werbung</h2>
+      {/* <h2>Analyse-Tools und Werbung</h2>
       <h3>Matomo</h3>{" "}
       <p>Diese Website benutzt den Open Source Webanalysedienst Matomo.</p>{" "}
       <p>
@@ -142,7 +147,7 @@ const Datenschutz = () => {
         Wir hosten Matomo ausschlie&szlig;lich auf unseren eigenen Servern,
         sodass alle Analysedaten bei uns verbleiben und nicht weitergegeben
         werden.
-      </p>
+      </p>*/}
       <p>
         Quelle: <a href="https://www.e-recht24.de">https://www.e-recht24.de</a>
       </p>
