@@ -80,5 +80,11 @@
     "@types/react-grid-layout": "^1.3.5",
     "husky": "^8.0.1",
     "redux-persist": "^6.0.0"
+  },
+  "resolutions": {
+    "fork-ts-checker-webpack-plugin": "^6.5.3"
+  },
+  "overrides": {
+    "fork-ts-checker-webpack-plugin": "^6.5.3"
   }
 }

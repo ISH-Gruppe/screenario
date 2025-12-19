@@ -39,6 +39,17 @@ const Licensing = () => {
       <h2>Verwendete Lieder: </h2>
 
       <p>
+        Music from{" "}
+        <a
+          href="https://noban.stream/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          NoBan Stream
+        </a>
+      </p>
+
+      <p>
         wish of being with you by Barradeen | https://soundcloud.com/barradeen
         Music promoted by https://www.free-stock-music.com Creative Commons
         Attribution-ShareAlike 3.0 Unported
@@ -79,6 +90,28 @@ const Licensing = () => {
         <a href="https://pixabay.com/music//?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=115568">
           Pixabay
         </a>
+      </p>
+
+      <h2>Verwendete Videos: </h2>
+
+      <p>
+        Video from{" "}
+        <a
+          href="https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=video&amp;utm_content=happy_birthday"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Pixabay
+        </a>{" "}
+        (License:{" "}
+        <a
+          href="https://pixabay.com/service/license-summary/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Pixabay License
+        </a>
+        )
       </p>
 
       <br />
