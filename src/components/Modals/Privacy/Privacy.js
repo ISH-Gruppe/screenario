@@ -1,8 +1,13 @@
 import Button from "@mui/material/Button";
+import { Link } from "react-router-dom";
+
 const Datenschutz = () => {
   return (
     <div className="legal-text">
-      <Button href="/"> Zurück </Button>
+      <Button component={Link} to="/">
+        {" "}
+        Zurück{" "}
+      </Button>
       <h1>Datenschutz</h1>
       <h2>In Kürze</h2>
       <ul>

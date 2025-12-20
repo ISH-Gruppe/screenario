@@ -1,9 +1,13 @@
 import Button from "@mui/material/Button";
+import { Link } from "react-router-dom";
 
 export default function Imprint() {
   return (
     <div className="legal-text">
-      <Button href="/"> Zurück </Button>
+      <Button component={Link} to="/">
+        {" "}
+        Zurück{" "}
+      </Button>
       <h1> Impressum & Kontakt </h1>
 
       <div className="div1">

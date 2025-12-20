@@ -1,8 +1,13 @@
 import Button from "@mui/material/Button";
+import { Link } from "react-router-dom";
+
 const Licensing = () => {
   return (
     <div className="legal-text">
-      <Button href="/"> Zurück </Button>
+      <Button component={Link} to="/">
+        {" "}
+        Zurück{" "}
+      </Button>
 
       <h1>Lizenzen</h1>
 
