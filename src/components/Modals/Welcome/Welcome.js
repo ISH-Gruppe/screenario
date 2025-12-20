@@ -7,6 +7,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import { Link } from "react-router-dom";
 
 import "./Welcome.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -110,9 +111,9 @@ export default function Welcome() {
             .
           </p>
           <span className="modal-imprint-privacy">
-            <a href="/impressum">Impressum</a> &{" "}
-            <a href="/datenschutz">Datenschutz</a>,{" "}
-            <a href="/lizenzen"> Lizenzen </a>
+            <Link to="/impressum">Impressum</Link> &{" "}
+            <Link to="/datenschutz">Datenschutz</Link>,{" "}
+            <Link to="/lizenzen"> Lizenzen </Link>
           </span>
         </DialogContent>
 

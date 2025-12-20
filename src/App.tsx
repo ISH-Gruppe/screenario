@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import { ConfirmProvider } from "material-ui-confirm";
 import { appTheme } from "./theme/theme";
@@ -60,41 +60,41 @@ export default function App() {
                   <Route path="/datenschutz" element={<Privacy />} />
                   <Route path="/lizenzen" element={<Licensing />} />
                 </Routes>
-              </Router>
 
-              <div className="donation-button">
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  startIcon={<FavoriteBorderIcon />}
-                  onClick={() => setDonationModalOpen(true)}
-                >
-                  Spenden
-                </Button>
+                <div className="donation-button">
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    startIcon={<FavoriteBorderIcon />}
+                    onClick={() => setDonationModalOpen(true)}
+                  >
+                    Spenden
+                  </Button>
 
-                <ImportExportButtons />
-                <ModeToggleButtons />
-              </div>
+                  <ImportExportButtons />
+                  <ModeToggleButtons />
+                </div>
 
-              <span className="imprint-privacy">
-                <a
-                  className="ish-logo"
-                  href="https://ish-gruppe.de"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img src="/assets/ish-gruppe-logo.png" />
-                </a>
-                <span>
-                  <a href="/impressum">Impressum</a> &{" "}
-                  <a href="/datenschutz">Datenschutz</a>
+                <span className="imprint-privacy">
+                  <a
+                    className="ish-logo"
+                    href="https://ish-gruppe.de"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img src="/assets/ish-gruppe-logo.png" />
+                  </a>
+                  <span>
+                    <Link to="/impressum">Impressum</Link> &{" "}
+                    <Link to="/datenschutz">Datenschutz</Link>
+                  </span>
                 </span>
-              </span>
 
-              <DonationModal
-                open={donationModalopen}
-                handleClose={() => setDonationModalOpen(false)}
-              />
+                <DonationModal
+                  open={donationModalopen}
+                  handleClose={() => setDonationModalOpen(false)}
+                />
+              </Router>
             </ConfirmProvider>
           </PersistGate>
         </Provider>
